@@ -14,10 +14,6 @@ class Category extends Model
         return $this->morphedByMany('App\Art', 'categoriable');
     }
 
-    public function prearts()
-    {
-        return $this->morphedByMany('App\PreArt', 'categoriable');
-    }
 
 
 }

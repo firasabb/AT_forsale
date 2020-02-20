@@ -43,14 +43,13 @@ class Art extends Model
         return $this->morphMany('\App\Report', 'reportable');
     }
 
-    public function covers(){
-        return $this->hasMany('\App\Cover');
-    }
-
     public function medias(){
         return $this->morphToMany('App\Media', 'mediable');
     }
 
+    public function cover(){
+        return $this->medias->where('sorting', 'cover')->first();
+    }
 
     /**
      * 

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMediaTable extends Migration
+class CreateMediablesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -19,10 +19,9 @@ class CreateMediaTable extends Migration
             $table->integer("mediable_id");
             $table->string("mediable_type");
             $table->timestamps();
-            $table->index('tag_id');
+            $table->index('media_id');
             $table->index('mediable_id');
             $table->index('mediable_type');
-            $table->timestamps();
         });
     }
 

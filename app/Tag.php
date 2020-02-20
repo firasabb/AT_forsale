@@ -28,8 +28,4 @@ class Tag extends Model implements Searchable
         return $this->morphedByMany('App\Art', 'taggable');
     }
 
-    public function prearts()
-    {
-        return $this->morphedByMany('App\PreArt', 'taggable');
-    }
 }

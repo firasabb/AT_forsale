@@ -7,7 +7,7 @@ use App\Category;
 use App\Tag;
 use App\Type;
 use App\Download;
-use App\Cover;
+use App\Media;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Validator;
@@ -89,8 +89,8 @@ class ArtController extends Controller
         if(!Arr::has(Storage::cloud()->directories(), 'featured')){
             Storage::cloud()->makeDirectory('featured');
         }
-        if(!Arr::has(Storage::cloud()->directories(), 'covers')){
-            Storage::cloud()->makeDirectory('covers');
+        if(!Arr::has(Storage::cloud()->directories(), 'media')){
+            Storage::cloud()->makeDirectory('media');
         }
 
 
@@ -149,12 +149,13 @@ class ArtController extends Controller
         }
 
         if($request->cover){
-            $cover = new Cover();
+            $media = new Media();
             $uploadedCover = $request->cover;
-            $path = $uploadedCover->store('covers/' . $unique, 's3');
-            $cover->url = $path;
-            $cover->art()->associate($art);
-            $cover->save();
+            $path = $uploadedCover->storePublicly('media/' . $unique, 's3');
+            $media->url = $path;
+            $media->sorting = 'cover';
+            $art->medias()->attach($art);
+            $media->save();
         }
 
         if($user->hasAnyRole('admin', 'moderator')){
@@ -167,7 +168,7 @@ class ArtController extends Controller
 
     /** 
     *
-    * Approve the preart for users not admins
+    * Approve the art for users not admins
     *
     * @param Request
     * @return Response
@@ -224,9 +225,12 @@ class ArtController extends Controller
         foreach($downloads as $download){
             Storage::cloud()->delete($download->url);
         }
-        $cover = $art->covers->first();
-        if(!empty($cover)){
-            Storage::cloud()->delete($cover->url);
+        $medias = $art->medias;
+        if(!empty($medias)){
+            foreach($medias as $media){
+                Storage::cloud()->delete($media->url);
+                $media->delete();
+            }
         }
         $art->delete();
         return redirect('/admin/dashboard/arts/')->with('status', 'The art has been deleted!');

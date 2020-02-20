@@ -42,12 +42,6 @@ class User extends Authenticatable
     ];
 
 
-    public function prearts(){
-
-        return $this->hasMany('\App\PreArt', 'user_id');
-
-    }
-
     public function arts(){
 
         return $this->hasMany('\App\Art', 'user_id');
