@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Type;
+use App\Media;
 use Illuminate\Http\Request;
 use Validator;
 use URL;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+
+
 
 class TypeController extends Controller
 {
@@ -103,7 +106,8 @@ class TypeController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:20',
-            'url' => 'required|string'
+            'url' => 'required|string',
+            'featured' => 'file|mimes:png,jpg|max:2000|nullable'
         ]);
 
         if($validator->fails()){
@@ -120,6 +124,17 @@ class TypeController extends Controller
         $type->url = $request->url;
         $type->save();
 
+        if($request->featured){
+            $media = new Media();
+            $uploadedFile = $request->featured;
+            $unique = uniqid();
+            $path = $uploadedFile->storePublicly('media/' . $unique ,'s3');
+            $media->url = $path;
+            $media->sorting = 'featured';
+            $media->save();
+            $type->medias()->attach($media);
+        }
+
         return redirect('/admin/dashboard/types')->with('status', 'A new type has been created!');
 
 
@@ -132,7 +147,8 @@ class TypeController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:40',
-            'url' => 'string'
+            'url' => 'string',
+            'featured' => 'file|mimes:png,jpg|max:2000|nullable'
         ]);
 
         if($validator->fails()){
@@ -149,6 +165,25 @@ class TypeController extends Controller
             $type->url = $request->url;
         }
         $type->save();
+
+        if($request->featured){
+            $unique = uniqid();
+            $uploadedFile = $request->featured;
+            if(!empty($type->medias->first())){
+                $media = $type->medias()->first();
+                $path = $uploadedFile->storePublicly('media/' . $unique, 's3');
+                $media->url = $path;
+                $media->save();
+            } else {
+                $media = new Media();
+                $path = $uploadedFile->storePublicly('media/' . $unique, 's3');
+                $media->url = $path;
+                $media->sorting = 'featured';
+                $media->save();
+                $type->medias()->attach($media);
+            }
+        }
+
 
         return redirect('/admin/dashboard/type/' . $id)->with('status', 'This type has been edited');
     }

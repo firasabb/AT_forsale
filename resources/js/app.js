@@ -22,6 +22,7 @@ window.Vue = require('vue');
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('profile-links', require('./components/ProfileLinks.vue').default);
 Vue.component('profile-link', require('./components/ProfileLink.vue').default);
+Vue.component('type', require('./components/Types.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

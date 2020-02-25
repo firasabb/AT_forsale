@@ -129,8 +129,8 @@ Route::post('/admin/dashboard/report/search', 'ReportController@adminSearchRepor
 
 
 // Arts to get approved
-Route::get('/add/art', 'ArtController@create')->middleware('role:user')->name('create.art');
-Route::post('/add/art', 'ArtController@store')->middleware('role:user')->name('store.art');
+Route::get('/add/art/{type?}', 'ArtController@create')->middleware('role:user')->name('create.art');
+Route::post('/add/art/{type?}', 'ArtController@store')->middleware('role:user')->name('store.art');
 
 
 // Contest

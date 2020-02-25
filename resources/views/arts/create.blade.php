@@ -24,20 +24,7 @@
                     </div>
                 </div>
             @endif
-            <div class="card">
-                <div class="card-header">Select Your Art Type</div>
-                <div class="card-body">
-                    <div class="row">
-                        @foreach($types as $type)
-                            <div class="col">
-                                <div class="select-types">
-                                    {{strtoupper($type->name)}}
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
+            <type obj="Art" types="{{ $types }}"></type>
             <div class="card">
                 <div class="card-header">Add an Art</div>
 

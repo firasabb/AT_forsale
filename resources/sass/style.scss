@@ -10,7 +10,7 @@ body{
 }
 
 #app{
-    background-color: #faf6f6;
+    background-color: #f9fffe;
 }
 
 .form-control{
@@ -24,6 +24,32 @@ body{
 
 .input-group-text{
     border-radius: 0;
+}
+
+
+.card{
+    border: 0;
+    border-radius: 0;
+    -webkit-box-shadow: 0px 0px 9px 3px rgba(0,0,0,0.02); 
+    box-shadow: 0px 0px 9px 3px rgba(0,0,0,0.02);
+}
+
+.btn{
+    border-radius: 0;
+    transition: all 1S ease-in-out;
+}
+
+.btn-primary{
+    background-color: rgba(0, 139, 255, 0.6);
+    border: 0;
+}
+
+.card-header{
+
+    color: #fff;
+    border: 0;
+    background-color: rgba(68, 170, 255, 0.6);
+
 }
 
 
@@ -50,7 +76,7 @@ body{
 .card-header-date span{
 
     font-size: 0.6rem;
-    color: rgb(82, 82, 82);
+    color: rgb(255, 255, 255);
 
 }
 
@@ -118,6 +144,7 @@ body{
     background-size: cover;
     background-repeat: no-repeat;
     border-radius: 50%; 
+    border: solid 1px white;
 }
 
 .card-header-flex{
@@ -390,4 +417,24 @@ a.card-link, a.card-link:hover {
 
 .submit-contest-btn{
     float: right;
+}
+
+
+
+/**
+**
+**  Register And Login Pages
+**
+**
+**/
+
+
+.register-login-col{
+    padding: 100px 0;
+}
+
+@media only screen and (max-width: 970px){
+    .register-login-col{
+        padding: 0;
+    }
 }

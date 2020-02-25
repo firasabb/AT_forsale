@@ -41,7 +41,8 @@ class ArtController extends Controller
     {
         $arts = Art::where('status', 1)->orderBy('id', 'asc')->paginate(1);
         $categories = Category::all();
-        $types = Type::all();
+        $types = Type::with('medias')->flatten()->all();
+        //$types = $types->load('medias')->flatten();
         return view('admin.arts.indexToApprove', ['arts' => $arts, 'categories' => $categories, 'types' => $types]);
     }
 
@@ -50,8 +51,12 @@ class ArtController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($type = null)
     {
+        if($type){
+
+        }
+
         $categories = Category::all();
         $types = Type::all();
         return view('arts.create', ['categories' => $categories, 'types' => $types]);

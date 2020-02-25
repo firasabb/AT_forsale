@@ -24,7 +24,7 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('admin.edit.type', ['id' => $type->id]) }}" id="edit-form-types">
+                    <form method="POST" action="{{ route('admin.edit.type', ['id' => $type->id]) }}" id="edit-form-types" enctype="multipart/form-data">
                         {!! csrf_field() !!}
                         {!! method_field('PUT') !!}
 
@@ -37,6 +37,11 @@
                             <div class="col">
                                 <div>
                                     <input class="form-control enabled-disabled" type="text" name="url"  value="{{ $type->url }}" placeholder="Url" disabled/>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div>
+                                    <input class="enabled-disabled" type="file" name="featured" disabled/>
                                 </div>
                             </div>
                         </div>
@@ -52,6 +57,11 @@
                                 <h5>Updated at:</h1>
                                 <p>{{ $type->updated_at }}</p>
                             </div>
+                            @if(!empty($type->medias->first()))
+                                <div class="col">
+                                    <img class="img-thumbnail" src="{{ Storage::cloud()->url($type->medias->first()->url) }}">
+                                </div>
+                            @endif
                         </div>
                     </form>
                 </div>

@@ -17,5 +17,8 @@ class Type extends Model
         return $this->hasMany('\App\Contest');
     }
 
+    public function medias(){
+        return $this->morphToMany('App\Media', 'mediable');
+    }
 
 }

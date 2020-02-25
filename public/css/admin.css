@@ -35,6 +35,10 @@ td form {
   margin-top: 50px;
 }
 
+.img-small {
+  max-width: 75px;
+}
+
 .submit-btn-roles {
   margin-top: 20px;
 }
