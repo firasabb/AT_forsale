@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Art;
-use App\Category;
 use App\Tag;
 use App\Type;
 use App\Download;
@@ -33,6 +32,24 @@ class ArtController extends Controller
 
 
     /**
+     * 
+     * 
+     * Display the art
+     * @param String url
+     * @return Response
+     * 
+     */
+
+    public function show($url){
+
+        $art = Art::where('url', $url)->firstOrFail();
+        $featured = $art->medias->first();
+        return view('arts.show', ['art' => $art, 'featured' => $featured]);
+
+    }
+
+
+    /**
      * Display arts that are not approved yet.
      *
      * @return \Illuminate\Http\Response
@@ -40,10 +57,8 @@ class ArtController extends Controller
     public function indexToApprove()
     {
         $arts = Art::where('status', 1)->orderBy('id', 'asc')->paginate(1);
-        $categories = Category::all();
-        $types = Type::with('medias')->flatten()->all();
         //$types = $types->load('medias')->flatten();
-        return view('admin.arts.indexToApprove', ['arts' => $arts, 'categories' => $categories, 'types' => $types]);
+        return view('admin.arts.indexToApprove', ['arts' => $arts, 'types' => $types]);
     }
 
         /**
@@ -51,15 +66,17 @@ class ArtController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($type = null)
+    public function create($typeUrl = null)
     {
-        if($type){
+
+        if($typeUrl){
+
+            $type = Type::where('url', $typeUrl)->firstOrFail();
+            return view('arts.create', ['type' => $type]);
 
         }
-
-        $categories = Category::all();
-        $types = Type::all();
-        return view('arts.create', ['categories' => $categories, 'types' => $types]);
+        $types = Type::with('medias')->get();
+        return view('types.select', ['types' => $types]);
     }
 
     /**
@@ -68,19 +85,18 @@ class ArtController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request){
+    public function store(Request $request, $typeUrl){
+
+        $type = Type::where('url', $typeUrl)->firstOrFail();
 
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|min:15|max:200',
-            'description' => 'string|max:500|nullable',
-            'categories' => 'required|array',
-            'categories.*' => 'integer',
+            'description' => 'string|max:500',
             'tags' => 'string|max:150',
-            'type' => 'required|string|exists:types,name',
             'uploads' => 'required|array',
             'uploads.*' => 'file|max:100000',
-            'featured' => 'file|max:20000|mimes:jpeg,bmp,png,mpeg4-generic,ogg,x-wav,x-msvideo,x-ms-wmv',
-            'cover' => 'file|mimes:jpeg,bmp,png|nullable'
+            'cover' => 'file|max:1000|mimes:jpeg,bmp,png',
+            'featured' => 'file|max:20000|mimes:jpeg,bmp,png,mpeg4-generic,ogg,x-wav,x-msvideo,x-ms-wmv'
         ]);
         if($validator->fails()){
             return back()->withErrors($validator)->withInput();
@@ -91,15 +107,9 @@ class ArtController extends Controller
         if(!Arr::has(Storage::cloud()->directories(), 'downloads')){
             Storage::cloud()->makeDirectory('downloads');
         }
-        if(!Arr::has(Storage::cloud()->directories(), 'featured')){
-            Storage::cloud()->makeDirectory('featured');
-        }
         if(!Arr::has(Storage::cloud()->directories(), 'media')){
             Storage::cloud()->makeDirectory('media');
         }
-
-
-        $type = Type::where('name', $request->type)->firstOrFail();
 
         $unique = uniqid();
 
@@ -120,30 +130,32 @@ class ArtController extends Controller
         $art->save();
 
         $featured = $request->featured;
+        $media = new Media();
+        $media->sorting = 'featured';
+        $path = $featured->storePublicly('media', 's3');
+        $media->url = $path;
 
-        $download = new Download();
-        $download->name = $art->title;
-        $download->featured = 1;
-        $path = $featured->store('featured/' . $unique, 's3');
-        $download->url = $path;
-        $download->art()->associate($art);
-        $download->save();
+        if($request->cover){
+            $media = new Media();
+            $uploadedCover = $request->cover;
+            $path = $uploadedCover->storePublicly('media', 's3');
+            $media->url = $path;
+            $media->sorting = 'cover';
+            $media->public_url = Storage::cloud()->url($path);
+            $media->save();
+            $art->medias()->attach($media);
+        }
+
 
         $uploads = $request->uploads;
         if($uploads){
             foreach($uploads as $upload){
                 $download = new Download();
                 $download->name = $art->title;
-                $path = $upload->store('downloads/' . uniqid(), 's3');
+                $path = Storage::cloud()->putFile('downloads', $upload);
                 $download->url = $path;
                 $art->downloads()->save($download);
             }
-        }
-
-        $categories = $request->categories;
-        foreach($categories as $category){
-            $category = Category::findOrFail($category);
-            $art->categories()->attach($category);
         }
 
         $tags = $request->tags;
@@ -151,16 +163,6 @@ class ArtController extends Controller
         foreach($tags as $tag){
             $tag = Tag::Where('name', 'LIKE', $tag)->firstOrFail();
             $art->tags()->attach($tag);
-        }
-
-        if($request->cover){
-            $media = new Media();
-            $uploadedCover = $request->cover;
-            $path = $uploadedCover->storePublicly('media/' . $unique, 's3');
-            $media->url = $path;
-            $media->sorting = 'cover';
-            $art->medias()->attach($art);
-            $media->save();
         }
 
         if($user->hasAnyRole('admin', 'moderator')){
@@ -203,9 +205,10 @@ class ArtController extends Controller
     {
         $art = Art::findOrFail($id);
         $types = Type::all();
-        $categories = Category::all();
-        $hasCategories = $art->categories->pluck('id');
-        return view('admin.arts.show', ['art' => $art, 'categories' => $categories, 'hasCategories' => $hasCategories, 'types' => $types]);
+        $featured = $art->medias()->where('sorting', 'featured')->first();
+        $cover = $art->medias()->where('sorting', 'cover')->first();
+        $downloads = $art->downloads;
+        return view('admin.arts.show', ['art' => $art, 'featured' => $featured, 'cover' => $cover, 'downloads' => $downloads, 'types' => $types]);
     }
 
 
@@ -219,7 +222,7 @@ class ArtController extends Controller
     public function adminEdit(Request $request, $id)
     {
         $this->editOrApprove($id, $request);
-        return redirect()->route('admin.show.art', ['id' => $id])->with('status', 'This category has been edited');
+        return redirect()->route('admin.show.art', ['id' => $id])->with('status', 'This art has been edited');
     }
 
 
@@ -299,11 +302,8 @@ class ArtController extends Controller
         $art = Art::findOrFail($id);
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|min:15|max:200',
-            'description' => 'string|max:500|nullable',
-            'categories' => 'required|array',
-            'categories.*' => 'integer',
+            'description' => 'string|max:500',
             'url' => ['string', Rule::unique('arts', 'url')->ignore($art->url, 'url')],
-            'tags' => 'string|max:150',
             'type_id' => 'integer',
             'upload' => 'array',
             'uploads.*' => 'string|max:200'
@@ -318,7 +318,6 @@ class ArtController extends Controller
         $art->description = $request->description;
         $type = Type::findOrFail($request->type_id);
         $art->type()->associate($type);
-        $art->categories()->sync($request->categories);
         $tagsArr = array();
         $tags = $request->tags;
         $tags = explode(', ', $tags);
@@ -327,7 +326,6 @@ class ArtController extends Controller
             array_push($tagsArr, $tag->id);
         }
         $art->tags()->sync($tagsArr);
-        //$art->options = $request->options;
 
         if($status){
             $art->status = $status;

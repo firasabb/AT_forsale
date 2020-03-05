@@ -21,4 +21,8 @@ class Type extends Model
         return $this->morphToMany('App\Media', 'mediable');
     }
 
+    public function tags(){
+        return $this->morphToMany('\App\Tag', 'taggable');
+    }
+
 }

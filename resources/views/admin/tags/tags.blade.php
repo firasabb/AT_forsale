@@ -4,7 +4,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center search-row">
-        <div class="col-md-12 search-col">
+        <div class="col search-col">
             <form method="post" action="{{ route('admin.search.tags') }}">
                 {!! csrf_field() !!}
                 <div class="form-row" >
@@ -22,7 +22,7 @@
         </div>
     </div>
     <div class="row justify-content-center">
-        <div class="col-md-12">
+        <div class="col">
             <div class="card">
                 <div class="card-header">Tags</div>
 
@@ -53,6 +53,9 @@
                             <th>
                                 URL
                             </th>
+                            <th>
+                                Types
+                            </th>
                             <th class="td-actions">
                                 Actions
                             </th>   
@@ -67,6 +70,13 @@
                                 </td>
                                 <td>
                                     {{ $tag->url }}
+                                </td>
+                                <td>
+                                    @if(!empty($tag->types))
+                                        @foreach($tag->types as $type)
+                                            {{ $type->name }},
+                                        @endforeach
+                                    @endif
                                 </td>
                                 <td>
                                     <div class="td-actions-btns">
@@ -111,6 +121,17 @@
                                 <div class="col">
                                     <div class="form-group">
                                         <input class="form-control" type="text" name="url"  value="{{ old('url') }}" placeholder="Url" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <select class="form-control" name="types[]" multiple>
+                                            @foreach($types as $type)
+                                                <option value="{{$type->id}}">{{ $type->name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                             </div>

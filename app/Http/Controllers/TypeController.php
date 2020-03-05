@@ -7,6 +7,7 @@ use App\Media;
 use Illuminate\Http\Request;
 use Validator;
 use URL;
+use Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -130,6 +131,7 @@ class TypeController extends Controller
             $unique = uniqid();
             $path = $uploadedFile->storePublicly('media/' . $unique ,'s3');
             $media->url = $path;
+            $media->public_url = Storage::cloud()->url($path);
             $media->sorting = 'featured';
             $media->save();
             $type->medias()->attach($media);
@@ -173,11 +175,13 @@ class TypeController extends Controller
                 $media = $type->medias()->first();
                 $path = $uploadedFile->storePublicly('media/' . $unique, 's3');
                 $media->url = $path;
+                $media->public_url = Storage::cloud()->url($path);
                 $media->save();
             } else {
                 $media = new Media();
                 $path = $uploadedFile->storePublicly('media/' . $unique, 's3');
                 $media->url = $path;
+                $media->public_url = Storage::cloud()->url($path);
                 $media->sorting = 'featured';
                 $media->save();
                 $type->medias()->attach($media);

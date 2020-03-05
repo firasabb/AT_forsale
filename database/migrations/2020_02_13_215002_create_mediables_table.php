@@ -18,7 +18,6 @@ class CreateMediablesTable extends Migration
             $table->integer("media_id");
             $table->integer("mediable_id");
             $table->string("mediable_type");
-            $table->timestamps();
             $table->index('media_id');
             $table->index('mediable_id');
             $table->index('mediable_type');

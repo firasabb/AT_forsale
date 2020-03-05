@@ -2,7 +2,7 @@
 
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="row justify-content-center search-row">
         <div class="col-md-12 search-col">
             <form method="post" action="{{ route('admin.search.arts') }}">
@@ -72,7 +72,7 @@
                                     {{ $art->title }}
                                 </td>
                                 <td>
-                                    <a href="{{ route('show.art', ['url' => $art->url]) }}">{{ $art->url }}</a>
+                                    <a href="{{ route('show.art', ['url' => $art->url]) }}">{{ str_limit($art->url, $limit = 20, $end = '...') }}</a>
                                 </td>
                                 <td>
                                     {{ $art->comments()->count() }}

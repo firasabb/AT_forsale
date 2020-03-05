@@ -25,7 +25,7 @@
                     @endif
 
                     <div class="text-center p-3">
-                        <h5>Asked by: <a href="{{ url('admin/dashboard/user/' . $art->user->id) }}">{{ $art->user->name }}</a></h5>
+                        <h5>Added by: <a href="{{ url('admin/dashboard/user/' . $art->user->id) }}">{{ $art->user->name }}</a></h5>
                     </div>
 
                     <form method="POST" action="{{ route('admin.edit.art', ['id' => $art->id]) }}" id="edit-form-arts">
@@ -64,16 +64,6 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col">
-                                <label for="categories">Categories:</label>
-                                <select class="form-control enabled-disabled" name="categories[]" multiple disabled>
-                                    @foreach($categories as $category)
-                                        <option value="{{ $category->id }}" <?php echo $hasCategories->search($category->id) !== false ? 'Selected' : ''; ?>>{{ $category->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
                         <div class="row edit-tags">
                             <div class="col">
                                 <label for="tags">Tags:</label>
@@ -91,6 +81,23 @@
                                 <ul id="tags" class="list-group">
                             </div>
                         </div>
+                        <div class="row">
+                            @if(!empty($featured))
+                                <div class="col">
+                                    <img src="{{ $featured->public_url }}">
+                                </div>
+                            @endif
+                            @if(!empty($cover))
+                                <div class="col">
+                                    <img src="{{ $cover->public_url }}">
+                                </div>
+                            @endif
+                        </div>
+                        @if(!empty($downloads))
+                        <div class="mt-5 mb-2">
+                            <h5>Downloads:</h5>
+                        </div>
+                        @endif
                         <div class="row">
                             <div class="col submit-btn-roles">
                                 <button type="submit" class="btn btn-primary submit-edit-btn enabled-disabled" disabled>Submit</button>
@@ -121,6 +128,81 @@
                 </form>
             </div>
 
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">Downloads:</a></div>
+            <div class="card-body">
+                <table class="table">
+                    <tr>
+                        <th>
+                            URL
+                        </th>
+                        <th>
+                            Size
+                        </th>
+                        <th>
+                            Mime
+                        </th>
+                        <th>
+                            Actions
+                        </th>
+                    </tr>
+                    @foreach($downloads as $download)
+                        <tr>
+                            <td>
+                                <a href="{{ route('download.download', ['id' => $download->id]) }}" target="_blank">{{ $download->name }}</a>
+                            </td>
+                            <td>
+                                <p>{{$download->getSize()}}B</p>
+                            </td>
+                            <td>
+                                <p>{{$download->getMime()}}</p>
+                            </td>
+                            <td>
+                                <form action="{{ route('admin.download.delete', ['id' => $download->id]) }}" method="POST" id="delete-form-downloads">
+                                    {!! csrf_field() !!}
+                                    {!! method_field('DELETE') !!}
+                                    <button class="btn btn-danger" type="submit">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </table>
+            </div>
+        </div>
+        <div class="block-button">
+            <button type="button" class="btn btn-warning btn-lg btn-block" data-toggle="modal" data-target="#addModal">Add Download</button>
+        </div>
+        <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <form method="POST" action="{{ route('admin.download.add', ['artId' => $art->id]) }}" enctype="multipart/form-data">
+                        {!! csrf_field() !!}
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Download</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <input type="file" name="upload" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button name="action" type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>

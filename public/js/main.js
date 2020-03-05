@@ -95,14 +95,14 @@
 
 $(document).ready(function () {
   max = 5;
-  count = 0;
-  formGroupStart = '<div class="form-group"> ';
-  formGroupEnd = ' </div>';
+  count = 1;
+  formGroupStart = '<div class="form-group upload-form-group"> ';
+  formGroupEnd = ' <span class="delete-upload-btn">x</span></div>';
   invalidForm = '<div class="invalid-feedback">Please provide a valid option: maximum allowed number of characters is 300.</div>';
   $('#add-download').click(function () {
     if (count < max) {
       num = count + 1;
-      var option = formGroupStart + '<input type="file" class="form-control" name="uploads[' + count + ']" maxlength="200" placeholder="Option ' + num + '..."  />' + formGroupEnd;
+      var option = formGroupStart + '<input type="file" name="uploads[' + count + ']" />' + formGroupEnd;
       $('.uploads').append(option);
       count++;
     } else {
@@ -150,38 +150,40 @@ $(document).ready(function () {
     });
   });
   var selectedTags = [];
-  $('#tag-input').on('input keyup', function getTags() {
-    if (this.value) {
-      var exist = Array();
-      var url = window.location.protocol + '//' + document.location.hostname;
-      var selectedTagsUl = $('#selected-tags-ul');
-      var selectedTagsUlChildren = selectedTagsUl.children('li').each(function () {
-        exist.push($(this).text());
-      });
-      jQuery.ajax({
-        url: url + "/suggest/tags",
-        type: "POST",
-        data: {
-          tag: $('#tag-input').val(),
-          exist: exist
-        },
-        success: function success(data) {
-          if (data.status == 'success') {
-            clearAllTags();
-            suggest(data.results);
-            tagClick();
-          } else {
-            clearAllTags();
-          }
-        },
-        error: function error(e) {
-          console.log(e);
-        }
-      });
-    } else {
-      clearAllTags();
-    }
+  $('#tag-input').on('input keyup focusin', function (e) {
+    e.stopPropagation();
+    getTags(e);
   });
+
+  function getTags(e) {
+    var type = e.target.dataset.type;
+    var exist = Array();
+    var hiddenInputValue = $('#hidden-tag-input').val();
+    exist = hiddenInputValue.split(', ');
+    var url = window.location.protocol + '//' + document.location.hostname;
+    var selectedTagsUl = $('#selected-tags-ul');
+    jQuery.ajax({
+      url: url + "/suggest/tags",
+      type: "POST",
+      data: {
+        tag: $('#tag-input').val(),
+        exist: exist,
+        type: type
+      },
+      success: function success(data) {
+        if (data.status == 'success') {
+          clearAllTags();
+          suggest(data.results);
+          tagClick();
+        } else {
+          clearAllTags();
+        }
+      },
+      error: function error(e) {
+        console.log(e);
+      }
+    });
+  }
 
   function suggest(arr) {
     var tagsUl = $('#tags');
@@ -197,7 +199,7 @@ $(document).ready(function () {
     var hiddenInput = $('#hidden-tag-input');
     $('.tags-li').on('click', function (e) {
       var tagName = $(this).text();
-      var tag = '<li class="list-group-item list-group-item-primary selected-tags-li">' + tagName + '</li>';
+      var tag = '<li class="list-group-item list-group-item-primary selected-tags-li">' + tagName + '&nbsp;&nbsp;<span style="color:#959595">x</span></li>';
       $('#selected-tags-ul').append(tag);
       selectedTags.push(tagName);
       hiddenInput.val(selectedTags.join(', '));
@@ -223,20 +225,25 @@ $(document).ready(function () {
       $(this).remove();
     });
   }
-  /**
-   * 
-   * When a type div is clicked in create art or create contest pages
-   * 
-   */
 
-
-  $('.select-types').on('click', function () {
-    var typeName = $(this).text();
-    var inpt = $('#type_field');
-
-    if (typeName.length > 0) {
-      inpt.val(typeName);
+  $(document).click(function (e) {
+    if (!e.target.classList.contains('tags-li')) {
+      clearAllTags();
     }
+  });
+
+  function uploadDeleteBtn() {
+    var uploads = $('.uploads');
+    uploads.on('click', '.delete-upload-btn', function (e) {
+      var parentGroup = e.target.parentNode;
+      parentGroup.remove();
+      count--;
+    });
+  }
+
+  uploadDeleteBtn();
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip();
   });
 });
 

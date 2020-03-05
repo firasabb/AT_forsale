@@ -23,6 +23,9 @@
                         </div>
                     @endif
                     <h2 class="card-title">{{$art->title}}</h2>
+                    @if(!empty($featured))
+                        <img src="{{ $featured->public_url }}" alt="{{ $art->title }} Image">
+                    @endif
                     @if($art->description)
                         <p class="card-text">{{$art->description}}</p>
                     @endif
@@ -67,6 +70,7 @@
                     <div class="col-md-5">
                         <div class="card-body">
                             <h5 class="card-title">{{ $comment->title }}</h5>
+                            
                             <p class="card-text">{{ $comment->description }}</p>
                             <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
                         </div>

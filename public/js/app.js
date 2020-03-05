@@ -1906,11 +1906,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['obj', 'types'],
+  data: function data() {
+    return {
+      colors: ['#70ffa1', '#ffef70', '#ff8b70', '#d970ff', '#ff7070']
+    };
+  },
   computed: {
     parsedTypes: function parsedTypes() {
-      return this.types = JSON.parse(this.types);
+      return JSON.parse(this.types);
+    }
+  },
+  methods: {
+    randomColor: function randomColor() {
+      return this.colors[Math.floor(Math.random() * this.colors.length)];
+    },
+    selectType: function selectType(event, url) {
+      window.location.href += '/' + url;
     }
   },
   mounted: function mounted() {}
@@ -37523,36 +37540,63 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-header" }, [
-            _vm._v("Please Choose Your " + _vm._s(_vm.obj) + " Type")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-body" }, [
-            _c(
-              "div",
-              { staticClass: "row" },
-              _vm._l(_vm.parsedTypes, function(type) {
-                return _c("div", { staticClass: "col" }, [
-                  _c("div", { staticClass: "select-types" }, [
-                    _vm._v(
-                      "\n                                " +
-                        _vm._s(type) +
-                        "\n                                " +
-                        _vm._s(type.name) +
-                        "\n                            "
-                    )
-                  ])
-                ])
-              }),
-              0
-            )
+  return _c("div", { staticClass: "card" }, [
+    _c("div", { staticClass: "card-header add-card-header" }, [
+      _vm._v("Please Select Your " + _vm._s(_vm.obj) + " Type")
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "card-body" }, [
+      _c(
+        "div",
+        { staticClass: "row" },
+        _vm._l(_vm.parsedTypes, function(type) {
+          return _c("div", { staticClass: "col" }, [
+            _c("div", { staticClass: "select-type" }, [
+              _c(
+                "div",
+                {
+                  staticClass: "card card-bottom card-inverse text-bottom",
+                  on: {
+                    click: function($event) {
+                      return _vm.selectType($event, type.url)
+                    }
+                  }
+                },
+                [
+                  type.medias[0] != "undefined" && type.medias[0] != null
+                    ? _c("img", {
+                        staticClass: "type-img",
+                        attrs: { src: type.medias[0].public_url }
+                      })
+                    : _c("div", {
+                        staticClass: "no-img",
+                        style: { backgroundColor: _vm.randomColor() }
+                      }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card-img-overlay" }),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "card-text-overlay",
+                      staticStyle: {
+                        "[type.medias[0] != 'undefined' && type.medias[0] != null ? {''}":
+                          "{'top': '50%'}]"
+                      }
+                    },
+                    [
+                      _c("h5", { staticClass: "card-title" }, [
+                        _vm._v(_vm._s(type.name.toUpperCase()))
+                      ])
+                    ]
+                  )
+                ]
+              )
+            ])
           ])
-        ])
-      ])
+        }),
+        0
+      )
     ])
   ])
 }

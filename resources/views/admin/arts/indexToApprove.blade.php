@@ -4,7 +4,6 @@
 @section('content')
 <div class="container">
     @foreach($arts as $art)
-    <?php $hasCategories = $art->categories->pluck('id'); ?>
 
     <div class="row justify-content-center">
         <div class="col-lg-12">
@@ -46,16 +45,6 @@
                                 <label for="url" class="col-sm-2 col-form-label">URL:</label>
                                 <div class="col-sm-10">
                                     <input class="form-control enabled-disabled" name="url" disabled type="text" value="{{ $art->url }}"/>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="categories" class="col-sm-2 col-form-label">Categories:</label>
-                                <div class="col-sm-10">
-                                    <select class="form-control enabled-disabled" name="categories[]" multiple disabled>
-                                    @foreach($categories as $category)
-                                        <option value="{{ $category->id }}" <?php echo $hasCategories->search($category->id) !== false ? 'Selected' : ''; ?>>{{ $category->name }}</option>
-                                    @endforeach
-                                    </select>
                                 </div>
                             </div>
                             <div class="form-group row">

@@ -18,7 +18,6 @@ class CreateDownloadsTable extends Migration
             $table->text('name');
             $table->text('description')->nullable();
             $table->text('url');
-            $table->boolean('featured')->default(0);
             $table->unsignedBigInteger('art_id');
             $table->timestamps();
 

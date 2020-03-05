@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Tag;
+use App\Type;
 use Illuminate\Http\Request;
 use Validator;
 use URL;
@@ -30,7 +31,8 @@ class TagController extends Controller
         } else {
             $tags = $tags->paginate(20);
         }
-        return view('admin.tags.tags', ['tags' => $tags]);
+        $types = Type::all();
+        return view('admin.tags.tags', ['tags' => $tags, 'types' => $types]);
     }
 
     /**
@@ -53,7 +55,9 @@ class TagController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:40',
-            'url' => 'required|string'
+            'url' => 'required|string',
+            'types' => 'array|nullable',
+            'types.*' => 'integer' 
         ]);
 
         if($validator->fails()){
@@ -70,6 +74,12 @@ class TagController extends Controller
         $tag->url = $request->url;
         $tag->save();
 
+        $types = $request->types;
+        foreach($types as $type){
+            $type = Type::findOrFail($type);
+            $type->tags()->attach($tag);
+        }
+
         return redirect('/admin/dashboard/tags')->with('status', 'A new tag has been created!');
 
 
@@ -84,7 +94,9 @@ class TagController extends Controller
     public function adminShow($id)
     {
         $tag = Tag::findOrFail($id);
-        return view('admin.tags.show', ['tag' => $tag]);
+        $types = Type::all();
+        $tagTypes = $tag->types->pluck('id');
+        return view('admin.tags.show', ['tag' => $tag, 'types' => $types, 'tagTypes' => $tagTypes]);
     }
 
     /**
@@ -111,7 +123,9 @@ class TagController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'string|max:40',
-            'url' => 'string'
+            'url' => 'string',
+            'types' => 'array|nullable',
+            'types.*' => 'integer'
         ]);
 
         if($validator->fails()){
@@ -128,6 +142,9 @@ class TagController extends Controller
             $tag->url = $request->url;
         }
         $tag->save();
+
+        $types = $request->types;
+        $tag->types()->sync($types);
 
         return redirect('/admin/dashboard/tag/' . $id)->with('status', 'This tag has been edited');
     }
@@ -167,21 +184,21 @@ class TagController extends Controller
         $name = $request->name;
         $id = $request->id;
         
-        $where_arr = array();
+        $whereArr = array();
 
         if($name){
 
             $name_where = ['name', 'LIKE', '%' . $name . '%'];
-            array_push($where_arr, $name_where);
+            array_push($whereArr, $name_where);
 
         } if ($id){
 
             $id_where = ['id', '=', $id];
-            array_push($where_arr, $id_where);
+            array_push($whereArr, $id_where);
 
         }
 
-        $tags = Tag::where($where_arr);
+        $tags = Tag::where($whereArr);
 
         if(empty($tags)){
             return $this->adminIndex();
@@ -203,35 +220,32 @@ class TagController extends Controller
 
             $tag = $request->tag;
             $exist = $request->exist;
-        
-            if($tag){
+            $type = $request->type;
 
-                $whereArr = array();
-
-                if($exist){
-                    foreach($exist as $existTag){
-                        $where = ['name', '!=', $existTag];
-                        array_push($whereArr, $where);
-                    }
+            $whereArr = array();
+            if($exist){
+                foreach($exist as $existTag){
+                    $where = ['name', '!=', $existTag];
+                    array_push($whereArr, $where);
                 }
+            }
+            if(!empty($tag)){
                 $where = ['name', 'LIKE', '%' . $tag . '%'];
                 array_push($whereArr, $where);
+            }
+            error_log(print_r($whereArr, true));
+            if($type){
+                $type = Type::find($type);
+                $searchResults = $type->tags()->where($whereArr)->get();
+            } else {
                 $searchResults = Tag::where($whereArr)->get();
-
-                $response = array(
-                    'status' => 'success',
-                    'results' => $searchResults
-                );
-        
-                return response()->json($response);
-
             }
 
             $response = array(
-                'status' => 'error',
-                'message' => 'no tag has been searched for'
+                'status' => 'success',
+                'results' => $searchResults
             );
-
+    
             return response()->json($response);
         }
         

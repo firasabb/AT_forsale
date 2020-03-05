@@ -67,6 +67,12 @@ Route::get('/admin/dashboard/approve/arts', 'ArtController@indexToApprove')->mid
 Route::post('/admin/dashboard/approve/arts/{id}', 'ArtController@adminApprove')->middleware('role:admin|moderator')->name('admin.approve.art');
 
 
+// Admin / Downloads
+
+Route::post('/admin/download/{artId}', 'DownloadController@admindAdd')->middleware('role:admin|moderator')->name('admin.download.add');
+Route::delete('/admin/download/{id}', 'DownloadController@adminDelete')->middleware('role:admin|moderator')->name('admin.download.delete');
+
+
 // Admin / Contests
 
 Route::get('/admin/dashboard/contests/', 'ContestController@adminIndex')->middleware('role:admin|moderator')->name('admin.index.contests');
@@ -128,9 +134,9 @@ Route::post('/admin/dashboard/report/', 'ReportController@adminAdd')->middleware
 Route::post('/admin/dashboard/report/search', 'ReportController@adminSearchReports')->middleware('role:admin|moderator')->name('admin.search.reports');
 
 
-// Arts to get approved
+// Arts add
 Route::get('/add/art/{type?}', 'ArtController@create')->middleware('role:user')->name('create.art');
-Route::post('/add/art/{type?}', 'ArtController@store')->middleware('role:user')->name('store.art');
+Route::post('/add/art/{type}', 'ArtController@store')->middleware('role:user')->name('store.art');
 
 
 // Contest
@@ -171,3 +177,7 @@ Route::post('/reports/add/{type}', 'ReportController@store')->middleware('role:u
 // Get Tags AJAX
 
 Route::post('/suggest/tags/', 'TagController@suggestTags')->middleware('role:user')->name('suggest.tags');
+
+// Downloads
+
+Route::get('/download/{id}', 'DownloadController@downloadDownload')->middleware('role:user')->name('download.download');

@@ -119,6 +119,10 @@ $(document).ready(function(){
         return confirm('Are you sure that you want to delete this type?');
     });
 
+    $('#delete-form-downloads').on('submit', function(){
+      return confirm('Are you sure that you want to delete this Download?');
+  });
+
     $.ajaxSetup({
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

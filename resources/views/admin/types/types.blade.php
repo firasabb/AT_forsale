@@ -73,7 +73,7 @@
                                 </td>
                                 <td>
                                     @if(!empty($type->medias->first()))
-                                        <img class="img-thumbnail img-small" src="{{Storage::cloud()->url($type->medias->first()->url)}}">
+                                        <img class="img-thumbnail img-small" src="{{$type->medias->first()->public_url}}">
                                     @endif
                                 </td>
                                 <td>

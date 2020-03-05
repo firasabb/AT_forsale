@@ -41,6 +41,17 @@
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <select class="form-control enabled-disabled" name="types[]" multiple disabled>
+                                        @foreach($types as $type)
+                                            <option <?php echo $tagTypes->search($type->id) !== FALSE ? 'selected' : '' ?> value="{{$type->id}}">{{ $type->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col submit-btn-roles">
                                 <button type="submit" class="btn btn-primary submit-edit-btn enabled-disabled" disabled>Submit</button>
                             </div>

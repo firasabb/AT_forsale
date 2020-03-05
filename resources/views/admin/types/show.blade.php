@@ -59,7 +59,7 @@
                             </div>
                             @if(!empty($type->medias->first()))
                                 <div class="col">
-                                    <img class="img-thumbnail" src="{{ Storage::cloud()->url($type->medias->first()->url) }}">
+                                    <img class="img-thumbnail" src="{{ $type->medias->first()->public_url }}">
                                 </div>
                             @endif
                         </div>

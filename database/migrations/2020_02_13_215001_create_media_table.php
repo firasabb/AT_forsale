@@ -16,7 +16,9 @@ class CreateMediaTable extends Migration
         Schema::create('media', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('url');
+            $table->string('public_url')->nullable();
             $table->enum('sorting', ['featured', 'thumbnail', 'cover', 'other'])->default('other');
+            $table->timestamps();
         });
     }
 
