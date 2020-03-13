@@ -56,9 +56,13 @@ class ArtController extends Controller
      */
     public function indexToApprove()
     {
-        $arts = Art::where('status', 1)->orderBy('id', 'asc')->paginate(1);
-        //$types = $types->load('medias')->flatten();
-        return view('admin.arts.indexToApprove', ['arts' => $arts, 'types' => $types]);
+        $art = Art::where('status', 1)->orderBy('id', 'asc')->first();
+        $types = Type::all()->load('medias')->flatten();
+        $featured = $art->medias()->where('sorting', 'featured')->first();
+        $cover = $art->medias()->where('sorting', 'cover')->first();
+        $arts = Art::where('status', 1)->orderBy('id', 'asc');
+        $downloads = $art->downloads;
+        return view('admin.arts.indexToApprove', ['art' => $art, 'types' => $types, 'featured' => $featured, 'cover' => $cover, 'downloads' => $downloads]);
     }
 
         /**
@@ -151,8 +155,11 @@ class ArtController extends Controller
         if($uploads){
             foreach($uploads as $upload){
                 $download = new Download();
-                $download->name = $art->title;
-                $path = Storage::cloud()->putFile('downloads', $upload);
+                $name = $upload->getClientOriginalName();
+                $extension = $upload->getClientOriginalExtension();
+                $name = str_replace('.' . $extension, '', $name);
+                $download->name = $name;
+                $path = $upload->store('downloads', 's3');
                 $download->url = $path;
                 $art->downloads()->save($download);
             }
@@ -184,8 +191,7 @@ class ArtController extends Controller
 
     public function adminApprove(Request $request, $id){
 
-        $this->editOrApprove($id, $request, 2);
-        return redirect('/admin/dashboard/approve/arts')->with('status', 'The Art has been approved!');
+        return $this->editOrApprove($id, $request, 2);
 
     }
 
@@ -221,8 +227,7 @@ class ArtController extends Controller
      */
     public function adminEdit(Request $request, $id)
     {
-        $this->editOrApprove($id, $request);
-        return redirect()->route('admin.show.art', ['id' => $id])->with('status', 'This art has been edited');
+        return $this->editOrApprove($id, $request);
     }
 
 
@@ -329,9 +334,11 @@ class ArtController extends Controller
 
         if($status){
             $art->status = $status;
+            $art->save();
+            return redirect('/admin/dashboard/approve/arts')->with('status', 'The Art has been approved!');
         }
         $art->save();
-
+        return redirect()->route('admin.show.art', ['id' => $id])->with('status', 'This art has been edited');
     }
 
 }

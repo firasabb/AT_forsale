@@ -3,7 +3,6 @@
 
 @section('content')
 <div class="container">
-    @foreach($arts as $art)
 
     <div class="row justify-content-center">
         <div class="col-lg-12">
@@ -89,11 +88,13 @@
                             </div>
 
                         </form>
-
-                    
-                    <div class="pagination-container">
-                        {{ $arts->links() }}
-                    </div>
+                        @if(!empty($featured))
+                        <div class="row">
+                            <div class="col">
+                                <img src="{{ $art->public_url }}">
+                            </div>
+                        </div>
+                        @endif
                 </div>
             </div>
             <div class="block-button">
@@ -111,6 +112,5 @@
 
         </div>
     </div>
-    @endforeach
 </div>
 @endsection

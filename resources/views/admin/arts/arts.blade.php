@@ -57,7 +57,7 @@
                                 URL
                             </th>
                             <th>
-                                Comments
+                                Downloads
                             </th>
                             <th class="td-actions">
                                 Actions
@@ -75,7 +75,7 @@
                                     <a href="{{ route('show.art', ['url' => $art->url]) }}">{{ str_limit($art->url, $limit = 20, $end = '...') }}</a>
                                 </td>
                                 <td>
-                                    {{ $art->comments()->count() }}
+                                    {{ $art->downloads->count() }}
                                 </td>
                                 <td>
                                     <div class="td-actions-btns">

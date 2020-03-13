@@ -93,11 +93,6 @@
                                 </div>
                             @endif
                         </div>
-                        @if(!empty($downloads))
-                        <div class="mt-5 mb-2">
-                            <h5>Downloads:</h5>
-                        </div>
-                        @endif
                         <div class="row">
                             <div class="col submit-btn-roles">
                                 <button type="submit" class="btn btn-primary submit-edit-btn enabled-disabled" disabled>Submit</button>

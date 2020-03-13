@@ -69,7 +69,7 @@ Route::post('/admin/dashboard/approve/arts/{id}', 'ArtController@adminApprove')-
 
 // Admin / Downloads
 
-Route::post('/admin/download/{artId}', 'DownloadController@admindAdd')->middleware('role:admin|moderator')->name('admin.download.add');
+Route::post('/admin/download/{artId}', 'DownloadController@adminAdd')->middleware('role:admin|moderator')->name('admin.download.add');
 Route::delete('/admin/download/{id}', 'DownloadController@adminDelete')->middleware('role:admin|moderator')->name('admin.download.delete');
 
 
