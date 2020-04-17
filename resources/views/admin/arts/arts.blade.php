@@ -72,10 +72,10 @@
                                     {{$art->id}}
                                 </td>
                                 <td>
-                                    {{ $art->title }}
+                                    {{ Str::limit($art->title, $limit = 20, $end = '...') }}
                                 </td>
                                 <td>
-                                    <a href="{{ route('show.art', ['url' => $art->url]) }}">{{ str_limit($art->url, $limit = 20, $end = '...') }}</a>
+                                    <a href="{{ route('show.art', ['url' => $art->url]) }}">{{ Str::limit($art->url, $limit = 20, $end = '...') }}</a>
                                 </td>
                                 <td>
                                     {{ $art->type->name }}
