@@ -25,7 +25,7 @@
                         </div>
                     @endif
 
-
+                        @if(!empty($art))
                         <form method="POST" action="{{ route('admin.approve.art', ['id' => $art->id]) }}" id="add-art-form">
                             @csrf
                             <div class="form-group row">
@@ -106,6 +106,9 @@
                         {!! method_field('DELETE') !!}
                         <button id="delete-art" type="submit" class="btn btn-danger btn-lg btn-block">Delete</button>
                     </form>
+                    @else
+                        <p>Nothing to approve.</p>
+                    @endif
                 </div>
             </div>
             

@@ -13,6 +13,9 @@
 
 Route::get('/', 'WelcomeController@index')->name('main.index');
 
+Route::post('/search', 'WelcomeController@search')->name('main.search');
+Route::get('/search', 'WelcomeController@searchResults')->name('main.searchResults');
+
 Auth::routes();
 
 // Check Username AJAX

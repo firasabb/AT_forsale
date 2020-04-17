@@ -74,10 +74,10 @@
                                 <span class="delete-upload-btn">x</span>
                             </div>
                         </div>
+                        <button type="button" class="btn add-download-btn" id="add-download">+ File</button>
                         <div class="create-art-btns">
                             <input type="hidden" name="type" id="type_field">
                             <button type="submit" class="btn btn-primary submit-art-btn">Submit</button>
-                            <button type="button" class="btn btn-success add-download-btn" id="add-download">+ File</button>
                         </div>
                     </form>
                 </div>

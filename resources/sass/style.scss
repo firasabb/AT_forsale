@@ -46,10 +46,20 @@ body{
 
 .card-header{
 
-    color: #fff;
+    color: #666;
     border: 0;
-    background-color: rgba(5, 138, 249, 0.6);
+    background-color: rgba(155, 210, 255, 0.6);
 
+}
+
+
+.card-header a{
+    color: #666;
+}
+
+.card-header a:hover {
+    color: #666;
+    text-decoration: none;
 }
 
 .add-card-header{
@@ -63,6 +73,7 @@ body{
     border-radius: 50%;
     padding: 0 3px;
 }
+
 
 @media only screen and (min-width: 1080px){
 
@@ -87,7 +98,7 @@ body{
 .card-header-date span{
 
     font-size: 0.6rem;
-    color: rgb(255, 255, 255);
+    color: #666;
 
 }
 
@@ -123,7 +134,13 @@ body{
 
 
 .add-download-btn{
-    float: left;
+    width: 100%;
+    background-color: rgb(241, 241, 241);
+    transition: all 1s ease-in-out;
+}
+
+.add-download-btn:hover{
+    background-color: rgb(175, 175, 175);
 }
 
 
@@ -513,4 +530,73 @@ a.card-link, a.card-link:hover {
     .register-login-col{
         padding: 0;
     }
+}
+
+
+/**
+**
+**
+**  Home Page
+**  
+**
+**/
+
+.search-home-container{
+    height: 500px;
+    width: 100%;
+    margin-bottom: 30px;
+    background-color: rgb(57, 58, 54);
+}
+
+.search-home{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-form-title{
+    text-align: center;
+    color: rgb(241, 241, 241);
+}
+
+.search-form{
+    width: 50%;
+}
+
+.search-btn{
+    width: 100%;
+}
+
+.report-btn{
+    background-color: transparent;
+    border: 0;
+    color: rgb(250, 59, 59);
+    font-size: 0.65rem;
+}
+
+
+
+/**
+**
+**
+** Search Page
+**
+**
+**/
+
+.search-bar{
+
+    padding: 20px 0;
+    background-color: #edf5f4;
+
+}
+
+
+.search-bar-row{
+    
+    width: 50%;
+    margin: 0 auto;
+
 }

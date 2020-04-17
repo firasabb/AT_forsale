@@ -13,6 +13,10 @@ class Type extends Model
         return $this->hasMany('\App\Art');
     }
 
+    public function approvedArts(){
+        return $this->hasMany('\App\Art')->where('status', 2);
+    }
+
     public function contests(){
         return $this->hasMany('\App\Contest');
     }

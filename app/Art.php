@@ -10,6 +10,9 @@ class Art extends Model
     
     use SoftDeletes;
 
+    public function approvedArts(){
+        return $this->where('status', 2);
+    }
 
     public function downloads(){
         return $this->hasMany('\App\Download', 'art_id');

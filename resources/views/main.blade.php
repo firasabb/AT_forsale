@@ -1,6 +1,40 @@
 @extends('layouts.main')
 
 @section('content')
+
+<div class="search-home-container">
+    <div class="search-home">
+        <form action="{{ route('main.search') }}" method="post" class="search-form">
+        @csrf
+            <div class="row justify-content-center">
+                <div class="col search-form-title mb-3">
+                    <h1>Search and Explore All The Free Assets</h1>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-sm-6 mt-3">
+                    <div>
+                        <input type="text" name="search" placeholder="All" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-sm-3 mt-3">
+                    <div>
+                        <select name="type" class="form-control">
+                            <option value="all" selected>ALL</option>
+                            @foreach($types as $type)
+                                <option value="{{ $type->name }}">{{ strtoupper($type->name) }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-2 mt-3">
+                    <button class="btn btn-primary search-btn" type="submit">Search</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 <div class="container">
     <div>
         @foreach($arts as $art)
@@ -27,10 +61,10 @@
                         </div>
                         <div class="card-footer">
                             <div class="card-footer-icons">
-                                @svg('heart', 'heart-icon')
+                                <!--@svg('heart', 'heart-icon')-->
                             </div>
                             <div class="card-footer-report">
-                                <button type="button" v-on:click="open_report_modal('{{ encrypt($art->id) }}')" class="btn btn-outline-danger">Report</button>
+                                <button type="button" v-on:click="open_report_modal('{{ encrypt($art->id) }}')" class="report-btn">Report</button>
                             </div>
                         </div>
                     </div>

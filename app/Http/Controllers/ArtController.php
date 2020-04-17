@@ -57,12 +57,16 @@ class ArtController extends Controller
     public function indexToApprove()
     {
         $art = Art::where('status', 1)->orderBy('id', 'asc')->first();
-        $types = Type::all()->load('medias')->flatten();
-        $featured = $art->medias()->where('sorting', 'featured')->first();
-        $cover = $art->medias()->where('sorting', 'cover')->first();
-        $arts = Art::where('status', 1)->orderBy('id', 'asc');
-        $downloads = $art->downloads;
-        return view('admin.arts.indexToApprove', ['art' => $art, 'types' => $types, 'featured' => $featured, 'cover' => $cover, 'downloads' => $downloads]);
+        if(!empty($art)){
+            $types = Type::all()->load('medias')->flatten();
+            $featured = $art->medias()->where('sorting', 'featured')->first();
+            $cover = $art->medias()->where('sorting', 'cover')->first();
+            $arts = Art::where('status', 1)->orderBy('id', 'asc');
+            $downloads = $art->downloads;
+            return view('admin.arts.indexToApprove', ['art' => $art, 'types' => $types, 'featured' => $featured, 'cover' => $cover, 'downloads' => $downloads]);
+        }
+        return view('admin.arts.indexToApprove');
+
     }
 
         /**

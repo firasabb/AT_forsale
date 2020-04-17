@@ -57,6 +57,9 @@
                                 URL
                             </th>
                             <th>
+                                Type
+                            </th>
+                            <th>
                                 Downloads
                             </th>
                             <th class="td-actions">
@@ -73,6 +76,9 @@
                                 </td>
                                 <td>
                                     <a href="{{ route('show.art', ['url' => $art->url]) }}">{{ str_limit($art->url, $limit = 20, $end = '...') }}</a>
+                                </td>
+                                <td>
+                                    {{ $art->type->name }}
                                 </td>
                                 <td>
                                     {{ $art->downloads->count() }}
