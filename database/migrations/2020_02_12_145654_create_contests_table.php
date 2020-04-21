@@ -21,7 +21,7 @@ class CreateContestsTable extends Migration
             $table->unsignedInteger('status')->default(1);
             $table->date('end_date');
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('type_id');
+            $table->unsignedBigInteger('category_id');
             $table->softDeletes();
             $table->timestamps();
 
@@ -29,8 +29,8 @@ class CreateContestsTable extends Migration
                     ->references('id')->on('users')
                     ->onDelete('cascade');
 
-            $table->foreign('type_id')
-                    ->references('id')->on('types')
+            $table->foreign('category_id')
+                    ->references('id')->on('categories')
                     ->onDelete('cascade');
         });
     }

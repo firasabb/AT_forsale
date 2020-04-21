@@ -43,9 +43,9 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
-                                    <select class="form-control enabled-disabled" name="types[]" multiple disabled>
-                                        @foreach($types as $type)
-                                            <option <?php echo $tagTypes->search($type->id) !== FALSE ? 'selected' : '' ?> value="{{$type->id}}">{{ $type->name }}</option>
+                                    <select class="form-control enabled-disabled" name="categories[]" multiple disabled>
+                                        @foreach($categories as $category)
+                                            <option <?php echo $tagCategories->search($category->id) !== FALSE ? 'selected' : '' ?> value="{{$category->id}}">{{ $category->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>

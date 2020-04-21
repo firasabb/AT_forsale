@@ -23,23 +23,15 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('create.contest', ['type' => $type->url]) }}" class="needs-validation" autocomplete="off" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('create.contest', ['category' => $category->url]) }}" class="needs-validation" autocomplete="off" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label for="contests-title">Contest Title:</label>
-                            <input class="form-control" type="text" name="title" placeholder="{{ ucwords($type->name) }} for my company" value="{{ old('title') }}" required maxlength="200" minlength="15"/>
+                            <input class="form-control" type="text" name="title" placeholder="{{ ucwords($category->name) }} for my company" value="{{ old('title') }}" required maxlength="200" minlength="15"/>
                         </div>
                         <div class="form-group">
                             <label for="contest-description">Description:</label>
                             <textarea class="form-control" type="text" name="description" placeholder="Please describe your contest, rules, requirements, ..." maxlength="500">{{ old('description') }}</textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="contest-categories">Categories:</label>
-                            <select name="categories[]" multiple class="form-control">
-                                @foreach($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                @endforeach
-                            </select>
                         </div>
                         <div class="form-group">
 

@@ -78,7 +78,7 @@ $(document).ready(function(){
 
       
       function getTags(e) {
-        var type = e.target.dataset.type;
+        var category = e.target.dataset.category;
         var exist = Array();
         var hiddenInputValue = $('#hidden-tag-input').val();
         exist = hiddenInputValue.split(', ');
@@ -87,7 +87,7 @@ $(document).ready(function(){
         jQuery.ajax({
           url: url + "/suggest/tags",
           type: "POST",
-          data: {tag:$('#tag-input').val(), exist: exist, type: type},
+          data: {tag:$('#tag-input').val(), exist: exist, category: category},
           success:function(data){
               if(data.status == 'success'){
                   clearAllTags();

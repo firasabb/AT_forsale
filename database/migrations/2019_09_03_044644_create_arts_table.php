@@ -19,7 +19,7 @@ class CreateArtsTable extends Migration
             $table->text('url')->unique();
             $table->unsignedInteger('status')->default(1);
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('type_id');
+            $table->unsignedBigInteger('category_id');
             $table->text('description')->nullable();
             $table->softDeletes();
             $table->timestamps();
@@ -28,8 +28,8 @@ class CreateArtsTable extends Migration
                     ->references('id')->on('users')
                     ->onDelete('cascade');
 
-            $table->foreign('type_id')
-                    ->references('id')->on('types')
+            $table->foreign('category_id')
+                    ->references('id')->on('categories')
                     ->onDelete('cascade');
         });
     }

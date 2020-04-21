@@ -54,7 +54,7 @@
                                 URL
                             </th>
                             <th>
-                                Types
+                                Categories
                             </th>
                             <th class="td-actions">
                                 Actions
@@ -72,9 +72,9 @@
                                     {{ $tag->url }}
                                 </td>
                                 <td>
-                                    @if(!empty($tag->types))
-                                        @foreach($tag->types as $type)
-                                            {{ $type->name }},
+                                    @if(!empty($tag->categories))
+                                        @foreach($tag->categories as $category)
+                                            {{ $category->name }},
                                         @endforeach
                                     @endif
                                 </td>
@@ -127,9 +127,9 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <select class="form-control" name="types[]" multiple>
-                                            @foreach($types as $type)
-                                                <option value="{{$type->id}}">{{ $type->name }}</option>
+                                        <select class="form-control" name="categories[]" multiple>
+                                            @foreach($categories as $category)
+                                                <option value="{{$category->id}}">{{ $category->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>

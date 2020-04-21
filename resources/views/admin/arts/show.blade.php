@@ -56,10 +56,10 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <label for="type">Type:</label>
+                                <label for="category">Category:</label>
                                 <select class="form-control enabled-disabled" name="type_id" disabled>
-                                    @foreach($types as $type)
-                                        <option value="{{ $type->id }}" <?php echo $type->id == $art->type_id ? 'Selected' : ''; ?>>{{ $type->name }}</option>
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}" <?php echo $category->id == $art->category_id ? 'Selected' : ''; ?>>{{ $category->name }}</option>
                                     @endforeach
                                 </select>
                             </div>

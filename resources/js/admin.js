@@ -86,14 +86,6 @@ $(document).ready(function(){
         return confirm('Are you sure that you want to delete this report?');
     });
 
-    $('#edit-form-categories').on('submit', function(){
-        return confirm('Are you sure that you want to edit this category?');
-    });
-
-    $('#delete-form-categories').on('submit', function(){
-        return confirm('Are you sure that you want to delete this category?');
-    });
-
     $('#edit-form-reports').on('submit', function(){
         return confirm('Are you sure that you want to edit this report?');
     });
@@ -111,12 +103,12 @@ $(document).ready(function(){
     });
 
 
-    $('#edit-form-types').on('submit', function(){
-      return confirm('Are you sure that you want to edit this type?');
+    $('#edit-form-categories').on('submit', function(){
+      return confirm('Are you sure that you want to edit this category?');
     });
 
-    $('#delete-form-types').on('submit', function(){
-        return confirm('Are you sure that you want to delete this type?');
+    $('#delete-form-categories').on('submit', function(){
+        return confirm('Are you sure that you want to delete this category?');
     });
 
     $('#delete-form-downloads').on('submit', function(){

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Tag;
-use App\Type;
+use App\Category;
 use Illuminate\Http\Request;
 use Validator;
 use URL;
@@ -31,8 +31,8 @@ class TagController extends Controller
         } else {
             $tags = $tags->paginate(20);
         }
-        $types = Type::all();
-        return view('admin.tags.tags', ['tags' => $tags, 'types' => $types]);
+        $categories = category::all();
+        return view('admin.tags.tags', ['tags' => $tags, 'categories' => $categories]);
     }
 
     /**
@@ -56,8 +56,8 @@ class TagController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:40',
             'url' => 'required|string',
-            'types' => 'array|nullable',
-            'types.*' => 'integer' 
+            'categories' => 'array|nullable',
+            'categories.*' => 'integer' 
         ]);
 
         if($validator->fails()){
@@ -74,10 +74,10 @@ class TagController extends Controller
         $tag->url = $request->url;
         $tag->save();
 
-        $types = $request->types;
-        foreach($types as $type){
-            $type = Type::findOrFail($type);
-            $type->tags()->attach($tag);
+        $categories = $request->categories;
+        foreach($categories as $category){
+            $category = category::findOrFail($category);
+            $category->tags()->attach($tag);
         }
 
         return redirect('/admin/dashboard/tags')->with('status', 'A new tag has been created!');
@@ -94,9 +94,9 @@ class TagController extends Controller
     public function adminShow($id)
     {
         $tag = Tag::findOrFail($id);
-        $types = Type::all();
-        $tagTypes = $tag->types->pluck('id');
-        return view('admin.tags.show', ['tag' => $tag, 'types' => $types, 'tagTypes' => $tagTypes]);
+        $categories = Category::all();
+        $tagCategories = $tag->categories->pluck('id');
+        return view('admin.tags.show', ['tag' => $tag, 'categories' => $categories, 'tagCategories' => $tagCategories]);
     }
 
     /**
@@ -124,8 +124,8 @@ class TagController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'string|max:40',
             'url' => 'string',
-            'types' => 'array|nullable',
-            'types.*' => 'integer'
+            'categories' => 'array|nullable',
+            'categories.*' => 'integer'
         ]);
 
         if($validator->fails()){
@@ -143,8 +143,8 @@ class TagController extends Controller
         }
         $tag->save();
 
-        $types = $request->types;
-        $tag->types()->sync($types);
+        $categories = $request->categories;
+        $tag->categories()->sync($categories);
 
         return redirect('/admin/dashboard/tag/' . $id)->with('status', 'This tag has been edited');
     }
@@ -220,7 +220,7 @@ class TagController extends Controller
 
             $tag = $request->tag;
             $exist = $request->exist;
-            $type = $request->type;
+            $category = $request->category;
 
             $whereArr = array();
             if($exist){
@@ -234,9 +234,9 @@ class TagController extends Controller
                 array_push($whereArr, $where);
             }
             error_log(print_r($whereArr, true));
-            if($type){
-                $type = Type::find($type);
-                $searchResults = $type->tags()->where($whereArr)->get();
+            if($category){
+                $category = Category::find($category);
+                $searchResults = $category->tags()->where($whereArr)->get();
             } else {
                 $searchResults = Tag::where($whereArr)->get();
             }

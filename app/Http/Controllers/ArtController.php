@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Art;
 use App\Tag;
-use App\Type;
+use App\Category;
 use App\Download;
 use App\Media;
 use Illuminate\Http\Request;
@@ -58,12 +58,12 @@ class ArtController extends Controller
     {
         $art = Art::where('status', 1)->orderBy('id', 'asc')->first();
         if(!empty($art)){
-            $types = Type::all()->load('medias')->flatten();
+            $categories = Category::all()->load('medias')->flatten();
             $featured = $art->medias()->where('sorting', 'featured')->first();
             $cover = $art->medias()->where('sorting', 'cover')->first();
             $arts = Art::where('status', 1)->orderBy('id', 'asc');
             $downloads = $art->downloads;
-            return view('admin.arts.indexToApprove', ['art' => $art, 'types' => $types, 'featured' => $featured, 'cover' => $cover, 'downloads' => $downloads]);
+            return view('admin.arts.indexToApprove', ['art' => $art, 'categories' => $categories, 'featured' => $featured, 'cover' => $cover, 'downloads' => $downloads]);
         }
         return view('admin.arts.indexToApprove');
 
@@ -74,17 +74,17 @@ class ArtController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($typeUrl = null)
+    public function create($categoryUrl = null)
     {
 
-        if($typeUrl){
+        if($categoryUrl){
 
-            $type = Type::where('url', $typeUrl)->firstOrFail();
-            return view('arts.create', ['type' => $type]);
+            $category = Category::where('url', $categoryUrl)->firstOrFail();
+            return view('arts.create', ['category' => $category]);
 
         }
-        $types = Type::with('medias')->get();
-        return view('types.select', ['types' => $types]);
+        $categories = Category::with('medias')->get();
+        return view('categories.select', ['categories' => $categories]);
     }
 
     /**
@@ -93,9 +93,9 @@ class ArtController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $typeUrl){
+    public function store(Request $request, $categoryUrl){
 
-        $type = Type::where('url', $typeUrl)->firstOrFail();
+        $category = Category::where('url', $categoryUrl)->firstOrFail();
 
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|min:15|max:200',
@@ -118,6 +118,12 @@ class ArtController extends Controller
         if(!Arr::has(Storage::cloud()->directories(), 'media')){
             Storage::cloud()->makeDirectory('media');
         }
+        if(!Arr::has(Storage::cloud()->directories(), 'featured')){
+            Storage::cloud()->makeDirectory('featured');
+        }
+        if(!Arr::has(Storage::cloud()->directories(), 'covers')){
+            Storage::cloud()->makeDirectory('covers');
+        }
 
         $unique = uniqid();
 
@@ -134,19 +140,19 @@ class ArtController extends Controller
         if($user->hasAnyRole('admin', 'moderator')){
             $art->status = 2;
         }
-        $art->type()->associate($type);
+        $art->category()->associate($category);
         $art->save();
 
         $featured = $request->featured;
         $media = new Media();
         $media->sorting = 'featured';
-        $path = $featured->storePublicly('media', 's3');
+        $path = $featured->storePublicly('featured', 's3');
         $media->url = $path;
 
         if($request->cover){
             $media = new Media();
             $uploadedCover = $request->cover;
-            $path = $uploadedCover->storePublicly('media', 's3');
+            $path = $uploadedCover->storePublicly('covers', 's3');
             $media->url = $path;
             $media->sorting = 'cover';
             $media->public_url = Storage::cloud()->url($path);
@@ -214,11 +220,11 @@ class ArtController extends Controller
     public function adminShow($id)
     {
         $art = Art::findOrFail($id);
-        $types = Type::all();
+        $categories = Category::all();
         $featured = $art->medias()->where('sorting', 'featured')->first();
         $cover = $art->medias()->where('sorting', 'cover')->first();
         $downloads = $art->downloads;
-        return view('admin.arts.show', ['art' => $art, 'featured' => $featured, 'cover' => $cover, 'downloads' => $downloads, 'types' => $types]);
+        return view('admin.arts.show', ['art' => $art, 'featured' => $featured, 'cover' => $cover, 'downloads' => $downloads, 'categories' => $categories]);
     }
 
 
@@ -313,7 +319,7 @@ class ArtController extends Controller
             'title' => 'required|string|min:15|max:200',
             'description' => 'string|max:500',
             'url' => ['string', Rule::unique('arts', 'url')->ignore($art->url, 'url')],
-            'type_id' => 'integer',
+            'category_id' => 'integer',
             'upload' => 'array',
             'uploads.*' => 'string|max:200'
         ]);
@@ -325,8 +331,8 @@ class ArtController extends Controller
         $art->title = $request->title;
         $art->url = $request->url;
         $art->description = $request->description;
-        $type = Type::findOrFail($request->type_id);
-        $art->type()->associate($type);
+        $category = Category::findOrFail($request->category_id);
+        $art->category()->associate($category);
         $tagsArr = array();
         $tags = $request->tags;
         $tags = explode(', ', $tags);

@@ -24,7 +24,7 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('admin.edit.category', ['id' => $category->id]) }}" id="edit-form-categories">
+                    <form method="POST" action="{{ route('admin.edit.category', ['id' => $category->id]) }}" id="edit-form-categories" enctype="multipart/form-data">
                         {!! csrf_field() !!}
                         {!! method_field('PUT') !!}
 
@@ -37,6 +37,11 @@
                             <div class="col">
                                 <div>
                                     <input class="form-control enabled-disabled" type="text" name="url"  value="{{ $category->url }}" placeholder="Url" disabled/>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div>
+                                    <input class="enabled-disabled" type="file" name="featured" disabled/>
                                 </div>
                             </div>
                         </div>
@@ -52,6 +57,11 @@
                                 <h5>Updated at:</h1>
                                 <p>{{ $category->updated_at }}</p>
                             </div>
+                            @if(!empty($category->medias->first()))
+                                <div class="col">
+                                    <img class="img-thumbnail" src="{{ $category->medias->first()->public_url }}">
+                                </div>
+                            @endif
                         </div>
                     </form>
                 </div>

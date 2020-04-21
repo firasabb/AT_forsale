@@ -156,7 +156,7 @@ $(document).ready(function () {
   });
 
   function getTags(e) {
-    var type = e.target.dataset.type;
+    var category = e.target.dataset.category;
     var exist = Array();
     var hiddenInputValue = $('#hidden-tag-input').val();
     exist = hiddenInputValue.split(', ');
@@ -168,7 +168,7 @@ $(document).ready(function () {
       data: {
         tag: $('#tag-input').val(),
         exist: exist,
-        type: type
+        category: category
       },
       success: function success(data) {
         if (data.status == 'success') {

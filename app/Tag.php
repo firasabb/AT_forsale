@@ -29,7 +29,7 @@ class Tag extends Model implements Searchable
     }
 
 
-    public function types(){
-        return $this->morphedByMany('App\Type', 'taggable');
+    public function categories(){
+        return $this->morphedByMany('App\Category', 'taggable');
     }
 }

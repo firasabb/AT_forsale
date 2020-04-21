@@ -99,21 +99,11 @@ Route::post('/admin/dashboard/tags/search', 'TagController@adminSearchTags')->mi
 // Admin / Categories
 
 Route::get('/admin/dashboard/categories/', 'CategoryController@adminIndex')->middleware('role:admin|moderator')->name('admin.index.categories');
-Route::delete('/admin/dashboard/category/{id}', 'CategoryController@adminDestroy')->middleware('role:admin|moderator')->name('admin.delete.category');
+Route::delete('/admin/dashboard/categorie/{id}', 'CategoryController@adminDestroy')->middleware('role:admin|moderator')->name('admin.delete.category');
 Route::get('/admin/dashboard/category/{id}', 'CategoryController@adminShow')->middleware('role:admin|moderator')->name('admin.show.category');
 Route::put('/admin/dashboard/category/{id}', 'CategoryController@adminEdit')->middleware('role:admin|moderator')->name('admin.edit.category');
 Route::post('/admin/dashboard/category/', 'CategoryController@adminAdd')->middleware('role:admin|moderator')->name('admin.add.category');
 Route::post('/admin/dashboard/categories/search', 'CategoryController@adminSearchCategories')->middleware('role:admin|moderator')->name('admin.search.categories');
-
-
-// Admin / Types
-
-Route::get('/admin/dashboard/types/', 'TypeController@adminIndex')->middleware('role:admin|moderator')->name('admin.index.types');
-Route::delete('/admin/dashboard/categorie/{id}', 'TypeController@adminDestroy')->middleware('role:admin|moderator')->name('admin.delete.type');
-Route::get('/admin/dashboard/type/{id}', 'TypeController@adminShow')->middleware('role:admin|moderator')->name('admin.show.type');
-Route::put('/admin/dashboard/type/{id}', 'TypeController@adminEdit')->middleware('role:admin|moderator')->name('admin.edit.type');
-Route::post('/admin/dashboard/type/', 'TypeController@adminAdd')->middleware('role:admin|moderator')->name('admin.add.type');
-Route::post('/admin/dashboard/types/search', 'TypeController@adminSearchTypes')->middleware('role:admin|moderator')->name('admin.search.types');
 
 
 // Admin / Comments
@@ -138,8 +128,8 @@ Route::post('/admin/dashboard/report/search', 'ReportController@adminSearchRepor
 
 
 // Arts add
-Route::get('/add/art/{type?}', 'ArtController@create')->middleware('role:user')->name('create.art');
-Route::post('/add/art/{type}', 'ArtController@store')->middleware('role:user')->name('store.art');
+Route::get('/add/art/{category?}', 'ArtController@create')->middleware('role:user')->name('create.art');
+Route::post('/add/art/{category}', 'ArtController@store')->middleware('role:user')->name('store.art');
 
 
 // Contest

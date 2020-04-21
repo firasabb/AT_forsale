@@ -24,7 +24,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Categories</div>
+                <div class="card-header">Category</div>
 
                 <div class="card-body">
                     @if ($errors->any())
@@ -53,6 +53,9 @@
                             <th>
                                 URL
                             </th>
+                            <th>
+                                Media
+                            </th>
                             <th class="td-actions">
                                 Actions
                             </th>   
@@ -67,6 +70,11 @@
                                 </td>
                                 <td>
                                     {{ $category->url }}
+                                </td>
+                                <td>
+                                    @if(!empty($category->medias->first()))
+                                        <img class="img-thumbnail img-small" src="{{$category->medias->first()->public_url}}">
+                                    @endif
                                 </td>
                                 <td>
                                     <div class="td-actions-btns">
@@ -91,7 +99,7 @@
             <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                    <form method="POST" action="{{ route('admin.add.category') }}">
+                    <form method="POST" action="{{ route('admin.add.category') }}" enctype="multipart/form-data">
                             {!! csrf_field() !!}
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
@@ -111,6 +119,13 @@
                                 <div class="col">
                                     <div class="form-group">
                                         <input class="form-control" type="text" name="url"  value="{{ old('url') }}" placeholder="Url" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <input type="file" name="featured"/>
                                     </div>
                                 </div>
                             </div>

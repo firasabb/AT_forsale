@@ -14,8 +14,8 @@
                 <div class="col-sm-4">
                     <select name="type" class="form-control">
                         <option value="all">ALL</option>
-                        @foreach($types as $type)
-                            <option value="{{ $type->name }}">{{ $type->name }}</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->name }}">{{ $category->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -30,34 +30,7 @@
         </div>
         <div class="col-6">
             @foreach($arts as $art)
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-header-img">
-                        <a href="#"><img class="avatar-pic" src="{{ $art->user->avatar_url }}"/></a>
-                    </div>
-                    <div class="card-header-text">
-                        <a href="#">{{ $art->user->name }}</a>
-                    </div>
-                    <div class="card-header-date">
-                        <span>{{ $art->created_at->toDateString() }}</span>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">{{$art->title}}</h5>
-                    <img src="{{ Storage::cloud()->url($art->downloads->where('featured', 1)) }}">
-                    @if($art->description)
-                        <p class="card-text">{{$art->description}}</p>
-                    @endif
-                </div>
-                <div class="card-footer">
-                    <div class="card-footer-icons">
-                        <!--@svg('heart', 'heart-icon')-->
-                    </div>
-                    <div class="card-footer-report">
-                        <button type="button" v-on:click="open_report_modal('{{ encrypt($art->id) }}')" class="report-btn">Report</button>
-                    </div>
-                </div>
-            </div>
+                <x-art-card :art="$art"/>
             @endforeach 
         </div>
         <div class="col-3">

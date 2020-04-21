@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Art;
-use App\Type;
+use App\Category;
 use Validator;
 
 class WelcomeController extends Controller
@@ -17,8 +17,8 @@ class WelcomeController extends Controller
     public function index(){
 
         $arts = Art::orderBy('id', 'desc')->paginate(5);
-        $types = Type::all();
-        return view('main', ['arts' => $arts, 'types' => $types]);
+        $categories = Category::all();
+        return view('main', ['arts' => $arts, 'categories' => $categories]);
 
     }
 
@@ -27,7 +27,7 @@ class WelcomeController extends Controller
 
         $validator = Validator::make($request->all(), [
             'search' => 'string|nullable|max:50',
-            'type' => 'string|nullable|max:50'
+            'category' => 'string|nullable|max:50'
         ]);
 
         if($validator->fails()){
@@ -35,7 +35,7 @@ class WelcomeController extends Controller
         }
 
         $search_query = $request->search;
-        $type = $request->type;
+        $category = $request->category;
 
         $whereArr = array();
 
@@ -46,13 +46,13 @@ class WelcomeController extends Controller
 
         }
 
-        if(!empty($type) && strtolower($type) != 'all'){
+        if(!empty($category) && strtolower($category) != 'all'){
 
-            $type = Type::where('name', $type)->firstOrFail();
+            $category = Category::where('name', $category)->firstOrFail();
             if(!empty($whereArr)){
-                $arts = $type->approvedArts()->where($whereArr);
+                $arts = $category->approvedArts()->where($whereArr);
             } else {
-                $arts = $type->approvedArts();
+                $arts = $category->approvedArts();
             }
 
         } else {
@@ -73,10 +73,10 @@ class WelcomeController extends Controller
     public function searchResults($arts = []){
 
         if(!empty($arts)){
-            $arts = $arts->paginate(10);
+            $arts = $arts->with('category')->paginate(10);
         }
-        $types = Type::all();
-        return view('searchResults', ['arts' => $arts, 'types' => $types]);
+        $categories = Category::all();
+        return view('searchResults', ['arts' => $arts, 'categories' => $categories]);
 
     }
 

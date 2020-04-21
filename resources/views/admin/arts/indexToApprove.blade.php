@@ -47,11 +47,11 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="type" class="col-sm-2 col-form-label">Type:</label>
+                                <label for="category" class="col-sm-2 col-form-label">Category:</label>
                                 <div class="col-sm-10">
-                                    <select class="form-control enabled-disabled" name="type_id" disabled>
-                                    @foreach($types as $type)
-                                        <option value="{{ $type->id }}" <?php echo $art->type->id == $type->id ? 'Selected' : ''; ?>>{{ $type->name }}</option>
+                                    <select class="form-control enabled-disabled" name="category_id" disabled>
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}" <?php echo $art->category->id == $category->id ? 'Selected' : ''; ?>>{{ $category->name }}</option>
                                     @endforeach
                                     </select>
                                 </div>

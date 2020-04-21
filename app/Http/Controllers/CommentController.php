@@ -106,7 +106,7 @@ class CommentController extends Controller
         $comment->description = $request->description;
         $comment->save();
 
-        return redirect()->route('admin.show.comment', ['id' => $id])->with('status', 'This category has been edited');
+        return redirect()->route('admin.show.comment', ['id' => $id])->with('status', 'This comment has been edited');
     }
 
 

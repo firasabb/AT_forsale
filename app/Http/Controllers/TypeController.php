@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Type;
+use App\Category;
 use App\Media;
 use Illuminate\Http\Request;
 use Validator;
@@ -13,93 +13,17 @@ use Illuminate\Validation\Rule;
 
 
 
-class TypeController extends Controller
+class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function adminIndex($categories = null)
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Type  $type
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Type $type)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Type  $type
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Type $type)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Type  $type
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Type $type)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Type  $type
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Type $type)
-    {
-        //
-    }
-
-
-    public function adminIndex($types = null)
-    {
-        if(!$types){
-            $types = Type::orderBy('id', 'desc')->paginate(20);
+        if(!$categories){
+            $categories = Category::orderBy('id', 'desc')->paginate(20);
         } else {
-            $types = $types->paginate(20);
+            $categories = $categories->paginate(20);
         }
-        return view('admin.types.types', ['types' => $types]);
+        return view('admin.categories.categories', ['categories' => $categories]);
     }
 
 
@@ -112,18 +36,18 @@ class TypeController extends Controller
         ]);
 
         if($validator->fails()){
-            return redirect('/admin/dashboard/types')->withErrors($validator)->withInput();
+            return redirect('/admin/dashboard/categories')->withErrors($validator)->withInput();
         } 
 
-        $type = new Type();
-        $type->name = strToLower($request->name);
+        $category = new Category();
+        $category->name = strToLower($request->name);
         $request->url = Str::slug($request->url, '-');
-        $check = Type::where(['deleted_at' => NULL, 'url' => $request->url])->first();
+        $check = Category::where(['deleted_at' => NULL, 'url' => $request->url])->first();
         if(!empty($check)){
-            return redirect('/admin/dashboard/types/')->withErrors('The url has already been taken.')->withInput();
+            return redirect('/admin/dashboard/categories/')->withErrors('The url has already been taken.')->withInput();
         }
-        $type->url = $request->url;
-        $type->save();
+        $category->url = $request->url;
+        $category->save();
 
         if($request->featured){
             $media = new Media();
@@ -134,10 +58,10 @@ class TypeController extends Controller
             $media->public_url = Storage::cloud()->url($path);
             $media->sorting = 'featured';
             $media->save();
-            $type->medias()->attach($media);
+            $category->medias()->attach($media);
         }
 
-        return redirect('/admin/dashboard/types')->with('status', 'A new type has been created!');
+        return redirect('/admin/dashboard/categories')->with('status', 'A new category has been created!');
 
 
     }
@@ -145,7 +69,7 @@ class TypeController extends Controller
 
     public function adminEdit(Request $request, $id)
     {
-        $type = Type::findOrFail($id);
+        $category = Category::findOrFail($id);
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:40',
@@ -154,25 +78,25 @@ class TypeController extends Controller
         ]);
 
         if($validator->fails()){
-            return redirect('/admin/dashboard/type/' . $id)->withErrors($validator)->withInput();
+            return redirect('/admin/dashboard/category/' . $id)->withErrors($validator)->withInput();
         } 
 
-        $type->name = strToLower($request->name);
+        $category->name = strToLower($request->name);
         $request->url = Str::slug($request->url, '-');
-        if($request->url != $type->url){
-            $check = Type::where(['deleted_at' => NULL, 'url' => $request->url])->first();
+        if($request->url != $category->url){
+            $check = Category::where(['deleted_at' => NULL, 'url' => $request->url])->first();
             if(!empty($check)){
-                return redirect('/admin/dashboard/type/' . $id)->withErrors('The url has already been taken.')->withInput();
+                return redirect('/admin/dashboard/category/' . $id)->withErrors('The url has already been taken.')->withInput();
             }
-            $type->url = $request->url;
+            $category->url = $request->url;
         }
-        $type->save();
+        $category->save();
 
         if($request->featured){
             $unique = uniqid();
             $uploadedFile = $request->featured;
-            if(!empty($type->medias->first())){
-                $media = $type->medias()->first();
+            if(!empty($category->medias->first())){
+                $media = $category->medias()->first();
                 $path = $uploadedFile->storePublicly('media/' . $unique, 's3');
                 $media->url = $path;
                 $media->public_url = Storage::cloud()->url($path);
@@ -184,31 +108,31 @@ class TypeController extends Controller
                 $media->public_url = Storage::cloud()->url($path);
                 $media->sorting = 'featured';
                 $media->save();
-                $type->medias()->attach($media);
+                $category->medias()->attach($media);
             }
         }
 
 
-        return redirect('/admin/dashboard/type/' . $id)->with('status', 'This type has been edited');
+        return redirect('/admin/dashboard/category/' . $id)->with('status', 'This category has been edited');
     }
 
 
     public function adminShow($id)
     {
-        $type = Type::findOrFail($id);
-        return view('admin.types.show', ['type' => $type]);
+        $category = Category::findOrFail($id);
+        return view('admin.categories.show', ['category' => $category]);
     }
 
 
     public function adminDestroy($id)
     {
-        $type = Type::findOrFail($id);
-        $type->delete();
-        return redirect('/admin/dashboard/types/')->with('status', 'A type has been deleted!');
+        $category = Category::findOrFail($id);
+        $category->delete();
+        return redirect('/admin/dashboard/categories/')->with('status', 'A category has been deleted!');
     }
 
 
-    public function adminSearchTypes(Request $request){
+    public function adminSearchCategories(Request $request){
 
         $validator = Validator::make($request->all(), [
             'id' => 'integer|nullable',
@@ -216,7 +140,7 @@ class TypeController extends Controller
         ]);
 
         if($validator->fails() || empty($request->all())){
-            return redirect('/admin/dashboard/types/')->withErrors($validator)->withInput();
+            return redirect('/admin/dashboard/categories/')->withErrors($validator)->withInput();
         }
 
         $id = $request->id;
@@ -236,12 +160,12 @@ class TypeController extends Controller
 
         }
 
-        $types = Type::where($where_arr);
+        $categories = Category::where($where_arr);
 
-        if(empty($types)){
+        if(empty($categories)){
             return $this->adminIndex();
         }
-        return $this->adminIndex($types);
+        return $this->adminIndex($categories);
     }
 
 }

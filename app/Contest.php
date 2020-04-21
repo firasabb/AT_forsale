@@ -17,9 +17,9 @@ class Contest extends Model
     }
 
 
-    public function type(){
+    public function category(){
 
-        return $this->belongsTo('\App\Type');
+        return $this->belongsTo('\App\Category');
 
     }
 

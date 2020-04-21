@@ -27,13 +27,8 @@ class Art extends Model
         return $this->morphToMany('\App\Tag', 'taggable');
     }
 
-    public function type(){
-        return $this->belongsTo('\App\Type');
-    }
-
-    public function categories()
-    {
-        return $this->morphToMany('\App\Category', 'categoriable');
+    public function category(){
+        return $this->belongsTo('\App\Category');
     }
 
     public function comments()
@@ -52,6 +47,15 @@ class Art extends Model
 
     public function cover(){
         return $this->medias->where('sorting', 'cover')->first();
+    }
+
+    public function featured(){
+
+        $check_if_exists = $this->medias->where('sorting', 'featured')->first();
+        if(empty($check_if_exists)){
+            return 'featured/default/default.jpg';
+        }
+        return $check_if_exists->url;
     }
 
     /**

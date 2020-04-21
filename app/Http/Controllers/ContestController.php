@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Contest;
 use App\Category;
-use App\Type;
 use Illuminate\Http\Request;
 
 class ContestController extends Controller
@@ -38,10 +37,10 @@ class ContestController extends Controller
     public function adminShow($id)
     {
         $contest = Contest::findOrFail($id);
-        $types = Type::all();
+        $categories = Category::all();
         $categories = Categories::all();
         $hasCategories = $contest->categories->pluck('id');
-        return view('admin.contests.show', ['contest' => $contest, 'categories' => $categories, 'hasCategories' => $hasCategories, 'types' => $types]);
+        return view('admin.contests.show', ['contest' => $contest, 'categories' => $categories, 'hasCategories' => $hasCategories, 'categories' => $categories]);
     }
 
 
@@ -64,7 +63,7 @@ class ContestController extends Controller
             'options' => 'array',
             'options.*' => 'string|max:200',
             'tags' => 'string|max:150',
-            'type_id' => 'integer'
+            'category_id' => 'integer'
         ]);
 
         if($validator->fails()){
@@ -74,8 +73,8 @@ class ContestController extends Controller
         $contest->title = $request->title;
         $contest->url = $request->url;
         $contest->description = $request->description;
-        $type = Type::findOrFail($request->type_id);
-        $contest->type()->associate($type);
+        $category = Category::findOrFail($request->category_id);
+        $contest->category()->associate($category);
         $contest->categories()->sync($request->categories);
         $tagsArr = array();
         $tags = $request->tags;
@@ -88,7 +87,7 @@ class ContestController extends Controller
         //$contest->options = $request->options;
         $contest->save();
 
-        return redirect()->route('admin.show.contest', ['id' => $id])->with('status', 'This category has been edited');
+        return redirect()->route('admin.show.contest', ['id' => $id])->with('status', 'This comment has been edited');
     }
 
 

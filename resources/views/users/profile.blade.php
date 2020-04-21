@@ -61,7 +61,7 @@
                                     </div>
                                     <div class="card-footer">
                                         <div style="">
-                                            <small class="text-muted"><span class="footer-type">{{ ucwords($art->type->name) }}</span></small>
+                                            <small class="text-muted"><span class="footer-category">{{ ucwords($art->category->name) }}</span></small>
                                         </div>
                                         <div style="">
                                             <small class="text-muted">{{ $art->created_at->toDateString() }}</small>

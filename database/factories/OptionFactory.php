@@ -2,10 +2,10 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Type;
+use App\Option;
 use Faker\Generator as Faker;
 
-$factory->define(Type::class, function (Faker $faker) {
+$factory->define(Option::class, function (Faker $faker) {
     return [
         //
     ];

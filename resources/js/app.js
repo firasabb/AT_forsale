@@ -22,7 +22,8 @@ window.Vue = require('vue');
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('profile-links', require('./components/ProfileLinks.vue').default);
 Vue.component('profile-link', require('./components/ProfileLink.vue').default);
-Vue.component('type', require('./components/Types.vue').default);
+Vue.component('category', require('./components/Categories.vue').default);
+Vue.component('category-button', require('./components/CategoryButton.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

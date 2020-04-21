@@ -25,10 +25,10 @@
                 </div>
             @endif
             <div class="card">
-                <div class="card-header">Add Your {{ucwords($type->name)}}</div>
+                <div class="card-header">Add Your {{ucwords($category->name)}}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('create.art', ['type' => $type->url]) }}" class="needs-validation" autocomplete="off" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('create.art', ['category' => $category->url]) }}" class="needs-validation" autocomplete="off" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label for="arts-title">Title: <span class="info-questionmark" data-toggle="tooltip" data-placement="top" title="Type a beautiful and eye-catching text, which will be the title of your art">?</span></label>
@@ -53,7 +53,7 @@
                             </div>
                             <div class="tag-container">
                                 <input type="hidden" name="tags" id="hidden-tag-input" value="{{ old('tags') }}"/>
-                                <input class="form-control" id="tag-input" type="text" data-type="{{ $type->id }}"/>
+                                <input class="form-control" id="tag-input" type="text" data-category="{{ $category->id }}"/>
                             </div>
                             <ul id="tags" class="list-group">
                         </div>

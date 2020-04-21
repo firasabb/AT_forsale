@@ -65,9 +65,6 @@
                             <a class="nav-link" href="{{ route('admin.index.categories') }}">Categories</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.index.types') }}">Types</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="#">Settings</a>
                         </li>
                         <li class="nav-item">
