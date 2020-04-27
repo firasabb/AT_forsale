@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Download;
+use App\DownloadEvent;
 use App\Art;
+use Auth;
 use Storage;
 use Validator;
 
@@ -19,8 +21,17 @@ class DownloadController extends Controller
 
     public function downloadDownload($id, Request $request){
 
-        $id = $request->id;
+        $encrypt_id = $request->id;
+        $id = decrypt($encrypt_id);
         $download = Download::findOrFail($id);
+        $downloadEvent = new DownloadEvent();
+        $download->downloadEvent()->save($downloadEvent);
+        if(Auth::check()){
+            $user = Auth::user();
+            $user->downloadEvent()->save($downloadEvent);
+        }
+        $downloadEvent->ip_address = $request->session()->get('ip_address');
+        $downloadEvent->save();
         $art = $download->art;
         $path = $download->getPath();
         $mime = $download->getMime();

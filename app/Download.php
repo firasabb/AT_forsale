@@ -32,4 +32,8 @@ class Download extends Model
         return $size = Storage::cloud()->size($this->url);
     }
 
+    public function downloadEvent(){
+        return $this->hasMany('App\DownloadEvent');
+    }
+
 }

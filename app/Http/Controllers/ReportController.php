@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Report;
 use App\Art;
+use App\Comment;
 use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Support\Facades\Crypt;
@@ -57,18 +58,32 @@ class ReportController extends Controller
 
         }
 
-        if($type == 'art'){
-            
-            $_q = decrypt($request->_q);
-            $user = Auth::user();
-            $art = Art::findOrFail($_q);
-            $report = new Report();
-            $report->body = $request->body;
-            $report->reportable()->associate($art);
-            $user->reports()->save($report);
-            $report->save();
+        switch($type){
 
-            return back()->with('status', 'Your report has been successfully submitted! Thank you for helping us making the website a better place.');
+            case 'art':
+                $_q = decrypt($request->_q);
+                $user = Auth::user();
+                $art = Art::findOrFail($_q);
+                $report = new Report();
+                $report->body = $request->body;
+                $report->reportable()->associate($art);
+                $user->reports()->save($report);
+                $report->save();
+                return back()->with('status', 'Your report has been successfully submitted! Thank you for helping us making our website a better place.');
+            
+            case 'comment':
+                $_q = decrypt($request->_q);
+                $user = Auth::user();
+                $comment = Comment::findOrFail($_q);
+                $report = new Report();
+                $report->body = $request->body;
+                $report->reportable()->associate($comment);
+                $user->reports()->save($report);
+                $report->save();
+                return back()->with('status', 'Your report has been successfully submitted! Thank you for helping us making our website a better place.');    
+
+            default:
+                return back()->withErrors('Reported object cannot be found.');    
 
         }
 

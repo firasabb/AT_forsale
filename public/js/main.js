@@ -94,6 +94,9 @@
 /***/ (function(module, exports) {
 
 $(document).ready(function () {
+  $('.delete-comment').on('submit', function () {
+    return confirm('Are you sure that you want to delete this comment?');
+  });
   max = 5;
   count = 1;
   formGroupStart = '<div class="form-group upload-form-group"> ';

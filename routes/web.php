@@ -147,10 +147,10 @@ Route::get('/art/{url}', 'ArtController@show')->name('show.art');
 // Users
 
 Route::get('/artist/{username}', 'UserController@showProfile')->name('user.profile.show');
-Route::get('artist/{username}/setup', 'UserController@setupProfilePage')->name('user.profile.setup.show');
-Route::put('artist/{username}/setup', 'UserController@setupProfileRequest')->name('user.profile.setup.request');
-Route::get('artist/{username}/changepassword', 'UserController@changePasswordPage')->name('user.profile.password.show');
-Route::post('artist/{username}/changepassword', 'UserController@changePasswordRequest')->name('user.profile.password.request');
+Route::get('artist/{username}/setup', 'UserController@setupProfilePage')->middleware('role:user')->name('user.profile.setup.show');
+Route::put('artist/{username}/setup', 'UserController@setupProfileRequest')->middleware('role:user')->name('user.profile.setup.request');
+Route::get('artist/{username}/changepassword', 'UserController@changePasswordPage')->middleware('role:user')->name('user.profile.password.show');
+Route::post('artist/{username}/changepassword', 'UserController@changePasswordRequest')->middleware('role:user')->name('user.profile.password.request');
 
 
 // Tags
@@ -160,7 +160,7 @@ Route::get('/tags', 'TagController@index')->middleware('role:user')->name('index
 // Comments
 
 Route::post('/comment/create/{encryptedId}', 'CommentController@store')->middleware('role:user')->name('add.comment');
-
+Route::delete('/comment/delete/{id}', 'CommentController@destroy')->middleware('role:user')->name('delete.comment');
 
 // Reports
 
@@ -173,4 +173,4 @@ Route::post('/suggest/tags/', 'TagController@suggestTags')->middleware('role:use
 
 // Downloads
 
-Route::get('/download/{id}', 'DownloadController@downloadDownload')->middleware('role:user')->name('download.download');
+Route::get('/download/{id}', 'DownloadController@downloadDownload')->name('download.download');

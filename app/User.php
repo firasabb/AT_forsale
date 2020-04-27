@@ -76,12 +76,12 @@ class User extends Authenticatable
         return $this->hasMany('\App\UserLink');
     }
 
-    public function profile_picture($path){
-        return Storage::disk('s3')->url($path);
-    }
-
     public function contests(){
         return $this->hasMany('\App\Contest');
+    }
+
+    public function downloadEvent(){
+        return $this->hasMany('App\DownloadEvent');
     }
 
 

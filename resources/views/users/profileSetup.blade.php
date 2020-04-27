@@ -37,7 +37,7 @@
                                 </div>
                                 <div class="row justify-content-center profile-picture-container">
                                     <div class="col" style="border-bottom: solid 1px #e6e6e6">
-                                        <img src="{{ $user->profile_picture($user->avatar_url) }}" class="profile-img-setup"/>
+                                        <img src="{{ $user->avatar_url }}" class="profile-img-setup"/>
                                         <div class="text-center mt-3 mb-5">
                                             <h5>{{ $user->name }}</h5>
                                             <h5>{{ $user->username }}</h5>

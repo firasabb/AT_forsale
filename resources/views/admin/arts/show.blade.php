@@ -148,7 +148,7 @@
                     @foreach($downloads as $download)
                         <tr>
                             <td>
-                                <a href="{{ route('download.download', ['id' => $download->id]) }}" target="_blank">{{ $download->name }}</a>
+                                <a href="{{ route('download.download', ['id' => encrypt($download->id)]) }}" target="_blank">{{ $download->name }}</a>
                             </td>
                             <td>
                                 <p>{{$download->getSize()}}B</p>

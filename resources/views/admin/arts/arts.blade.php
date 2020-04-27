@@ -75,7 +75,7 @@
                                     {{ Str::limit($art->title, $limit = 20, $end = '...') }}
                                 </td>
                                 <td>
-                                    <a href="{{ route('show.art', ['url' => $art->url]) }}">{{ Str::limit($art->url, $limit = 20, $end = '...') }}</a>
+                                    <a target="_blank" href="{{ route('show.art', ['url' => $art->url]) }}">{{ Str::limit($art->url, $limit = 20, $end = '...') }}</a>
                                 </td>
                                 <td>
                                     {{ $art->category->name }}

@@ -9,7 +9,7 @@
             @csrf
             <div class="row search-bar-row justify-content-center">
                 <div class="col-sm-6">
-                    <input name="search" type="text" value="" class="form-control">
+                    <input name="search" type="text" value="{{ Request::input('search') }}" placeholder="All" class="form-control">
                 </div>
                 <div class="col-sm-4">
                     <select name="type" class="form-control">
@@ -25,7 +25,7 @@
             </div>
         </form>
     </div>
-    <div class="row justify-content-center">
+    <div class="row justify-content-center my-5">
         <div class="col-3">
         </div>
         <div class="col-6">

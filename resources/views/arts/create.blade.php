@@ -24,7 +24,7 @@
                     </div>
                 </div>
             @endif
-            <div class="card">
+            <div class="card card-shadow">
                 <div class="card-header">Add Your {{ucwords($category->name)}}</div>
 
                 <div class="card-body">

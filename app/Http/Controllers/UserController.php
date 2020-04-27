@@ -85,13 +85,13 @@ class UserController extends Controller
                 return back()->withErrors($validator)->withInput();
             }
 
-            $profile_picture = $request->profile_picture;
-            if($profile_picture){
+            $profilePicture = $request->profile_picture;
+            if($profilePicture){
                 if(!Arr::has(Storage::cloud()->directories(), 'profiles')){
                     Storage::cloud()->makeDirectory('profiles');
                 }
                 $unique = uniqid();
-                $path = $profile_picture->storePublicly('profiles/' . $unique, 's3');
+                $path = $profilePicture->storePublicly('profiles/' . $unique, 's3');
                 $user->avatar_url = $path;
             }
             $user->name = $request->name;

@@ -34,8 +34,7 @@ class CommentController extends Controller
     public function store($encryptedId, Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'title' => 'required|max:100',
-            'description' => 'max:2500|nullable',
+            'body' => 'required|max:100',
         ]);
 
         if($validator->fails() || !$encryptedId){
@@ -44,8 +43,7 @@ class CommentController extends Controller
         $art = Art::findOrFail(decrypt($encryptedId));
         $user = Auth::user();
         $comment = new Comment();
-        $comment->title = $request->title;
-        $comment->description = $request->description;
+        $comment->body = $request->body;
         $comment->art_id = $art->id;
         $user->comments()->save($comment);
         $comment->save();
@@ -94,16 +92,14 @@ class CommentController extends Controller
         $comment = Comment::findOrFail($id);
 
         $validator = Validator::make($request->all(), [
-            'title' => 'required|string|max:40',
-            'description' => 'string'
+            'body' => 'required|string|max:40'
         ]);
 
         if($validator->fails()){
             return redirect()->route('admin.show.comment', ['id' => $id])->withErrors($validator)->withInput();
         } 
 
-        $comment->title = $request->title;
-        $comment->description = $request->description;
+        $comment->body = $request->body;
         $comment->save();
 
         return redirect()->route('admin.show.comment', ['id' => $id])->with('status', 'This comment has been edited');
@@ -162,9 +158,12 @@ class CommentController extends Controller
      * @param  \App\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Comment $comment)
+    public function destroy($id)
     {
-        //
+        $id = decrypt($id);
+        $comment = Comment::findOrFail($id);
+        $comment->delete();
+        return back()->with('stats', 'The comment has been deleted!');
     }
 
 
@@ -173,8 +172,7 @@ class CommentController extends Controller
         $validator = Validator::make($request->all(), [
             'id' => 'integer|nullable',
             'art_id' => 'integer|nullable',
-            'title' => 'string|nullable',
-            'description' => 'string|nullable'
+            'body' => 'string|nullable'
         ]);
 
         if($validator->fails() || empty($request->all())){
@@ -183,8 +181,7 @@ class CommentController extends Controller
 
         $id = $request->id;
         $art_id = $request->art_id;
-        $title = $request->title;
-        $description = $request->description;
+        $body = $request->body;
         $where_arr = array();
 
         if($id){
@@ -197,15 +194,10 @@ class CommentController extends Controller
             $art_id_where = ['art_id', '=', $art_id];
             array_push($where_arr, $art_id_where);
 
-        } if($title){
+        } if($body){
 
-            $title_where = ['title', 'LIKE', '%' . $title . '%'];
-            array_push($where_arr, $title_where);
-
-        } if($description){
-
-            $description_where = ['description', 'LIKE', '%' . $description . '%'];
-            array_push($where_arr, $description_where);
+            $body_where = ['body', 'LIKE', '%' . $body . '%'];
+            array_push($where_arr, $body_where);
 
         }
 

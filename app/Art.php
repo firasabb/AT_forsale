@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
 
 class Art extends Model
 {
@@ -56,6 +57,20 @@ class Art extends Model
             return 'featured/default/default.jpg';
         }
         return $check_if_exists->url;
+    }
+    
+
+    public function createdAt(){
+
+        $artDate = $this->created_at;
+        if($artDate->isToday()){
+            return $artDate->format('h:m');
+        } else if($artDate->isCurrentYear()){
+            return $artDate->format('jS \\of F');
+        } else {
+            return $artDate->format('jS \\of F Y');
+        }
+
     }
 
     /**

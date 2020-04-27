@@ -43,7 +43,7 @@ class ArtController extends Controller
     public function show($url){
 
         $art = Art::where('url', $url)->firstOrFail();
-        $featured = $art->medias->first();
+        $featured = $art->featured();
         return view('arts.show', ['art' => $art, 'featured' => $featured]);
 
     }
@@ -144,10 +144,14 @@ class ArtController extends Controller
         $art->save();
 
         $featured = $request->featured;
-        $media = new Media();
-        $media->sorting = 'featured';
-        $path = $featured->storePublicly('featured', 's3');
-        $media->url = $path;
+
+        if($featured){
+            $media = new Media();
+            $media->sorting = 'featured';
+            $path = $featured->storePublicly('featured', 's3');
+            $media->url = $path;
+            $media->save();
+        }
 
         if($request->cover){
             $media = new Media();
@@ -165,7 +169,7 @@ class ArtController extends Controller
         if($uploads){
             foreach($uploads as $upload){
                 $download = new Download();
-                $name = $upload->getClientOriginalName();
+                $name = Str::slug($upload->getClientOriginalName(), '_');
                 $extension = $upload->getClientOriginalExtension();
                 $name = str_replace('.' . $extension, '', $name);
                 $download->name = $name;

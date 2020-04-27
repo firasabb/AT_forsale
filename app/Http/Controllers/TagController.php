@@ -75,9 +75,11 @@ class TagController extends Controller
         $tag->save();
 
         $categories = $request->categories;
-        foreach($categories as $category){
-            $category = category::findOrFail($category);
-            $category->tags()->attach($tag);
+        if(!empty($categories)){
+            foreach($categories as $category){
+                $category = category::findOrFail($category);
+                $category->tags()->attach($tag);
+            }
         }
 
         return redirect('/admin/dashboard/tags')->with('status', 'A new tag has been created!');

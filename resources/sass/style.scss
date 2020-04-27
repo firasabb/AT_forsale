@@ -36,7 +36,12 @@ body{
 
 .btn{
     border-radius: 0;
-    transition: all 1S ease-in-out;
+    transition: color 1S ease-in-out, background-color 1s ease-in-out;
+    transition: color 1s ease-in-out, background-color 1s ease-in-out;
+    -webkit-transition: color 1s ease-in-out, background-color 1s ease-in-out;
+    -moz-transition: color 1s ease-in-out, background-color 1s ease-in-out;
+    -o-transition: color 1s ease-in-out, background-color 1s ease-in-out;
+    
 }
 
 .btn-primary{
@@ -44,11 +49,15 @@ body{
     border: 0;
 }
 
+.btn-no-padding{
+    padding: 0;
+}
+
 .card-header{
 
     color: #666;
     border: 0;
-    background-color: rgba(155, 210, 255, 0.6);
+    background-color: rgba(224, 241, 255, 0.6);
 
 }
 
@@ -72,6 +81,28 @@ body{
     border: 2px solid #ccc;
     border-radius: 50%;
     padding: 0 3px;
+}
+
+.a-no-decoration{
+    color: #5c5c5c;
+    text-decoration: none;
+}
+
+.a-no-decoration:hover{
+    color: #5c5c5c;
+    text-decoration: none;
+}
+
+.a-report{
+    background-color: transparent;
+    border: 0;
+    color: rgb(250, 59, 59);
+    font-size: 0.65rem;
+}
+
+.a-report:hover{
+    color: rgb(250, 59, 59);
+    text-decoration: none;
 }
 
 
@@ -110,7 +141,7 @@ body{
 
 .card-user-text{
     display: inline-block;
-    margin-left: 1rem;
+    margin-left: 0.3rem;
 }
 
 
@@ -148,14 +179,19 @@ body{
     float: left;
 }
 
-.card-footer-report{
-    float: right;
+.card-footer-more{
+    width: 100%;
 }
 
-.card-footer-report a{
+.card-footer-more a{
     color: rgb(255, 102, 102);
 }
 
+.card-footer-date{
+    position: absolute;
+    padding-top: 5px;
+    font-size: 0.6rem;
+}
 
 
 .submit-art-btn{
@@ -180,7 +216,7 @@ body{
 
 
 
-.art-card{
+.card-shadow{
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -210,6 +246,16 @@ body{
 }
 
 .card-body-art{
+    padding: 0;
+}
+
+.card-body-img{
+    width: 100%;
+    padding: 1.25rem 0;
+}
+
+.card-footer-no-padding{
+    border-top: 0;
     padding: 0;
 }
 
@@ -502,7 +548,10 @@ a.card-link, a.card-link:hover {
     color: #fff;
     background-color:#497aaa;
     border-color:#497aaa;
-    transition: all 1s ease-in-out;
+    transition: color 1s ease-in-out, background-color 1s ease-in-out;
+    -webkit-transition: color 1s ease-in-out, background-color 1s ease-in-out;
+    -moz-transition: color 1s ease-in-out, background-color 1s ease-in-out;
+    -o-transition: color 1s ease-in-out, background-color 1s ease-in-out;
 }
 
 .btn-blue:hover {
@@ -632,4 +681,67 @@ a.card-link, a.card-link:hover {
     width: 50%;
     margin: 0 auto;
 
+}
+
+
+
+
+/**
+**
+**  Show Art Page
+**
+**/
+
+.post-card-user-text{
+    padding-left: 0.7rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.comment-user-img{
+    width: 100%;
+    padding: 0.5rem;
+}
+
+.comment-user-name{
+    font-size: 0.7rem;
+    line-height: 2rem;
+}
+
+.tag-span{
+    background-color: rgb(101, 197, 255);
+    padding: 0.3rem 0.5rem;
+    color: #fff;
+    font-size: 0.8rem;
+}
+
+.dropdown-toggle-comment{
+    background-color: transparent;
+    border: 0;
+}
+
+.dropdown-toggle-comment:hover{
+    background-color: transparent;
+    border: 0;
+}
+
+.dropdown-toggle-comment:focus{
+    background-color: transparent;
+    border: 0;
+    box-shadow: none;
+}
+
+.dropdown-toggle-comment:active{
+    background-color: transparent;
+    border: 0;
+    box-shadow: none;
+}
+
+.dropdown-toggle-comment::after {
+    display: none;
+}
+
+.menu-icon-comment{
+    fill: #dadada;
+    width: 75%;
 }

@@ -60,7 +60,8 @@ class WelcomeController extends Controller
             if(!empty($whereArr)){
                 $arts = Art::where($whereArr);
             } else {
-                $arts = Art::where('status', 2)->orderBy('id', 'desc');
+                $arts = new Art();
+                $arts = $arts->approvedArts()->orderBy('id', 'desc');
             }
 
         }
