@@ -24,7 +24,7 @@
                     </div>
                 </div>
             @endif
-            <category obj="Art" categories="{{ json_encode($categories) }}"></category>
+            <category obj="Asset" categories="{{ json_encode($categories) }}"></category>
         </div>
     </div>
 </div>

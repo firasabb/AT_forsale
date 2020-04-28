@@ -4,7 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class ArtCard extends Component
+class AssetCard extends Component
 {
 
     /**
@@ -15,19 +15,19 @@ class ArtCard extends Component
      * 
      */
 
-    public $art;
+    public $asset;
 
 
     /**
      * Create a new component instance.
      *  
-     * @param Object $art
+     * @param Object $asset
      * 
      * @return void
      */
-    public function __construct($art)
+    public function __construct($asset)
     {
-        $this->art = $art;
+        $this->asset = $asset;
     }
 
     /**
@@ -37,6 +37,6 @@ class ArtCard extends Component
      */
     public function render()
     {
-        return view('components.art-card');
+        return view('components.asset-card');
     }
 }

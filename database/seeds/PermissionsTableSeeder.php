@@ -18,9 +18,9 @@ class PermissionsTableSeeder extends Seeder
             'delete_user',
             'edit_user',
             'view_users',
-            'create_art',
-            'delete_art',
-            'edit_art',
+            'create_asset',
+            'delete_asset',
+            'edit_asset',
             'create_comment',
             'delete_comment',
             'edit_comment'
@@ -47,17 +47,17 @@ class PermissionsTableSeeder extends Seeder
                     case 'view_user':
                         $newPermission->assignRole($admin);
                         break;
-                    case 'create_art':
+                    case 'create_asset':
                         $newPermission->assignRole($admin);
                         $newPermission->assignRole($moderator);
                         $newPermission->assignRole($user);
                         break;
-                    case 'delete_art':
+                    case 'delete_asset':
                         $newPermission->assignRole($admin);
                         $newPermission->assignRole($moderator);
                         $newPermission->assignRole($user);
                         break;
-                    case 'edit_art':
+                    case 'edit_asset':
                         $newPermission->assignRole($admin);
                         $newPermission->assignRole($moderator);
                         $newPermission->assignRole($user);

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Art;
+use App\Asset;
 use App\Category;
 use Validator;
 
@@ -16,9 +16,9 @@ class WelcomeController extends Controller
 
     public function index(){
 
-        $arts = Art::orderBy('id', 'desc')->paginate(5);
+        $assets = Asset::orderBy('id', 'desc')->paginate(5);
         $categories = Category::all();
-        return view('main', ['arts' => $arts, 'categories' => $categories]);
+        return view('main', ['assets' => $assets, 'categories' => $categories]);
 
     }
 
@@ -50,34 +50,34 @@ class WelcomeController extends Controller
 
             $category = Category::where('name', $category)->firstOrFail();
             if(!empty($whereArr)){
-                $arts = $category->approvedArts()->where($whereArr);
+                $assets = $category->approvedAssets()->where($whereArr);
             } else {
-                $arts = $category->approvedArts();
+                $assets = $category->approvedAssets();
             }
 
         } else {
 
             if(!empty($whereArr)){
-                $arts = Art::where($whereArr);
+                $assets = Asset::where($whereArr);
             } else {
-                $arts = new Art();
-                $arts = $arts->approvedArts()->orderBy('id', 'desc');
+                $assets = new Asset();
+                $assets = $assets->approvedAssets()->orderBy('id', 'desc');
             }
 
         }
 
-        return $this->searchResults($arts);
+        return $this->searchResults($assets);
 
     }
 
 
-    public function searchResults($arts = []){
+    public function searchResults($assets = []){
 
-        if(!empty($arts)){
-            $arts = $arts->with('category')->paginate(10);
+        if(!empty($assets)){
+            $assets = $assets->with('category')->paginate(10);
         }
         $categories = Category::all();
-        return view('searchResults', ['arts' => $arts, 'categories' => $categories]);
+        return view('searchResults', ['assets' => $assets, 'categories' => $categories]);
 
     }
 

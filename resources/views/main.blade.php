@@ -37,8 +37,8 @@
 
 <div class="container">
     <div class="card-deck">
-        @foreach($arts as $art)
-            <x-art-card :art="$art"/>
+        @foreach($assets as $asset)
+            <x-asset-card :asset="$asset"/>
         @endforeach
     </div>
 </div>

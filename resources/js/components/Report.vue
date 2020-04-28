@@ -5,7 +5,7 @@
             <form method="POST">
                     {!! csrf_field() !!}
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Report This Art</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Report This Asset</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -14,7 +14,7 @@
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
-                                <textarea class="form-control" name="body" placeholder="Please describe why the art should not be on the website..."></textarea>
+                                <textarea class="form-control" name="body" placeholder="Please describe why the asset should not be on the website..."></textarea>
                             </div>
                         </div>
                     </div>

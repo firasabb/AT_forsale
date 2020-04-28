@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateArtsTable extends Migration
+class CreateAssetsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateArtsTable extends Migration
      */
     public function up()
     {
-        Schema::create('arts', function (Blueprint $table) {
+        Schema::create('assets', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->text('title');
             $table->text('url')->unique();
@@ -41,6 +41,6 @@ class CreateArtsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('arts');
+        Schema::dropIfExists('assets');
     }
 }

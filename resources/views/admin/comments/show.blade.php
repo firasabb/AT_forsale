@@ -34,7 +34,7 @@
 
                         
                                 <div class="text-center p-3">
-                                    <h5>Art: <a href="{{ route('show.art', ['url' => $comment->art->url]) }}">{{ $comment->art->title }}</a></h5>
+                                    <h5>Asset: <a href="{{ route('show.asset', ['url' => $comment->asset->url]) }}">{{ $comment->asset->title }}</a></h5>
                                 </div>
                             
                         <div class="row">

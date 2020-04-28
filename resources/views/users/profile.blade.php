@@ -31,8 +31,8 @@
                         </div>
                         <div class="col-lg-6 profile-header-numbers">
                             <div class="profile-numbers text-center">
-                                <h5>{{ count($user->arts->all()) }}</h5>
-                                <h5>ARTS</h5>
+                                <h5>{{ count($user->assets->all()) }}</h5>
+                                <h5>ASSETS</h5>
                             </div>
                             <div class="profile-numbers text-center">
                                 <h5>0</h5>
@@ -45,26 +45,26 @@
                         </div>
                     </div>
                 </div>
-                <div class="arts-container">
-                    @if(!empty($user->arts->first()))
-                        <div class="arts-container-title text-center">
-                            <h3>PUBLISHED ARTS</h3>
+                <div class="assets-container">
+                    @if(!empty($user->assets->first()))
+                        <div class="assets-container-title text-center">
+                            <h3>PUBLISHED ASSETS</h3>
                         </div>
                         <div class="card-columns">
-                            @foreach($user->arts->all() as $art)
-                            <a href="{{ route('show.art', ['url' => $art->url]) }}" target="_blank" class="card-link">
+                            @foreach($user->assets->all() as $asset)
+                            <a href="{{ route('show.asset', ['url' => $asset->url]) }}" target="_blank" class="card-link">
                                 <div class="card" style="width: 18rem;">
-                                    <img class="card-img-top" src="{{ Storage::cloud()->url($art->covers->first()->url) }}" alt="{{ $art->title }}">
+                                    <img class="card-img-top" src="{{ Storage::cloud()->url($asset->covers->first()->url) }}" alt="{{ $asset->title }}">
                                     <div class="card-body">
-                                        <h5 class="card-title">{{ $art->title }}</h5>
-                                        <p class="card-text">{{ $art->description }}</p>
+                                        <h5 class="card-title">{{ $asset->title }}</h5>
+                                        <p class="card-text">{{ $asset->description }}</p>
                                     </div>
                                     <div class="card-footer">
                                         <div style="">
-                                            <small class="text-muted"><span class="footer-category">{{ ucwords($art->category->name) }}</span></small>
+                                            <small class="text-muted"><span class="footer-category">{{ ucwords($asset->category->name) }}</span></small>
                                         </div>
                                         <div style="">
-                                            <small class="text-muted">{{ $art->created_at->toDateString() }}</small>
+                                            <small class="text-muted">{{ $asset->created_at->toDateString() }}</small>
                                         </div>
                                     </div>
                                 </div>

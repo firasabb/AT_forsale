@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
-use App\Art;
+use App\Asset;
 use App\User;
 use Illuminate\Http\Request;
 use Validator;
@@ -40,11 +40,11 @@ class CommentController extends Controller
         if($validator->fails() || !$encryptedId){
             return redirect()->back()->withErrors()->withInput();
         }
-        $art = Art::findOrFail(decrypt($encryptedId));
+        $asset = Asset::findOrFail(decrypt($encryptedId));
         $user = Auth::user();
         $comment = new Comment();
         $comment->body = $request->body;
-        $comment->art_id = $art->id;
+        $comment->asset_id = $asset->id;
         $user->comments()->save($comment);
         $comment->save();
 
@@ -76,7 +76,7 @@ class CommentController extends Controller
     {
         $comment = Comment::findOrFail($id);
         $comment->delete();
-        return redirect()->route('admin.index.comments')->with('status', 'The art has been deleted!');
+        return redirect()->route('admin.index.comments')->with('status', 'The asset has been deleted!');
     }
 
 
@@ -171,7 +171,7 @@ class CommentController extends Controller
 
         $validator = Validator::make($request->all(), [
             'id' => 'integer|nullable',
-            'art_id' => 'integer|nullable',
+            'asset_id' => 'integer|nullable',
             'body' => 'string|nullable'
         ]);
 
@@ -180,7 +180,7 @@ class CommentController extends Controller
         }
 
         $id = $request->id;
-        $art_id = $request->art_id;
+        $asset_id = $request->asset_id;
         $body = $request->body;
         $where_arr = array();
 
@@ -189,10 +189,10 @@ class CommentController extends Controller
             $id_where = ['id', '=', $id];
             array_push($where_arr, $id_where);
 
-        } if($art_id){
+        } if($asset_id){
 
-            $art_id_where = ['art_id', '=', $art_id];
-            array_push($where_arr, $art_id_where);
+            $asset_id_where = ['asset_id', '=', $asset_id];
+            array_push($where_arr, $asset_id_where);
 
         } if($body){
 

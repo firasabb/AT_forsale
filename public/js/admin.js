@@ -132,11 +132,11 @@ $(document).ready(function () {
   $('#delete-form-permissions').on('submit', function () {
     return confirm('Are you sure that you want to delete this permission?');
   });
-  $('#delete-art').on('submit', function () {
-    return confirm('Are you sure that you want to delete this art?');
+  $('#delete-asset').on('submit', function () {
+    return confirm('Are you sure that you want to delete this asset?');
   });
-  $('#add-art').click(function () {
-    if (confirm('Are you sure that you want to approve this art?')) {
+  $('#add-asset').click(function () {
+    if (confirm('Are you sure that you want to approve this asset?')) {
       forms = $('.enabled-disabled');
 
       for (i = 0; i < forms.length; i++) {
@@ -145,7 +145,7 @@ $(document).ready(function () {
         }
       }
 
-      $('#add-art-form').submit();
+      $('#add-asset-form').submit();
     } else {
       return false;
     }

@@ -12,7 +12,7 @@
                         <input type='number' name="id" placeholder="ID" class="form-control" value="{{ old('id') }}"/>
                     </div>
                     <div class="col">
-                        <input type='number' name="art_id" placeholder="Art ID" class="form-control" value="{{ old('art_id') }}"/>
+                        <input type='number' name="asset_id" placeholder="Asset ID" class="form-control" value="{{ old('asset_id') }}"/>
                     </div>
                     <div class="col">
                         <input type='text' name="title" placeholder="Title" class="form-control" value="{{ old('title') }}"/>
@@ -57,7 +57,7 @@
                                 Title
                             </th>
                             <th>
-                                Art
+                                Asset
                             </th>
                             <th class="td-actions">
                                 Actions
@@ -72,7 +72,7 @@
                                     {{ $comment->title }}
                                 </td>
                                 <td>
-                                    <a href="{{ route('show.art', ['url' => $comment->art->url]) }}">{{ $comment->art->url }}</a>
+                                    <a href="{{ route('show.asset', ['url' => $comment->asset->url]) }}">{{ $comment->asset->url }}</a>
                                 </td>
                                 <td>
                                     <div class="td-actions-btns">

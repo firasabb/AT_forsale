@@ -6,17 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 
-class Art extends Model
+class Asset extends Model
 {
     
     use SoftDeletes;
 
-    public function approvedArts(){
+    public function approvedAssets(){
         return $this->where('status', 2);
     }
 
     public function downloads(){
-        return $this->hasMany('\App\Download', 'art_id');
+        return $this->hasMany('\App\Download', 'asset_id');
     }
 
     public function user(){
@@ -34,7 +34,7 @@ class Art extends Model
 
     public function comments()
     {
-        return $this->hasMany('\App\Comment', 'art_id');
+        return $this->hasMany('\App\Comment', 'asset_id');
     }
 
     public function reports()
@@ -50,6 +50,10 @@ class Art extends Model
         return $this->medias->where('sorting', 'cover')->first();
     }
 
+    public function downloadEvents(){
+        return $this->hasMany('App\DownloadEvent');
+    }
+
     public function featured(){
 
         $check_if_exists = $this->medias->where('sorting', 'featured')->first();
@@ -62,13 +66,13 @@ class Art extends Model
 
     public function createdAt(){
 
-        $artDate = $this->created_at;
-        if($artDate->isToday()){
-            return $artDate->format('h:m');
-        } else if($artDate->isCurrentYear()){
-            return $artDate->format('jS \\of F');
+        $assetDate = $this->created_at;
+        if($assetDate->isToday()){
+            return $assetDate->format('h:m');
+        } else if($assetDate->isCurrentYear()){
+            return $assetDate->format('jS \\of F');
         } else {
-            return $artDate->format('jS \\of F Y');
+            return $assetDate->format('jS \\of F Y');
         }
 
     }

@@ -9,9 +9,9 @@ class Download extends Model
 {
     
 
-    public function art(){
+    public function asset(){
 
-        return $this->belongsTo('\App\Art');
+        return $this->belongsTo('\App\Asset');
 
     }
 
@@ -32,7 +32,7 @@ class Download extends Model
         return $size = Storage::cloud()->size($this->url);
     }
 
-    public function downloadEvent(){
+    public function downloadEvents(){
         return $this->hasMany('App\DownloadEvent');
     }
 

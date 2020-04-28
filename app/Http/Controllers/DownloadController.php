@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Download;
 use App\DownloadEvent;
-use App\Art;
+use App\Asset;
 use Auth;
 use Storage;
 use Validator;
+use Carbon\Carbon;
 
 class DownloadController extends Controller
 {
@@ -21,24 +22,33 @@ class DownloadController extends Controller
 
     public function downloadDownload($id, Request $request){
 
+        $ip = $request->ip();
+        $checkPastDownloads = DownloadEvent::whereDate('created_at', Carbon::today())->count();
+
+        if($checkPastDownloads > 3 && !Auth::check()){
+            return redirect()->route('login');
+        }
+
         $encrypt_id = $request->id;
         $id = decrypt($encrypt_id);
         $download = Download::findOrFail($id);
+        $asset = $download->asset;
         $downloadEvent = new DownloadEvent();
-        $download->downloadEvent()->save($downloadEvent);
+        $downloadEvent->asset()->associate($asset);
+        $downloadEvent->download()->associate($download);
         if(Auth::check()){
             $user = Auth::user();
-            $user->downloadEvent()->save($downloadEvent);
+            $downloadEvent->user()->associate($user);
         }
-        $downloadEvent->ip_address = $request->session()->get('ip_address');
+        $downloadEvent->ip_address = $ip;
         $downloadEvent->save();
-        $art = $download->art;
+        $asset = $download->asset;
         $path = $download->getPath();
         $mime = $download->getMime();
         $url = Storage::cloud()->temporaryUrl($download->url, now()->addSeconds(10));
         header("Cache-Control: public");
         header("Content-Description: File Transfer");
-        header("Content-Disposition: attachment; filename=" . $art->title);
+        header("Content-Disposition: attachment; filename=" . $asset->title);
         header("Content-Type: " . $mime);
         return readfile($url);
 
@@ -68,7 +78,7 @@ class DownloadController extends Controller
     /**
      * 
      * 
-     * Add a Download File For an Art Only for Admins and Moderators
+     * Add a Download File For an Asset Only for Admins and Moderators
      * @param Integer id 
      * @return Response
      * 
@@ -82,8 +92,8 @@ class DownloadController extends Controller
             
         $upload = $request->upload;
 
-        $art = Art::findOrFail($id);
-        if($art->downloads->count() < 5){
+        $asset = Asset::findOrFail($id);
+        if($asset->downloads->count() < 5){
 
             $download = new Download();
             $name = $upload->getClientOriginalName();
@@ -92,7 +102,7 @@ class DownloadController extends Controller
             $download->name = $name;
             $path = $upload->store('downloads', 's3');
             $download->url = $path;
-            $art->downloads()->save($download);
+            $asset->downloads()->save($download);
 
             return back()->with('status', 'A Download Has Been Added Successfully.');
         }

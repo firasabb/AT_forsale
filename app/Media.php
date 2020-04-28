@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Media extends Model
 {
-    public function arts(){
+    public function assets(){
 
-        return $this->morphedByMany('App\Art', 'taggable');
+        return $this->morphedByMany('App\Asset', 'mediable');
 
     }
 }

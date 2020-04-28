@@ -37781,7 +37781,7 @@ var staticRenderFns = [
                       staticClass: "modal-title",
                       attrs: { id: "exampleModalLabel" }
                     },
-                    [_vm._v("Report This Art")]
+                    [_vm._v("Report This Asset")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -37811,7 +37811,7 @@ var staticRenderFns = [
                           attrs: {
                             name: "body",
                             placeholder:
-                              "Please describe why the art should not be on the website..."
+                              "Please describe why the asset should not be on the website..."
                           }
                         })
                       ])

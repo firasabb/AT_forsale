@@ -55,24 +55,24 @@ Route::put('/admin/dashboard/permission/{id}', 'AdminController@editPermission')
 Route::post('/admin/dashboard/permissions', 'AdminController@addPermission')->name('admin.add.permission');
 
 
-// Admin / Arts
+// Admin / Assets
 
-Route::get('/admin/dashboard/arts/', 'ArtController@adminIndex')->middleware('role:admin|moderator')->name('admin.index.arts');
-Route::delete('/admin/dashboard/art/{id}', 'ArtController@adminDestroy')->middleware('role:admin|moderator')->name('admin.delete.art');
-Route::get('/admin/dashboard/art/{id}', 'ArtController@adminShow')->middleware('role:admin|moderator')->name('admin.show.art');
-Route::put('/admin/dashboard/art/{id}', 'ArtController@adminEdit')->middleware('role:admin|moderator')->name('admin.edit.art');
-Route::post('/admin/dashboard/art/', 'ArtController@adminAdd')->middleware('role:admin|moderator')->name('admin.add.art');
-Route::post('/admin/dashboard/arts/search', 'ArtController@adminSearchArts')->middleware('role:admin|moderator')->name('admin.search.arts');
+Route::get('/admin/dashboard/assets/', 'AssetController@adminIndex')->middleware('role:admin|moderator')->name('admin.index.assets');
+Route::delete('/admin/dashboard/asset/{id}', 'AssetController@adminDestroy')->middleware('role:admin|moderator')->name('admin.delete.asset');
+Route::get('/admin/dashboard/asset/{id}', 'AssetController@adminShow')->middleware('role:admin|moderator')->name('admin.show.asset');
+Route::put('/admin/dashboard/asset/{id}', 'AssetController@adminEdit')->middleware('role:admin|moderator')->name('admin.edit.asset');
+Route::post('/admin/dashboard/asset/', 'AssetController@adminAdd')->middleware('role:admin|moderator')->name('admin.add.asset');
+Route::post('/admin/dashboard/assets/search', 'AssetController@adminSearchAssets')->middleware('role:admin|moderator')->name('admin.search.assets');
 
-// Admin Approve Arts
+// Admin Approve Assets
 
-Route::get('/admin/dashboard/approve/arts', 'ArtController@indexToApprove')->middleware('role:admin|moderator')->name('admin.index.approve.arts');
-Route::post('/admin/dashboard/approve/arts/{id}', 'ArtController@adminApprove')->middleware('role:admin|moderator')->name('admin.approve.art');
+Route::get('/admin/dashboard/approve/assets', 'AssetController@indexToApprove')->middleware('role:admin|moderator')->name('admin.index.approve.assets');
+Route::post('/admin/dashboard/approve/assets/{id}', 'AssetController@adminApprove')->middleware('role:admin|moderator')->name('admin.approve.asset');
 
 
 // Admin / Downloads
 
-Route::post('/admin/download/{artId}', 'DownloadController@adminAdd')->middleware('role:admin|moderator')->name('admin.download.add');
+Route::post('/admin/download/{assetId}', 'DownloadController@adminAdd')->middleware('role:admin|moderator')->name('admin.download.add');
 Route::delete('/admin/download/{id}', 'DownloadController@adminDelete')->middleware('role:admin|moderator')->name('admin.download.delete');
 
 
@@ -127,9 +127,9 @@ Route::post('/admin/dashboard/report/', 'ReportController@adminAdd')->middleware
 Route::post('/admin/dashboard/report/search', 'ReportController@adminSearchReports')->middleware('role:admin|moderator')->name('admin.search.reports');
 
 
-// Arts add
-Route::get('/add/art/{category?}', 'ArtController@create')->middleware('role:user')->name('create.art');
-Route::post('/add/art/{category}', 'ArtController@store')->middleware('role:user')->name('store.art');
+// Assets Add
+Route::get('/add/asset/{category?}', 'AssetController@create')->middleware('role:user')->name('create.asset');
+Route::post('/add/asset/{category}', 'AssetController@store')->middleware('role:user')->name('store.asset');
 
 
 // Contest
@@ -138,19 +138,19 @@ Route::get('/add/contest', 'ContestController@create')->name('create.contest');
 Route::post('/add/contest', 'ContestController@store')->name('store.contest');
 
 
-// Art
+// Asset
 
-Route::get('/art/{url}', 'ArtController@show')->name('show.art');
+Route::get('/asset/{url}', 'AssetController@show')->name('show.asset');
 
 
 
 // Users
 
-Route::get('/artist/{username}', 'UserController@showProfile')->name('user.profile.show');
-Route::get('artist/{username}/setup', 'UserController@setupProfilePage')->middleware('role:user')->name('user.profile.setup.show');
-Route::put('artist/{username}/setup', 'UserController@setupProfileRequest')->middleware('role:user')->name('user.profile.setup.request');
-Route::get('artist/{username}/changepassword', 'UserController@changePasswordPage')->middleware('role:user')->name('user.profile.password.show');
-Route::post('artist/{username}/changepassword', 'UserController@changePasswordRequest')->middleware('role:user')->name('user.profile.password.request');
+Route::get('/u/{username}', 'UserController@showProfile')->name('user.profile.show');
+Route::get('/u/{username}/setup', 'UserController@setupProfilePage')->middleware('role:user')->name('user.profile.setup.show');
+Route::put('/u/{username}/setup', 'UserController@setupProfileRequest')->middleware('role:user')->name('user.profile.setup.request');
+Route::get('/u/{username}/changepassword', 'UserController@changePasswordPage')->middleware('role:user')->name('user.profile.password.show');
+Route::post('/u/{username}/changepassword', 'UserController@changePasswordRequest')->middleware('role:user')->name('user.profile.password.request');
 
 
 // Tags

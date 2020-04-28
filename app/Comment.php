@@ -14,8 +14,8 @@ class Comment extends Model
         return $this->belongsTo('\App\User');
     }
 
-    public function art(){
-        return $this->belongsTo('\App\Art');
+    public function asset(){
+        return $this->belongsTo('\App\Asset');
     }
 
     public function upvotes(){

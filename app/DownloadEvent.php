@@ -13,4 +13,8 @@ class DownloadEvent extends Model
     public function user(){
         return $this->belongsTo('\App\User');
     }
+
+    public function asset(){
+        return $this->belongsTo('\App\Asset');
+    }
 }

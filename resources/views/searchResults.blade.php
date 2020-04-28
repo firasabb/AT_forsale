@@ -29,8 +29,8 @@
         <div class="col-3">
         </div>
         <div class="col-6">
-            @foreach($arts as $art)
-                <x-art-card :art="$art"/>
+            @foreach($assets as $asset)
+                <x-asset-card :asset="$asset"/>
             @endforeach 
         </div>
         <div class="col-3">

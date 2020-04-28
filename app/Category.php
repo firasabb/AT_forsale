@@ -9,12 +9,12 @@ class Category extends Model
 {
     use SoftDeletes;
     
-    public function arts(){
-        return $this->hasMany('\App\Art');
+    public function assets(){
+        return $this->hasMany('\App\Asset');
     }
 
-    public function approvedArts(){
-        return $this->hasMany('\App\Art')->where('status', 2);
+    public function approvedAssets(){
+        return $this->hasMany('\App\Asset')->where('status', 2);
     }
 
     public function contests(){

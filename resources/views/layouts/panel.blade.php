@@ -49,11 +49,11 @@
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre> Approve <span class="caret"></span></a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{  route('admin.index.approve.arts')  }}">Arts</a>
+                                <a class="dropdown-item" href="{{  route('admin.index.approve.assets')  }}">Assets</a>
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.index.arts') }}">Arts</a>
+                            <a class="nav-link" href="{{ route('admin.index.assets') }}">Assets</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('admin.index.comments') }}">Comments</a>

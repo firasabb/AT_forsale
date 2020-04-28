@@ -23,9 +23,9 @@ class Tag extends Model implements Searchable
      }
 
 
-    public function arts()
+    public function assets()
     {
-        return $this->morphedByMany('App\Art', 'taggable');
+        return $this->morphedByMany('App\Asset', 'taggable');
     }
 
 

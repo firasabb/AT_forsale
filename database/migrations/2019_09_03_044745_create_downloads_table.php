@@ -18,11 +18,11 @@ class CreateDownloadsTable extends Migration
             $table->text('name');
             $table->text('description')->nullable();
             $table->text('url');
-            $table->unsignedBigInteger('art_id');
+            $table->unsignedBigInteger('asset_id');
             $table->timestamps();
 
-            $table->foreign('art_id')
-                    ->references('id')->on('arts')
+            $table->foreign('asset_id')
+                    ->references('id')->on('assets')
                     ->onDelete('cascade');
         });
     }

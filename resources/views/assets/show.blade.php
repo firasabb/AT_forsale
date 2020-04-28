@@ -9,10 +9,10 @@
                 <div class="card-header bg-light">
                     <div class="card-header-flex">
                         <div class="card-header-img">
-                            <a target="_blank" href="{{ route('user.profile.show', ['username' => $art->user->username]) }}"><img class="avatar-pic" src="{{ $art->user->avatar_url }}"/></a>
+                            <a target="_blank" href="{{ route('user.profile.show', ['username' => $asset->user->username]) }}"><img class="avatar-pic" src="{{ $asset->user->avatar_url }}"/></a>
                         </div>
                         <div class="card-header-text post-card-user-text">
-                            <a target="_blank" href="{{ route('user.profile.show', ['username' => $art->user->username]) }}">{{ $art->user->name }}</a>
+                            <a target="_blank" href="{{ route('user.profile.show', ['username' => $asset->user->username]) }}">{{ $asset->user->name }}</a>
                         </div>
                     </div>
                 </div>
@@ -23,19 +23,28 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <h3 class="card-title my-2">{{$art->title}}</h3>
-                    @if(!empty($featured))
-                        <img class="card-body-img" src="{{ Storage::cloud()->url($featured) }}" alt="{{ $art->title }}">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
                     @endif
-                    @if($art->description)
+                    <h3 class="card-title my-2">{{$asset->title}}</h3>
+                    @if(!empty($featured))
+                        <img class="card-body-img" src="{{ Storage::cloud()->url($featured) }}" alt="{{ $asset->title }}">
+                    @endif
+                    @if($asset->description)
                         <div class="py-3">
                             <h3>Description</h3>
                         </div>
                         <div class="mb-5">
-                            <p class="card-text">{{$art->description}}</p>
+                            <p class="card-text">{{$asset->description}}</p>
                         </div>
                         <div class="pb-1">
-                            @foreach($art->tags as $tag)
+                            @foreach($asset->tags as $tag)
                                 <a class="a-no-decoration" href="#"><span class="tag-span">{{strtoupper($tag->name)}}</span></a>
                             @endforeach
                         </div>
@@ -44,15 +53,15 @@
                 <div class="card-footer bg-light card-f"><!--@svg('heart', 'heart-icon')-->
                     <div class="card-footer-more">
                         <div class="float-left card-footer-date">
-                            <span>{{$art->createdAt()}}</span>
+                            <span>{{$asset->createdAt()}}</span>
                         </div>
                         <div class="dropdown">
                             <button class="btn btn-sm btn-light dropdown-toggle-comment float-right btn-no-padding" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 @svg('th-menu', 'menu-icon-comment')
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                @if(Auth::id() != $art->user->id)
-                                    <button type="button" v-on:click="open_report_modal('{{ encrypt($art->id) }}', '{{ route('add.report', ['type' => 'art']) }}')" class="report-btn float-right">Report</button>
+                                @if(Auth::id() != $asset->user->id)
+                                    <button type="button" v-on:click="open_report_modal('{{ encrypt($asset->id) }}', '{{ route('add.report', ['type' => 'asset']) }}')" class="dropdown-item">Report</button>
                                 @elseif(!Auth::check())
                                     <a target="_blank" class="a-no-decoration dropdown-item" href="{{ route('login') }}">Report</a>
                                 @endif
@@ -68,7 +77,7 @@
                     Free Download
                 </div>
                 <div class="card-body">
-                    @foreach($art->downloads as $download)
+                    @foreach($asset->downloads as $download)
                         <div class="row justify-content-center">
                             <div class="col text-center">
                                 <a target="_blank" class="btn btn-lg btn-success" href="{{ route('download.download', ['id' => encrypt($download->id)]) }}">Download</a>
@@ -88,7 +97,7 @@
                         <p class="mb-0">Add a Comment</p>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('add.comment', ['encryptedId' => encrypt($art->id)]) }}">
+                        <form method="POST" action="{{ route('add.comment', ['encryptedId' => encrypt($asset->id)]) }}">
                             @csrf
                             <div class="form-group">
                                 <textarea class="form-control" name="body">{{ old('body') }}</textarea>
@@ -119,7 +128,7 @@
 
     @endguest
         
-    @foreach($art->comments as $comment)
+    @foreach($asset->comments as $comment)
         <div class="row">
             <div class="col-md-8">
                 <div class="card mb-3">
@@ -153,7 +162,7 @@
                                                 {!! method_field('DELETE') !!}
                                                 <button class="btn btn-danger dropdown-item" type="submit">Delete</button>
                                             </form>
-                                        @elseif(Auth::id() == $art->user->id)
+                                        @elseif(Auth::id() == $asset->user->id)
                                             <form action="{{ route('delete.comment', ['id' => encrypt($comment->id)]) }}" method="POST" class="delete-comment">
                                                 @csrf
                                                 {!! method_field('DELETE') !!}
@@ -178,7 +187,7 @@
             <div class="row">
                 <div class="col-md-8">
                     <div class="block-button">
-                        <a target="_blank" href="{{route('admin.show.art', ['id' => $art->id])}}" target="_blank" class="btn btn-secondary btn-lg btn-block">Edit This Art</a>
+                        <a target="_blank" href="{{route('admin.show.asset', ['id' => $asset->id])}}" target="_blank" class="btn btn-secondary btn-lg btn-block">Edit This asset</a>
                     </div>
                 </div>
             </div>

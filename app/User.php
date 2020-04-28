@@ -42,9 +42,9 @@ class User extends Authenticatable
     ];
 
 
-    public function arts(){
+    public function assets(){
 
-        return $this->hasMany('\App\Art', 'user_id');
+        return $this->hasMany('\App\Asset', 'user_id');
 
     }
 
@@ -80,7 +80,7 @@ class User extends Authenticatable
         return $this->hasMany('\App\Contest');
     }
 
-    public function downloadEvent(){
+    public function downloadEvents(){
         return $this->hasMany('App\DownloadEvent');
     }
 

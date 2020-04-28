@@ -2,20 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Art;
+use App\Asset;
 use App\Tag;
 use App\Category;
 use App\Download;
 use App\Media;
+use App\DownloadEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Validator;
 use Storage;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 
-class ArtController extends Controller
+class AssetController extends Controller
 {
 
 
@@ -34,7 +36,7 @@ class ArtController extends Controller
     /**
      * 
      * 
-     * Display the art
+     * Display the Asset
      * @param String url
      * @return Response
      * 
@@ -42,30 +44,37 @@ class ArtController extends Controller
 
     public function show($url){
 
-        $art = Art::where('url', $url)->firstOrFail();
-        $featured = $art->featured();
-        return view('arts.show', ['art' => $art, 'featured' => $featured]);
+        $asset = Asset::where('url', $url)->firstOrFail();
+        $featured = $asset->featured();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $checkPastDownloads = DownloadEvent::whereDate('created_at', Carbon::today())->count();
+        $error = '';
+        if($checkPastDownloads && !Auth::check()){
+            $error = 'Maximum limit of downloads per day has been reached. Please log in to continue.';
+            return view('assets.show', ['asset' => $asset, 'featured' => $featured, 'error' => $error])->withErrors($error);
+        }
+        return view('assets.show', ['asset' => $asset, 'featured' => $featured, 'error' => $error]);
 
     }
 
 
     /**
-     * Display arts that are not approved yet.
+     * Display assets that are not approved yet.
      *
      * @return \Illuminate\Http\Response
      */
     public function indexToApprove()
     {
-        $art = Art::where('status', 1)->orderBy('id', 'asc')->first();
-        if(!empty($art)){
+        $asset = Asset::where('status', 1)->orderBy('id', 'asc')->first();
+        if(!empty($asset)){
             $categories = Category::all()->load('medias')->flatten();
-            $featured = $art->medias()->where('sorting', 'featured')->first();
-            $cover = $art->medias()->where('sorting', 'cover')->first();
-            $arts = Art::where('status', 1)->orderBy('id', 'asc');
-            $downloads = $art->downloads;
-            return view('admin.arts.indexToApprove', ['art' => $art, 'categories' => $categories, 'featured' => $featured, 'cover' => $cover, 'downloads' => $downloads]);
+            $featured = $asset->medias()->where('sorting', 'featured')->first();
+            $cover = $asset->medias()->where('sorting', 'cover')->first();
+            $assets = Asset::where('status', 1)->orderBy('id', 'asc');
+            $downloads = $asset->downloads;
+            return view('admin.assets.indexToApprove', ['asset' => $asset, 'categories' => $categories, 'featured' => $featured, 'cover' => $cover, 'downloads' => $downloads]);
         }
-        return view('admin.arts.indexToApprove');
+        return view('admin.assets.indexToApprove');
 
     }
 
@@ -80,7 +89,7 @@ class ArtController extends Controller
         if($categoryUrl){
 
             $category = Category::where('url', $categoryUrl)->firstOrFail();
-            return view('arts.create', ['category' => $category]);
+            return view('assets.create', ['category' => $category]);
 
         }
         $categories = Category::with('medias')->get();
@@ -127,21 +136,21 @@ class ArtController extends Controller
 
         $unique = uniqid();
 
-        $art = new Art();
-        $art->title = $request->title;
-        $art->description = $request->description;
-        $art->user_id = $user->id;
-        $url = Str::slug($art->title, '-');
-        $checkIfUrlExists = Art::where('url', 'LIKE', $url)->first();
+        $asset = new Asset();
+        $asset->title = $request->title;
+        $asset->description = $request->description;
+        $asset->user_id = $user->id;
+        $url = Str::slug($asset->title, '-');
+        $checkIfUrlExists = Asset::where('url', 'LIKE', $url)->first();
         if($checkIfUrlExists){
             $url = $url . '-' . $unique;
         }
-        $art->url = $url;
+        $asset->url = $url;
         if($user->hasAnyRole('admin', 'moderator')){
-            $art->status = 2;
+            $asset->status = 2;
         }
-        $art->category()->associate($category);
-        $art->save();
+        $asset->category()->associate($category);
+        $asset->save();
 
         $featured = $request->featured;
 
@@ -161,7 +170,7 @@ class ArtController extends Controller
             $media->sorting = 'cover';
             $media->public_url = Storage::cloud()->url($path);
             $media->save();
-            $art->medias()->attach($media);
+            $asset->medias()->attach($media);
         }
 
 
@@ -175,7 +184,7 @@ class ArtController extends Controller
                 $download->name = $name;
                 $path = $upload->store('downloads', 's3');
                 $download->url = $path;
-                $art->downloads()->save($download);
+                $asset->downloads()->save($download);
             }
         }
 
@@ -183,20 +192,20 @@ class ArtController extends Controller
         $tags = explode(', ', $tags);
         foreach($tags as $tag){
             $tag = Tag::Where('name', 'LIKE', $tag)->firstOrFail();
-            $art->tags()->attach($tag);
+            $asset->tags()->attach($tag);
         }
 
         if($user->hasAnyRole('admin', 'moderator')){
-            return redirect()->route('admin.index.arts')->with('status', 'A New Art Has Been Created');
+            return redirect()->route('admin.index.assets')->with('status', 'A New Asset Has Been Created');
         }
 
-        return redirect('/home')->with('status', 'Your Art Has Been Created! Once it is approved, it is going to be public...');
+        return redirect('/home')->with('status', 'Your Asset Has Been Created! Once it is approved, it is going to be public...');
 
     }
 
     /** 
     *
-    * Approve the art for users not admins
+    * Approve the asset for users not admins
     *
     * @param Request
     * @return Response
@@ -210,31 +219,31 @@ class ArtController extends Controller
     }
 
 
-    public function adminIndex($arts = null)
+    public function adminIndex($assets = null)
     {
-        if(!$arts){
-            $arts = Art::orderBy('id', 'desc')->paginate(10);
+        if(!$assets){
+            $assets = Asset::orderBy('id', 'desc')->paginate(10);
         } else {
-            $arts = $arts->paginate(20);
+            $assets = $assets->paginate(20);
         }
-        return view('admin.arts.arts', ['arts' => $arts]);
+        return view('admin.assets.assets', ['assets' => $assets]);
     }
 
 
     public function adminShow($id)
     {
-        $art = Art::findOrFail($id);
+        $asset = Asset::findOrFail($id);
         $categories = Category::all();
-        $featured = $art->medias()->where('sorting', 'featured')->first();
-        $cover = $art->medias()->where('sorting', 'cover')->first();
-        $downloads = $art->downloads;
-        return view('admin.arts.show', ['art' => $art, 'featured' => $featured, 'cover' => $cover, 'downloads' => $downloads, 'categories' => $categories]);
+        $featured = $asset->medias()->where('sorting', 'featured')->first();
+        $cover = $asset->medias()->where('sorting', 'cover')->first();
+        $downloads = $asset->downloads;
+        return view('admin.assets.show', ['asset' => $asset, 'featured' => $featured, 'cover' => $cover, 'downloads' => $downloads, 'categories' => $categories]);
     }
 
 
     /**
      * 
-     * Update the art
+     * Update the asset
      * @param request
      * @return response
      * 
@@ -247,24 +256,24 @@ class ArtController extends Controller
 
     public function adminDestroy($id)
     {
-        $art = Art::findOrFail($id);
-        $downloads = $art->downloads;
+        $asset = Asset::findOrFail($id);
+        $downloads = $asset->downloads;
         foreach($downloads as $download){
             Storage::cloud()->delete($download->url);
         }
-        $medias = $art->medias;
+        $medias = $asset->medias;
         if(!empty($medias)){
             foreach($medias as $media){
                 Storage::cloud()->delete($media->url);
                 $media->delete();
             }
         }
-        $art->delete();
-        return redirect('/admin/dashboard/arts/')->with('status', 'The art has been deleted!');
+        $asset->delete();
+        return redirect('/admin/dashboard/assets/')->with('status', 'The asset has been deleted!');
     }
 
 
-    public function adminSearchArts(Request $request){
+    public function adminSearchAssets(Request $request){
         
         $validator = Validator::make($request->all(), [
             'id' => 'integer|nullable',
@@ -273,7 +282,7 @@ class ArtController extends Controller
         ]);
 
         if($validator->fails() || empty($request->all())){
-            return redirect()->route('admin.index.arts')->withErrors($validator)->withInput();
+            return redirect()->route('admin.index.assets')->withErrors($validator)->withInput();
         }
 
         $id = $request->id;
@@ -299,44 +308,44 @@ class ArtController extends Controller
 
         }
 
-        $arts = Art::where($where_arr);
+        $assets = Asset::where($where_arr);
 
-        if(empty($arts)){
+        if(empty($assets)){
             return $this->adminIndex();
         }
-        return $this->adminIndex($arts);
+        return $this->adminIndex($assets);
     }
 
 
 
     /**
      * 
-     * Helper Method To Approve Or Edit The Art
+     * Helper Method To Approve Or Edit The Asset
      * @param Integer id
      * @param Integer status
      * 
      */
     private function editOrApprove($id, $request, $status = null){
 
-        $art = Art::findOrFail($id);
+        $asset = Asset::findOrFail($id);
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|min:15|max:200',
             'description' => 'string|max:500',
-            'url' => ['string', Rule::unique('arts', 'url')->ignore($art->url, 'url')],
+            'url' => ['string', Rule::unique('assets', 'url')->ignore($asset->url, 'url')],
             'category_id' => 'integer',
             'upload' => 'array',
             'uploads.*' => 'string|max:200'
         ]);
 
         if($validator->fails()){
-            return redirect()->route('admin.show.art', ['id' => $id])->withErrors($validator)->withInput();
+            return redirect()->route('admin.show.asset', ['id' => $id])->withErrors($validator)->withInput();
         } 
 
-        $art->title = $request->title;
-        $art->url = $request->url;
-        $art->description = $request->description;
+        $asset->title = $request->title;
+        $asset->url = $request->url;
+        $asset->description = $request->description;
         $category = Category::findOrFail($request->category_id);
-        $art->category()->associate($category);
+        $asset->category()->associate($category);
         $tagsArr = array();
         $tags = $request->tags;
         $tags = explode(', ', $tags);
@@ -344,15 +353,15 @@ class ArtController extends Controller
             $tag = Tag::where('name', 'LIKE', $tag)->first();
             array_push($tagsArr, $tag->id);
         }
-        $art->tags()->sync($tagsArr);
+        $asset->tags()->sync($tagsArr);
 
         if($status){
-            $art->status = $status;
-            $art->save();
-            return redirect('/admin/dashboard/approve/arts')->with('status', 'The Art has been approved!');
+            $asset->status = $status;
+            $asset->save();
+            return redirect('/admin/dashboard/approve/assets')->with('status', 'The asset has been approved!');
         }
-        $art->save();
-        return redirect()->route('admin.show.art', ['id' => $id])->with('status', 'This art has been edited');
+        $asset->save();
+        return redirect()->route('admin.show.asset', ['id' => $id])->with('status', 'This asset has been edited');
     }
 
 }
