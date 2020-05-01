@@ -105,6 +105,10 @@ body{
     text-decoration: none;
 }
 
+.no-border{
+    border: 0;
+}
+
 
 @media only screen and (min-width: 1080px){
 
@@ -385,7 +389,7 @@ cursor: pointer;
 
 /**
 **
-** Profile Page
+** User Profile Page
 **
 **/
 
@@ -424,15 +428,6 @@ cursor: pointer;
     color: #3490dc;
 }
 
-
-
-.profile-container{
-    background-color: #ffffff;
-    border-radius: 5px;
-    -webkit-box-shadow: 0px 0px 14px -4px rgba(102,102,102,0.5);
-    -moz-box-shadow: 0px 0px 14px -4px rgba(102,102,102,0.5);
-    box-shadow: 0px 0px 14px -4px rgba(102,102,102,0.5);
-}
 
 .profile-container-header{
     width: 100%;
@@ -476,7 +471,17 @@ cursor: pointer;
 }
 
 .profile-numbers{
-    margin: 0 20px;
+
+    display: flex;
+    font-size: 0.7rem;
+    width: 100%;
+    justify-content: start;
+
+}
+
+.profile-numbers p {
+    display: inline;
+    margin: 0;
 }
 
 .card-link > .card{
@@ -583,6 +588,51 @@ a.card-link, a.card-link:hover {
 
 }
 
+/**
+**
+** User Dashboard Navigation
+**
+**/
+
+.dashboard-navigation-sidebar{
+    background-color: #fff;
+    min-height: 100vh;
+    padding-left: 0;
+    padding-right: 0;
+    -webkit-box-shadow: 0px 0px 9px 0px rgba(189,189,189,1);
+    -moz-box-shadow: 0px 0px 9px 0px rgba(189,189,189,1);
+    box-shadow: 0px 0px 9px 0px rgba(189,189,189,1);
+}
+
+.navigation-dashboard-list a{
+    padding-left: 1rem;
+}
+
+.dashboard-icon-span{
+    margin-right: 1rem;
+}
+
+.dashboard-icon{
+    fill: #3b3b3b;
+    width: 1.2rem;
+}
+
+.dashboard-upload-icon{
+    fill: #fff;
+    width: 1.2rem;
+}
+
+
+/**
+**
+**  User My Assets Page
+**
+**/
+
+.pagination-container{
+    display: flex;
+    justify-content: center;
+}
 
 /**
 **
@@ -692,10 +742,11 @@ a.card-link, a.card-link:hover {
 **
 **/
 
-.post-card-user-text{
+.asset-card-user-text{
     padding-left: 0.7rem;
     font-size: 0.8rem;
     font-weight: 700;
+    width: 100%;
 }
 
 .comment-user-img{
@@ -744,4 +795,27 @@ a.card-link, a.card-link:hover {
 .menu-icon-comment{
     fill: #dadada;
     width: 75%;
+}
+
+
+.downloads-views{
+    width: 100%;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.downloads-views p {
+    display: inline;
+}
+
+.arrow-down-icon{
+    fill: #a5a5a5;
+    margin-right: 0.1rem;
+    width: 1.3rem;
+}
+
+.eye-icon{
+    fill: #a5a5a5;
+    margin-right: 0.4rem;
+    width: 1rem;
 }

@@ -1,13 +1,11 @@
-@extends('layouts.app')
+@extends('layouts.user')
 
 @section('content')
 
 <div class="container">
     <div> 
-        @component('layouts.profileNavigation', ['user' => $user])
-        @endcomponent
         <div class="mt-5">
-            <form method="POST" action="{{ route('user.profile.setup.request', ['username' => $user->username]) }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('user.setup.request') }}" enctype="multipart/form-data">
             {!! csrf_field() !!}
             {!! method_field('PUT') !!}
                 <div class="profile-container">

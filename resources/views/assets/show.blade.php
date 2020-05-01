@@ -11,7 +11,7 @@
                         <div class="card-header-img">
                             <a target="_blank" href="{{ route('user.profile.show', ['username' => $asset->user->username]) }}"><img class="avatar-pic" src="{{ $asset->user->avatar_url }}"/></a>
                         </div>
-                        <div class="card-header-text post-card-user-text">
+                        <div class="card-header-text asset-card-user-text">
                             <a target="_blank" href="{{ route('user.profile.show', ['username' => $asset->user->username]) }}">{{ $asset->user->name }}</a>
                         </div>
                     </div>
@@ -36,6 +36,10 @@
                     @if(!empty($featured))
                         <img class="card-body-img" src="{{ Storage::cloud()->url($featured) }}" alt="{{ $asset->title }}">
                     @endif
+                    <div class="downloads-views">
+                        <p class="mr-3">@svg('arrow-down', 'arrow-down-icon') {{ $asset->downloadEventsCount() }} downloads</p>
+                        <p>@svg('eye', 'eye-icon'){{ $asset->viewEventsCount() }} views</p>
+                    </div>
                     @if($asset->description)
                         <div class="py-3">
                             <h3>Description</h3>

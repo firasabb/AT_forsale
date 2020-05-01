@@ -2,10 +2,10 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\DownloadEvent;
+use App\License;
 use Faker\Generator as Faker;
 
-$factory->define(DownloadEvent::class, function (Faker $faker) {
+$factory->define(License::class, function (Faker $faker) {
     return [
         //
     ];

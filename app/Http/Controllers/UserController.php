@@ -27,20 +27,24 @@ class UserController extends Controller
     public function showProfile($username){
 
         $user = User::where('username', $username)->firstOrFail();
-        $logged_user = Auth::user();
-        $isUser = false;
-        if($logged_user->id == $user->id || $logged_user->hasRole('admin')){
-            $isUser = true;
-        }
-        return view('users.profile', ['user' => $user, 'isUser' => $isUser]);
+        $activeAssets = $user->activeAssets;
+        return view('users.profile', ['user' => $user, 'activeAssets' => $activeAssets]);
 
     }
 
 
-    public function setupProfilePage($username){
+    public function showProfileDashboard(){
 
-        $logged_user = Auth::user();
-        $user = User::where('username', $username)->firstOrFail();
+        $user = Auth::user();
+        $activeAssets = $user->activeAssets;
+        return view('users.profileDashboard', ['user' => $user, 'activeAssets' => $activeAssets]);
+
+    }
+
+
+    public function setupProfilePage(){
+
+        $user = Auth::user();
 
         $instagram = $user->userLinks()->where('name', 'instagram')->first();
         $facebook = $user->userLinks()->where('name', 'facebook')->first();
@@ -49,66 +53,56 @@ class UserController extends Controller
         $website = $user->userLinks()->where('name', 'website')->first();
         $portfolio = $user->userLinks()->where('name', 'portfolio')->first();
 
-        if($logged_user->id == $user->id || $logged_user->hasRole('admin')){
-            return view('users.profileSetup', ['user' => $user, 'instagram' => $instagram, 'facebook' => $facebook,
-            'github' => $github, 'youtube' => $youtube, 'website' => $website, 'portfolio' => $portfolio]);
-        }
-
-        abort(403, 'Unauthorized action.');
+        return view('users.profileSetup', ['user' => $user, 'instagram' => $instagram, 'facebook' => $facebook,
+        'github' => $github, 'youtube' => $youtube, 'website' => $website, 'portfolio' => $portfolio]);
 
     }
 
 
-    public function setupProfileRequest($username, Request $request){
+    public function setupProfileRequest(Request $request){
 
-        $logged_user = Auth::user();
-        $user = User::where('username', $username)->with('userLinks')->firstOrFail();
+        $user = Auth::user();
 
-        if($logged_user->id == $user->id || $logged_user->hasRole('admin')){
-
-            $validator = Validator::make($request->all(), [
-                'name' => 'string|max:50|nullable',
-                'profile_picture' => 'file|max:2000|mimes:png,jpeg|nullable',
-                'bio' => 'string|max:1000|nullable',
-                'email' => ['email', 'nullable', Rule::unique('users', 'email')->ignore($user->email, 'email')],
-                'paypal' => ['email', 'nullable', Rule::unique('users', 'paypal')->ignore($user->paypal, 'paypal')],
-                'instagram_link' => 'string|max:50|nullable',
-                'facebook_link' => 'string|max:50|nullable',
-                'github_link' => 'string|max:100|nullable',
-                'youtube_link' => 'string|max:100|nullable',
-                'website_link' => 'url|max:100|nullable',
-                'portfolio_link' => 'url|max:100|nullable'
-            ]);
+        $validator = Validator::make($request->all(), [
+            'name' => 'string|max:50|nullable',
+            'profile_picture' => 'file|max:2000|mimes:png,jpeg|nullable',
+            'bio' => 'string|max:1000|nullable',
+            'email' => ['email', 'nullable', Rule::unique('users', 'email')->ignore($user->email, 'email')],
+            'paypal' => ['email', 'nullable', Rule::unique('users', 'paypal')->ignore($user->paypal, 'paypal')],
+            'instagram_link' => 'string|max:50|nullable',
+            'facebook_link' => 'string|max:50|nullable',
+            'github_link' => 'string|max:100|nullable',
+            'youtube_link' => 'string|max:100|nullable',
+            'website_link' => 'active_url|max:100|nullable',
+            'portfolio_link' => 'active_url|max:100|nullable'
+        ]);
 
 
-            if($validator->fails()){
-                return back()->withErrors($validator)->withInput();
-            }
-
-            $profilePicture = $request->profile_picture;
-            if($profilePicture){
-                if(!Arr::has(Storage::cloud()->directories(), 'profiles')){
-                    Storage::cloud()->makeDirectory('profiles');
-                }
-                $unique = uniqid();
-                $path = $profilePicture->storePublicly('profiles/' . $unique, 's3');
-                $user->avatar_url = $path;
-            }
-            $user->name = $request->name;
-            $user->bio = $request->bio;
-            $user->email = $request->email;
-            $user->paypal = $request->paypal;
-            $user->save();
-
-            $links = ['instagram' => $request->instagram_link, 'facebook' => $request->facebook_link,
-             'github' => $request->github_link, 'youtube' => $request->youtube_link, 'website' => $request->website_link, 'portfolio' => $request->portfolio_link];
-
-            $this->saveUserLinks($links, $user);
-
-            return back()->with('status', 'Your information has been updated');
+        if($validator->fails()){
+            return back()->withErrors($validator)->withInput();
         }
 
-        return abort(403, 'Unauthorized action.');
+        $profilePicture = $request->profile_picture;
+        if($profilePicture){
+            if(!Arr::has(Storage::cloud()->directories(), 'profiles')){
+                Storage::cloud()->makeDirectory('profiles');
+            }
+            $unique = uniqid();
+            $path = $profilePicture->storePublicly('profiles/' . $unique, 's3');
+            $user->avatar_url = $path;
+        }
+        $user->name = $request->name;
+        $user->bio = $request->bio;
+        $user->email = $request->email;
+        $user->paypal = $request->paypal;
+        $user->save();
+
+        $links = ['instagram' => $request->instagram_link, 'facebook' => $request->facebook_link,
+            'github' => $request->github_link, 'youtube' => $request->youtube_link, 'website' => $request->website_link, 'portfolio' => $request->portfolio_link];
+
+        $this->saveUserLinks($links, $user);
+
+        return back()->with('status', 'Your information has been updated');
 
     }
 
@@ -222,62 +216,67 @@ class UserController extends Controller
 
 
 
-    public function changePasswordPage($username){
+    public function changePasswordPage(){
 
-        $user = User::where('username', $username)->firstOrFail();
-        $logged_user = Auth::user();
-
-        if($user->id == $logged_user->id || $logged_user->hasRole('admin')){
-
-            return view('users.changePassword', ['user' => $user]);
-
-        } else {
-
-            return abort(403, 'Unauthorized action.');
-
-        }
+        $user = Auth::user();
+        return view('users.changePassword', ['user' => $user]);
 
     }
 
 
-    public function changePasswordRequest(Request $request, $username){
+    public function changePasswordRequest(Request $request){
 
-        $user = User::where('username', $username)->firstOrFail();
-        $logged_user = Auth::user();
+        $user = $request->user();
+        $validator = Validator::make($request->all(), [
+            'old_password' => 'required|string|min:8',
+            'new_password' => 'required|string|min:8|confirmed',
+        ]);
 
-        if($user->id == $logged_user->id || $logged_user->hasRole('admin')){
-
-            $validator = Validator::make($request->all(), [
-                'old_password' => 'required|string|min:8',
-                'new_password' => 'required|string|min:8|confirmed',
-            ]);
-
-            if($validator->fails()){
-                return back()->withErrors($validator);
-            }
-
-            $old_password = $request->old_password;
-            $new_password = $request->new_password;
-
-            if (Hash::check($old_password, $user->password)) {
-                if (!Hash::check($new_password, $user->password)) {
-                    $user->fill(['password' => Hash::make($new_password)])->save();
-                    Auth::logout();
-                    return redirect('/login');
-                } else {
-                    return back()->withErrors('New password cannot be the same old one.');
-                }
-            }
-            return back()->withErrors('Your old password is wrong.');
-
-        } else {
-
-            return abort(403, 'Unauthorized action.');
-
+        if($validator->fails()){
+            return back()->withErrors($validator);
         }
 
-        
+        $old_password = $request->old_password;
+        $new_password = $request->new_password;
 
+        if (Hash::check($old_password, $user->password)) {
+            if (!Hash::check($new_password, $user->password)) {
+                $user->fill(['password' => Hash::make($new_password)])->save();
+                Auth::logout();
+                return redirect('/login');
+            } else {
+                return back()->withErrors('New password cannot be the same old one.');
+            }
+        }
+        return back()->withErrors('Your old password is wrong.');
+
+    }
+
+    /**
+     * 
+     * Go to the user's dashboard
+     * @return Response
+     * 
+     */
+    public function dashboard(){
+        $user = Auth::user();
+        return view('users.dashboard', ['user', $user]);
+    } 
+
+
+    /**
+     * 
+     * 
+     * Show assets in the user's dashboard
+     * 
+     * 
+     */
+
+    public function myAssetsPage(){
+
+        $user = Auth::user();
+        $assets = $user->assets()->withTrashed()->paginate(10);
+        return view('users.myAssets', ['assets' => $assets]);
     }
 
 }

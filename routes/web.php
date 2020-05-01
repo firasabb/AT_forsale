@@ -126,6 +126,16 @@ Route::put('/admin/dashboard/report/{id}', 'ReportController@adminEdit')->middle
 Route::post('/admin/dashboard/report/', 'ReportController@adminAdd')->middleware('role:admin|moderator')->name('admin.add.report');
 Route::post('/admin/dashboard/report/search', 'ReportController@adminSearchReports')->middleware('role:admin|moderator')->name('admin.search.reports');
 
+// Admin / Licenses
+
+Route::get('/admin/dashboard/licenses/', 'LicenseController@adminIndex')->middleware('role:admin|moderator')->name('admin.index.licenses');
+Route::delete('/admin/dashboard/license/{id}', 'LicenseController@adminDestroy')->middleware('role:admin|moderator')->name('admin.delete.license');
+Route::get('/admin/dashboard/license/{id}', 'LicenseController@adminShow')->middleware('role:admin|moderator')->name('admin.show.license');
+Route::put('/admin/dashboard/license/{id}', 'LicenseController@adminEdit')->middleware('role:admin|moderator')->name('admin.edit.license');
+Route::post('/admin/dashboard/license/', 'LicenseController@adminAdd')->middleware('role:admin|moderator')->name('admin.add.license');
+Route::post('/admin/dashboard/licenses/search', 'LicenseController@adminSearchLicenses')->middleware('role:admin|moderator')->name('admin.search.licenses');
+
+
 
 // Assets Add
 Route::get('/add/asset/{category?}', 'AssetController@create')->middleware('role:user')->name('create.asset');
@@ -143,15 +153,16 @@ Route::post('/add/contest', 'ContestController@store')->name('store.contest');
 Route::get('/asset/{url}', 'AssetController@show')->name('show.asset');
 
 
-
 // Users
 
 Route::get('/u/{username}', 'UserController@showProfile')->name('user.profile.show');
-Route::get('/u/{username}/setup', 'UserController@setupProfilePage')->middleware('role:user')->name('user.profile.setup.show');
-Route::put('/u/{username}/setup', 'UserController@setupProfileRequest')->middleware('role:user')->name('user.profile.setup.request');
-Route::get('/u/{username}/changepassword', 'UserController@changePasswordPage')->middleware('role:user')->name('user.profile.password.show');
-Route::post('/u/{username}/changepassword', 'UserController@changePasswordRequest')->middleware('role:user')->name('user.profile.password.request');
-
+Route::get('/dashboard', 'UserController@dashboard')->middleware('role:user')->name('user.dashboard');
+Route::get('/dashboard/myprofile', 'UserController@showProfileDashboard')->name('user.profile.dashboard.show');
+Route::get('/dashboard/setup', 'UserController@setupProfilePage')->middleware('role:user')->name('user.setup.show');
+Route::put('/dashboard/setup', 'UserController@setupProfileRequest')->middleware('role:user')->name('user.setup.request');
+Route::get('/dashboard/changepassword', 'UserController@changePasswordPage')->middleware('role:user')->name('user.password.show');
+Route::post('/dashboard/changepassword', 'UserController@changePasswordRequest')->middleware('role:user')->name('user.password.request');
+Route::get('/dashboard/myassets', 'UserController@myAssetsPage')->middleware('role:user')->name('user.assets.show');
 
 // Tags
 

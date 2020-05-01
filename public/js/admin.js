@@ -132,6 +132,12 @@ $(document).ready(function () {
   $('#delete-form-permissions').on('submit', function () {
     return confirm('Are you sure that you want to delete this permission?');
   });
+  $('#edit-form-permissions').on('submit', function () {
+    return confirm('Are you sure that you want to edit this permission?');
+  });
+  $('#edit-form-licenses').on('submit', function () {
+    return confirm('Are you sure that you want to edit this license?');
+  });
   $('#delete-asset').on('submit', function () {
     return confirm('Are you sure that you want to delete this asset?');
   });

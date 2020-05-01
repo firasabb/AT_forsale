@@ -67,7 +67,7 @@ class TagController extends Controller
         $tag = new Tag();
         $tag->name = strToLower($request->name);
         $request->url = Str::slug($request->url, '-');
-        $check = Tag::where(['deleted_at' => NULL, 'url' => $request->url])->first();
+        $check = Tag::where(['url' => $request->url])->first();
         if(!empty($check)){
             return redirect('/admin/dashboard/tags/')->withErrors('The url has already been taken.')->withInput();
         }
@@ -137,7 +137,7 @@ class TagController extends Controller
         $tag->name = strToLower($request->name);
         $request->url = Str::slug($request->url, '-');
         if($request->url != $tag->url){
-            $check = Tag::where(['deleted_at' => NULL, 'url' => $request->url])->first();
+            $check = Tag::where(['url' => $request->url])->first();
             if(!empty($check)){
                 return redirect('/admin/dashboard/tag/' . $id)->withErrors('The url has already been taken.')->withInput();
             }

@@ -25,6 +25,7 @@ Vue.component('profile-link', require('./components/ProfileLink.vue').default);
 Vue.component('category', require('./components/Categories.vue').default);
 Vue.component('category-button', require('./components/CategoryButton.vue').default);
 Vue.component('report', require('./components/Report.vue').default);
+Vue.component('dashboard-nav', require('./components/DashboardNav.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

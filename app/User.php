@@ -44,7 +44,13 @@ class User extends Authenticatable
 
     public function assets(){
 
-        return $this->hasMany('\App\Asset', 'user_id');
+        return $this->hasMany('\App\Asset');
+
+    }
+
+    public function activeAssets(){
+
+        return $this->assets()->where('status', 2);
 
     }
 
@@ -84,13 +90,16 @@ class User extends Authenticatable
         return $this->hasMany('App\DownloadEvent');
     }
 
+    public function viewEvents(){
+        return $this->hasMany('App\ViewEvent');
+    }
 
     /**
      * 
      * Change status numbers to text and check if deleted or not
      * 
      */
-    public function statusToText(){
+    public function statusInText(){
 
         if($this->trashed()){
             return 'deleted';

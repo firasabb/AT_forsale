@@ -25,7 +25,7 @@ class DownloadController extends Controller
         $ip = $request->ip();
         $checkPastDownloads = DownloadEvent::whereDate('created_at', Carbon::today())->count();
 
-        if($checkPastDownloads > 3 && !Auth::check()){
+        if($checkPastDownloads > 2 && !Auth::check()){
             return redirect()->route('login');
         }
 

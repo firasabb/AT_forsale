@@ -8,6 +8,8 @@ use App\Category;
 use App\Download;
 use App\Media;
 use App\DownloadEvent;
+use App\ViewEvent;
+use App\License;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Validator;
@@ -47,13 +49,25 @@ class AssetController extends Controller
         $asset = Asset::where('url', $url)->firstOrFail();
         $featured = $asset->featured();
         $ip = $_SERVER['REMOTE_ADDR'];
-        $checkPastDownloads = DownloadEvent::whereDate('created_at', Carbon::today())->count();
-        $error = '';
-        if($checkPastDownloads && !Auth::check()){
-            $error = 'Maximum limit of downloads per day has been reached. Please log in to continue.';
-            return view('assets.show', ['asset' => $asset, 'featured' => $featured, 'error' => $error])->withErrors($error);
+        $checkPastViews = $asset->viewEvents()->where('ip_address', $ip);
+        if(Auth::check()){
+            $checkPastViews->orWhere('user_id', Auth::id());
         }
-        return view('assets.show', ['asset' => $asset, 'featured' => $featured, 'error' => $error]);
+        if(empty($checkPastViews->first())){
+            $viewEvent = new ViewEvent();
+            $viewEvent->ip_address = $ip;
+            $viewEvent->asset()->associate($asset);
+            if(Auth::check()){
+                $viewEvent->user()->associate(Auth::user());
+            }
+            $viewEvent->save();
+        }
+        $checkPastDownloads = DownloadEvent::whereDate('created_at', Carbon::today())->count();
+        if($checkPastDownloads && !Auth::check()){
+            $error = 'Maximum limit of downloads per day has been reached. Please log in or register to continue.';
+            return view('assets.show', ['asset' => $asset, 'featured' => $featured])->withErrors($error);
+        }
+        return view('assets.show', ['asset' => $asset, 'featured' => $featured]);
 
     }
 
@@ -194,6 +208,8 @@ class AssetController extends Controller
             $tag = Tag::Where('name', 'LIKE', $tag)->firstOrFail();
             $asset->tags()->attach($tag);
         }
+
+        $asset->licenses()->attach(License::find(1));
 
         if($user->hasAnyRole('admin', 'moderator')){
             return redirect()->route('admin.index.assets')->with('status', 'A New Asset Has Been Created');

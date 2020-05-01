@@ -36,7 +36,7 @@ class Contest extends Model
      * Change status numbers to text and check if deleted or not
      * 
      */
-    public function statusToText(){
+    public function statusInText(){
 
         if($this->trashed()){
             return 'deleted';

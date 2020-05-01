@@ -54,6 +54,26 @@ class Asset extends Model
         return $this->hasMany('App\DownloadEvent');
     }
 
+    public function downloadEventsCount(){
+        $count = $this->downloadEvents()->whereNull('user_id')->distinct('ip_address')->count();
+        $count += $this->downloadEvents()->whereNotNull('user_id')->distinct('user_id')->count();
+        return $count;
+    }
+
+    public function viewEvents(){
+        return $this->hasMany('App\ViewEvent');
+    }
+
+    public function viewEventsCount(){
+        $count = $this->viewEvents()->whereNull('user_id')->distinct('ip_address')->count();
+        $count += $this->viewEvents()->whereNotNull('user_id')->distinct('user_id')->count();
+        return $count;
+    }
+
+    public function licenses(){
+        return $this->belongsToMany('\App\License');
+    }
+
     public function featured(){
 
         $check_if_exists = $this->medias->where('sorting', 'featured')->first();
@@ -68,7 +88,7 @@ class Asset extends Model
 
         $assetDate = $this->created_at;
         if($assetDate->isToday()){
-            return $assetDate->format('h:m');
+            return $assetDate->format('h:m A');
         } else if($assetDate->isCurrentYear()){
             return $assetDate->format('jS \\of F');
         } else {
@@ -82,7 +102,7 @@ class Asset extends Model
      * Change status numbers to text and check if deleted or not
      * 
      */
-    public function statusToText(){
+    public function statusInText(){
 
         if($this->trashed()){
             return 'deleted';

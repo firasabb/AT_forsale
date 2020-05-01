@@ -60,7 +60,7 @@
                                 Category
                             </th>
                             <th>
-                                Downloads
+                                Download Files
                             </th>
                             <th class="td-actions">
                                 Actions
