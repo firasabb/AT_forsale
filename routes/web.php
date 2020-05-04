@@ -74,7 +74,7 @@ Route::post('/admin/dashboard/approve/assets/{id}', 'AssetController@adminApprov
 
 Route::post('/admin/download/{assetId}', 'DownloadController@adminAdd')->middleware('role:admin|moderator')->name('admin.download.add');
 Route::delete('/admin/download/{id}', 'DownloadController@adminDelete')->middleware('role:admin|moderator')->name('admin.download.delete');
-
+Route::get('/admin/download/{id}', 'DownloadController@adminDownloadDownload')->middleware('role:admin|moderator')->name('admin.download.download');
 
 // Admin / Contests
 
@@ -135,6 +135,24 @@ Route::put('/admin/dashboard/license/{id}', 'LicenseController@adminEdit')->midd
 Route::post('/admin/dashboard/license/', 'LicenseController@adminAdd')->middleware('role:admin|moderator')->name('admin.add.license');
 Route::post('/admin/dashboard/licenses/search', 'LicenseController@adminSearchLicenses')->middleware('role:admin|moderator')->name('admin.search.licenses');
 
+// Admin / External Ads
+
+Route::get('/admin/dashboard/externalads/', 'ExternalAdController@adminIndex')->middleware('role:admin|moderator')->name('admin.index.externalads');
+Route::delete('/admin/dashboard/externalad/{id}', 'ExternalAdController@adminDestroy')->middleware('role:admin|moderator')->name('admin.delete.externalad');
+Route::get('/admin/dashboard/externalad/{id}', 'ExternalAdController@adminShow')->middleware('role:admin|moderator')->name('admin.show.externalad');
+Route::put('/admin/dashboard/externalad/{id}', 'ExternalAdController@adminEdit')->middleware('role:admin|moderator')->name('admin.edit.externalad');
+Route::post('/admin/dashboard/externalad/', 'ExternalAdController@adminAdd')->middleware('role:admin|moderator')->name('admin.add.externalad');
+Route::post('/admin/dashboard/externalads/search', 'ExternalAdController@adminSearchExternalAds')->middleware('role:admin|moderator')->name('admin.search.externalads');
+
+
+// Admin / External Ads
+
+Route::get('/admin/dashboard/contactmessages/', 'ContactMessageController@adminIndex')->middleware('role:admin|moderator')->name('admin.index.contactmessages');
+Route::delete('/admin/dashboard/contactmessage/{id}', 'ContactMessageController@adminDestroy')->middleware('role:admin|moderator')->name('admin.delete.contactmessage');
+Route::get('/admin/dashboard/contactmessage/{id}', 'ContactMessageController@adminShow')->middleware('role:admin|moderator')->name('admin.show.contactmessage');
+Route::put('/admin/dashboard/contactmessage/{id}', 'ContactMessageController@adminEdit')->middleware('role:admin|moderator')->name('admin.edit.contactmessage');
+Route::post('/admin/dashboard/contactmessage/', 'ContactMessageController@adminAdd')->middleware('role:admin|moderator')->name('admin.add.contactmessage');
+Route::post('/admin/dashboard/contactmessages/search', 'ContactMessageController@adminSearchExternalAds')->middleware('role:admin|moderator')->name('admin.search.contactmessages');
 
 
 // Assets Add
@@ -164,6 +182,9 @@ Route::get('/dashboard/changepassword', 'UserController@changePasswordPage')->mi
 Route::post('/dashboard/changepassword', 'UserController@changePasswordRequest')->middleware('role:user')->name('user.password.request');
 Route::get('/dashboard/myassets', 'UserController@myAssetsPage')->middleware('role:user')->name('user.assets.show');
 
+Route::delete('/dashboard/asset/delete/{id}', 'AssetController@destroy')->middleware('role:user')->name('user.delete.asset');
+
+
 // Tags
 
 Route::get('/tags', 'TagController@index')->middleware('role:user')->name('index.tags');
@@ -184,4 +205,9 @@ Route::post('/suggest/tags/', 'TagController@suggestTags')->middleware('role:use
 
 // Downloads
 
-Route::get('/download/{id}', 'DownloadController@downloadDownload')->name('download.download');
+Route::post('/download/download', 'DownloadController@downloadDownload')->name('download.download');
+
+// Contact Us Page
+
+Route::get('/page/contactus', 'ContactMessageController@create')->name('create.contactus');
+Route::post('/page/contactus', 'ContactMessageController@store')->name('store.contactus');

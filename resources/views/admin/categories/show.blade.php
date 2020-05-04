@@ -24,7 +24,7 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('admin.edit.category', ['id' => $category->id]) }}" id="edit-form-categories" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('admin.edit.category', ['id' => $category->id]) }}" class="edit-form-confirm" enctype="multipart/form-data">
                         {!! csrf_field() !!}
                         {!! method_field('PUT') !!}
 
@@ -69,7 +69,7 @@
 
             <div class="block-button">
                 <button type="button" class="btn btn-success btn-lg btn-block" id="edit-button">Edit Cateogry</button>
-                <form action="{{ route('admin.delete.category', ['id' => $category->id]) }}" method="POST" id="delete-form-categories" class="delete-form-2">
+                <form action="{{ route('admin.delete.category', ['id' => $category->id]) }}" method="POST" class="delete-form-2 delete-form-confirm">
                     {!! csrf_field() !!}
                     {!! method_field('DELETE') !!}
                     <button type="submit" class="btn btn-danger btn-lg btn-block">Delete Cateogry</button>

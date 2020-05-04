@@ -18,7 +18,7 @@ class WelcomeController extends Controller
 
         $assets = Asset::orderBy('id', 'desc')->paginate(5);
         $categories = Category::all();
-        return view('main', ['assets' => $assets, 'categories' => $categories]);
+        return view('screens.main', ['assets' => $assets, 'categories' => $categories]);
 
     }
 
@@ -77,7 +77,7 @@ class WelcomeController extends Controller
             $assets = $assets->with('category')->paginate(10);
         }
         $categories = Category::all();
-        return view('searchResults', ['assets' => $assets, 'categories' => $categories]);
+        return view('screens.searchResults', ['assets' => $assets, 'categories' => $categories]);
 
     }
 

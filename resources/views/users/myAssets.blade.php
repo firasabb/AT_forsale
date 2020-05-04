@@ -9,6 +9,28 @@
             <div>
         </div>
     </div>
+    @if (session('status') || $errors->any())
+    <div class="row justify-content-center">
+        <div class="col text-center">
+            <div class="py-5">
+                @if(session('status'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('status') }}
+                    </div>
+                @elseif($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+            <div>
+        </div>
+    </div>
+    @endif
+
     <div class="row justify-content-center">
         <div class="col p-0">
             <div>
@@ -39,7 +61,7 @@
                         @foreach($assets as $asset)
                             <tr>
                                 <td>
-                                    <a href="#" class="a-no-decoration"><strong>{{ Str::limit($asset->title, 20, '...') }}</strong></a>
+                                    <a target="_blank" href="{{ route('show.asset', ['url' => $asset->url]) }}" class="a-no-decoration"><strong>{{ Str::limit($asset->title, 20, '...') }}</strong></a>
                                 </td>
                                 <td>
                                     {{ $asset->statusInText() }}
@@ -54,6 +76,11 @@
                                     {{ $asset->created_at->format('m/d/y h:i') }}
                                 </td>
                                 <td>
+                                    <form class="delete-asset" method="POST" action="{{ route('user.delete.asset', ['id' => encrypt($asset->id)]) }}">
+                                        @csrf
+                                        {{ method_field('DELETE') }}
+                                        <button class="btn btn-sm btn-danger">Delete</button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach

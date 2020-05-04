@@ -50142,6 +50142,9 @@ var app = new Vue({
       $('#reportModal').modal('show');
       this.id = id;
       this.route = route;
+    },
+    open_user_ad_modal: function open_user_ad_modal() {
+      $('#userAdModal').modal('show');
     }
   }
 });

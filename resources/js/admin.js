@@ -21,40 +21,9 @@ $(document).ready(function(){
     });
 
     
-    $('#edit-form-users').on('submit', function(){
-        return confirm('Are you sure that you want to edit this user?');
-    });
-
-    $('#delete-form-users').on('submit', function(){
-        return confirm('Are you sure that you want to delete this user?');
-    });
 
     $('#generate-password').on('click', function(){
         return confirm('Are you sure that you want to generate a new password for this user?');
-    });
-
-    $('#edit-form-roles').on('submit', function(){
-        return confirm('Are you sure that you want to edit this role?');
-    });
-
-    $('#delete-form-roles').on('submit', function(){
-        return confirm('Are you sure that you want to delete this role?');
-    });
-
-    $('#edit-form-permissions').on('submit', function(){
-        return confirm('Are you sure that you want to edit this permission?');
-    });
-
-    $('#delete-form-permissions').on('submit', function(){
-        return confirm('Are you sure that you want to delete this permission?');
-    });
-
-    $('#edit-form-permissions').on('submit', function(){
-      return confirm('Are you sure that you want to edit this permission?');
-    });
-
-    $('#edit-form-licenses').on('submit', function(){
-      return confirm('Are you sure that you want to edit this license?');
     });
 
     $('#delete-asset').on('submit', function(){
@@ -78,50 +47,13 @@ $(document).ready(function(){
         }
     });
 
-    $('#edit-form-tags').on('submit', function(){
-        return confirm('Are you sure that you want to edit this tag?');
+    $('.delete-form-confirm').on('submit', function(){
+      return confirm('Are you sure that you want to delete this item?');
     });
 
-    $('#delete-form-tags').on('submit', function(){
-        return confirm('Are you sure that you want to delete this tag?');
+    $('.edit-form-confirm').on('submit', function(){
+      return confirm('Are you sure that you want to edit this item?');
     });
-
-    $('#edit-form-reports').on('submit', function(){
-        return confirm('Are you sure that you want to edit this report?');
-    });
-
-    $('#delete-form-reports').on('submit', function(){
-        return confirm('Are you sure that you want to delete this report?');
-    });
-
-    $('#edit-form-reports').on('submit', function(){
-        return confirm('Are you sure that you want to edit this report?');
-    });
-
-    $('#delete-form-reports').on('submit', function(){
-        return confirm('Are you sure that you want to delete this report?');
-    });
-
-    $('#edit-form-comments').on('submit', function(){
-        return confirm('Are you sure that you want to edit this comment?');
-    });
-
-    $('#delete-form-comments').on('submit', function(){
-        return confirm('Are you sure that you want to delete this comment?');
-    });
-
-
-    $('#edit-form-categories').on('submit', function(){
-      return confirm('Are you sure that you want to edit this category?');
-    });
-
-    $('#delete-form-categories').on('submit', function(){
-        return confirm('Are you sure that you want to delete this category?');
-    });
-
-    $('#delete-form-downloads').on('submit', function(){
-      return confirm('Are you sure that you want to delete this Download?');
-  });
 
     $.ajaxSetup({
         headers: {

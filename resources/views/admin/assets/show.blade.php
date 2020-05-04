@@ -28,7 +28,7 @@
                         <h5>Added by: <a href="{{ url('admin/dashboard/user/' . $asset->user->id) }}">{{ $asset->user->name }}</a></h5>
                     </div>
 
-                    <form method="POST" action="{{ route('admin.edit.asset', ['id' => $asset->id]) }}" id="edit-form-assets">
+                    <form method="POST" action="{{ route('admin.edit.asset', ['id' => $asset->id]) }}" class="edit-form-confirm">
                         {!! csrf_field() !!}
                         {!! method_field('PUT') !!}
 
@@ -116,7 +116,7 @@
 
             <div class="block-button">
                 <button type="button" class="btn btn-success btn-lg btn-block" id="edit-button">Edit Asset</button>
-                <form action="{{ route('admin.delete.asset', ['id' => $asset->id]) }}" method="POST" id="delete-form-assets" class="delete-form-2">
+                <form action="{{ route('admin.delete.asset', ['id' => $asset->id]) }}" method="POST" class="delete-form-2 delete-form-confirm">
                     {!! csrf_field() !!}
                     {!! method_field('DELETE') !!}
                     <button type="submit" class="btn btn-danger btn-lg btn-block">Delete Asset</button>
@@ -148,7 +148,7 @@
                     @foreach($downloads as $download)
                         <tr>
                             <td>
-                                <a href="{{ route('download.download', ['id' => encrypt($download->id)]) }}" target="_blank">{{ $download->name }}</a>
+                                <a href="{{ route('admin.download.download', ['id' => encrypt($download->id)]) }}" target="_blank">{{ $download->name }}</a>
                             </td>
                             <td>
                                 <p>{{$download->getSize()}}B</p>
@@ -157,7 +157,7 @@
                                 <p>{{$download->getMime()}}</p>
                             </td>
                             <td>
-                                <form action="{{ route('admin.download.delete', ['id' => $download->id]) }}" method="POST" id="delete-form-downloads">
+                                <form action="{{ route('admin.download.delete', ['id' => $download->id]) }}" method="POST" class="delete-form-confirm">
                                     {!! csrf_field() !!}
                                     {!! method_field('DELETE') !!}
                                     <button class="btn btn-danger" type="submit">Delete</button>

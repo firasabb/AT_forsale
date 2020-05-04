@@ -54,7 +54,7 @@
                                 </td>
                                 <td>
                                     <a href="{{ route('admin.show.permission', ['id' => $permission->id]) }}" class="btn btn-success">Show/Edit</a>
-                                    <form action="{{ route('admin.delete.permission', ['id' => $permission->id]) }}" method="POST" id="delete-form-permissions" class="delete-form-1">
+                                    <form action="{{ route('admin.delete.permission', ['id' => $permission->id]) }}" method="POST" class="delete-form-1 delete-form-confirm">
                                         {!! csrf_field() !!}
                                         {!! method_field('DELETE') !!}
                                         <button class="btn btn-danger" type="submit">Delete</button>

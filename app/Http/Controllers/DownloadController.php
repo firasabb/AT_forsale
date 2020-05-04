@@ -10,6 +10,7 @@ use Auth;
 use Storage;
 use Validator;
 use Carbon\Carbon;
+use App\Services\Recaptcha;
 
 class DownloadController extends Controller
 {
@@ -20,11 +21,22 @@ class DownloadController extends Controller
     }
 
 
-    public function downloadDownload($id, Request $request){
+    public function downloadDownload(Request $request){
 
-        $ip = $request->ip();
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|string',
+            'recaptcha' => 'required|string'
+        ]);
+
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $recaptcha = new Recaptcha($ip, $request->recaptcha);
+        $recaptchaValidate = $recaptcha->validate();
+
+        if($validator->fails() || !$recaptchaValidate){
+            return back()->withErrors('Something went wrong! Please try again.');
+        }
+
         $checkPastDownloads = DownloadEvent::whereDate('created_at', Carbon::today())->count();
-
         if($checkPastDownloads > 2 && !Auth::check()){
             return redirect()->route('login');
         }
@@ -42,6 +54,22 @@ class DownloadController extends Controller
         }
         $downloadEvent->ip_address = $ip;
         $downloadEvent->save();
+        $asset = $download->asset;
+        $path = $download->getPath();
+        $mime = $download->getMime();
+        $url = Storage::cloud()->temporaryUrl($download->url, now()->addSeconds(10));
+        header("Cache-Control: public");
+        header("Content-Description: File Transfer");
+        header("Content-Disposition: attachment; filename=" . $asset->title);
+        header("Content-Type: " . $mime);
+        return readfile($url);
+
+    }
+
+
+    public function adminDownloadDownload($id){
+
+        $download = Download::findOrFail($id);
         $asset = $download->asset;
         $path = $download->getPath();
         $mime = $download->getMime();

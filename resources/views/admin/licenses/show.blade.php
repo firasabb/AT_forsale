@@ -24,7 +24,7 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('admin.edit.license', ['id' => $license->id]) }}" id="edit-form-licenses">
+                    <form method="POST" action="{{ route('admin.edit.license', ['id' => $license->id]) }}" class="edit-form-confirm">
                         {!! csrf_field() !!}
                         {!! method_field('PUT') !!}
 
@@ -71,7 +71,7 @@
 
             <div class="block-button">
                 <button type="button" class="btn btn-success btn-lg btn-block" id="edit-button">Edit License</button>
-                <form action="{{ route('admin.delete.license', ['id' => $license->id]) }}" method="POST" id="delete-form-licenses" class="delete-form-2">
+                <form action="{{ route('admin.delete.license', ['id' => $license->id]) }}" method="POST" class="delete-form-2 delete-form-confirm">
                     {!! csrf_field() !!}
                     {!! method_field('DELETE') !!}
                     <button type="submit" class="btn btn-danger btn-lg btn-block">Delete License</button>

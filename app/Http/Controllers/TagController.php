@@ -235,7 +235,6 @@ class TagController extends Controller
                 $where = ['name', 'LIKE', '%' . $tag . '%'];
                 array_push($whereArr, $where);
             }
-            error_log(print_r($whereArr, true));
             if($category){
                 $category = Category::find($category);
                 $searchResults = $category->tags()->where($whereArr)->get();

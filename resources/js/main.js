@@ -2,9 +2,13 @@ $(document).ready(function(){
 
 
 
-  $('.delete-comment').on('submit', function(){
-      return confirm('Are you sure that you want to delete this comment?');
-  });
+    $('.delete-comment').on('submit', function(){
+        return confirm('Are you sure that you want to delete this comment?');
+    });
+
+    $('.delete-asset').on('submit', function(){
+      return confirm('Are you sure that you want to delete this asset? This action is irreversible!');
+    });
 
     max = 5;
     count = 1;

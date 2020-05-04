@@ -79,7 +79,7 @@
                                 <td>
                                     <div class="td-actions-btns">
                                         <a href="{{ route('admin.show.category', ['id' => $category->id]) }}" class="btn btn-success">Show/Edit</a>
-                                        <form action="{{ route('admin.delete.category', ['id' => $category->id]) }}" method="POST" id="delete-form-categories" class="delete-form-1">
+                                        <form action="{{ route('admin.delete.category', ['id' => $category->id]) }}" method="POST" class="delete-form-1 delete-form-confirm">
                                             {!! csrf_field() !!}
                                             {!! method_field('DELETE') !!}
                                             <button class="btn btn-danger" type="submit">Delete</button>

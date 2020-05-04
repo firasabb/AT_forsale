@@ -68,7 +68,13 @@
                             <a class="nav-link" href="{{ route('admin.index.licenses') }}">Licenses</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.index.externalads') }}">Ads</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="#">Settings</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.index.contactmessages') }}">Contact Messages</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('admin.index.reports') }}">Reports</a>

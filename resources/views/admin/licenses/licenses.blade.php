@@ -77,7 +77,7 @@
                                 <td>
                                     <div class="td-actions-btns">
                                         <a href="{{ route('admin.show.license', ['id' => $license->id]) }}" class="btn btn-success">Show/Edit</a>
-                                        <form action="{{ route('admin.delete.license', ['id' => $license->id]) }}" method="POST" id="delete-form-licenses" class="delete-form-1">
+                                        <form action="{{ route('admin.delete.license', ['id' => $license->id]) }}" method="POST" class="delete-form-1 delete-form-confirm">
                                             {!! csrf_field() !!}
                                             {!! method_field('DELETE') !!}
                                             <button class="btn btn-danger" type="submit">Delete</button>

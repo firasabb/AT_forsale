@@ -48,11 +48,20 @@ class AssetController extends Controller
 
         $asset = Asset::where('url', $url)->firstOrFail();
         $featured = $asset->featured();
+        $license = $asset->licenses()->first();
+        $category = $asset->category;
+        $relatedAssets = $category->approvedAssets()->inRandomOrder()->where('id', '!=', $asset->id)->take(6)->get();
+        //dd($relatedAssets);
+        $dataArr = ['asset' => $asset, 'featured' => $featured, 'license' => $license, 'relatedAssets' => $relatedAssets];
         $ip = $_SERVER['REMOTE_ADDR'];
-        $checkPastViews = $asset->viewEvents()->where('ip_address', $ip);
-        if(Auth::check()){
-            $checkPastViews->orWhere('user_id', Auth::id());
-        }
+
+        $checkPastViews = $asset->viewEvents()->where(function($query) use ($ip) {
+            if(Auth::check()){
+                $query->where('ip_address', $ip)->orWhere('user_id', Auth::id());
+            } else {
+                $query->where('ip_address', $ip);
+            }
+        });
         if(empty($checkPastViews->first())){
             $viewEvent = new ViewEvent();
             $viewEvent->ip_address = $ip;
@@ -63,11 +72,11 @@ class AssetController extends Controller
             $viewEvent->save();
         }
         $checkPastDownloads = DownloadEvent::whereDate('created_at', Carbon::today())->count();
-        if($checkPastDownloads && !Auth::check()){
+        if($checkPastDownloads > 2 && !Auth::check()){
             $error = 'Maximum limit of downloads per day has been reached. Please log in or register to continue.';
-            return view('assets.show', ['asset' => $asset, 'featured' => $featured])->withErrors($error);
+            return view('assets.show', $dataArr)->withErrors($error);
         }
-        return view('assets.show', ['asset' => $asset, 'featured' => $featured]);
+        return view('assets.show', $dataArr);
 
     }
 
@@ -171,7 +180,8 @@ class AssetController extends Controller
         if($featured){
             $media = new Media();
             $media->sorting = 'featured';
-            $path = $featured->storePublicly('featured', 's3');
+            //$path = Storage::cloud()->putFile('featured', $featured, 'public');
+            $path = $featured->store('featured', 's3', 'public');
             $media->url = $path;
             $media->save();
         }
@@ -378,6 +388,24 @@ class AssetController extends Controller
         }
         $asset->save();
         return redirect()->route('admin.show.asset', ['id' => $id])->with('status', 'This asset has been edited');
+    }
+
+
+    /**
+     * 
+     * Delete Asset By User
+     * @param Request $request
+     * @param Integer $id
+     * @return Response
+     * 
+     */
+    public function destroy(Request $request, $id){
+
+        $id = decrypt($id);
+        $user = Auth::user();
+        $asset = $user->assets()->findOrFail($id);
+        $asset->delete();
+        return back()->with('status', 'Your Asset Has Been Deleted!');
     }
 
 }

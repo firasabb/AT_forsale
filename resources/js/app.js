@@ -44,6 +44,9 @@ const app = new Vue({
             $('#reportModal').modal('show');
             this.id = id;
             this.route = route;
+        },
+        open_user_ad_modal: function(){
+            $('#userAdModal').modal('show');
         }
     }
 });

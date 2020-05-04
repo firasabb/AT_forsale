@@ -97,7 +97,7 @@
                                 <td>
                                     <div class="td-actions-btns">
                                         <a href="{{ url('admin/dashboard/user/' . $user->id) }}" class="btn btn-success">Edit</a>
-                                        <form action="{{ route('admin.delete.user', ['id' => $user->id]) }}" method="POST" id="delete-form-users" class="delete-form-1">
+                                        <form action="{{ route('admin.delete.user', ['id' => $user->id]) }}" method="POST" class="delete-form-1 delete-form-confirm">
                                             {!! csrf_field() !!}
                                             {!! method_field('DELETE') !!}
                                             <button class="btn btn-danger" type="submit">Delete</button>

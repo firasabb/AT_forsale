@@ -62,7 +62,7 @@
             </div>
 
             <div class="block-button">
-                <form action="{{ route('admin.delete.report', ['id' => $report->id]) }}" method="POST" id="delete-form-reports" class="delete-form-2">
+                <form action="{{ route('admin.delete.report', ['id' => $report->id]) }}" method="POST" class="delete-form-2 delete-form-confirm">
                     {!! csrf_field() !!}
                     {!! method_field('DELETE') !!}
                     <button type="submit" class="btn btn-danger btn-lg btn-block">Delete Report</button>

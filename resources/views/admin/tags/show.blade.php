@@ -24,7 +24,7 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('admin.edit.tag', ['id' => $tag->id]) }}" id="edit-form-tags">
+                    <form method="POST" action="{{ route('admin.edit.tag', ['id' => $tag->id]) }}" class="edit-form-confirm">
                         {!! csrf_field() !!}
                         {!! method_field('PUT') !!}
 
@@ -70,7 +70,7 @@
 
             <div class="block-button">
                 <button type="button" class="btn btn-success btn-lg btn-block" id="edit-button">Edit Tag</button>
-                <form action="{{ route('admin.delete.tag', ['id' => $tag->id]) }}" method="POST" id="delete-form-tags" class="delete-form-2">
+                <form action="{{ route('admin.delete.tag', ['id' => $tag->id]) }}" method="POST" class="delete-form-2 delete-form-confirm">
                     {!! csrf_field() !!}
                     {!! method_field('DELETE') !!}
                     <button type="submit" class="btn btn-danger btn-lg btn-block">Delete Tag</button>

@@ -76,18 +76,46 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card border-light card-shadow">
-                <div class="card-header bg-light">
-                    Free Download
-                </div>
-                <div class="card-body">
-                    @foreach($asset->downloads as $download)
-                        <div class="row justify-content-center">
-                            <div class="col text-center">
-                                <a target="_blank" class="btn btn-lg btn-success" href="{{ route('download.download', ['id' => encrypt($download->id)]) }}">Download</a>
-                            </div>
+            <div class="row justify-content-center">
+                <div class="col">
+                    <div class="card border-light card-shadow">
+                        <div class="card-header bg-light">
+                            Free Download
                         </div>
-                    @endforeach
+                        <div class="card-body">
+                            @foreach($asset->downloads as $download)
+                                <div class="row justify-content-center">
+                                    <div class="col text-center">
+                                        <form action="{{ route('download.download') }}" method="post">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{ encrypt($download->id) }}">
+                                            <input type="hidden" name="recaptcha" id="recaptcha">
+                                            <button v-on:click="open_user_ad_modal()" class="btn btn-lg btn-success">Download</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row py-5">
+                <div class="col">
+                    <div class="card border-light card-shadow">
+                        <div class="card-header bg-light">
+                            License
+                        </div>
+                        <div class="card-body text-center">
+                            <div class="py-2">
+                                <h4>{{ $license->name }}<h4>
+                            </div>
+                            @if(!is_null($license->link))
+                                <div>
+                                    <a target="_blank" class="a-no-decoration" href="{{ $license->link }}">Click here for more information.</a>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -187,18 +215,55 @@
             </div>
         </div>
     @endforeach
-        @hasanyrole('moderator|admin')
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="block-button">
-                        <a target="_blank" href="{{route('admin.show.asset', ['id' => $asset->id])}}" target="_blank" class="btn btn-secondary btn-lg btn-block">Edit This asset</a>
+
+    @if(!empty($relatedAssets))
+        <div class="row py-2">
+            <div class="col-md-8">
+                <h2>Don't Miss:</h2>
+            </div>
+        </div>
+        <div class="row py-2">
+            <div class="col-md-8">
+                <div class="card-deck">
+                @foreach($relatedAssets as $relatedAsset)
+                    <div class="py-2">
+                        <x-asset-card :asset="$relatedAsset"></x-asset-card>
                     </div>
+                @endforeach    
                 </div>
             </div>
-        @endrole
         </div>
+    @endif
+
+    @hasanyrole('moderator|admin')
+        <div class="row">
+            <div class="col-md-8">
+                <div class="block-button">
+                    <a target="_blank" href="{{route('admin.show.asset', ['id' => $asset->id])}}" target="_blank" class="btn btn-secondary btn-lg btn-block">Edit This asset</a>
+                </div>
+            </div>
+        </div>
+    @endrole
+    </div>
 
 
 <x-report>
 </x-report>
+
+<x-user-ad>
+</x-user-ad>
+
+@push('footer_scripts')
+    <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.sitekey') }}"></script>
+    <script type="text/javascript">
+            grecaptcha.ready(function() {
+                grecaptcha.execute('{{ config('services.recaptcha.sitekey') }}', {action: 'contact'}).then(function(token) {
+                    if (token) {
+                    document.getElementById('recaptcha').value = token;
+                    }
+                });
+            });
+    </script>
+@endpush
+
 @endsection

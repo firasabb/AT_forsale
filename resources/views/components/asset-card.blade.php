@@ -16,10 +16,7 @@
                 </div>
             </div>
             <div class="card-info">
-                <a href="{{ route('show.asset', ['url' => $asset->url]) }}" class="a-no-decoration"><h5 class="card-title">{{$asset->title}}</h5></a>
-                @if($asset->description)
-                    <p class="card-text">{{ Str::limit($asset->description, $limit = 20, $end = '...') }}</p>
-                @endif
+                <a href="{{ route('show.asset', ['url' => $asset->url]) }}" class="a-no-decoration"><h5 class="card-title">{{ Str::limit($asset->title, $limit = 50, $end = '...') }}</h5></a>
             </div>
         </div>
         <div class="card-footer bg-light card-f">

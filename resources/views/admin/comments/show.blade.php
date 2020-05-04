@@ -28,7 +28,7 @@
                         <h5>Asked by: <a href="{{ url('admin/dashboard/user/' . $comment->user->id) }}">{{ $comment->user->name }}</a></h5>
                     </div>
 
-                    <form method="POST" action="{{ route('admin.edit.comment', ['id' => $comment->id]) }}" id="edit-form-comments">
+                    <form method="POST" action="{{ route('admin.edit.comment', ['id' => $comment->id]) }}" class="edit-form-confirm">
                         {!! csrf_field() !!}
                         {!! method_field('PUT') !!}
 
@@ -74,7 +74,7 @@
 
             <div class="block-button">
                 <button type="button" class="btn btn-success btn-lg btn-block" id="edit-button">Edit Comment</button>
-                <form action="{{ route('admin.delete.comment', ['id' => $comment->id]) }}" method="POST" id="delete-form-comments" class="delete-form-2">
+                <form action="{{ route('admin.delete.comment', ['id' => $comment->id]) }}" method="POST" class="delete-form-2 delete-form-confirm">
                     {!! csrf_field() !!}
                     {!! method_field('DELETE') !!}
                     <button type="submit" class="btn btn-danger btn-lg btn-block">Delete Comment</button>
