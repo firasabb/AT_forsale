@@ -47,7 +47,11 @@ class Asset extends Model
     }
 
     public function cover(){
-        return $this->medias->where('sorting', 'cover')->first();
+        $check_if_exists = $this->medias->where('sorting', 2)->first();
+        if(empty($check_if_exists)){
+            return 'featured/default/default.jpg';
+        }
+        return $check_if_exists->url;
     }
 
     public function downloadEvents(){
@@ -76,7 +80,7 @@ class Asset extends Model
 
     public function featured(){
 
-        $check_if_exists = $this->medias->where('sorting', 'featured')->first();
+        $check_if_exists = $this->medias->where('sorting', 1)->first();
         if(empty($check_if_exists)){
             return 'featured/default/default.jpg';
         }

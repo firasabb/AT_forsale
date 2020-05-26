@@ -183,11 +183,10 @@ $(document).ready(function () {
           tagClick();
         } else {
           clearAllTags();
+          console.log(data.response);
         }
       },
-      error: function error(e) {
-        console.log(e);
-      }
+      error: function error(e) {}
     });
   }
 

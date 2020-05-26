@@ -15,7 +15,12 @@ class CreateEmailCampaignUserTable extends Migration
     {
         Schema::create('email_campaign_user', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('email_campaign_id');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
+
+            $table->foreign('email_campaign_id')->references('id')->on('email_campaigns');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

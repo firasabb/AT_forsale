@@ -145,7 +145,7 @@ Route::post('/admin/dashboard/externalad/', 'ExternalAdController@adminAdd')->mi
 Route::post('/admin/dashboard/externalads/search', 'ExternalAdController@adminSearchExternalAds')->middleware('role:admin|moderator')->name('admin.search.externalads');
 
 
-// Admin / External Ads
+// Admin / Contact Messages
 
 Route::get('/admin/dashboard/contactmessages/', 'ContactMessageController@adminIndex')->middleware('role:admin|moderator')->name('admin.index.contactmessages');
 Route::delete('/admin/dashboard/contactmessage/{id}', 'ContactMessageController@adminDestroy')->middleware('role:admin|moderator')->name('admin.delete.contactmessage');
@@ -153,6 +153,30 @@ Route::get('/admin/dashboard/contactmessage/{id}', 'ContactMessageController@adm
 Route::put('/admin/dashboard/contactmessage/{id}', 'ContactMessageController@adminEdit')->middleware('role:admin|moderator')->name('admin.edit.contactmessage');
 Route::post('/admin/dashboard/contactmessage/', 'ContactMessageController@adminAdd')->middleware('role:admin|moderator')->name('admin.add.contactmessage');
 Route::post('/admin/dashboard/contactmessages/search', 'ContactMessageController@adminSearchExternalAds')->middleware('role:admin|moderator')->name('admin.search.contactmessages');
+
+
+// Admin / Email Campaigns
+
+Route::get('/admin/dashboard/emailcampaigns/', 'EmailCampaignController@adminIndex')->middleware('role:admin|moderator')->name('admin.index.emailcampaigns');
+Route::delete('/admin/dashboard/emailcampaign/{id}', 'EmailCampaignController@adminDestroy')->middleware('role:admin|moderator')->name('admin.delete.emailcampaign');
+Route::get('/admin/dashboard/emailcampaign/{id}', 'EmailCampaignController@adminShow')->middleware('role:admin|moderator')->name('admin.show.emailcampaign');
+Route::put('/admin/dashboard/emailcampaign/{id}', 'EmailCampaignController@adminEdit')->middleware('role:admin|moderator')->name('admin.edit.emailcampaign');
+Route::post('/admin/dashboard/emailcampaign/', 'EmailCampaignController@adminAdd')->middleware('role:admin|moderator')->name('admin.add.emailcampaign');
+Route::post('/admin/dashboard/emailcampaigns/search', 'EmailCampaignController@adminSearchExternalAds')->middleware('role:admin|moderator')->name('admin.search.emailcampaigns');
+
+
+// Admin / User Ads
+
+Route::get('/admin/dashboard/userads/', 'UserAdController@adminIndex')->middleware('role:admin|moderator')->name('admin.index.userads');
+Route::delete('/admin/dashboard/userad/{id}', 'UserAdController@adminDestroy')->middleware('role:admin|moderator')->name('admin.delete.userad');
+Route::get('/admin/dashboard/userad/{id}', 'UserAdController@adminShow')->middleware('role:admin|moderator')->name('admin.show.userad');
+Route::put('/admin/dashboard/userad/{id}', 'UserAdController@adminEdit')->middleware('role:admin|moderator')->name('admin.edit.userad');
+Route::post('/admin/dashboard/userads/search', 'UserAdController@adminSearchUserAds')->middleware('role:admin|moderator')->name('admin.search.userads');
+
+// Admin Approve User Ads
+
+Route::get('/admin/dashboard/approve/assets', 'AssetController@indexToApprove')->middleware('role:admin|moderator')->name('admin.index.approve.assets');
+Route::post('/admin/dashboard/approve/assets/{id}', 'AssetController@adminApprove')->middleware('role:admin|moderator')->name('admin.approve.asset');
 
 
 // Assets Add
@@ -181,6 +205,10 @@ Route::put('/dashboard/setup', 'UserController@setupProfileRequest')->middleware
 Route::get('/dashboard/changepassword', 'UserController@changePasswordPage')->middleware('role:user')->name('user.password.show');
 Route::post('/dashboard/changepassword', 'UserController@changePasswordRequest')->middleware('role:user')->name('user.password.request');
 Route::get('/dashboard/myassets', 'UserController@myAssetsPage')->middleware('role:user')->name('user.assets.show');
+// User Ads
+Route::get('/dashboard/myad', 'UserController@userAd')->middleware('role:user')->name('user.userad.show');
+Route::post('/dashboard/myad', 'UserAdController@storeAjax')->middleware('role:user')->name('user.userad.store');
+Route::delete('/dashboard/myad/medias', 'UserAdController@deleteAdMediasAjax')->middleware('role:user')->name('user.userad.delete.medias');
 
 Route::delete('/dashboard/asset/delete/{id}', 'AssetController@destroy')->middleware('role:user')->name('user.delete.asset');
 
@@ -198,7 +226,6 @@ Route::delete('/comment/delete/{id}', 'CommentController@destroy')->middleware('
 
 Route::post('/reports/add/{type}', 'ReportController@store')->middleware('role:user')->name('add.report');
 
-
 // Get Tags AJAX
 
 Route::post('/suggest/tags/', 'TagController@suggestTags')->middleware('role:user')->name('suggest.tags');
@@ -211,3 +238,4 @@ Route::post('/download/download', 'DownloadController@downloadDownload')->name('
 
 Route::get('/page/contactus', 'ContactMessageController@create')->name('create.contactus');
 Route::post('/page/contactus', 'ContactMessageController@store')->name('store.contactus');
+

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\EmailCampaign;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -54,7 +55,8 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'username' => ['required', 'string', 'max:20', 'unique:users']
+            'username' => ['required', 'string', 'max:20', 'unique:users'],
+            'email_subscription' => ['nullable'],
         ]);
     }
 
@@ -76,6 +78,13 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
         $user->assignRole('user');
+        if(isset($data['email_subscription'])){
+            $emailCampaigns = EmailCampaign::where('name', 'LIKE', 'news')->orWhere('name', 'LIKE', 'offers')->get();
+            foreach($emailCampaigns as $emailCampaign){
+                $user->emailCampaigns()->attach($emailCampaign);
+            }
+        }
+
         return $user;
     }
 

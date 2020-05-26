@@ -56,7 +56,7 @@ class CategoryController extends Controller
             $path = $uploadedFile->storePublicly('media/' . $unique ,'s3');
             $media->url = $path;
             $media->public_url = Storage::cloud()->url($path);
-            $media->sorting = 'featured';
+            $media->sorting = 1;
             $media->save();
             $category->medias()->attach($media);
         }
@@ -106,7 +106,7 @@ class CategoryController extends Controller
                 $path = $uploadedFile->storePublicly('media/' . $unique, 's3');
                 $media->url = $path;
                 $media->public_url = Storage::cloud()->url($path);
-                $media->sorting = 'featured';
+                $media->sorting = 1;
                 $media->save();
                 $category->medias()->attach($media);
             }

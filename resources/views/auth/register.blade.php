@@ -75,8 +75,19 @@
                             </div>
                         </div>
 
+                        <div class="form-group row justify-content-center py-4">
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" name="email_subscription" type="checkbox" value="1" id="email_subscription">
+                                    <label class="form-check-label ml-2" for="email_subscription">
+                                        {{ __('Do You Accept to Receive News and Offers from AssetTorch?') }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
+                            <div class="col text-center">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Register') }}
                                 </button>

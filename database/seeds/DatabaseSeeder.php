@@ -17,5 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call(TagsTableSeeder::class);
         $this->call(CategoriesTableSeeder::class);
         $this->call(LicenseSeeder::class);
+        $this->call(EmailCampaignSeeder::class);
+        $this->call(ExternalAdSeeder::class);
     }
 }

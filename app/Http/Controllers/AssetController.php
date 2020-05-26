@@ -135,7 +135,7 @@ class AssetController extends Controller
             'tags' => 'string|max:150',
             'uploads' => 'required|array',
             'uploads.*' => 'file|max:100000',
-            'cover' => 'file|max:1000|mimes:jpeg,bmp,png',
+            'cover' => 'max:1000|image|nullable',
             'featured' => 'file|max:20000|mimes:jpeg,bmp,png,mpeg4-generic,ogg,x-wav,x-msvideo,x-ms-wmv'
         ]);
         if($validator->fails()){
@@ -179,19 +179,21 @@ class AssetController extends Controller
 
         if($featured){
             $media = new Media();
-            $media->sorting = 'featured';
-            //$path = Storage::cloud()->putFile('featured', $featured, 'public');
-            $path = $featured->store('featured', 's3', 'public');
+            $media->sorting = 1;
+            $path = Storage::cloud()->putFile('featured', $featured, 'public');
             $media->url = $path;
+            $media->public_url = Storage::cloud()->url($path);
             $media->save();
+            $asset->medias()->attach($media);
         }
 
-        if($request->cover){
+        $cover = $request->cover;
+
+        if($cover){
             $media = new Media();
-            $uploadedCover = $request->cover;
-            $path = $uploadedCover->storePublicly('covers', 's3');
+            $path = Storage::cloud()->putFile('covers', $cover, 'public');
             $media->url = $path;
-            $media->sorting = 'cover';
+            $media->sorting = 2;
             $media->public_url = Storage::cloud()->url($path);
             $media->save();
             $asset->medias()->attach($media);

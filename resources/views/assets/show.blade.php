@@ -7,12 +7,15 @@
         <div class="col-md-8">
             <div class="card border-light card-shadow mb-5">
                 <div class="card-header bg-light">
-                    <div class="card-header-flex">
+                    <div>
                         <div class="card-header-img">
                             <a target="_blank" href="{{ route('user.profile.show', ['username' => $asset->user->username]) }}"><img class="avatar-pic" src="{{ $asset->user->avatar_url }}"/></a>
                         </div>
                         <div class="card-header-text asset-card-user-text">
                             <a target="_blank" href="{{ route('user.profile.show', ['username' => $asset->user->username]) }}">{{ $asset->user->name }}</a>
+                        </div>
+                        <div class="float-right">
+                            <a target="_blank" href="#" class="a-no-decoration">{{ strtoupper($asset->category->name) }}</a>
                         </div>
                     </div>
                 </div>
@@ -34,17 +37,14 @@
                     @endif
                     <h3 class="card-title my-2">{{$asset->title}}</h3>
                     @if(!empty($featured))
-                        <img class="card-body-img" src="{{ Storage::cloud()->url($featured) }}" alt="{{ $asset->title }}">
+                        <img class="card-body-img" src="{{ Storage::cloud()->url($asset->cover()) }}" alt="{{ $asset->title }}">
                     @endif
                     <div class="downloads-views">
                         <p class="mr-3">@svg('arrow-down', 'arrow-down-icon') {{ $asset->downloadEventsCount() }} downloads</p>
                         <p>@svg('eye', 'eye-icon'){{ $asset->viewEventsCount() }} views</p>
                     </div>
                     @if($asset->description)
-                        <div class="py-3">
-                            <h3>Description</h3>
-                        </div>
-                        <div class="mb-5">
+                        <div class="my-5">
                             <p class="card-text">{{$asset->description}}</p>
                         </div>
                         <div class="pb-1">
@@ -54,7 +54,7 @@
                         </div>
                     @endif
                 </div>
-                <div class="card-footer bg-light card-f"><!--@svg('heart', 'heart-icon')-->
+                <div class="card-footer bg-light card-f">
                     <div class="card-footer-more">
                         <div class="float-left card-footer-date">
                             <span>{{$asset->createdAt()}}</span>
@@ -219,7 +219,7 @@
     @if(!empty($relatedAssets))
         <div class="row py-2">
             <div class="col-md-8">
-                <h2>Don't Miss:</h2>
+                <h2>You May Like:</h2>
             </div>
         </div>
         <div class="row py-2">
@@ -250,8 +250,24 @@
 <x-report>
 </x-report>
 
-<x-user-ad>
+<x-user-ad :user="$asset->user" :user-ad="$asset->user->approvedUserAd()">
 </x-user-ad>
+
+@endsection
+
+
+@push('meta_tags')
+    <meta name="robots" content="index,follow">
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="{{ $asset->title }}" />
+    <meta property="og:description" content="Made by {{ $asset->user->username }}! Download {{ strtoupper($asset->category->name) }} Assets for Free on AssetTorch!" />
+    <meta property="og:url" content="{{ url()->current() }}" />
+    <meta property="og:site_name" content="{{ config('app.name', 'Laravel') }}" />
+    <meta property="og:image" content="{{ Storage::cloud()->url($featured) }}">
+    <meta name="description" content="Download {{ strtoupper($asset->category->name) }} Assets for Free on AssetTorch! Made by {{ $asset->user->username }}"/>
+@endpush
+
 
 @push('footer_scripts')
     <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.sitekey') }}"></script>
@@ -265,5 +281,3 @@
             });
     </script>
 @endpush
-
-@endsection

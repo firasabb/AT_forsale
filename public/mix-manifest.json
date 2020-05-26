@@ -5,5 +5,7 @@
     "/css/admin.css": "/css/admin.css",
     "/css/style.css": "/css/style.css",
     "/js/main.js": "/js/main.js",
-    "/js/main_page.js": "/js/main_page.js"
+    "/js/main_page.js": "/js/main_page.js",
+    "/js/myad.js": "/js/myad.js",
+    "/js/required.js": "/js/required.js"
 }

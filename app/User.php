@@ -94,6 +94,18 @@ class User extends Authenticatable
         return $this->hasMany('App\ViewEvent');
     }
 
+    public function emailCampaigns(){
+        return $this->belongsToMany('App\EmailCampaign');
+    }
+
+    public function userAds(){
+        return $this->hasMany('App\UserAd');
+    }
+
+    public function approvedUserAd(){
+        return $this->userAds()->where('status', 2)->first();
+    }
+
     /**
      * 
      * Change status numbers to text and check if deleted or not

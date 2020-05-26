@@ -5,27 +5,31 @@
 <div class="container">
 
     <div class="row justify-content-center">
+        <div class="col-lg-12 py-5">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            @if (session('status'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('status') }}
+                </div>
+            @endif
+        </div>
+    </div>
+
+    @if(!empty($asset))
+    <div class="row justify-content-center">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">Assets to approve</div>
 
                 <div class="card-body">
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                        @if(!empty($asset))
                         <form method="POST" action="{{ route('admin.approve.asset', ['id' => $asset->id]) }}" id="add-asset-form">
                             @csrf
                             <div class="form-group row">
@@ -88,13 +92,13 @@
                             </div>
 
                         </form>
-                        @if(!empty($featured))
-                        <div class="row">
-                            <div class="col">
-                                <img src="{{ $asset->public_url }}">
+                            @if(!empty($featured))
+                            <div class="row">
+                                <div class="col">
+                                    <img src="{{ $asset->public_url }}">
+                                </div>
                             </div>
-                        </div>
-                        @endif
+                            @endif
                 </div>
             </div>
             <div class="block-button">
@@ -106,14 +110,17 @@
                         {!! method_field('DELETE') !!}
                         <button id="delete-asset" type="submit" class="btn btn-danger btn-lg btn-block">Delete</button>
                     </form>
-                    @else
-                        <p>Nothing to approve.</p>
-                    @endif
                 </div>
             </div>
             
 
         </div>
     </div>
+    @else
+        <div class="text-center">
+            <p>Nothing to approve...</p>
+        </div>
+    @endif
+
 </div>
 @endsection

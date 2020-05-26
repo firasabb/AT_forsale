@@ -12,7 +12,7 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/admin.js') }}" defer></script>
-    
+    <script src="{{ asset('js/required.js') }}" defer></script>
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -42,6 +42,7 @@
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre> Users <span class="caret"></span></a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{  route('admin.index.users')  }}">Users</a>
+                                <a class="dropdown-item" href="{{  route('admin.index.userads')  }}">User Ads</a>
                                 <a class="dropdown-item" href="{{  route('admin.index.roles')  }}">Roles</a>
                                 <a class="dropdown-item" href="{{ route('admin.index.permissions') }}">Permissions</a>
                             </div>
@@ -65,19 +66,23 @@
                             <a class="nav-link" href="{{ route('admin.index.categories') }}">Categories</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.index.licenses') }}">Licenses</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('admin.index.externalads') }}">Ads</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Settings</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('admin.index.contactmessages') }}">Contact Messages</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.index.reports') }}">Reports</a>
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre> Email <span class="caret"></span></a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('admin.index.emailcampaigns') }}">Campaigns</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre> Other <span class="caret"></span></a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('admin.index.reports') }}">Reports</a>
+                                <a class="dropdown-item" href="{{ route('admin.index.licenses') }}">Licenses</a>
+                            </div>
                         </li>
                     </ul>
 

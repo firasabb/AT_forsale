@@ -129,10 +129,11 @@ class UserController extends Controller
                 $userLink->user()->associate($user);
                 $userLink->save();
                 
+            } else if(empty($value) && !empty($check)){
+                $check->delete();
             } else if($check['url'] != $value && !empty($check)){
-                $userLink = UserLink::where('name', $key)->first();;
-                $userLink->url = $value;
-                $userLink->save();
+                $check->url = $value;
+                $check->save();
             }
         }
     }
@@ -265,18 +266,31 @@ class UserController extends Controller
 
 
     /**
-     * 
-     * 
      * Show assets in the user's dashboard
-     * 
-     * 
+     * @return Response
      */
-
     public function myAssetsPage(){
 
         $user = Auth::user();
         $assets = $user->assets()->paginate(10);
         return view('users.myAssets', ['assets' => $assets]);
+    }
+
+
+    /**
+     * Show the user's ad in the user's dashboard
+     * @return Response
+     */
+    public function userAd(){
+
+        $user = Auth::user();
+        $userLinks = $user->userLinks;
+        $ad = $user->userAds()->first();
+        $content = '';
+        if(!empty($ad)){
+            $content = unserialize($ad->content);
+        }
+        return view('users.myAd', ['user' => $user, 'ad' => $ad, 'content' => $content, 'userLinks' => $userLinks]);
     }
 
 }

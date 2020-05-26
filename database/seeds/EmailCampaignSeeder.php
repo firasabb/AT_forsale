@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\EmailCampaign;
 
 class EmailCampaignSeeder extends Seeder
 {
@@ -11,6 +12,7 @@ class EmailCampaignSeeder extends Seeder
      */
     public function run()
     {
-        //
+        EmailCampaign::create(['name' => 'news']);
+        EmailCampaign::create(['name' => 'offers']);
     }
 }

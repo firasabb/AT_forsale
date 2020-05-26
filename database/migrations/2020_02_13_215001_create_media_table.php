@@ -17,7 +17,7 @@ class CreateMediaTable extends Migration
             $table->bigIncrements('id');
             $table->string('url');
             $table->string('public_url')->nullable();
-            $table->enum('sorting', ['featured', 'thumbnail', 'cover', 'other'])->default('other');
+            $table->integer('sorting')->default(0);
             $table->timestamps();
         });
     }

@@ -39,3 +39,14 @@
 </div>
 
 @endsection
+
+@push('meta_tags')
+    <meta name="robots" content="index,follow">
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="{{ config('app.name', 'Laravel') }} Discover The Latest Assets!" />
+    <meta property="og:description" content="Discover and Download Top Free Royalty-Free Assets!"/>
+    <meta property="og:url" content="{{ url()->current() }}" />
+    <meta property="og:site_name" content="{{ config('app.name', 'Laravel') }}" />
+    <meta name="description" content="Discover and Download Top Free Royalty-Free Assets!"/>
+@endpush

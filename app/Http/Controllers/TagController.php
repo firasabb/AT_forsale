@@ -220,6 +220,20 @@ class TagController extends Controller
 
         if($request->ajax()){
 
+            $validator = Validator::make($request->all(), [
+                'tag' => 'string|nullable',
+                'exist' => 'array|nullable',
+                'category' => 'integer|nullable'
+            ]);
+
+            if($validator->fails()){
+                $response = array(
+                    'status' => 'error',
+                    'response' => $validator
+                );
+                return response()->json($response);
+            }
+
             $tag = $request->tag;
             $exist = $request->exist;
             $category = $request->category;

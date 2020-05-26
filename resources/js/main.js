@@ -105,9 +105,9 @@ $(document).ready(function(){
                   tagClick();
               } else {
                 clearAllTags();
+                console.log(data.response);
               }
           }, error: function(e){
-            console.log(e);
           }
         });
   }
@@ -176,5 +176,6 @@ $(document).ready(function(){
     
     $(function () {
       $('[data-toggle="tooltip"]').tooltip()
-    })
+    });
+
 });

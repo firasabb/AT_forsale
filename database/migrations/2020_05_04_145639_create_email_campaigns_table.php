@@ -16,6 +16,7 @@ class CreateEmailCampaignsTable extends Migration
         Schema::create('email_campaigns', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
