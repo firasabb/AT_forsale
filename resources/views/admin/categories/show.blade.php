@@ -39,6 +39,18 @@
                                     <input class="form-control enabled-disabled" type="text" name="url"  value="{{ $category->url }}" placeholder="Url" disabled/>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div>
+                                    <select name="parent_id" class="form-control enabled-disabled" disabled>
+                                        <option value="" selected>N/A</option>
+                                        @foreach($parentCategories as $parentCategory)
+                                            <option value="{{ $parentCategory->id }}" {{ $category->parent_id == $parentCategory->id ? 'selected' : '' }}>{{ $parentCategory->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                             <div class="col">
                                 <div>
                                     <input class="enabled-disabled" type="file" name="featured" disabled/>

@@ -51,19 +51,20 @@
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre> Approve <span class="caret"></span></a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{  route('admin.index.approve.assets')  }}">Assets</a>
+                                <a class="dropdown-item" href="{{  route('admin.index.approve.userads')  }}">User Ads</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre> Assets <span class="caret"></span></a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('admin.index.assets') }}">Assets</a>
+                                <a class="dropdown-item" href="{{ route('admin.index.comments') }}">Comments</a>
+                                <a class="dropdown-item" href="{{ route('admin.index.tags') }}">Tags</a>
+                                <a class="dropdown-item" href="{{ route('admin.index.categories') }}">Categories</a>
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.index.assets') }}">Assets</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.index.comments') }}">Comments</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.index.tags') }}">Tags</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.index.categories') }}">Categories</a>
+                            <a class="nav-link" href="{{ route('admin.index.pages') }}">Pages</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('admin.index.externalads') }}">Ads</a>

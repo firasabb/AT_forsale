@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Asset;
 use App\Category;
+use App\Tag;
 use Validator;
 
 class WelcomeController extends Controller
@@ -16,7 +17,7 @@ class WelcomeController extends Controller
 
     public function index(){
 
-        $assets = Asset::orderBy('id', 'desc')->paginate(5);
+        $assets = Asset::orderBy('id', 'desc')->paginate(20);
         $categories = Category::all();
         return view('screens.main', ['assets' => $assets, 'categories' => $categories]);
 
@@ -61,9 +62,60 @@ class WelcomeController extends Controller
                 $assets = Asset::where($whereArr);
             } else {
                 $assets = new Asset();
-                $assets = $assets->approvedAssets()->orderBy('id', 'desc');
+                $assets = $assets->approvedAssets();
             }
 
+        }
+
+        return $this->searchResults($assets, $category->id ?? 0);
+
+    }
+
+    /**
+     * 
+     * Show results from a chosen category
+     * @param Request $request
+     * 
+     */
+    public function searchCategories(Request $request){
+
+        $category = $request->category;
+
+        if(!empty($category) && strtolower($category) != 'all'){
+
+            $category = Category::where('url', $category)->firstOrFail();
+            $assets = $category->approvedAssets();
+
+        } else {
+
+            $assets = new Asset();
+            $assets = $assets->approvedAssets();
+
+        }
+
+        return $this->searchResults($assets, $category->id ?? 0);
+
+    }
+
+
+    /**
+     * 
+     * Show results from a chosen tag
+     * @param Request $request
+     * 
+     */
+    public function searchTags(Request $request){
+
+        $tag = $request->tag;
+
+        if(!empty($tag) && strtolower($tag) != 'all'){
+
+            $tag = Tag::where('url', $tag)->firstOrFail();
+            $assets = $tag->approvedAssets();
+
+        } else {
+            $assets = new Asset();
+            $assets = $assets->approvedAssets();
         }
 
         return $this->searchResults($assets);
@@ -71,13 +123,15 @@ class WelcomeController extends Controller
     }
 
 
-    public function searchResults($assets = []){
+
+    public function searchResults($assets = [], $reqCategory = 0){
 
         if(!empty($assets)){
-            $assets = $assets->with('category')->paginate(10);
+            $assets = $assets->with('category')->orderBy('id', 'desc')->paginate(10);
         }
         $categories = Category::all();
-        return view('screens.searchResults', ['assets' => $assets, 'categories' => $categories]);
+        $reqCategory = Category::find($reqCategory);
+        return view('screens.searchResults', ['assets' => $assets, 'categories' => $categories, 'reqCategory' => $reqCategory->name ?? '']);
 
     }
 

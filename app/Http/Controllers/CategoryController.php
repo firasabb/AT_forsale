@@ -16,6 +16,7 @@ use Illuminate\Validation\Rule;
 class CategoryController extends Controller
 {
 
+    
     public function adminIndex($categories = null)
     {
         if(!$categories){
@@ -23,7 +24,9 @@ class CategoryController extends Controller
         } else {
             $categories = $categories->paginate(20);
         }
-        return view('admin.categories.categories', ['categories' => $categories]);
+        $parentCategories = new Category();
+        $parentCategories = $parentCategories->parentCategories();
+        return view('admin.categories.categories', ['categories' => $categories, 'parentCategories' => $parentCategories]);
     }
 
 
@@ -32,6 +35,7 @@ class CategoryController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:20',
             'url' => 'required|string',
+            'parent_id' => 'integer|nullable',
             'featured' => 'file|mimes:png,jpg|max:2000|nullable'
         ]);
 
@@ -47,6 +51,13 @@ class CategoryController extends Controller
             return redirect('/admin/dashboard/categories/')->withErrors('The url has already been taken.')->withInput();
         }
         $category->url = $request->url;
+
+        $parentId = $request->parent_id;
+        if($parentId){
+            $parentCategory = Category::findOrFail($parentId);
+            $category->parent_id = $parentId;
+        }
+
         $category->save();
 
         if($request->featured){
@@ -74,6 +85,7 @@ class CategoryController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:40',
             'url' => 'string',
+            'parent_id' => 'nullable|integer',
             'featured' => 'file|mimes:png,jpg|max:2000|nullable'
         ]);
 
@@ -90,6 +102,15 @@ class CategoryController extends Controller
             }
             $category->url = $request->url;
         }
+
+        $parentId = $request->parent_id;
+        if($parentId){
+            $parentCategory = Category::findOrFail($parentId);
+            $category->parent_id = $parentId;
+        } else {
+            $category->parent_id = null;
+        }
+
         $category->save();
 
         if($request->featured){
@@ -120,7 +141,9 @@ class CategoryController extends Controller
     public function adminShow($id)
     {
         $category = Category::findOrFail($id);
-        return view('admin.categories.show', ['category' => $category]);
+        $parentCategories = new Category();
+        $parentCategories = $parentCategories->parentCategories();
+        return view('admin.categories.show', ['category' => $category, 'parentCategories' => $parentCategories]);
     }
 
 

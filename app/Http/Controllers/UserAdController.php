@@ -32,151 +32,170 @@ class UserAdController extends Controller
 
     public function storeAjax(Request $request){
 
-        if($request->ajax()){
-            $validator = Validator::make($request->all(), [
-                'header_title' => ['string', 'nullable', 'max:50'],
-                'appreciation_msg' => ['string', 'nullable', 'max:100'],
-                'first_btn' => ['string', 'nullable', 'exists:user_links,name'],
-                'second_btn' => ['string', 'nullable', 'exists:user_links,name'],
-                'paypal_donation' => ['boolean', 'nullable'],
-                'image_url' => ['active_url', 'nullable'],
-                'upload' => ['image', 'max:2000'],
-                'ad_url' => ['active_url', 'nullable']
-            ]);
+        $validator = Validator::make($request->all(), [
+            'header_title' => ['string', 'nullable', 'max:50'],
+            'appreciation_msg' => ['string', 'nullable', 'max:100'],
+            'first_btn' => ['string', 'nullable', 'exists:user_links,name'],
+            'second_btn' => ['string', 'nullable', 'exists:user_links,name'],
+            'paypal_donation' => ['boolean', 'nullable'],
+            'image_url' => ['active_url', 'nullable'],
+            'upload' => ['image', 'max:2000'],
+            'ad_url' => ['active_url', 'nullable']
+        ]);
 
-            if($validator->fails()){
+        if($validator->fails()){
 
+            if($request->ajax()){
                 $response = array(
                     'status' => 'error',
                     'response' => $validator
                 );
                 return response()->json($response);
+            } else {
+                return back()->withErrors($validator);
             }
+        }
 
-            $header_title = $request->header_title;
-            $appreciation_msg = $request->appreciation_msg;
-            $first_btn = $request->first_btn;
-            $second_btn = $request->second_btn;
-            $paypal_donation = $request->paypal_donation;
-            $image_url = $request->image_url;
-            $upload = $request->upload;
-            $ad_url = $request->ad_url;
+        $header_title = $request->header_title;
+        $appreciation_msg = $request->appreciation_msg;
+        $first_btn = $request->first_btn;
+        $second_btn = $request->second_btn;
+        $paypal_donation = $request->paypal_donation;
+        $image_url = $request->image_url;
+        $upload = $request->upload;
+        $ad_url = $request->ad_url;
 
-            // check if user has a previous ad
-            $user = Auth::user();
-            $ad = $user->userAds()->first();
-            if(empty($ad)){
-                $ad = new UserAd();   
+        // check if user has a previous ad
+        $user = Auth::user();
+        $ad = $user->userAds()->first();
+        if(empty($ad)){
+            $ad = new UserAd();   
+        }
+        
+        $path = '';
+
+        // if a new uploaded image or url delete the previous media files
+        // To create a new one
+        // else get the last upload
+        if($upload || $image_url){
+            $medias = $ad->medias()->get();
+            foreach($medias as $media){
+                $media->delete();
             }
-            
-            $path = '';
-
-            // if a new uploaded image or url delete the previous media files
-            // To create a new one
-            if($upload || $image_url){
-                $medias = $ad->medias()->get();
-                foreach($medias as $media){
-                    $media->delete();
-                }
+        } else {
+            $media = $ad->medias()->first();
+            if(!empty($media)){
+                $path = $media->public_url;
             }
+        }
 
-            if($upload){
-                try{
-                    $awsPath = Storage::cloud()->putFile('media', $upload, 'public');
-                } catch(Exception $e){
+        if($upload){
+            try{
+                $awsPath = Storage::cloud()->putFile('media', $upload, 'public');
+            } catch(Exception $e){
+                if($request->ajax()){
                     $response = array(
                         'status' => 'error',
                         'response' => 'A problem was occured while trying to upload the image... please try again later'
                     );
                     return response()->json($response);
+                } else {
+                    return back()->withErrors('A problem was occured while trying to upload the image... please try again later');
                 }
-                $path = Storage::cloud()->url($awsPath);
-                $media = new Media();
-                $media->sorting = 3;
-                $media->url = $awsPath;
-                $media->public_url = $path;
             }
+            $path = Storage::cloud()->url($awsPath);
+            $media = new Media();
+            $media->sorting = 3;
+            $media->url = $awsPath;
+            $media->public_url = $path;
+        }
 
-            $contentArr = array('header_title' => $header_title,
-            'appreciation_msg' => $appreciation_msg,
-            'first_btn' => $first_btn,
-            'second_btn' => $second_btn,
-            'paypal_donation' => $paypal_donation,
-            'image_url' => $image_url,
-            'upload' => $path,
-            'ad_url' => $request->ad_url
-            );
+        $contentArr = array('header_title' => $header_title,
+        'appreciation_msg' => $appreciation_msg,
+        'first_btn' => $first_btn,
+        'second_btn' => $second_btn,
+        'paypal_donation' => $paypal_donation,
+        'image_url' => $image_url,
+        'upload' => $path,
+        'ad_url' => $request->ad_url
+        );
 
-            $ad->content = serialize($contentArr);
+        $ad->content = serialize($contentArr);
 
-            $render = $this->renderModal($header_title,
-            $appreciation_msg,
-            $first_btn, 
-            $second_btn, 
-            $paypal_donation, 
-            $image_url, 
-            $path, 
-            $ad_url, 
-            $user);
+        $render = $this->renderModal($header_title,
+        $appreciation_msg,
+        $first_btn, 
+        $second_btn, 
+        $paypal_donation, 
+        $image_url, 
+        $path, 
+        $ad_url, 
+        $user);
 
-            $ad->status = 1;
+        $ad->status = 1;
 
-            $user->userAds()->save($ad);
+        $user->userAds()->save($ad);
 
-            if(isset($media)){
-                $ad->medias()->save($media);
-            }
+        if(isset($media)){
+            $ad->medias()->save($media);
+        }
 
+        if($request->ajax()){
             $response = array(
                 'status' => 'success',
                 'response' => $render
             );
+        } else {
+            return back();
+        }   
 
-            return response()->json($response);
-        }
+        return response()->json($response);
+        
 
     }
 
     public function deleteAdMediasAjax(Request $request){
 
+        $ad = UserAd::findOrFail(decrypt($request->ad_id));
+        $medias = $ad->medias()->get();
+        foreach($medias as $media){
+            $media->delete();
+        }
+
+        $user = $ad->user();
+
+        $content = unserialize($ad->content);
+
+        $content['image_url'] = '';
+        $content['upload'] = '';
+        $content['ad_url'] = '';
+
+        $ad->content = serialize($content);
+
+        $render = $this->renderModal($content['header_title'],
+        $content['appreciation_msg'],
+        $content['first_btn'], 
+        $content['second_btn'], 
+        $content['paypal_donation'], 
+        '', 
+        '', 
+        '', 
+        $user);
+
+        $ad->save();
+
         if($request->ajax()){
-
-            $ad = UserAd::findOrFail(decrypt($request->ad_id));
-            $medias = $ad->medias()->get();
-            foreach($medias as $media){
-                $media->delete();
-            }
-
-            $user = $ad->user();
-
-            $content = unserialize($ad->content);
-
-            $content['image_url'] = '';
-            $content['upload'] = '';
-            $content['ad_url'] = '';
-
-            $ad->content = serialize($content);
-
-            $render = $this->renderModal($content['header_title'],
-            $content['appreciation_msg'],
-            $content['first_btn'], 
-            $content['second_btn'], 
-            $content['paypal_donation'], 
-            '', 
-            '', 
-            '', 
-            $user);
-
-            $ad->save();
-
             $response = array(
                 'status' => 'success',
                 'response' => $render
             );
-
-            return response()->json($response);
-
+        } else {
+            return back();
         }
+
+        return response()->json($response);
+
+        
     }
 
     /**
@@ -185,8 +204,9 @@ class UserAdController extends Controller
      * @return Response
      * 
      */
-     public function showApprovePage(){
-         return view('admin.userads.indexToApprove');
+     public function indexToApprove(){
+         $ads = UserAd::where('status', 1)->orderBy('id', 'desc')->paginate(1);
+         return view('admin.userads.indexToApprove', ['ads' => $ads]);
      }
 
 
@@ -198,10 +218,10 @@ class UserAdController extends Controller
      * @return Response
      * 
      */
-    public function approveUserAd(Request $request, $id){
+    public function adminApprove(Request $request, $id){
 
         $validator = Validator::make($request->all(), [
-            'title' => 'nullable|string',
+            'header_title' => 'nullable|string',
             'appreciation_msg' => 'nullable|string'
         ]);
 
@@ -212,12 +232,30 @@ class UserAdController extends Controller
         $userAd = UserAd::findOrFail($id);
         $userAd->status = 2;
         $content = unserialize($userAd->content);
-        $content['title'] = $request->title;
+        $content['header_title'] = $request->header_title;
         $content['appreciation_msg'] = $request->appreciation_msg;
         $userAd->content = serialize($content);
         $userAd->save();
 
-        return back()->with('status', 'The ad was approved!');
+        return back()->with('status', 'The ad is approved!');
+    }
+
+
+    /**
+     * 
+     * Disapprove the user ad
+     * @param Request $request
+     * @param Request $id
+     * @return Response
+     * 
+     */
+    public function adminDisapprove($id){
+
+        $userAd = UserAd::findOrFail($id);
+        $userAd->status = 0;
+        $userAd->save();
+
+        return back()->with('status', 'The ad is disapproved!');
     }
 
 

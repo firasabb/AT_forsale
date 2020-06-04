@@ -6,17 +6,19 @@ $(document).ready(function(){
 
     var deleteMediasForm = document.getElementById('delete-medias-form');
 
+    var statusContainer = $('status-container');
+    var pendingStatus = '<div class="alert alert-warning" role="alert">Your ad request is pending... We will review it as soon as possible!</div>';
+
     updateBtn.on('click', function(e){
         e.preventDefault();
-        ajaxPostFormData(adForm);
+        adForm.submit();
     });
 
 
     var deleteAdImgBtn = $('#delete-ad-medias-btn');
     deleteAdImgBtn.on('click', function(e){
         e.preventDefault();
-        ajaxDeleteMedias(deleteMediasForm);
-        $('#image_url').val('');
+        deleteMediasForm.submit();
     });
 
 
@@ -32,6 +34,7 @@ $(document).ready(function(){
             success: function(data){
                 if(data.status == 'success'){
                     adCardContainer.html(data.response);
+                    statusContainer.html(pendingStatus);
                 }
             }, error: function(e){
             }

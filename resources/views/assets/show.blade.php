@@ -1,8 +1,10 @@
 @extends('layouts.main')
 
+@section('title', ucwords($asset->category->name . ' - ' . $asset->title))
+
 @section('content')
 
-<div class="container">
+<div class="container pt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card border-light card-shadow mb-5">
@@ -15,7 +17,7 @@
                             <a target="_blank" href="{{ route('user.profile.show', ['username' => $asset->user->username]) }}">{{ $asset->user->name }}</a>
                         </div>
                         <div class="float-right">
-                            <a target="_blank" href="#" class="a-no-decoration">{{ strtoupper($asset->category->name) }}</a>
+                            <a target="_blank" href="{{ route('main.search.categories', ['category' => $asset->category->url]) }}" class="a-no-decoration">{{ strtoupper($asset->category->name) }}</a>
                         </div>
                     </div>
                 </div>
@@ -49,7 +51,7 @@
                         </div>
                         <div class="pb-1">
                             @foreach($asset->tags as $tag)
-                                <a class="a-no-decoration" href="#"><span class="tag-span">{{strtoupper($tag->name)}}</span></a>
+                                <a class="a-no-decoration" target="_blank" href="{{ route('main.search.tags', ['tag' => $tag->url]) }}"><span class="tag-span">{{strtoupper($tag->name)}}</span></a>
                             @endforeach
                         </div>
                     @endif
@@ -219,10 +221,10 @@
     @if(!empty($relatedAssets))
         <div class="row py-2">
             <div class="col-md-8">
-                <h2>You May Like:</h2>
+                <h2>You May Also Like:</h2>
             </div>
         </div>
-        <div class="row py-2">
+        <div class="row pt-3 pb-2">
             <div class="col-md-8">
                 <div class="card-deck">
                 @foreach($relatedAssets as $relatedAsset)

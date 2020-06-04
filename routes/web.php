@@ -13,9 +13,6 @@
 
 Route::get('/', 'WelcomeController@index')->name('main.index');
 
-Route::post('/search', 'WelcomeController@search')->name('main.search');
-Route::get('/search', 'WelcomeController@searchResults')->name('main.searchResults');
-
 Auth::routes();
 
 // Check Username AJAX
@@ -175,8 +172,20 @@ Route::post('/admin/dashboard/userads/search', 'UserAdController@adminSearchUser
 
 // Admin Approve User Ads
 
-Route::get('/admin/dashboard/approve/assets', 'AssetController@indexToApprove')->middleware('role:admin|moderator')->name('admin.index.approve.assets');
-Route::post('/admin/dashboard/approve/assets/{id}', 'AssetController@adminApprove')->middleware('role:admin|moderator')->name('admin.approve.asset');
+Route::get('/admin/dashboard/approve/userads', 'UserAdController@indexToApprove')->middleware('role:admin|moderator')->name('admin.index.approve.userads');
+Route::post('/admin/dashboard/approve/userads/{id}', 'UserAdController@adminApprove')->middleware('role:admin|moderator')->name('admin.approve.userad');
+Route::post('/admin/dashboard/disapprove/userads/{id}', 'UserAdController@adminDisapprove')->middleware('role:admin|moderator')->name('admin.disapprove.userad');
+
+
+// Admin / Pages
+
+Route::get('/admin/dashboard/pages/', 'PageController@adminIndex')->middleware('role:admin|moderator')->name('admin.index.pages');
+Route::delete('/admin/dashboard/page/{id}', 'PageController@adminDestroy')->middleware('role:admin|moderator')->name('admin.delete.page');
+Route::get('/admin/dashboard/page/{id}', 'PageController@adminShow')->middleware('role:admin|moderator')->name('admin.show.page');
+Route::put('/admin/dashboard/page/{id}', 'PageController@adminEdit')->middleware('role:admin|moderator')->name('admin.edit.page');
+Route::post('/admin/dashboard/page/', 'PageController@adminAdd')->middleware('role:admin|moderator')->name('admin.add.page');
+Route::post('/admin/dashboard/pages/search', 'PageController@adminSearchPages')->middleware('role:admin|moderator')->name('admin.search.pages');
+
 
 
 // Assets Add
@@ -195,11 +204,18 @@ Route::post('/add/contest', 'ContestController@store')->name('store.contest');
 Route::get('/asset/{url}', 'AssetController@show')->name('show.asset');
 
 
+// Search
+
+Route::post('/search', 'WelcomeController@search')->name('main.search');
+Route::get('/search', 'WelcomeController@searchResults')->name('main.searchResults');
+Route::get('/categories/{category?}', 'WelcomeController@searchCategories')->name('main.search.categories');
+Route::get('/tags/{tag?}', 'WelcomeController@searchTags')->name('main.search.tags');
+
 // Users
 
 Route::get('/u/{username}', 'UserController@showProfile')->name('user.profile.show');
 Route::get('/dashboard', 'UserController@dashboard')->middleware('role:user')->name('user.dashboard');
-Route::get('/dashboard/myprofile', 'UserController@showProfileDashboard')->name('user.profile.dashboard.show');
+Route::get('/dashboard/myprofile', 'UserController@showMyProfile')->name('user.profile.dashboard.show');
 Route::get('/dashboard/setup', 'UserController@setupProfilePage')->middleware('role:user')->name('user.setup.show');
 Route::put('/dashboard/setup', 'UserController@setupProfileRequest')->middleware('role:user')->name('user.setup.request');
 Route::get('/dashboard/changepassword', 'UserController@changePasswordPage')->middleware('role:user')->name('user.password.show');
@@ -239,3 +255,6 @@ Route::post('/download/download', 'DownloadController@downloadDownload')->name('
 Route::get('/page/contactus', 'ContactMessageController@create')->name('create.contactus');
 Route::post('/page/contactus', 'ContactMessageController@store')->name('store.contactus');
 
+// Pages
+
+Route::get('/page/{url}', 'PageController@showPage')->name('show.page');

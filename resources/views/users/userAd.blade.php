@@ -15,7 +15,7 @@
     </div>
     <div class="row justify-content-center">
         <div class="col-sm-5 text-center">
-            <div class="py-5">
+            <div class="py-5" id="status-container">
                 @if(empty($ad))
                     <div class="alert alert-secondary" role="alert">
                         Your ad hasn't been set yet... Set it now!
@@ -23,13 +23,13 @@
                 @else
                     @if($ad->status == 0)
                         <div class="alert alert-danger" role="alert">
-                            Unfortunately your ad hasn't been approved... Try to set a new one!
+                            Unfortunately your ad hasn't been approved... You can try to submit it again after fixing the errors...
                         </div>
-                    @elsif($ad->status == 1)
+                    @elseif($ad->status == 1)
                         <div class="alert alert-warning" role="alert">
                             Your ad request is pending... We will review it as soon as possible!
                         </div>
-                    @elsif($ad->status == 2)
+                    @elseif($ad->status == 2)
                         <div class="alert alert-success" role="alert">
                             Your ad add is approved!
                         </div>
@@ -75,6 +75,7 @@
             <div class="col-md-6">
                 <div class="pt-5 pb-4">
                     <h3>Customize Your Ad:</h3>
+                    <span>* Any Edit Has to be Approved by our Team.</span>
                 </div>
             </div>
         </div>

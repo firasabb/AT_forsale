@@ -46,7 +46,7 @@ class AssetController extends Controller
 
     public function show($url){
 
-        $asset = Asset::where('url', $url)->firstOrFail();
+        $asset = Asset::where('url', $url)->with('user')->firstOrFail();
         $featured = $asset->featured();
         $license = $asset->licenses()->first();
         $category = $asset->category;

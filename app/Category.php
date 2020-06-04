@@ -41,4 +41,22 @@ class Category extends Model
         return '#F34444';
     }
 
+    public function isChild(){
+        if($this->parent_id){
+            return true;
+        }
+        return;
+    }
+
+    public function isParent(){
+        if(!$this->parent_id){
+            return true;
+        }
+        return;
+    }
+
+    public function parentCategories(){
+        $categories = Category::whereNull('parent_id')->get();
+        return $categories;
+    }
 }

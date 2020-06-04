@@ -12,8 +12,16 @@ body {
   background-color: #f9fffe;
 }
 
+main {
+  min-height: 100vh;
+}
+
 .form-control {
   border-radius: 0;
+}
+
+.white-text {
+  color: #fff;
 }
 
 .white-input-group-text {
@@ -120,6 +128,15 @@ body {
 
 .no-border {
   border: 0;
+}
+
+.py-point-8 {
+  padding-top: 0.8rem;
+  padding-bottom: 0.8rem;
+}
+
+.nav-link {
+  line-height: 2;
 }
 
 @media only screen and (min-width: 1080px) {
@@ -265,7 +282,7 @@ body {
 }
 
 .card-audio-overlay {
-  position: absolute;
+  position: relative;
   height: auto;
   width: 100%;
   bottom: 0;
@@ -673,7 +690,8 @@ a.card-link:hover {
   height: 500px;
   width: 100%;
   margin-bottom: 30px;
-  background-color: #393a36;
+  background: #00e3ff;
+  background: linear-gradient(90deg, #00e3ff 0%, #04ffb4 100%);
 }
 
 .search-home {
@@ -686,7 +704,7 @@ a.card-link:hover {
 
 .search-form-title {
   text-align: center;
-  color: #f1f1f1;
+  color: #5f5f5f;
 }
 
 .search-form {
@@ -712,14 +730,20 @@ a.card-link:hover {
 **
 **/
 
-.search-bar {
-  padding: 20px 0;
-  background-color: #edf5f4;
+.search-col {
+  width: 90%;
+  padding: 2rem;
+  background: #fff;
+  border: #ccc 1px solid;
 }
 
-.search-bar-row {
-  width: 50%;
-  margin: 0 auto;
+.search-col label {
+  font-weight: bold;
+}
+
+.search-card-columns .card-columns {
+  column-count: 2;
+  -moz-column-count: 2;
 }
 
 /**
@@ -803,5 +827,19 @@ a.card-link:hover {
   fill: #a5a5a5;
   margin-right: 0.4rem;
   width: 1rem;
+}
+
+footer {
+  background-color: #3d3d3d;
+  color: #fff;
+}
+
+footer ul {
+  list-style: none;
+  padding: 0;
+}
+
+footer ul li {
+  display: inline;
 }
 

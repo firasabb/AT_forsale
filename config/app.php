@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'AssetTorch'),
 
     /*
     |--------------------------------------------------------------------------
@@ -230,6 +230,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'ExternalAdInjector' => App\Facades\ExternalAdInjector::class,
+        'UserLink' => App\Facades\UserLinkFacade::class,
+        
     ],
 
 ];

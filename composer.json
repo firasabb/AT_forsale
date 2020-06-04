@@ -15,8 +15,10 @@
         "laravel/ui": "^2.0",
         "league/flysystem-aws-s3-v3": "^1.0",
         "nothingworks/blade-svg": "^0.3.2",
+        "spatie/laravel-cookie-consent": "^2.12",
         "spatie/laravel-permission": "^3.0",
         "spatie/laravel-searchable": "^1.4",
+        "spatie/laravel-sitemap": "^5.7",
         "sunspikes/clamav-validator": "^2.1"
     },
     "require-dev": {

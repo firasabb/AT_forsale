@@ -32,4 +32,9 @@ class Tag extends Model implements Searchable
     public function categories(){
         return $this->morphedByMany('App\Category', 'taggable');
     }
+
+
+    public function approvedAssets(){
+        return $this->assets()->where('status', 2);
+    }
 }

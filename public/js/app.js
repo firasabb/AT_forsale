@@ -1770,7 +1770,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     goToCategory: function goToCategory(url) {
-      window.location.href = window.location.protocol + window.location.hostname + '/category/' + url;
+      var goTo = window.location.protocol + '//' + window.location.hostname + '/categories/' + url;
+      window.open(goTo, '_blank');
     }
   },
   mounted: function mounted() {

@@ -222,6 +222,11 @@ $(document).ready(function () {
   }
 
   deleteOnClick();
+  var addUserAdBtn = $('#add-userad');
+  var addUserAdForm = $('#add-userad-form');
+  addUserAdBtn.click(function () {
+    addUserAdForm.submit();
+  });
 });
 
 /***/ }),

@@ -11,7 +11,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Laravel') }} - @yield('title')</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -27,6 +27,9 @@
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 </head>
 <body>
+    @guest
+        @include('cookieConsent::index')
+    @endguest
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
@@ -46,13 +49,14 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
+                        <a class="btn btn-primary mr-5 my-1" target="_blank" href="{{ route('create.asset') }}"><i class="fa fa-arrow-up"></i>  Upload</a>
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link" href="{{ route('login') }}"><strong>{{ __('Login') }}</strong></a>
                             </li>
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}"><strong>{{ __('Register') }}</strong></a>
                                 </li>
                             @endif
                         @else
@@ -60,13 +64,15 @@
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
-
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     @if(Auth::user()->hasRole('admin'))
                                     <a class="dropdown-item" href="{{ url('/admin/dashboard/') }}">
                                         Admin Panel
                                     </a>
                                     @endif
+                                    <a class="dropdown-item" href="{{ route('user.profile.dashboard.show') }}">
+                                        Dashboard
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -84,11 +90,23 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main>
             @yield('content')
         </main>
     </div>
     <footer>
+        <div class="py-5">
+            <div class="py-1 text-center">
+                <ul>
+                    <li><a class="a-no-decoration-white" target="_blank" href="{{ url('/page/privacy-policy') }}">Privacy Policy</a></li>
+                    <li><a class="a-no-decoration-white pl-4" target="_blank" href="{{ url('/page/terms-of-service') }}">Terms of Service</a></li>
+                    <li><a class="a-no-decoration-white pl-4" target="_blank" href="{{ route('create.contactus') }}">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="text-center">
+                &copy; 2020 {{ config('app.name', 'Laravel')}}
+            </div>
+        </div>
         @stack('footer_scripts')
     </footer>
 </body>

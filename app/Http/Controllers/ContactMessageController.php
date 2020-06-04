@@ -67,7 +67,7 @@ class ContactMessageController extends Controller
         $contactMessage->body = $request->body;
         $contactMessage->save();
 
-        return back()->with('status', 'Thank you for contacting us! Our team is going to help you as soon as possible.');
+        return back()->with('status', 'Thank you for contacting us! Our team is going to help you with your inquiry as soon as possible.');
     }
 
     /**

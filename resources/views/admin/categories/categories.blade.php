@@ -125,6 +125,18 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
+                                        <select name="parent_id" class="form-control">
+                                            <option selected>N/A</option>
+                                            @foreach($parentCategories as $parentCategory)
+                                                <option value="{{ $parentCategory->id }}">{{ $parentCategory->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
                                         <input type="file" name="featured"/>
                                     </div>
                                 </div>

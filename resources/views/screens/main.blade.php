@@ -1,5 +1,7 @@
 @extends('layouts.main')
 
+@section('title', 'Free Royalty-Free Assets')
+
 @section('content')
 
 <div class="search-home-container">
@@ -22,26 +24,29 @@
                         <select name="type" class="form-control">
                             <option value="all" selected>All Categories</option>
                             @foreach($categories as $category)
-                                <option value="{{ $category->name }}">{{ strtoupper($category->name) }}</option>
+                                <option value="{{ $category->name }}">{{ ucwords($category->name) }}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
                 <div class="col-sm-2 mt-3">
-                    <button class="btn btn-primary search-btn" type="submit">Search</button>
+                    <button class="btn btn-dark search-btn" type="submit">Search</button>
                 </div>
             </div>
         </form>
     </div>
 </div>
 
-<div class="container">
+<div class="container py-5">
     <div class="card-columns">
         @foreach($assets as $asset)
             <div class="pb-4">
                 <x-asset-card :asset="$asset"/>
             </div>
         @endforeach
+    </div>
+    <div class="py-3">
+        {{ $assets->links() }}
     </div>
 </div>
 

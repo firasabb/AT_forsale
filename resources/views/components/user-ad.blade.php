@@ -6,37 +6,61 @@
 
                 $content = unserialize($userAd->content);
                 $title = $content['header_title'];
-                $appreciation_msg = $content['appreciation_msg'];
+                $appreciationMsg = $content['appreciation_msg'];
                 $btn_1 = $content['first_btn'];
                 $btn_2 = $content['second_btn'];
                 $paypal_donation = $content['paypal_donation'];
                 $paypal = $user->paypal;
-                $img_url = $content['image_url'];
-                $img_path = $content['upload'];
+                $imgUrl = $content['image_url'];
+                $imgPath = $content['upload'];
+                $adUrl = $content['ad_url'];
+
+                // check the user links to show links button
+                
+                $link_1 = $user->userlinks()->where('name', $btn_1)->first();
+                $link_2 = $user->userlinks()->where('name', $btn_2)->first();
 
             @endphp
 
             <div class="modal-content">
                 <div class="modal-header">
-                    @if($title)
-                        <h5 class="modal-title" id="exampleModalLabel">{{ $title }}</h5>
-                    @endif
+                    <h5 class="modal-title" id="exampleModalLabel">{{ $title ?? 'Thank you from ' . $user->username . '!' }}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    @if($appreciation_msg)
+                <div class="modal-body p-0">
+                    @if($btn_1 || $btn_2)
+                        <div class="row no-gutters justify-content-center pb-3">
+                            @if(($btn_1 && $btn_2) && ($link_1 && $link_2))
+                                <div class="col text-center">
+                                    {!! UserLink::userLinkIcon($link_1->name, $link_1->url) !!}
+                                </div>
+                                <div class="col text-center">
+                                    {!! UserLink::userLinkIcon($link_2->name, $link_2->url) !!}
+                                </div>
+                            @elseif (($btn_1 xor $btn_2) || ($link_1 || $link_2))
+                                @php
+                                    $btn = $btn_1 ?? $btn_2;
+                                    $link = $link_1 ?? $link_2;
+                                @endphp
+                                <div class="col text-center">
+                                    {!! UserLink::userLinkIcon($link->name, $link->url) !!}
+                                </div>
+                            @endif
+                        </div>
+                    @endif
+                    @if($appreciationMsg)
                         <div class="row">
                             <div class="col text-center">
-                                <div class="py-2">
-                                    <h5>{{ $appreciation_msg }}</h5>
+                                <div class="py-3">
+                                    <h5><strong>{{ $appreciationMsg }}</strong></h5>
                                 </div>
                             </div>
                         </div>
                     @endif
                     @if($paypal_donation)
-                        <div class="row justify-content-center">
+                        <div class="row justify-content-center pb-3">
                             <div class="col text-center">
                                 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
                                     <input type="hidden" name="cmd" value="_donations" />
@@ -54,30 +78,12 @@
                             </div>
                         </div>
                     @endif
-                    @if($btn_1 || $btn_2)
-                        <div class="row justify-content-center">
-                            @if($btn_1 && $btn_2)
-                                <div class="col text-center">
-                                    <a class="btn btn-primary" target="_blank" href="#"></a>
-                                </div>
-                                <div class="col text-center">
-                                    <a class="btn btn-primary" target="_blank" href="#"></a>
-                                </div>
-                            @elseif ($btn_1 xor $btn_2){
-                                @php
-                                    $btn = $btn_1 ?? $btn_2;
-                                @endphp
-                                <div class="col text-center">
-                                    <a class="btn btn-primary" target="_blank" href="#"></a>
-                                </div>
-                            @endif
-                        </div>
-                    @endif
-                    @if($img_url || $img_path)
+                    @if($imgUrl || $imgPath)
                         @php
-                            $img = $img_url ?? $img_path;
-                            $url = $ad_url ?? '#';
+                            $img = $imgUrl ?? $imgPath;
+                            $url = $adUrl ?? '#';
                         @endphp
+                        
                         <div class="row">
                             <div class="col text-center">
                                 <a href="{{ $url }}" target="_blank">

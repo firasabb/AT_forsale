@@ -33,11 +33,11 @@ class UserController extends Controller
     }
 
 
-    public function showProfileDashboard(){
+    public function showMyProfile(){
 
         $user = Auth::user();
         $activeAssets = $user->activeAssets;
-        return view('users.profileDashboard', ['user' => $user, 'activeAssets' => $activeAssets]);
+        return view('users.myProfile', ['user' => $user, 'activeAssets' => $activeAssets]);
 
     }
 
@@ -97,6 +97,9 @@ class UserController extends Controller
         $user->paypal = $request->paypal;
         $user->save();
 
+        $request->facebook = $this->facebookInstagramLinks($request->facebook);
+        $request->instagram = $this->facebookInstagramLinks($request->instagram);
+
         $links = ['instagram' => $request->instagram_link, 'facebook' => $request->facebook_link,
             'github' => $request->github_link, 'youtube' => $request->youtube_link, 'website' => $request->website_link, 'portfolio' => $request->portfolio_link];
 
@@ -120,7 +123,7 @@ class UserController extends Controller
             $check = $user->userLinks()->where('name', $key)->first();
             $checkLink = $this->validateUserLink($key, $value);
             if(!$checkLink){
-                return back()->withErrors('Please add the right link');
+                return back()->withErrors('Please add a valid link');
             }
             if(empty($check) && !empty($value)){
                 $userLink = new UserLink();
@@ -151,16 +154,8 @@ class UserController extends Controller
 
         switch($key){
             case 'instagram':
-                $check = $this->validateFacebookInstagram($value);
-                if(!$check){
-                    return false;
-                }
                 break; 
             case 'facebook':
-                $check = $this->validateFacebookInstagram($value);
-                if(!$check){
-                    return false;
-                }
                 break;
             case 'github':
                 $check = $this->validatePlatformLink('github', $value);
@@ -175,6 +170,10 @@ class UserController extends Controller
                 }
                 break;
             case 'portfolio':
+                $check = $this->validatePlatformLink('behance', $value);
+                if(!$check){
+                    return false;
+                }
                 break;
             case 'website':
                 break;
@@ -187,7 +186,7 @@ class UserController extends Controller
 
     private function validatePlatformLink($platform, $link){
 
-        $platform = '/^(https?:\/\/)?(www\.)?' . $platform . '.com\/[a-zA-Z0-9(\.\?)?]/';
+        $platform = '/^(https?:\/\/)?(www\.)?' . $platform . '.(com|net)?\/[a-zA-Z0-9(\.\?)?]/';
         if(preg_match($platform, $link) == 1) {
             return true;
         } else if(empty($link)){
@@ -198,24 +197,21 @@ class UserController extends Controller
     
     }
 
+    private function facebookInstagramLinks($link){
 
-    private function validateFacebookInstagram($link){
+        // We don't want a url
+        // it is accepted as "username" or "@username"
+        if(filter_var($link, FILTER_VALIDATE_URL) !== false){
+            return '';
+        }
 
-        if(preg_match('/(https?:\/\/)?([\w\.]*)facebook\.com\/([a-zA-Z0-9_]*)$/', $link) !== false){
-            return true;
-        } else if(preg_match('/(https?:\/\/)?([\w\.]*)instagram\.com\/([a-zA-Z0-9_]*)$/', $link) !== false){
-            return true;
+        if($link[0] == '@'){
+            $link = str_replace('@', '', $link, 1);
         }
-        else if (filter_var($link, FILTER_VALIDATE_URL) === false){
-            return true;
-        }if(empty($link)){
-            return true;
-        }
-        return false;
+
+        return $link;
     }
-
-
-
+    
 
     public function changePasswordPage(){
 
@@ -290,7 +286,7 @@ class UserController extends Controller
         if(!empty($ad)){
             $content = unserialize($ad->content);
         }
-        return view('users.myAd', ['user' => $user, 'ad' => $ad, 'content' => $content, 'userLinks' => $userLinks]);
+        return view('users.userAd', ['user' => $user, 'ad' => $ad, 'content' => $content, 'userLinks' => $userLinks]);
     }
 
 }

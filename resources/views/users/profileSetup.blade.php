@@ -91,7 +91,7 @@
                                         <div class="col">
                                             <div class="input-group mb-2">
                                                 <div class="input-group-prepend">
-                                                    <div class="input-group-text white-input-group-text" style="background-color: #b571c8; ">Instagram</div>
+                                                    <div class="input-group-text white-input-group-text" style="background-color: {{ UserLink::userLinkColor('instagram') }}; ">Instagram</div>
                                                 </div>
                                                 <input class="form-control" name="instagram_link" value="{{ $instagram['url'] }}" placeholder="@username">
                                             </div>
@@ -105,7 +105,7 @@
                                         <div class="col">
                                             <div class="input-group mb-2">
                                                 <div class="input-group-prepend">
-                                                    <div class="input-group-text white-input-group-text" style="background-color: #5393e6;">Facebook</div>
+                                                    <div class="input-group-text white-input-group-text" style="background-color: {{ UserLink::userLinkColor('facebook') }};">Facebook</div>
                                                 </div>
                                                 <input class="form-control" name="facebook_link" value="{{ $facebook['url'] }}" placeholder="@username">
                                             </div>
@@ -119,7 +119,7 @@
                                         <div class="col">
                                             <div class="input-group mb-2">
                                                 <div class="input-group-prepend">
-                                                    <div class="input-group-text white-input-group-text" style="background-color: #656768;">Github</div>
+                                                    <div class="input-group-text white-input-group-text" style="background-color: {{ UserLink::userLinkColor('github') }};">Github</div>
                                                 </div>
                                                 <input class="form-control" name="github_link" value="{{ $github['url'] }}" placeholder="https://www.github.com/username">
                                             </div>
@@ -133,7 +133,7 @@
                                         <div class="col">
                                             <div class="input-group mb-2">
                                                 <div class="input-group-prepend">
-                                                    <div class="input-group-text white-input-group-text" style="background-color: #db5f5f;">YouTube</div>
+                                                    <div class="input-group-text white-input-group-text" style="background-color: {{ UserLink::userLinkColor('youtube') }};">YouTube</div>
                                                 </div>
                                                 <input class="form-control" name="youtube_link" value="{{ $youtube['url'] }}" placeholder="https://www.youtube.com/channel">
                                             </div>
@@ -147,7 +147,7 @@
                                         <div class="col">
                                             <div class="input-group mb-2">
                                                 <div class="input-group-prepend">
-                                                    <div class="input-group-text">Website</div>
+                                                    <div class="input-group-text white-input-group-text" style="background-color: {{ UserLink::userLinkColor('') }};">Website</div>
                                                 </div>
                                                 <input class="form-control" name="website_link" value="{{ $website['url'] }}" placeholder="https://www.example.com">
                                             </div>
@@ -161,9 +161,9 @@
                                         <div class="col">
                                             <div class="input-group mb-2">
                                                 <div class="input-group-prepend">
-                                                    <div class="input-group-text white-input-group-text" style="background-color: #6dbd9f;">Portfolio</div>
+                                                    <div class="input-group-text white-input-group-text" style="background-color: {{ UserLink::userLinkColor('portfolio') }};">Behance</div>
                                                 </div>
-                                                <input class="form-control" name="portfolio_link" value="{{ $portfolio['url'] }}" placeholder="https://www.myportfolio.com">
+                                                <input class="form-control" name="portfolio_link" value="{{ $portfolio['url'] }}" placeholder="https://www.behance.net/example">
                                             </div>
                                         </div>
                                     </div>
