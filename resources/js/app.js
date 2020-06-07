@@ -45,9 +45,5 @@ const app = new Vue({
             this.id = id;
             this.route = route;
         },
-        open_user_ad_modal: function(){
-            var error = $('.alert-danger');
-            $('#userAdModal').modal('show');
-        }
     }
 });

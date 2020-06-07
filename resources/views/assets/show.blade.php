@@ -4,6 +4,17 @@
 
 @section('content')
 
+
+@php
+    
+    $visualArr = ['stock photo', 'logos', 'icons', 'illustrations'];
+    $audioArr = ['sound effects', 'music'];
+    $videoArr = ['stock video', 'intro'];
+    $categoryName = $asset->category->name;
+
+@endphp
+
+
 <div class="container pt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -11,10 +22,10 @@
                 <div class="card-header bg-light">
                     <div>
                         <div class="card-header-img">
-                            <a target="_blank" href="{{ route('user.profile.show', ['username' => $asset->user->username]) }}"><img class="avatar-pic" src="{{ $asset->user->avatar_url }}"/></a>
+                            <a target="_blank" href="{{ route('user.profile.show', ['username' => $asset->user->username]) }}"><img class="avatar-pic" src="{{ $asset->user->avatarUrl() }}"/></a>
                         </div>
                         <div class="card-header-text asset-card-user-text">
-                            <a target="_blank" href="{{ route('user.profile.show', ['username' => $asset->user->username]) }}">{{ $asset->user->name }}</a>
+                            <a target="_blank" href="{{ route('user.profile.show', ['username' => $asset->user->username]) }}">{{ $asset->user->username }}</a>
                         </div>
                         <div class="float-right">
                             <a target="_blank" href="{{ route('main.search.categories', ['category' => $asset->category->url]) }}" class="a-no-decoration">{{ strtoupper($asset->category->name) }}</a>
@@ -38,9 +49,32 @@
                         </div>
                     @endif
                     <h3 class="card-title my-2">{{$asset->title}}</h3>
-                    @if(!empty($featured))
-                        <img class="card-body-img" src="{{ Storage::cloud()->url($asset->cover()) }}" alt="{{ $asset->title }}">
-                    @endif
+                        <div class="py-3">
+                            @if(!empty($featured))
+                                @if(in_array($categoryName, $visualArr))
+                                    <img class="card-body-img" src="{{ Storage::cloud()->url($asset->featured()) }}" alt="{{ $asset->title }}">
+                                @elseif(in_array($categoryName, $videoArr))
+                                    <div>
+                                        <video muted width="100%" height="230" poster="{{ Storage::cloud()->url($asset->cover()) }}" preload="none">
+                                            <source src="{{ Storage::cloud()->url($asset->featured()) }}">
+                                            <p>Your browser doesn't support HTML5 audio. Download It <a class="a-no-decoration-white" href="{{ route('show.asset', ['url' => $asset->url]) }}"></a></p>
+                                        </video>
+                                    </div>
+                                @elseif(in_array($categoryName, $audioArr))
+                                    <div class="card card-shadow" style="width: 100%;">
+                                        <img class="card-img card-img-top" src="{{ Storage::cloud()->url($asset->cover()) }}" alt="{{ $asset->title }}">
+                                        <div >
+                                            <audio controls style="width:100%;">
+                                                <source src="{{ Storage::cloud()->url($asset->featured()) }}">
+                                                <p>Your browser doesn't support HTML5 audio. Download It <a class="a-no-decoration-white" href="{{ route('show.asset', ['url' => $asset->url]) }}"></a></p>
+                                            </audio>
+                                        </div>
+                                    </div>
+                                @else
+                                    <img class="card-body-img" src="{{ Storage::cloud()->url($asset->cover()) }}" alt="{{ $asset->title }}">
+                                @endif
+                            @endif
+                        </div>
                     <div class="downloads-views">
                         <p class="mr-3">@svg('arrow-down', 'arrow-down-icon') {{ $asset->downloadEventsCount() }} downloads</p>
                         <p>@svg('eye', 'eye-icon'){{ $asset->viewEventsCount() }} views</p>
@@ -85,17 +119,24 @@
                             Free Download
                         </div>
                         <div class="card-body">
+                            @php
+                                $n = 1;
+                            @endphp
                             @foreach($asset->downloads as $download)
-                                <div class="row justify-content-center">
-                                    <div class="col text-center">
-                                        <form action="{{ route('download.download') }}" method="post">
-                                            @csrf
+                                <form action="{{ route('download.download') }}" method="post">
+                                    <div class="row justify-content-center pb-3">
+                                        <div class="col text-center">
+                                            <p class="mb-1">File {{ $n }}:</p>
                                             <input type="hidden" name="id" value="{{ encrypt($download->id) }}">
-                                            <input type="hidden" name="recaptcha" id="recaptcha">
-                                            <button v-on:click="open_user_ad_modal()" class="btn btn-lg btn-success">Download</button>
-                                        </form>
+                                            <button class="btn btn-dark download-btn">Download</button>
+                                        </div>
                                     </div>
-                                </div>
+                                    <input type="hidden" name="recaptcha" class="recaptcha">
+                                    @csrf
+                                    @php
+                                        $n++;
+                                    @endphp
+                                </form>
                             @endforeach
                         </div>
                     </div>
@@ -171,11 +212,11 @@
                             <div class="col-md-1">
                                 <div class="text-center">
                                     <a target="_blank" href="{{ route('user.profile.show', ['username' => $comment->user->username]) }}">
-                                        <img class="comment-user-img" src="{{ $comment->user->avatar_url }}" alt="{{ $comment->user->name }}"/>
+                                        <img class="comment-user-img" src="{{ $asset->user->avatarUrl() }}" alt="{{ $comment->user->username }}"/>
                                     </a>
                                 </div>
                                 <div class="text-center comment-user-name">
-                                    <a target="_blank" href="{{ route('user.profile.show', ['username' => $comment->user->username]) }}" class="a-no-decoration">{{ $comment->user->name }}</a>
+                                    <a target="_blank" href="{{ route('user.profile.show', ['username' => $comment->user->username]) }}" class="a-no-decoration">{{ $comment->user->username }}</a>
                                 </div>
                             </div>
                             <div class="col-md-10">
@@ -218,7 +259,7 @@
         </div>
     @endforeach
 
-    @if(!empty($relatedAssets))
+    @if(!$relatedAssets->isEmpty())
         <div class="row py-2">
             <div class="col-md-8">
                 <h2>You May Also Like:</h2>
@@ -277,9 +318,30 @@
             grecaptcha.ready(function() {
                 grecaptcha.execute('{{ config('services.recaptcha.sitekey') }}', {action: 'contact'}).then(function(token) {
                     if (token) {
-                    document.getElementById('recaptcha').value = token;
+                        let elms = document.getElementsByClassName('recaptcha');
+                        for(let i = 0; i < elms.length; i++){
+                            elms[i].value = token;
+                        }
                     }
                 });
             });
+    </script>
+    <script defer type="text/javascript">
+        window.addEventListener('load', function(){
+            var downloadBtn = $('.download-btn');
+            downloadBtn.on('click', function(e){
+                $('#userAdModal').modal('show');
+                grecaptcha.ready(function() {
+                    grecaptcha.execute('{{ config('services.recaptcha.sitekey') }}', {action: 'contact'}).then(function(token) {
+                        if (token) {
+                            let elms = document.getElementsByClassName('recaptcha');
+                            for(let i = 0; i < elms.length; i++){
+                                elms[i].value = token;
+                            }
+                        }
+                    });
+                });
+            });
+        });
     </script>
 @endpush

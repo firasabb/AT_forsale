@@ -78,7 +78,7 @@
                                     {{$user->id}}
                                 </td>
                                 <td>
-                                    {{$user->name}}
+                                    {{$user->first_name . ' ' . $user->last_name}}
                                 </td>
                                 <td>
                                     {{$user->email}}
@@ -129,7 +129,10 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <input class="form-control" type="text" name="name"  value="{{ old('name') }}" placeholder="Name" />
+                                        <input class="form-control" type="text" name="first_name"  value="{{ old('first_name') }}" placeholder="First Name" />
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" type="text" name="last_name"  value="{{ old('last_name') }}" placeholder="Last Name" />
                                     </div>
                                     <div class="form-group">
                                         <input class="form-control" type="email" name="email"  value="{{ old('email') }}" placeholder="Email" />

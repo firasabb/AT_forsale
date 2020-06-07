@@ -14,5 +14,6 @@ class EmailCampaignSeeder extends Seeder
     {
         EmailCampaign::create(['name' => 'news']);
         EmailCampaign::create(['name' => 'offers']);
+        EmailCampaign::create(['name' => 'notifications']);
     }
 }

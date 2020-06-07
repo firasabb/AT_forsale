@@ -25,7 +25,7 @@
                     @endif
 
                     <div class="text-center p-3">
-                        <h5>Added by: <a href="{{ url('admin/dashboard/user/' . $asset->user->id) }}">{{ $asset->user->name }}</a></h5>
+                        <h5>Added by: <a href="{{ url('admin/dashboard/user/' . $asset->user->id) }}">{{ $asset->user->username }}</a></h5>
                     </div>
 
                     <form method="POST" action="{{ route('admin.edit.asset', ['id' => $asset->id]) }}" class="edit-form-confirm">

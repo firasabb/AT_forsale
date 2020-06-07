@@ -15,10 +15,13 @@ class CreateDownloadsTable extends Migration
     {
         Schema::create('downloads', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('name');
-            $table->text('description')->nullable();
+            $table->string('name')->nullable();
+            $table->string('size')->nullable();
+            $table->string('extension')->nullable();
+            $table->string('description')->nullable();
             $table->text('url');
             $table->unsignedBigInteger('asset_id');
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('asset_id')

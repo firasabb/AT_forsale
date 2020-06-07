@@ -26,7 +26,7 @@
                     <div class="row">
                         <div class="col">
                             <div class="text-center p-3">
-                                <h5>Reported by: <a href="{{ url('admin/dashboard/user/' . $report->user->id) }}">{{ $report->user->name }}</a></h5>
+                                <h5>Reported by: <a href="{{ url('admin/dashboard/user/' . $report->user->id) }}">{{ $report->user->username }}</a></h5>
                             </div>
                         </div>
                         <div class="col">

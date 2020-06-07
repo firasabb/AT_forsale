@@ -10,6 +10,8 @@ use App\Media;
 use App\DownloadEvent;
 use App\ViewEvent;
 use App\License;
+use App\Notifications\AssetApproved;
+use App\Notifications\AssetRejected;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Validator;
@@ -46,7 +48,15 @@ class AssetController extends Controller
 
     public function show($url){
 
-        $asset = Asset::where('url', $url)->with('user')->firstOrFail();
+        // get the user to check if admin or moderator
+        $user = Auth::user();
+
+        // if admin then show the asset even if it is not approved
+        if($user->hasAnyRole(['admin', 'moderator'])){
+            $asset = Asset::where('url', $url)->with('user')->firstOrFail();
+        } else {
+            $asset = Asset::where([['url', $url], ['status', 2]])->with('user')->firstOrFail();
+        }
         $featured = $asset->featured();
         $license = $asset->licenses()->first();
         $category = $asset->category;
@@ -91,8 +101,8 @@ class AssetController extends Controller
         $asset = Asset::where('status', 1)->orderBy('id', 'asc')->first();
         if(!empty($asset)){
             $categories = Category::all()->load('medias')->flatten();
-            $featured = $asset->medias()->where('sorting', 'featured')->first();
-            $cover = $asset->medias()->where('sorting', 'cover')->first();
+            $featured = $asset->medias()->where('sorting', 1)->first();
+            $cover = $asset->medias()->where('sorting', 2)->first();
             $assets = Asset::where('status', 1)->orderBy('id', 'asc');
             $downloads = $asset->downloads;
             return view('admin.assets.indexToApprove', ['asset' => $asset, 'categories' => $categories, 'featured' => $featured, 'cover' => $cover, 'downloads' => $downloads]);
@@ -112,10 +122,11 @@ class AssetController extends Controller
         if($categoryUrl){
 
             $category = Category::where('url', $categoryUrl)->firstOrFail();
-            return view('assets.create', ['category' => $category]);
+            $licenses = License::all();
+            return view('assets.create', ['category' => $category, 'licenses' => $licenses]);
 
         }
-        $categories = Category::with('medias')->get();
+        $categories = Category::with(['medias'])->get();
         return view('categories.select', ['categories' => $categories]);
     }
 
@@ -133,10 +144,11 @@ class AssetController extends Controller
             'title' => 'required|string|min:15|max:200',
             'description' => 'string|max:500',
             'tags' => 'string|max:150',
+            'license' => 'string|exists:licenses,name',
             'uploads' => 'required|array',
-            'uploads.*' => 'file|max:100000',
-            'cover' => 'max:1000|image|nullable',
-            'featured' => 'file|max:20000|mimes:jpeg,bmp,png,mpeg4-generic,ogg,x-wav,x-msvideo,x-ms-wmv'
+            'uploads.*' => 'file|max:100000|clamav',
+            'cover' => 'max:1000|image|nullable|clamav',
+            'featured' => 'file|max:20000|mimes:jpeg,bmp,png,mpeg4-generic,ogg,x-wav,x-msvideo,x-ms-wmv,wav,mp3,mp4,wma,avi|clamav'
         ]);
         if($validator->fails()){
             return back()->withErrors($validator)->withInput();
@@ -175,8 +187,8 @@ class AssetController extends Controller
         $asset->category()->associate($category);
         $asset->save();
 
+        // Featured Media
         $featured = $request->featured;
-
         if($featured){
             $media = new Media();
             $media->sorting = 1;
@@ -187,8 +199,8 @@ class AssetController extends Controller
             $asset->medias()->attach($media);
         }
 
+        // Cover
         $cover = $request->cover;
-
         if($cover){
             $media = new Media();
             $path = Storage::cloud()->putFile('covers', $cover, 'public');
@@ -200,20 +212,23 @@ class AssetController extends Controller
         }
 
 
+        // Uploads
         $uploads = $request->uploads;
         if($uploads){
             foreach($uploads as $upload){
                 $download = new Download();
                 $name = Str::slug($upload->getClientOriginalName(), '_');
                 $extension = $upload->getClientOriginalExtension();
-                $name = str_replace('.' . $extension, '', $name);
+                $name = str_replace($extension, '', $name);
                 $download->name = $name;
+                $download->extension = $extension;
                 $path = $upload->store('downloads', 's3');
                 $download->url = $path;
                 $asset->downloads()->save($download);
             }
         }
 
+        // Tags
         $tags = $request->tags;
         $tags = explode(', ', $tags);
         foreach($tags as $tag){
@@ -221,13 +236,16 @@ class AssetController extends Controller
             $asset->tags()->attach($tag);
         }
 
-        $asset->licenses()->attach(License::find(1));
+        // Licenses
+        $license = $request->license;
+        $license = License::where('name', 'LIKE', $license)->firstOrFail();
+        $asset->licenses()->attach($license);
 
         if($user->hasAnyRole('admin', 'moderator')){
             return redirect()->route('admin.index.assets')->with('status', 'A New Asset Has Been Created');
         }
 
-        return redirect('/home')->with('status', 'Your Asset Has Been Created! Once it is approved, it is going to be public...');
+        return redirect()->route('user.assets.show')->with('status', 'Your Asset Has Been Created! Once it is approved, it is going to be public...');
 
     }
 
@@ -298,6 +316,31 @@ class AssetController extends Controller
         }
         $asset->delete();
         return redirect('/admin/dashboard/assets/')->with('status', 'The asset has been deleted!');
+    }
+
+
+
+    public function adminDisapprove($id)
+    {
+        $asset = Asset::findOrFail($id);
+        $downloads = $asset->downloads;
+        foreach($downloads as $download){
+            Storage::cloud()->delete($download->url);
+        }
+        $medias = $asset->medias;
+        if(!empty($medias)){
+            foreach($medias as $media){
+                Storage::cloud()->delete($media->url);
+                $media->delete();
+            }
+        }
+        $asset->status = 0;
+        $asset->save();
+
+        // Notify the user
+        $asset->user->notify(new AssetRejected($asset));
+
+        return redirect('/admin/dashboard/assets/')->with('status', 'The asset has been disapproved!');
     }
 
 
@@ -386,6 +429,10 @@ class AssetController extends Controller
         if($status){
             $asset->status = $status;
             $asset->save();
+            
+            // Notify
+            $asset->user->notify(new AssetApproved($asset));
+
             return redirect('/admin/dashboard/approve/assets')->with('status', 'The asset has been approved!');
         }
         $asset->save();

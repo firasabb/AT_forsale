@@ -1,4 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.main')
+
+@section('title', 'Upload an Asset')
 
 @section('content')
 <div class="container mt-5 mb-5">

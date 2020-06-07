@@ -29,15 +29,15 @@
                                 <div class="row justify-content-center">
                                     <div class="col">
                                         <div class="text-center">
-                                            <h3>INFO</h3>
+                                            <h3>My Information</h3>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row justify-content-center profile-picture-container">
                                     <div class="col" style="border-bottom: solid 1px #e6e6e6">
-                                        <img src="{{ $user->avatar_url }}" class="profile-img-setup"/>
+                                        <img src="{{ $user->avatarUrl() }}" class="profile-img-setup"/>
                                         <div class="text-center mt-3 mb-5">
-                                            <h5>{{ $user->name }}</h5>
+                                            <h5>{{ $user->first_name . ' ' . $user->last_name }}</h5>
                                             <h5>{{ $user->username }}</h5>
                                         </div>
                                     </div>
@@ -46,16 +46,24 @@
                                 <div class="row justify-content-center profile-info-container">
                                     <div class="col">
                                         <div class="form-row justify-content-center">
-                                            <div class="col-md-4 mb-3">
+                                            <div class="col-md-6">
                                                 <label for="profile picture">Profile Picture:</label>
                                                 <input id="profile-picture-select" name="profile_picture" type="file">
                                             </div>
-                                            <div class="col-md-4 mb-3">
-                                                <label for="name">Name:</label>
-                                                <input name="name" type="text" value="{{ $user->name }}" class="form-control">
+                                        </div>
+                                        <div class="form-row justify-content-center mt-3">
+                                            <div class="col-md-6">
+                                                <label for="name">First Name:</label>
+                                                <input name="first_name" type="text" value="{{ $user->first_name }}" class="form-control">
                                             </div>
                                         </div>
-                                        <div class="form-row justify-content-center">
+                                        <div class="form-row justify-content-center mt-3">
+                                            <div class="col-md-6">
+                                                <label for="name">Last Name:</label>
+                                                <input name="last_name" type="text" value="{{ $user->last_name }}" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-row justify-content-center mt-3">
                                             <div class="col-md-6">
                                                 <label for="bio">Bio:</label>
                                                 <textarea name="bio" class="form-control">{{ $user->bio }}</textarea>
@@ -82,7 +90,7 @@
                 <div>
                     <div class="links-container">
                         <div class="links-container-title text-center">
-                            <h4>LINKS</h4>
+                            <h4>My Links</h4>
                         </div>
                         <div class="row links-container-row">
                             <div class="col-6">
@@ -172,7 +180,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="setup-btn-container">
+                <div class="setup-btn-container pb-5">
                     <button type="submit" class="btn btn-blue btn-lg btn-block">Submit</button>
                 </div>
             </form>

@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Category extends Model
 {
     use SoftDeletes;
+
+    protected $appends = ['background_color'];
     
     public function assets(){
         return $this->hasMany('\App\Asset');
@@ -59,4 +61,22 @@ class Category extends Model
         $categories = Category::whereNull('parent_id')->get();
         return $categories;
     }
+
+
+    public function getBackgroundColorAttribute(){
+        return $this->backgroundColor();
+    }
+
+
+    /**
+     * Create a new Eloquent Collection instance.
+     *
+     * @param  array  $models
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function collectionWithBackground(array $models = [])
+    {
+        return new CustomCollection($models);
+    }
+
 }

@@ -33,7 +33,7 @@ class LoginController extends Controller
             return '/admin/dashboard';
         }
 
-        return '/home';
+        return '/';
 
     }
 

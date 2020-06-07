@@ -101,6 +101,19 @@ class Asset extends Model
 
     }
 
+
+    public function delete(){
+        $medias = $this->medias;
+        foreach($medias as $media){
+            $media->delete();
+        }
+        $downloads = $this->downloads;
+        foreach($downloads as $download){
+            $download->delete();
+        }
+        parent::delete();
+    }
+
     /**
      * 
      * Change status numbers to text and check if deleted or not

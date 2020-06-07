@@ -9,7 +9,7 @@ use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Storage;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
     use HasRoles;
@@ -20,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'avatar_url', 'bio', 'username'
+        'first_name', 'last_name', 'email', 'password', 'avatar_url', 'bio', 'username'
     ];
 
     /**
@@ -104,6 +104,28 @@ class User extends Authenticatable
 
     public function approvedUserAd(){
         return $this->userAds()->where('status', 2)->first();
+    }
+
+    public function medias(){
+        return $this->morphToMany('App\Media', 'mediable');
+    }
+
+    public function avatar(){
+        $check_if_exists = $this->medias->where('sorting', 4)->first();
+        if(empty($check_if_exists)){
+            return '';
+        }
+        return $check_if_exists;
+    }
+
+    public function avatarUrl(){
+        $avatar = $this->avatar();
+        if(empty($avatar)){
+            $avatar = 'profiles/no-avatar.png';
+        } else {
+            $avatar = $avatar->url;
+        }
+        return Storage::cloud()->url($avatar);
     }
 
     /**

@@ -63,7 +63,7 @@
                                     {{$userAd->id}}
                                 </td>
                                 <td>
-                                    {{ strtoupper($userAd->user->name) }}
+                                    {{ strtoupper($userAd->user->username) }}
                                 </td>
                                 <td>
                                     {{ $userAd->user->id }}

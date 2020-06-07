@@ -1721,8 +1721,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['obj', 'categories'],
   data: function data() {
@@ -1732,14 +1730,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     parsedCategories: function parsedCategories() {
-      console.log(this.categories);
       return JSON.parse(this.categories);
     }
   },
   methods: {
-    randomColor: function randomColor() {
-      return this.colors[Math.floor(Math.random() * this.colors.length)];
-    },
     selectCategory: function selectCategory(event, url) {
       window.location.href += '/' + url;
     }
@@ -45906,7 +45900,7 @@ var render = function() {
         "div",
         { staticClass: "row" },
         _vm._l(_vm.parsedCategories, function(category) {
-          return _c("div", { staticClass: "col" }, [
+          return _c("div", { staticClass: "col-sm-3" }, [
             _c("div", { staticClass: "select-category" }, [
               _c(
                 "div",
@@ -45927,10 +45921,8 @@ var render = function() {
                       })
                     : _c("div", {
                         staticClass: "no-img",
-                        style: { backgroundColor: _vm.randomColor() }
+                        style: { backgroundColor: category.background_color }
                       }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "card-img-overlay" }),
                   _vm._v(" "),
                   _c(
                     "div",
@@ -58694,10 +58686,6 @@ var app = new Vue({
       $('#reportModal').modal('show');
       this.id = id;
       this.route = route;
-    },
-    open_user_ad_modal: function open_user_ad_modal() {
-      var error = $('.alert-danger');
-      $('#userAdModal').modal('show');
     }
   }
 });

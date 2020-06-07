@@ -19,5 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call(LicenseSeeder::class);
         $this->call(EmailCampaignSeeder::class);
         $this->call(ExternalAdSeeder::class);
+        $this->call(AnalyticsTableSeeder::class);
     }
 }

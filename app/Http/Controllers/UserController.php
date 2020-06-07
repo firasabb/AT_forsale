@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use \App\User;
 use Auth;
 use \App\UserLink;
+use \App\Media;
 use Validator;
 use Storage;
 use Illuminate\Support\Arr;
@@ -65,7 +66,7 @@ class UserController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'string|max:50|nullable',
-            'profile_picture' => 'file|max:2000|mimes:png,jpeg|nullable',
+            'profile_picture' => 'image|max:1000|nullable|clamav',
             'bio' => 'string|max:1000|nullable',
             'email' => ['email', 'nullable', Rule::unique('users', 'email')->ignore($user->email, 'email')],
             'paypal' => ['email', 'nullable', Rule::unique('users', 'paypal')->ignore($user->paypal, 'paypal')],
@@ -87,11 +88,20 @@ class UserController extends Controller
             if(!Arr::has(Storage::cloud()->directories(), 'profiles')){
                 Storage::cloud()->makeDirectory('profiles');
             }
-            $unique = uniqid();
-            $path = $profilePicture->storePublicly('profiles/' . $unique, 's3');
-            $user->avatar_url = $path;
+            if(!empty($user->avatar())){
+                $user->avatar()->delete();
+            }
+            $media = new Media();
+            $media->sorting = 4;
+            $path = Storage::cloud()->putFile('profiles', $profilePicture, 'public');
+            $media->url = $path;
+            $media->public_url = Storage::cloud()->url($path);
+            $media->save();
+            $user->medias()->attach($media);
         }
-        $user->name = $request->name;
+
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
         $user->bio = $request->bio;
         $user->email = $request->email;
         $user->paypal = $request->paypal;

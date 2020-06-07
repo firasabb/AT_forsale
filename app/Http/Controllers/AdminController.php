@@ -70,7 +70,8 @@ class AdminController extends Controller
     public function addUser(Request $request){
 
         $validator = Validator::make($request->all(), [
-            'name' => 'min:3|max:30|required',
+            'first_name' => 'min:3|max:30|required',
+            'last_name' => 'min:3|max:30|required',
             'username' => 'required|unique:users',
             'email' => 'email|required',
             'password' => 'min:6|max:50|required',
@@ -82,10 +83,10 @@ class AdminController extends Controller
         }
 
         $user = new User();
-        $user->name = $request->name;
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
         $user->email = $request->email;
         $user->username = $request->username;
-        $user->avatar_url = Storage::url('no-avatar.png');
         $user->password = bcrypt($request->password);
         $user->save();
 
@@ -103,7 +104,8 @@ class AdminController extends Controller
         $user = User::findOrFail($id);
 
         $validator = Validator::make($request->all(), [
-            'name' => 'min:3|max:30',
+            'first_name' => 'min:3|max:30',
+            'last_name' => 'min:3|max:30',
             'email' => 'email',
             'roles' => 'array'
         ]);
@@ -112,7 +114,8 @@ class AdminController extends Controller
             return redirect('/admin/dashboard/user/' . $user->id)->withErrors($validator)->withInput(Input::except('password'));
         }
 
-        $user->name = $request->name;
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
         $user->email = $request->email;
         $user->save();
 
@@ -180,19 +183,14 @@ class AdminController extends Controller
             $id_where = ['id', '=', $id];
             array_push($where_arr, $id_where);
 
-        } if($first_name && $last_name){
+        } if($first_name){
 
-            $name_where = ['name', 'LIKE', '%' . $first_name . ' ' . $last_name . '%'];
+            $name_where = ['first_name', 'LIKE', '%' . $first_name . ' ' . $last_name . '%'];
             array_push($where_arr, $name_where);
 
-        } if($first_name && !$last_name){
+        } if($last_name){
 
-            $name_where = ['name', 'LIKE', '%' . $first_name . '%'];
-            array_push($where_arr, $name_where);
-
-        } if(!$first_name && $last_name){
-
-            $name_where = ['name', 'LIKE', '%' . $last_name . '%'];
+            $name_where = ['last_name', 'LIKE', '%' . $last_name . '%'];
             array_push($where_arr, $name_where);
 
         } if($username){

@@ -16,11 +16,11 @@
                     <div class="row justify-content-center">
                         <div class="col-lg-6 profile-text-col">
                             <div class="profile-img">
-                                <img src="{{ $user->avatar_url }}" alt="{{ $user->name }}"/>
+                                <img src="{{ $user->avatarUrl() }}" alt="{{ $user->username }}"/>
                             </div>
                             <div class="profile-text">
                                 <div class="profile-name">
-                                    <h3>{{ $user->name }}</h3>
+                                    <h3>{{ $user->username }}</h3>
                                 </div>
                                 <div class="profile-bio">
                                     <p>{{ $user->bio }}</p>
@@ -30,15 +30,12 @@
                                         <p>{{ $activeAssets->count() }}</p>
                                         <p>ASSETS</p>
                                     </div>
-                                    <div class="ml-4 text-center">
+                                    <!--<div class="ml-4 text-center">
                                         <p>0</p>
                                         <p>FOLLOWERS</p>
-                                    </div>
+                                    </div>-->
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-6 profile-header-numbers">
-                            
                         </div>
                     </div>
                 </div>

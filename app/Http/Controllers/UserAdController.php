@@ -39,7 +39,7 @@ class UserAdController extends Controller
             'second_btn' => ['string', 'nullable', 'exists:user_links,name'],
             'paypal_donation' => ['boolean', 'nullable'],
             'image_url' => ['active_url', 'nullable'],
-            'upload' => ['image', 'max:2000'],
+            'upload' => ['image', 'max:2000', 'clamav'],
             'ad_url' => ['active_url', 'nullable']
         ]);
 

@@ -7,10 +7,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class AssetApproved extends Notification
+class AssetRejected extends Notification
 {
     use Queueable;
-
+    
     public $asset;
 
     /**
@@ -44,8 +44,8 @@ class AssetApproved extends Notification
     {
 
         $url = $this->asset->url;
-
-        return (new MailMessage)->from('no-reply@assettorch.com', 'AssetTorch')->subject('Your Asset is Approved!')->markdown('mail.assets.assetApproved', ['url' => $url]);
+        
+        return (new MailMessage)->from('no-reply@assettorch.com', 'AssetTorch')->subject('Asset Submission Review')->markdown('mail.assets.assetRejected', ['url' => $url]);
     }
 
     /**

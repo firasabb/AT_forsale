@@ -15,10 +15,10 @@
         <div class="card-img-overlay card-user-img-transition">
             <div class="card-overlay-upper">
                 <div class="card-user-img">
-                    <a href="{{ route('user.profile.show', ['username' => $asset->user->username]) }}" target="_blank"><img class="avatar-pic" src="{{ $asset->user->avatar_url }}"/></a>
+                    <a href="{{ route('user.profile.show', ['username' => $asset->user->username]) }}" target="_blank"><img class="avatar-pic" src="{{ $asset->user->avatarUrl() }}"/></a>
                 </div>
                 <div class="card-user-text">
-                    <a class="a-no-decoration-white" target="_blank" href="{{ route('user.profile.show', ['username' => $asset->user->username]) }}">{{ $asset->user->name }}</a>
+                    <a class="a-no-decoration-white" target="_blank" href="{{ route('user.profile.show', ['username' => $asset->user->username]) }}">{{ $asset->user->username }}</a>
                 </div>
                 <div class="card-category">
                     <category-button category="{{ $asset->category }}" background-color="{{ $asset->category->backgroundColor() }}"></category-button>
@@ -42,10 +42,10 @@
         <div class="card-img-overlay card-user-img-transition">
             <div class="card-overlay-upper">
                 <div class="card-user-img">
-                    <a href="{{ route('user.profile.show', ['username' => $asset->user->username]) }}" target="_blank"><img class="avatar-pic" src="{{ $asset->user->avatar_url }}"/></a>
+                    <a href="{{ route('user.profile.show', ['username' => $asset->user->username]) }}" target="_blank"><img class="avatar-pic" src="{{ $asset->user->avatarUrl() }}"/></a>
                 </div>
                 <div class="card-user-text">
-                    <a class="a-no-decoration-white" target="_blank" href="{{ route('user.profile.show', ['username' => $asset->user->username]) }}">{{ $asset->user->name }}</a>
+                    <a class="a-no-decoration-white" target="_blank" href="{{ route('user.profile.show', ['username' => $asset->user->username]) }}">{{ $asset->user->username }}</a>
                 </div>
                 <div class="card-category">
                     <category-button category="{{ $asset->category }}" background-color="{{ $asset->category->backgroundColor() }}"></category-button>
@@ -73,13 +73,19 @@
         <a href="{{ route('show.asset', ['url' => $asset->url]) }}">
             <img class="card-img card-img-top" src="{{ Storage::cloud()->url($asset->cover()) }}" alt="{{ $asset->title }}">
         </a>
-        <div class="card-img-overlay card-user-img-transition">
+        <div class="card-video-overlay">
+            <video muted width="100%" height="230" poster="{{ Storage::cloud()->url($asset->cover()) }}" preload="none">
+                <source src="{{ Storage::cloud()->url($asset->featured()) }}">
+                <p>Your browser doesn't support HTML5 audio. Download It <a class="a-no-decoration-white" href="{{ route('show.asset', ['url' => $asset->url]) }}"></a></p>
+            </video>
+        </div>
+        <div class="card-user-img-transition card-img-video-overlay">
             <div class="card-overlay-upper">
                 <div class="card-user-img">
-                    <a href="{{ route('user.profile.show', ['username' => $asset->user->username]) }}" target="_blank"><img class="avatar-pic" src="{{ $asset->user->avatar_url }}"/></a>
+                    <a href="{{ route('user.profile.show', ['username' => $asset->user->username]) }}" target="_blank"><img class="avatar-pic" src="{{ $asset->user->avatarUrl() }}"/></a>
                 </div>
                 <div class="card-user-text">
-                    <a class="a-no-decoration-white" target="_blank" href="{{ route('user.profile.show', ['username' => $asset->user->username]) }}">{{ $asset->user->name }}</a>
+                    <a class="a-no-decoration-white" target="_blank" href="{{ route('user.profile.show', ['username' => $asset->user->username]) }}">{{ $asset->user->username }}</a>
                 </div>
                 <div class="card-category">
                     <category-button category="{{ $asset->category }}" background-color="{{ $asset->category->backgroundColor() }}"></category-button>
@@ -93,12 +99,6 @@
                 </div>
             </a>
         </div>
-        <div class="card-video-overlay">
-            <video muted width="100%" height="230" poster="{{ Storage::cloud()->url($asset->cover()) }}" preload="none">
-                <source src="{{ Storage::cloud()->url($asset->featured()) }}">
-                <p>Your browser doesn't support HTML5 audio. Download It <a class="a-no-decoration-white" href="{{ route('show.asset', ['url' => $asset->url]) }}"></a></p>
-            </video>
-        </div>
     </div>
 
 @else
@@ -110,10 +110,10 @@
             <div class="card-body card-body-asset">
                 <div class="card-meta-info">
                     <div class="card-user-img">
-                        <a href="#"><img class="avatar-pic" src="{{ $asset->user->avatar_url }}"/></a>
+                        <a href="#"><img class="avatar-pic" src="{{ $asset->user->avatarUrl() }}"/></a>
                     </div>
                     <div class="card-user-text">
-                        <a class="a-no-decoration" href="#">{{ $asset->user->name }}</a>
+                        <a class="a-no-decoration" href="#">{{ $asset->user->username }}</a>
                     </div>
                     <div class="card-category">
                         <category-button category="{{ $asset->category }}" background-color="{{ $asset->category->backgroundColor() }}"></category-button>

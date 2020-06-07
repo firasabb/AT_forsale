@@ -3,11 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Storage;
 
 class Download extends Model
 {
     
+    use SoftDeletes;
 
     public function asset(){
 
@@ -36,4 +38,10 @@ class Download extends Model
         return $this->hasMany('App\DownloadEvent');
     }
 
+
+    // Override the delete method to delete the actual file from S3
+    public function delete(){
+        Storage::cloud()->delete($this->url);
+        parent::delete();
+    }
 }

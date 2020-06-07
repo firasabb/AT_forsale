@@ -13,7 +13,7 @@
 
 Route::get('/', 'WelcomeController@index')->name('main.index');
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 // Check Username AJAX
 
@@ -21,7 +21,7 @@ Route::post('/register/checkusername', 'Auth\RegisterController@checkusername')-
 
 //
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'WelcomeController@index')->name('home');
 Route::get('/admin/dashboard', 'AdminController@index')->name('admin.dashboard');
 
 // Admin / Users
@@ -60,6 +60,7 @@ Route::get('/admin/dashboard/asset/{id}', 'AssetController@adminShow')->middlewa
 Route::put('/admin/dashboard/asset/{id}', 'AssetController@adminEdit')->middleware('role:admin|moderator')->name('admin.edit.asset');
 Route::post('/admin/dashboard/asset/', 'AssetController@adminAdd')->middleware('role:admin|moderator')->name('admin.add.asset');
 Route::post('/admin/dashboard/assets/search', 'AssetController@adminSearchAssets')->middleware('role:admin|moderator')->name('admin.search.assets');
+Route::post('/admin/dashboard/asset/disapprove/{id}', 'AssetController@adminDisapprove')->middleware('role:admin|moderator')->name('admin.disapprove.asset');
 
 // Admin Approve Assets
 
@@ -189,8 +190,8 @@ Route::post('/admin/dashboard/pages/search', 'PageController@adminSearchPages')-
 
 
 // Assets Add
-Route::get('/add/asset/{category?}', 'AssetController@create')->middleware('role:user')->name('create.asset');
-Route::post('/add/asset/{category}', 'AssetController@store')->middleware('role:user')->name('store.asset');
+Route::get('/add/asset/{category?}', 'AssetController@create')->middleware('auth', 'verified')->name('create.asset');
+Route::post('/add/asset/{category}', 'AssetController@store')->middleware('auth', 'verified')->name('store.asset');
 
 
 // Contest
@@ -231,20 +232,20 @@ Route::delete('/dashboard/asset/delete/{id}', 'AssetController@destroy')->middle
 
 // Tags
 
-Route::get('/tags', 'TagController@index')->middleware('role:user')->name('index.tags');
+Route::get('/tags', 'TagController@index')->middleware('auth')->name('index.tags');
 
 // Comments
 
-Route::post('/comment/create/{encryptedId}', 'CommentController@store')->middleware('role:user')->name('add.comment');
-Route::delete('/comment/delete/{id}', 'CommentController@destroy')->middleware('role:user')->name('delete.comment');
+Route::post('/comment/create/{encryptedId}', 'CommentController@store')->middleware('auth')->name('add.comment');
+Route::delete('/comment/delete/{id}', 'CommentController@destroy')->middleware('auth')->name('delete.comment');
 
 // Reports
 
-Route::post('/reports/add/{type}', 'ReportController@store')->middleware('role:user')->name('add.report');
+Route::post('/reports/add/{type}', 'ReportController@store')->middleware('auth')->name('add.report');
 
 // Get Tags AJAX
 
-Route::post('/suggest/tags/', 'TagController@suggestTags')->middleware('role:user')->name('suggest.tags');
+Route::post('/suggest/tags/', 'TagController@suggestTags')->middleware('auth')->name('suggest.tags');
 
 // Downloads
 

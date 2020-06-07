@@ -6,7 +6,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">{{$user->name}}</div>
+                <div class="card-header">{{$user->username}}</div>
 
                 <div class="card-body">
                     @if ($errors->any())
@@ -31,7 +31,7 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
-                                    <input class="form-control enabled-disabled" type="text" name="name"  value="{{ $user->name }}" placeholder="Name" disabled/>
+                                    <input class="form-control enabled-disabled" type="text" name="name"  value="{{ $user->username }}" placeholder="Name" disabled/>
                                 </div>
                                 <div class="form-group">
                                     <input class="form-control enabled-disabled" type="email" name="email"  value="{{ $user->email }}" placeholder="Email" disabled/>

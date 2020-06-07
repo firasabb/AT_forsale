@@ -13,10 +13,10 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         $user = new User();
-        $user->name = 'Phil';
+        $user->first_name = 'Phil';
+        $user->last_name = 'Anselmo';
         $user->email = 'example@example.com';
         $user->password = bcrypt('123123qweqwe');
-        $user->avatar_url = Storage::cloud()->url('profiles/no-avatar.png');
         $user->username = 'freezabb';
         $user->bio = 'A musician, guitarist and app developer.';
         $user->save();

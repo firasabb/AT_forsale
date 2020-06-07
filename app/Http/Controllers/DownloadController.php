@@ -11,6 +11,7 @@ use Storage;
 use Validator;
 use Carbon\Carbon;
 use App\Services\Recaptcha;
+use Illuminate\Support\Str;
 
 class DownloadController extends Controller
 {
@@ -60,7 +61,7 @@ class DownloadController extends Controller
         $url = Storage::cloud()->temporaryUrl($download->url, now()->addSeconds(10));
         header("Cache-Control: public");
         header("Content-Description: File Transfer");
-        header("Content-Disposition: attachment; filename=" . $asset->title);
+        header("Content-Disposition: attachment; filename=" . Str::slug($asset->title, '-') . '.' . $mime);
         header("Content-Type: " . $mime);
         return readfile($url);
 
@@ -76,7 +77,7 @@ class DownloadController extends Controller
         $url = Storage::cloud()->temporaryUrl($download->url, now()->addSeconds(10));
         header("Cache-Control: public");
         header("Content-Description: File Transfer");
-        header("Content-Disposition: attachment; filename=" . $asset->title);
+        header("Content-Disposition: attachment; filename=" . Str::slug($asset->title, '-') . '.' . $mime);
         header("Content-Type: " . $mime);
         return readfile($url);
 

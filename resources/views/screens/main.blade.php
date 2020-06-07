@@ -10,7 +10,7 @@
         @csrf
             <div class="row justify-content-center">
                 <div class="col search-form-title mb-3">
-                    <h1>Search and Explore All The Free Assets</h1>
+                    <h2>Search and Explore All The Free Assets</h2>
                 </div>
             </div>
             <div class="row justify-content-center">

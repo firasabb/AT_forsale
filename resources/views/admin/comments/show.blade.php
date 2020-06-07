@@ -25,7 +25,7 @@
                     @endif
 
                     <div class="text-center p-3">
-                        <h5>Asked by: <a href="{{ url('admin/dashboard/user/' . $comment->user->id) }}">{{ $comment->user->name }}</a></h5>
+                        <h5>Asked by: <a href="{{ url('admin/dashboard/user/' . $comment->user->id) }}">{{ $comment->user->username }}</a></h5>
                     </div>
 
                     <form method="POST" action="{{ route('admin.edit.comment', ['id' => $comment->id]) }}" class="edit-form-confirm">

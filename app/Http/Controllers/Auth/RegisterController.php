@@ -31,7 +31,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -52,7 +52,8 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:100'],
+            'last_name' => ['required', 'string', 'max:100'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'username' => ['required', 'string', 'max:20', 'unique:users'],
@@ -68,18 +69,17 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $avatar_url = Storage::cloud()->url('profiles/no-avatar.png');
 
         $user = User::create([
-            'name' => $data['name'],
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
             'email' => $data['email'],
             'username' => $data['username'],
-            'avatar_url' => $avatar_url,
             'password' => Hash::make($data['password']),
         ]);
         $user->assignRole('user');
         if(isset($data['email_subscription'])){
-            $emailCampaigns = EmailCampaign::where('name', 'LIKE', 'news')->orWhere('name', 'LIKE', 'offers')->get();
+            $emailCampaigns = EmailCampaign::where('name', 'LIKE', 'news')->orWhere('name', 'LIKE', 'offers')->orWhere('name', 'LIKE', 'notifications')->get();
             foreach($emailCampaigns as $emailCampaign){
                 $user->emailCampaigns()->attach($emailCampaign);
             }
@@ -92,7 +92,7 @@ class RegisterController extends Controller
         
 
         $validator = Validator::make($request->all(), [
-            'username' => 'string'
+            'username' => 'string|min:6'
         ]);
 
         if($validator->fails()){
