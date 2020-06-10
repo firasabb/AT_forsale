@@ -21,7 +21,7 @@ class CreateViewEventsTable extends Migration
             $table->timestamps();
 
             $table->foreign('asset_id')->references('id')->on('assets')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
         });
     }
 

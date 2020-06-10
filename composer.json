@@ -19,7 +19,8 @@
         "spatie/laravel-permission": "^3.0",
         "spatie/laravel-searchable": "^1.4",
         "spatie/laravel-sitemap": "^5.7",
-        "sunspikes/clamav-validator": "^2.1"
+        "sunspikes/clamav-validator": "^2.1",
+        "aws/aws-sdk-php": "~3.0"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

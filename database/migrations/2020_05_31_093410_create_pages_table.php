@@ -22,7 +22,7 @@ class CreatePagesTable extends Migration
             $table->unsignedBigInteger('category_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
         });
     }
 

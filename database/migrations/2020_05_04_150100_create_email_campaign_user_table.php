@@ -19,8 +19,8 @@ class CreateEmailCampaignUserTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
 
-            $table->foreign('email_campaign_id')->references('id')->on('email_campaigns');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('email_campaign_id')->references('id')->on('email_campaigns')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
