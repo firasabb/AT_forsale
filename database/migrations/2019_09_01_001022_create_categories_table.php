@@ -35,6 +35,7 @@ class CreateCategoriesTable extends Migration
         Schema::dropIfExists('assets');
         Schema::dropIfExists('contests');
         Schema::dropIfExists('pages');
+        Schema::dropIfExists('users');
         Schema::dropIfExists('categories');
     }
 }
