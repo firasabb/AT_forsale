@@ -14,18 +14,18 @@
     <title>{{ config('app.name', 'Laravel') }} - @yield('title')</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-    <script src="{{ asset('js/main_page.js') }}" defer></script>
-    <script src="{{ asset('js/main.js') }}" defer></script>
-    <script src="{{ asset('js/home.js') }}" defer></script>
-    <script src="{{ asset('js/required.js') }}" defer></script>
+    <script src="{{ asset('js/app.js', true) }}" defer></script>
+    <script src="{{ asset('js/main_page.js', true) }}" defer></script>
+    <script src="{{ asset('js/main.js', true) }}" defer></script>
+    <script src="{{ asset('js/home.js', true) }}" defer></script>
+    <script src="{{ asset('js/required.js', true) }}" defer></script>
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css', true) }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css', true) }}" rel="stylesheet">
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-168786200-1"></script>
