@@ -18,7 +18,7 @@ class CreateReportsTable extends Migration
             $table->string('body');
             $table->integer('reportable_id');
             $table->text('reportable_type');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->softDeletes();
             $table->timestamps();
 
