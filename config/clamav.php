@@ -36,7 +36,7 @@ return [
     |--------------------------------------------------------------------------
     | This option defines the maximum time to wait in seconds for a read.
     */
-    'socket_read_timeout' => env('CLAMAV_SOCKET_READ_TIMEOUT', 30),
+    'socket_read_timeout' => env('CLAMAV_SOCKET_READ_TIMEOUT', 500),
 
     /*
     |--------------------------------------------------------------------------
