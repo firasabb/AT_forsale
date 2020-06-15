@@ -163,5 +163,5 @@
 @endsection
 
 @push('footer_scripts')
-    <script src="{{ asset('js/myad.js', true) }}" defer></script>
+    <script src="{{ asset('js/myad.js') }}" defer></script>
 @endpush

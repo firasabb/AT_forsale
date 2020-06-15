@@ -95,12 +95,32 @@
                 </div>
             </div>
         @else
+            
+            @php    
+
+                $externalAd = '';
+                $externalAdHasScript = false;
+                if($showAsModal){
+                    $externalAd = ExternalAdInjector::getAd('download');
+                    if(strpos($externalAd, '<script>') !== FALSE){
+                        $externalAdHasScript = true;
+                    }                
+                }
+
+            @endphp
+
+            @if($showAsModal && $externalAdHasScript)
+                @push('footer_scripts')
+                    {!! $externalAd !!}
+                @endpush
+            @endif
+
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="row justify-content-center">
                         <div class="col text-center">
-                            @if(!$showAsModal)
-                                {!! ExternalAdInjector::getAd('download') !!}
+                            @if($showAsModal && !$externalAdHasScript)
+                                {!! $externalAd !!}
                             @endif
                         </div>
                     </div>

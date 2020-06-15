@@ -15,6 +15,11 @@
 </template>
 
 <script>
+    console.log('aha');
+</script>
+
+
+<script>
     export default {
         mounted() {
             console.log('Component mounted.')
