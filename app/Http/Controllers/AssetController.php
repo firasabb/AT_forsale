@@ -52,8 +52,10 @@ class AssetController extends Controller
         $user = Auth::user();
 
         // if admin then show the asset even if it is not approved
-        if($user->hasAnyRole(['admin', 'moderator'])){
-            $asset = Asset::where('url', $url)->with('user')->firstOrFail();
+        if($user){
+            if($user->hasAnyRole(['admin', 'moderator'])){
+                $asset = Asset::where('url', $url)->with('user')->firstOrFail();
+            }
         } else {
             $asset = Asset::where([['url', $url], ['status', 2]])->with('user')->firstOrFail();
         }
