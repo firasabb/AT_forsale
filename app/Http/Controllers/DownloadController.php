@@ -37,10 +37,10 @@ class DownloadController extends Controller
             return back()->withErrors('Something went wrong! Please try again.');
         }
 
-        $checkPastDownloads = DownloadEvent::whereDate('created_at', Carbon::today())->count();
-        if($checkPastDownloads > 2 && !Auth::check()){
-            return redirect()->route('login');
-        }
+        //$checkPastDownloads = DownloadEvent::whereDate('created_at', Carbon::today())->count();
+        //if($checkPastDownloads > 2 && !Auth::check()){
+            //return redirect()->route('login');
+        //}
 
         $encrypt_id = $request->id;
         $id = decrypt($encrypt_id);
