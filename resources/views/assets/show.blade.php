@@ -138,6 +138,9 @@
                                     @endphp
                                 </form>
                             @endforeach
+                            <div class="pt-5 text-center">
+                                <i class="fa fa-check-circle"></i> Scanned By Antivirus
+                            </div>
                         </div>
                     </div>
                 </div>
