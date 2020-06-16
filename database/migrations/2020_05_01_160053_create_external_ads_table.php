@@ -16,7 +16,7 @@ class CreateExternalAdsTable extends Migration
         Schema::create('external_ads', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('body')->nullable();
+            $table->text('body')->nullable();
             $table->timestamps();
         });
     }

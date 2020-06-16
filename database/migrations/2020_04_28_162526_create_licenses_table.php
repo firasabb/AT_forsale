@@ -18,7 +18,7 @@ class CreateLicensesTable extends Migration
             $table->string('name');
             $table->string('url')->unique();
             $table->string('link')->nullable();
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

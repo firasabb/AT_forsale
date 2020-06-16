@@ -18,7 +18,7 @@ class CreateDownloadsTable extends Migration
             $table->string('name')->nullable();
             $table->string('size')->nullable();
             $table->string('extension')->nullable();
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->text('url');
             $table->unsignedBigInteger('asset_id');
             $table->softDeletes();
