@@ -84,10 +84,10 @@ class AssetController extends Controller
             $viewEvent->save();
         }
         $checkPastDownloads = DownloadEvent::whereDate('created_at', Carbon::today())->count();
-        if($checkPastDownloads > 2 && !Auth::check()){
-            $error = 'Maximum limit of downloads per day has been reached. Please log in or register to continue.';
-            return view('assets.show', $dataArr)->withErrors($error);
-        }
+        //if($checkPastDownloads > 2 && !Auth::check()){
+            //$error = 'Maximum limit of downloads per day has been reached. Please log in or register to continue.';
+            //return view('assets.show', $dataArr)->withErrors($error);
+        //}
         return view('assets.show', $dataArr);
 
     }
