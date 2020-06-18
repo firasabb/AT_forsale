@@ -270,7 +270,7 @@ class AssetController extends Controller
     public function adminIndex($assets = null)
     {
         if(!$assets){
-            $assets = Asset::orderBy('id', 'desc')->paginate(10);
+            $assets = Asset::where('status', 2)->orderBy('id', 'desc')->paginate(10);
         } else {
             $assets = $assets->paginate(20);
         }
