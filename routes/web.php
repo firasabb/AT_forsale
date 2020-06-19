@@ -196,8 +196,8 @@ Route::post('/add/asset/{category}', 'AssetController@store')->middleware('auth'
 
 // Contest
 
-Route::get('/add/contest', 'ContestController@create')->name('create.contest');
-Route::post('/add/contest', 'ContestController@store')->name('store.contest');
+//Route::get('/add/contest', 'ContestController@create')->name('create.contest');
+//Route::post('/add/contest', 'ContestController@store')->name('store.contest');
 
 
 // Asset
@@ -216,7 +216,7 @@ Route::get('/tags/{tag?}', 'WelcomeController@searchTags')->name('main.search.ta
 
 Route::get('/u/{username}', 'UserController@showProfile')->name('user.profile.show');
 Route::get('/dashboard', 'UserController@dashboard')->middleware('role:user')->name('user.dashboard');
-Route::get('/dashboard/myprofile', 'UserController@showMyProfile')->name('user.profile.dashboard.show');
+Route::get('/dashboard/myprofile', 'UserController@showMyProfile')->middleware('role:user')->name('user.profile.dashboard.show');
 Route::get('/dashboard/setup', 'UserController@setupProfilePage')->middleware('role:user')->name('user.setup.show');
 Route::put('/dashboard/setup', 'UserController@setupProfileRequest')->middleware('role:user')->name('user.setup.request');
 Route::get('/dashboard/changepassword', 'UserController@changePasswordPage')->middleware('role:user')->name('user.password.show');
