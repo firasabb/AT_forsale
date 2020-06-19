@@ -52,8 +52,10 @@ class AssetController extends Controller
         $user = Auth::user();
 
         // if admin then show the asset even if it is not approved
-        if($user->hasAnyRole(['admin', 'moderator'])){
-            $asset = Asset::where('url', $url)->with('user')->firstOrFail();
+        if($user){
+            if($user->hasAnyRole(['admin', 'moderator'])){
+                $asset = Asset::where('url', $url)->with('user')->firstOrFail();
+            }
         } else {
             $asset = Asset::where([['url', $url], ['status', 2]])->with('user')->firstOrFail();
         }
@@ -82,10 +84,10 @@ class AssetController extends Controller
             $viewEvent->save();
         }
         $checkPastDownloads = DownloadEvent::whereDate('created_at', Carbon::today())->count();
-        if($checkPastDownloads > 2 && !Auth::check()){
-            $error = 'Maximum limit of downloads per day has been reached. Please log in or register to continue.';
-            return view('assets.show', $dataArr)->withErrors($error);
-        }
+        //if($checkPastDownloads > 2 && !Auth::check()){
+            //$error = 'Maximum limit of downloads per day has been reached. Please log in or register to continue.';
+            //return view('assets.show', $dataArr)->withErrors($error);
+        //}
         return view('assets.show', $dataArr);
 
     }
@@ -268,7 +270,7 @@ class AssetController extends Controller
     public function adminIndex($assets = null)
     {
         if(!$assets){
-            $assets = Asset::orderBy('id', 'desc')->paginate(10);
+            $assets = Asset::where('status', 2)->orderBy('id', 'desc')->paginate(10);
         } else {
             $assets = $assets->paginate(20);
         }
