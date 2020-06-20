@@ -150,7 +150,7 @@ class AssetController extends Controller
             'uploads' => 'required|array',
             'uploads.*' => 'file|max:100000|clamav',
             'cover' => 'max:1000|image|nullable|clamav',
-            'featured' => 'file|max:20000|mimes:jpeg,bmp,png,mpeg4-generic,ogg,x-wav,x-msvideo,x-ms-wmv,wav,mp3,mp4,wma,avi|clamav'
+            'featured' => 'file|max:20000|mimes:jpeg,bmp,png,mpeg4-generic,ogg,x-wav,x-msvideo,x-ms-wmv,wav,mpga,mp4,x-ms-wmv,x-msvideo|clamav'
         ]);
         if($validator->fails()){
             return back()->withErrors($validator)->withInput();
