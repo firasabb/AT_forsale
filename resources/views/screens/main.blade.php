@@ -45,9 +45,6 @@
             </div>
         @endforeach
     </div>
-    <div class="py-3">
-        {{ $assets->links() }}
-    </div>
 </div>
 
 <x-report>

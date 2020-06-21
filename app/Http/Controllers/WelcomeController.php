@@ -17,7 +17,7 @@ class WelcomeController extends Controller
 
     public function index(){
 
-        $assets = Asset::where('status', 2)->orderBy('id', 'desc')->paginate(20);
+        $assets = Asset::where('status', 2)->orderBy('id', 'desc')->take(20);
         $categories = Category::all();
         return view('screens.main', ['assets' => $assets, 'categories' => $categories]);
 
