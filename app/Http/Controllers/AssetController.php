@@ -144,7 +144,7 @@ class AssetController extends Controller
 
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|min:15|max:200',
-            'description' => 'string|max:500',
+            'description' => 'string|max:500|nullable',
             'tags' => 'string|max:150',
             'license' => 'string|exists:licenses,name',
             'uploads' => 'required|array',
