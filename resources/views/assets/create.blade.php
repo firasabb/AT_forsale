@@ -81,11 +81,13 @@
                             </div>
                             <ul id="tags" class="list-group">
                         </div>
-                        <div class="form-row pt-5">
-                            <div class="col">
-                                <p style="font-size: 0.7rem">*Upload a Featured Media File of Your Asset Which Will Work as A Preview... For example, Upload an MP3 or WAV for a Music or a Sound Effect Asset, an MP4 File for a Stock Video Asset, Or an JPG or PNG for a Stock Photo Asset...</p>
+                        @if($category->name != 'stock photos')
+                            <div class="form-row pt-5">
+                                <div class="col">
+                                    <p style="font-size: 0.7rem">*Upload a Featured Media File of Your Asset Which Will Work as A Preview... For example, Upload an MP3 or WAV for a Music or a Sound Effect Asset, an MP4 File for a Stock Video Asset, Or an JPG or PNG for a Stock Photo Asset...</p>
+                                </div>
                             </div>
-                        </div>
+                        @endif
                         <div class="form-row featured-media">
                             @if($category->name != 'stock photos')
                                 <div class="custom-file form-group col-6">
