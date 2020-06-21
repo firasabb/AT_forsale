@@ -178,7 +178,7 @@ class AssetController extends Controller
         $asset->description = $request->description;
         $asset->user_id = $user->id;
         $url = Str::slug($asset->title, '-');
-        $checkIfUrlExists = Asset::where('url', 'LIKE', $url)->first();
+        $checkIfUrlExists = Asset::withTrashed()->where('url', 'LIKE', $url)->first();
         if($checkIfUrlExists){
             $url = $url . '-' . $unique;
         }
