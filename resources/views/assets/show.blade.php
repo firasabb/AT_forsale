@@ -7,9 +7,9 @@
 
 @php
     
-    $visualArr = ['stock photo', 'logos', 'icons', 'illustrations'];
+    $visualArr = ['stock photos', 'logos', 'icons', 'illustrations'];
     $audioArr = ['sound effects', 'music'];
-    $videoArr = ['stock video', 'intro'];
+    $videoArr = ['stock videos', 'intro'];
     $categoryName = $asset->category->name;
 
 @endphp
@@ -52,7 +52,7 @@
                         <div class="py-3">
                             @if(!empty($featured))
                                 @if(in_array($categoryName, $visualArr))
-                                    <img class="card-body-img" src="{{ Storage::cloud()->url($asset->featured()) }}" alt="{{ $asset->title }}">
+                                    <img class="card-body-img" src="{{ Storage::cloud()->url($asset->cover()) }}" alt="{{ $asset->title }}">
                                 @elseif(in_array($categoryName, $videoArr))
                                     <div>
                                         <video muted width="100%" height="230" poster="{{ Storage::cloud()->url($asset->cover()) }}" preload="none">

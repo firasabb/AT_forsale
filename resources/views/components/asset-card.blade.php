@@ -1,8 +1,8 @@
 @php
     
-    $visualArr = ['stock photo', 'logos', 'icons', 'illustrations'];
+    $visualArr = ['stock photos', 'logos', 'icons', 'illustrations'];
     $audioArr = ['sound effects', 'music'];
-    $videoArr = ['stock video', 'intro'];
+    $videoArr = ['stock videos', 'intro'];
     $categoryName = $asset->category->name;
 
 @endphp
