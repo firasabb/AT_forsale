@@ -139,7 +139,7 @@
                                 </form>
                             @endforeach
                             <div class="pt-5 text-center">
-                                <i class="fa fa-check-circle"></i> Scanned By Antivirus
+                                <i class="fa fa-check-circle"></i> Scanned By an Antivirus
                             </div>
                         </div>
                     </div>
@@ -310,7 +310,7 @@
     <meta property="og:description" content="Made by {{ $asset->user->username }}! Download {{ strtoupper($asset->category->name) }} Assets for Free on AssetTorch!" />
     <meta property="og:url" content="{{ url()->current() }}" />
     <meta property="og:site_name" content="{{ config('app.name', 'Laravel') }}" />
-    <meta property="og:image" content="{{ Storage::cloud()->url($featured) }}">
+    <meta property="og:image" content="{{ Storage::cloud()->url($asset->cover()) }}">
     <meta name="description" content="Download {{ strtoupper($asset->category->name) }} Assets for Free on AssetTorch! Made by {{ $asset->user->username }}"/>
 @endpush
 
