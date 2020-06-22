@@ -83,12 +83,12 @@
                         <div class="my-5">
                             <p class="card-text">{{$asset->description}}</p>
                         </div>
-                        <div class="pb-1">
-                            @foreach($asset->tags as $tag)
-                                <a class="a-no-decoration" target="_blank" href="{{ route('main.search.tags', ['tag' => $tag->url]) }}"><span class="tag-span">{{strtoupper($tag->name)}}</span></a>
-                            @endforeach
-                        </div>
                     @endif
+                    <div class="pb-1">
+                        @foreach($asset->tags as $tag)
+                            <a class="a-no-decoration" target="_blank" href="{{ route('main.search.tags', ['tag' => $tag->url]) }}"><span class="tag-span">{{strtoupper($tag->name)}}</span></a>
+                        @endforeach
+                    </div>
                 </div>
                 <div class="card-footer bg-light card-f">
                     <div class="card-footer-more">
