@@ -21,7 +21,7 @@
                 </div>
                 <div class="col-sm-3 mt-3">
                     <div>
-                        <select name="type" class="form-control">
+                        <select name="category" class="form-control">
                             <option value="all" selected>All Categories</option>
                             @foreach($categories as $category)
                                 <option value="{{ $category->name }}">{{ ucwords($category->name) }}</option>

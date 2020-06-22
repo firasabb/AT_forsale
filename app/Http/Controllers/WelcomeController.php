@@ -125,7 +125,7 @@ class WelcomeController extends Controller
 
 
 
-    public function searchResults($assets = [], $reqCategory = 0){
+    public function searchResults($assets = null, $reqCategory = 0){
 
         if(!empty($assets)){
             $assets = $assets->with('category')->orderBy('id', 'desc')->paginate(10);
