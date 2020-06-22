@@ -33,7 +33,7 @@ class WelcomeController extends Controller
         ]);
 
         if($validator->fails()){
-            return redirect()->route('main.searchResults');
+            return redirect()->back()->withErrors($validator);
         }
 
         $search_query = $request->search;
@@ -68,10 +68,7 @@ class WelcomeController extends Controller
 
         }
 
-        $assets = $assets->with('category')->orderBy('id', 'desc')->paginate(10);
-        $categories = Category::all();
-        $reqCategory = Category::find($category->id ?? 0);
-        return view('screens.searchResults', ['assets' => $assets, 'categories' => $categories, 'reqCategory' => $reqCategory->name ?? '']);
+        return $this->searchResults($assets, $category->id ?? 0);
 
     }
 
@@ -97,10 +94,7 @@ class WelcomeController extends Controller
 
         }
 
-        $assets = $assets->with('category')->orderBy('id', 'desc')->paginate(10);
-        $categories = Category::all();
-        $reqCategory = Category::find($category->id ?? 0);
-        return view('screens.searchResults', ['assets' => $assets, 'categories' => $categories, 'reqCategory' => $reqCategory->name ?? '']);
+        return $this->searchResults($assets, $category->id ?? 0);
 
     }
 
