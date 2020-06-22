@@ -14,7 +14,7 @@
     <div class="row justify-content-center">
         <div class="col-4">
             <div class="search-col">
-                <form method="post" action="{{ route('main.search') }}">
+                <form method="get" action="{{ route('main.search') }}">
                     @csrf
                     <div class="form-row text-left">
                         <div class="col form-group">

@@ -6,7 +6,7 @@
 
 <div class="search-home-container">
     <div class="search-home">
-        <form action="{{ route('main.search') }}" method="post" class="search-form">
+        <form action="{{ route('main.search') }}" method="get" class="search-form">
         @csrf
             <div class="row justify-content-center">
                 <div class="col search-form-title mb-3">
