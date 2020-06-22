@@ -304,6 +304,16 @@ main{
     display: inline;
 }
 
+.card-image-container{
+    height: 13rem;
+}
+
+.card-image-container img{
+    height: auto;
+    display: block;
+    max-width: 100%;
+}
+
 .card-body-img{
     width: 100%;
     padding: 1.25rem 0;

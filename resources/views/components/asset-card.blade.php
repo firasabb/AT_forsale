@@ -9,9 +9,11 @@
 
 @if(in_array($categoryName, $visualArr))
     <div class="card card-shadow" style="max-width: 20rem">
-        <a href="{{ route('show.asset', ['url' => $asset->url]) }}">
-            <img class="card-img card-img-top" src="{{ Storage::cloud()->url($asset->cover()) }}" alt="{{ $asset->title }}">
-        </a>
+        <div class="card-image-container">
+            <a href="{{ route('show.asset', ['url' => $asset->url]) }}">
+                <img class="card-img card-img-top" src="{{ Storage::cloud()->url($asset->cover()) }}" alt="{{ $asset->title }}">
+            </a>
+        </div>
         <div class="card-img-overlay card-user-img-transition">
             <div class="card-overlay-upper">
                 <div class="card-user-img">
@@ -36,9 +38,11 @@
 @elseif(in_array($categoryName, $audioArr))
 
     <div class="card card-shadow" style="max-width: 20rem">
-        <a href="{{ route('show.asset', ['url' => $asset->url]) }}">
-            <img class="card-img card-img-top" src="{{ Storage::cloud()->url($asset->cover()) }}" alt="{{ $asset->title }}">
-        </a>
+        <div class="card-image-container">
+            <a href="{{ route('show.asset', ['url' => $asset->url]) }}">
+                <img class="card-img card-img-top" src="{{ Storage::cloud()->url($asset->cover()) }}" alt="{{ $asset->title }}">
+            </a>
+        </div>
         <div class="card-img-overlay card-user-img-transition">
             <div class="card-overlay-upper">
                 <div class="card-user-img">
@@ -70,9 +74,11 @@
 @elseif(in_array($categoryName, $videoArr))
 
     <div class="card card-shadow card-video" style="max-width: 20rem">
-        <a href="{{ route('show.asset', ['url' => $asset->url]) }}">
-            <img class="card-img card-img-top" src="{{ Storage::cloud()->url($asset->cover()) }}" alt="{{ $asset->title }}">
-        </a>
+        <div class="card-image-container">
+            <a href="{{ route('show.asset', ['url' => $asset->url]) }}">
+                <img class="card-img card-img-top" src="{{ Storage::cloud()->url($asset->cover()) }}" alt="{{ $asset->title }}">
+            </a>
+        </div>
         <div class="card-video-overlay">
             <video muted width="100%" height="230" poster="{{ Storage::cloud()->url($asset->cover()) }}" preload="none">
                 <source src="{{ Storage::cloud()->url($asset->featured()) }}">
@@ -104,9 +110,11 @@
 @else
     <div>
         <div class="card card-shadow" style="max-width: 20rem">
-            <a href="{{ route('show.asset', ['url' => $asset->url]) }}">
-                <img class="card-img-top" src="{{ Storage::cloud()->url($asset->cover()) }}" alt="{{ $asset->title }}">
-            </a>
+            <div class="card-image-container">
+                <a href="{{ route('show.asset', ['url' => $asset->url]) }}">
+                    <img class="card-img-top" src="{{ Storage::cloud()->url($asset->cover()) }}" alt="{{ $asset->title }}">
+                </a>
+            </div>
             <div class="card-body card-body-asset">
                 <div class="card-meta-info">
                     <div class="card-user-img">
