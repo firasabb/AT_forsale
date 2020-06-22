@@ -68,10 +68,7 @@ class WelcomeController extends Controller
 
         }
 
-        $assets = $assets->with('category')->orderBy('id', 'desc')->paginate(10);
-        $categories = Category::all();
-        $reqCategory = Category::find($category->id ?? 0);
-        return view('screens.searchResults', ['assets' => $assets, 'categories' => $categories, 'reqCategory' => $reqCategory->name ?? '']);
+        return $this->searchResults($assets, $category->id ?? 0);
 
     }
 
@@ -97,10 +94,7 @@ class WelcomeController extends Controller
 
         }
 
-        $assets = $assets->with('category')->orderBy('id', 'desc')->paginate(10);
-        $categories = Category::all();
-        $reqCategory = Category::find($category->id ?? 0);
-        return view('screens.searchResults', ['assets' => $assets, 'categories' => $categories, 'reqCategory' => $reqCategory->name ?? '']);
+        return $this->searchResults($assets, $category->id ?? 0);
 
     }
 
@@ -125,11 +119,21 @@ class WelcomeController extends Controller
             $assets = $assets->approvedAssets();
         }
 
-        $assets = $assets->with('category')->orderBy('id', 'desc')->paginate(10);
-        $categories = Category::all();
-        return view('screens.searchResults', ['assets' => $assets, 'categories' => $categories, 'reqCategory' => '']);
+        return $this->searchResults($assets);
 
     }
 
+
+
+    public function searchResults($assets = [], $reqCategory = 0){
+
+        if(!empty($assets)){
+            $assets = $assets->with('category')->orderBy('id', 'desc')->paginate(10);
+        }
+        $categories = Category::all();
+        $reqCategory = Category::find($reqCategory);
+        return view('screens.searchResults', ['assets' => $assets, 'categories' => $categories, 'reqCategory' => $reqCategory->name ?? '']);
+
+    }
 
 }

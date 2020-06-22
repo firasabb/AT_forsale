@@ -208,7 +208,7 @@ Route::get('/asset/{url}', 'AssetController@show')->name('show.asset');
 // Search
 
 Route::post('/search', 'WelcomeController@search')->name('main.search');
-Route::get('/search', 'WelcomeController@searchResults')->name('main.searchResults');
+Route::get('/search', 'WelcomeController@search')->name('main.searchResults');
 Route::get('/categories/{category?}', 'WelcomeController@searchCategories')->name('main.search.categories');
 Route::get('/tags/{tag?}', 'WelcomeController@searchTags')->name('main.search.tags');
 
