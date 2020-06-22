@@ -7,9 +7,9 @@
 
 @php
     
-    $visualArr = ['stock photo', 'logos', 'icons', 'illustrations'];
+    $visualArr = ['stock photos', 'logos', 'icons', 'illustrations'];
     $audioArr = ['sound effects', 'music'];
-    $videoArr = ['stock video', 'intro'];
+    $videoArr = ['stock videos', 'intro'];
     $categoryName = $asset->category->name;
 
 @endphp
@@ -52,7 +52,7 @@
                         <div class="py-3">
                             @if(!empty($featured))
                                 @if(in_array($categoryName, $visualArr))
-                                    <img class="card-body-img" src="{{ Storage::cloud()->url($asset->featured()) }}" alt="{{ $asset->title }}">
+                                    <img class="card-body-img" src="{{ Storage::cloud()->url($asset->cover()) }}" alt="{{ $asset->title }}">
                                 @elseif(in_array($categoryName, $videoArr))
                                     <div>
                                         <video muted width="100%" height="230" poster="{{ Storage::cloud()->url($asset->cover()) }}" preload="none">
@@ -83,12 +83,12 @@
                         <div class="my-5">
                             <p class="card-text">{{$asset->description}}</p>
                         </div>
-                        <div class="pb-1">
-                            @foreach($asset->tags as $tag)
-                                <a class="a-no-decoration" target="_blank" href="{{ route('main.search.tags', ['tag' => $tag->url]) }}"><span class="tag-span">{{strtoupper($tag->name)}}</span></a>
-                            @endforeach
-                        </div>
                     @endif
+                    <div class="pb-1">
+                        @foreach($asset->tags as $tag)
+                            <a class="a-no-decoration" target="_blank" href="{{ route('main.search.tags', ['tag' => $tag->url]) }}"><span class="tag-span">{{strtoupper($tag->name)}}</span></a>
+                        @endforeach
+                    </div>
                 </div>
                 <div class="card-footer bg-light card-f">
                     <div class="card-footer-more">
@@ -139,7 +139,7 @@
                                 </form>
                             @endforeach
                             <div class="pt-5 text-center">
-                                <i class="fa fa-check-circle"></i> Scanned By Antivirus
+                                <i class="fa fa-check-circle"></i> Scanned By an Antivirus
                             </div>
                         </div>
                     </div>
@@ -310,7 +310,7 @@
     <meta property="og:description" content="Made by {{ $asset->user->username }}! Download {{ strtoupper($asset->category->name) }} Assets for Free on AssetTorch!" />
     <meta property="og:url" content="{{ url()->current() }}" />
     <meta property="og:site_name" content="{{ config('app.name', 'Laravel') }}" />
-    <meta property="og:image" content="{{ Storage::cloud()->url($featured) }}">
+    <meta property="og:image" content="{{ Storage::cloud()->url($asset->cover()) }}">
     <meta name="description" content="Download {{ strtoupper($asset->category->name) }} Assets for Free on AssetTorch! Made by {{ $asset->user->username }}"/>
 @endpush
 

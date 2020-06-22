@@ -144,13 +144,13 @@ class AssetController extends Controller
 
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|min:15|max:200',
-            'description' => 'string|max:500',
+            'description' => 'string|max:500|nullable',
             'tags' => 'string|max:150',
             'license' => 'string|exists:licenses,name',
             'uploads' => 'required|array',
             'uploads.*' => 'file|max:100000|clamav',
             'cover' => 'max:1000|image|nullable|clamav',
-            'featured' => 'file|max:20000|mimes:jpeg,bmp,png,mpeg4-generic,ogg,x-wav,x-msvideo,x-ms-wmv,wav,mp3,mp4,wma,avi|clamav'
+            'featured' => 'file|max:20000|mimes:jpeg,bmp,png,mpeg4-generic,ogg,x-wav,x-msvideo,x-ms-wmv,wav,mpga,mp4,x-ms-wmv,x-msvideo|clamav'
         ]);
         if($validator->fails()){
             return back()->withErrors($validator)->withInput();
@@ -178,7 +178,7 @@ class AssetController extends Controller
         $asset->description = $request->description;
         $asset->user_id = $user->id;
         $url = Str::slug($asset->title, '-');
-        $checkIfUrlExists = Asset::where('url', 'LIKE', $url)->first();
+        $checkIfUrlExists = Asset::withTrashed()->where('url', 'LIKE', $url)->first();
         if($checkIfUrlExists){
             $url = $url . '-' . $unique;
         }

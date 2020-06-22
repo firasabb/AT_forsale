@@ -55,7 +55,7 @@
                         </div>
                         <div class="form-group">
                             <label for="asset-description">Description: <span class="info-questionmark" data-toggle="tooltip" data-placement="top" title="Describe your asset story, features and uses.">?</span></label>
-                            <textarea class="form-control" type="text" name="description" placeholder="Add a description to your asset..." required maxlength="500">{{ old('description') }}</textarea>
+                            <textarea class="form-control" type="text" name="description" placeholder="Add a description to your asset..." maxlength="500">{{ old('description') }}</textarea>
                             <div class="invalid-feedback">
                                     Please provide a valid description: maximum allowed number of characters is 1000.
                             </div>
@@ -81,16 +81,20 @@
                             </div>
                             <ul id="tags" class="list-group">
                         </div>
-                        <div class="form-row pt-5">
-                            <div class="col">
-                                <p style="font-size: 0.7rem">*Upload a Featured Media File of Your Asset Which Will Work as A Preview... For example, Upload an MP3 or WAV for a Music or a Sound Effect Asset, an MP4 File for a Stock Video Asset, Or an JPG or PNG for a Stock Photo Asset...</p>
+                        @if($category->name != 'stock photos')
+                            <div class="form-row pt-5">
+                                <div class="col">
+                                    <p style="font-size: 0.7rem">*Upload a Featured Media File of Your Asset Which Will Work as A Preview... For example, Upload an MP3 or WAV for a Music or a Sound Effect Asset, an MP4 File for a Stock Video Asset, Or an JPG or PNG for a Stock Photo Asset...</p>
+                                </div>
                             </div>
-                        </div>
+                        @endif
                         <div class="form-row featured-media">
-                            <div class="custom-file form-group col-6">
-                                <input type="file" name="featured" class="custom-file-input">
-                                <label class="custom-file-label" for="asset-featured">Featured Media</label>
-                            </div>
+                            @if($category->name != 'stock photos')
+                                <div class="custom-file form-group col-6">
+                                    <input type="file" name="featured" class="custom-file-input">
+                                    <label class="custom-file-label" for="asset-featured">Featured Media</label>
+                                </div>
+                            @endif
                             <div class="custom-file form-group col-6">
                                 <input type="file" name="cover" class="custom-file-input">
                                 <label class="custom-file-label" for="asset-featured">Cover Image</label>

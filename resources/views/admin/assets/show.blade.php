@@ -57,7 +57,7 @@
                         <div class="row">
                             <div class="col">
                                 <label for="category">Category:</label>
-                                <select class="form-control enabled-disabled" name="type_id" disabled>
+                                <select class="form-control enabled-disabled" name="category_id" disabled>
                                     @foreach($categories as $category)
                                         <option value="{{ $category->id }}" <?php echo $category->id == $asset->category_id ? 'Selected' : ''; ?>>{{ $category->name }}</option>
                                     @endforeach

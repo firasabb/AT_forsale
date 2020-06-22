@@ -17,7 +17,8 @@ class WelcomeController extends Controller
 
     public function index(){
 
-        $assets = Asset::where('status', 2)->orderBy('id', 'desc')->paginate(20);
+        $stockPhotos = Category::where('name', 'LIKE' ,'stock photos')->first();
+        $assets = $stockPhotos->approvedAssets()->orderBy('id', 'desc')->take(20)->get();
         $categories = Category::all();
         return view('screens.main', ['assets' => $assets, 'categories' => $categories]);
 
@@ -32,7 +33,7 @@ class WelcomeController extends Controller
         ]);
 
         if($validator->fails()){
-            return redirect()->route('main.searchResults');
+            return redirect()->back()->withErrors($validator);
         }
 
         $search_query = $request->search;

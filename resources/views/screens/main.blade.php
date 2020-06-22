@@ -6,7 +6,7 @@
 
 <div class="search-home-container">
     <div class="search-home">
-        <form action="{{ route('main.search') }}" method="post" class="search-form">
+        <form action="{{ route('main.search') }}" method="get" class="search-form">
         @csrf
             <div class="row justify-content-center">
                 <div class="col search-form-title mb-3">
@@ -21,7 +21,7 @@
                 </div>
                 <div class="col-sm-3 mt-3">
                     <div>
-                        <select name="type" class="form-control">
+                        <select name="category" class="form-control">
                             <option value="all" selected>All Categories</option>
                             @foreach($categories as $category)
                                 <option value="{{ $category->name }}">{{ ucwords($category->name) }}</option>
@@ -44,9 +44,6 @@
                 <x-asset-card :asset="$asset"/>
             </div>
         @endforeach
-    </div>
-    <div class="py-3">
-        {{ $assets->links() }}
     </div>
 </div>
 
