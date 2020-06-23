@@ -16,7 +16,7 @@
         }, 
         methods: {
             goToCategory: function(url){
-                let goTo =  window.location.protocol + '//' + window.location.hostname + '/categories/' + url;
+                let goTo =  window.location.protocol + '//' + window.location.hostname + '/category/' + url;
                 window.open(goTo, '_blank');
             },
         },
