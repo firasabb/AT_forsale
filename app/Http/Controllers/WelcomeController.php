@@ -75,7 +75,7 @@ class WelcomeController extends Controller
 
         if(!empty($category) && strtolower($category) != 'all'){
 
-            $category = Category::where('name', $category)->firstOrFail();
+            $category = Category::where('url', $category)->firstOrFail();
             if(!empty($whereArr)){
                 $assets = $category->approvedAssets()->where($whereArr);
             } else {
