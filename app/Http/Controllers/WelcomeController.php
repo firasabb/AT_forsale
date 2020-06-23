@@ -36,7 +36,14 @@ class WelcomeController extends Controller
             return redirect()->back()->withErrors($validator);
         }
 
-        return redirect()->route('main.get.search', ['category' => $request->category, 'keyword' => $request->keyword]);
+        $category = $request->category ?? 'all';
+        $keyword = $request->keyword;
+
+        if($keyword){
+            return redirect()->route('main.get.search', ['category' => $category, 'keyword' => $keyword]);
+        }
+
+        return redirect()->route('main.search.categories', ['category' => $category]);
 
     }
 
