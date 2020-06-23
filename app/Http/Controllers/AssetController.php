@@ -150,7 +150,7 @@ class AssetController extends Controller
             'uploads' => 'required|array',
             'uploads.*' => 'file|max:100000|clamav',
             'cover' => 'max:1000|image|nullable|clamav',
-            'featured' => 'file|max:20000|mimes:jpeg,bmp,png,mpeg4-generic,ogg,x-wav,x-msvideo,x-ms-wmv,wav,mpga,mp4,x-ms-wmv,x-msvideo|clamav'
+            'featured' => 'file|max:20000|mimes:jpeg,bmp,png,mpeg4-generic,ogg,x-wav,x-msvideo,x-ms-wmv,wav,mpga,mp4,x-ms-wmv,x-msvideo|clamav|nullable'
         ]);
         if($validator->fails()){
             return back()->withErrors($validator)->withInput();
@@ -406,8 +406,10 @@ class AssetController extends Controller
             'description' => 'string|max:500',
             'url' => ['string', Rule::unique('assets', 'url')->ignore($asset->url, 'url')],
             'category_id' => 'integer',
+            'cover' => 'max:1000|image|nullable|clamav',
+            'featured' => 'file|max:20000|mimes:jpeg,bmp,png,mpeg4-generic,ogg,x-wav,x-msvideo,x-ms-wmv,wav,mpga,mp4,x-ms-wmv,x-msvideo|nullable|clamav',
             'upload' => 'array',
-            'uploads.*' => 'string|max:200'
+            'uploads.*' => 'string|max:100000|clamav'
         ]);
 
         if($validator->fails()){
@@ -428,6 +430,44 @@ class AssetController extends Controller
         }
         $asset->tags()->sync($tagsArr);
 
+        // If there is a cover upload delete the old one if exists
+        // And make a new media cover file
+        $cover = $request->cover;
+        if($cover){
+            $oldCover = $asset->originalCover();
+            if(!empty($oldCover)){
+                Storage::cloud()->delete($oldCover->url);
+                $oldCover->delete();
+            }
+            $media = new Media();
+            $path = Storage::cloud()->putFile('covers', $cover, 'public');
+            $media->url = $path;
+            $media->sorting = 2;
+            $media->public_url = Storage::cloud()->url($path);
+            $media->save();
+            $asset->medias()->attach($media);
+        }
+
+
+        // If there is a featured upload delete the old one if exists
+        // And make a new media cover file
+        $featured = $request->featured;
+        if($featured){
+            $oldFeatured = $asset->originalFeatured();
+            if(!empty($oldFeatured)){
+                Storage::cloud()->delete($oldFeatured->url);
+                $oldFeatured->delete();
+            }
+            $media = new Media();
+            $media->sorting = 1;
+            $path = Storage::cloud()->putFile('featured', $featured, 'public');
+            $media->url = $path;
+            $media->public_url = Storage::cloud()->url($path);
+            $media->save();
+            $asset->medias()->attach($media);
+        }
+
+        // If the argument status is set then approve if not edit
         if($status){
             $asset->status = $status;
             $asset->save();
