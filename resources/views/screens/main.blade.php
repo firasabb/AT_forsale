@@ -6,8 +6,8 @@
 
 <div class="search-home-container">
     <div class="search-home">
-        <form action="{{ route('main.search') }}" method="get" class="search-form">
-        @csrf
+        <form action="{{ route('main.post.search') }}" method="post" class="search-form">
+            @csrf
             <div class="row justify-content-center">
                 <div class="col search-form-title mb-3">
                     <h2>Search and Explore All The Free Assets</h2>
@@ -16,7 +16,7 @@
             <div class="row justify-content-center">
                 <div class="col-sm-6 mt-3">
                     <div>
-                        <input type="text" name="search" placeholder="All" class="form-control" />
+                        <input type="text" name="keyword" placeholder="All" class="form-control" />
                     </div>
                 </div>
                 <div class="col-sm-3 mt-3">

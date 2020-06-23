@@ -208,9 +208,10 @@ Route::get('/asset/{url}', 'AssetController@show')->name('show.asset');
 // Search
 
 //Route::post('/search', 'WelcomeController@search')->name('main.search');
-Route::get('/search', 'WelcomeController@search')->name('main.search');
-Route::get('/categories/{category?}', 'WelcomeController@searchCategories')->name('main.search.categories');
-Route::get('/tags/{tag?}', 'WelcomeController@searchTags')->name('main.search.tags');
+Route::post('/search', 'WelcomeController@searchPost')->name('main.post.search');
+Route::get('/search/category/{category}/keyword/{keyword}', 'WelcomeController@searchGet')->name('main.get.search');
+Route::get('/category/{category?}', 'WelcomeController@searchCategories')->name('main.search.categories');
+Route::get('/tag/{tag?}', 'WelcomeController@searchTags')->name('main.search.tags');
 
 // Users
 

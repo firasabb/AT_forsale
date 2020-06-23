@@ -14,12 +14,12 @@
     <div class="row justify-content-center">
         <div class="col-4">
             <div class="search-col">
-                <form method="get" action="{{ route('main.search') }}">
+                <form method="post" action="{{ route('main.post.search') }}">
                     @csrf
                     <div class="form-row text-left">
                         <div class="col form-group">
                             <label for="search-keyword">Search:</label>
-                            <input name="search" type="text" value="{{ Request::input('search') }}" placeholder="All" class="form-control" id="search-keyword">
+                            <input name="keyword" type="text" value="{{ $inputKeyword }}" placeholder="All" class="form-control" id="search-keyword">
                         </div>
                     </div>
                     <div class="form-row">

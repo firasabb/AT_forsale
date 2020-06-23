@@ -24,11 +24,11 @@ class WelcomeController extends Controller
 
     }
 
-    public function search(Request $request){
 
+    public function searchPost(Request $request){
 
         $validator = Validator::make($request->all(), [
-            'search' => 'string|nullable|max:50',
+            'keyword' => 'string|nullable|max:50',
             'category' => 'string|nullable|max:50'
         ]);
 
@@ -36,7 +36,25 @@ class WelcomeController extends Controller
             return redirect()->back()->withErrors($validator);
         }
 
-        $search_query = $request->search;
+        return redirect()->route('main.get.search', ['category' => $request->category, 'keyword' => $request->keyword]);
+
+    }
+
+
+
+    public function searchGet(Request $request){
+
+
+        $validator = Validator::make($request->all(), [
+            'keyword' => 'string|nullable|max:50',
+            'category' => 'string|nullable|max:50'
+        ]);
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator);
+        }
+
+        $search_query = $request->keyword;
         $category = $request->category;
 
         $whereArr = array();
@@ -68,7 +86,7 @@ class WelcomeController extends Controller
 
         }
 
-        return $this->searchResults($assets, $category->id ?? 0);
+        return $this->searchResults($assets, $category->id ?? 0, $search_query);
 
     }
 
@@ -125,14 +143,14 @@ class WelcomeController extends Controller
 
 
 
-    public function searchResults($assets = [], $reqCategory = 0){
+    public function searchResults($assets = [], $reqCategory = 0, $keyword = ''){
 
         if(!empty($assets)){
             $assets = $assets->with('category')->orderBy('id', 'desc')->paginate(10);
         }
         $categories = Category::all();
         $reqCategory = Category::find($reqCategory);
-        return view('screens.searchResults', ['assets' => $assets, 'categories' => $categories, 'reqCategory' => $reqCategory->name ?? '']);
+        return view('screens.searchResults', ['assets' => $assets, 'categories' => $categories, 'reqCategory' => $reqCategory->name ?? '', 'inputKeyword' => $keyword]);
 
     }
 
