@@ -28,7 +28,7 @@
                             <select name="category" id="category" class="form-control">
                                 <option value="all">ALL</option>
                                 @foreach($categories as $category)
-                                    <option value="{{ $category->name }}" {{ $reqCategory == $category->name ? 'selected' : '' }}>{{ ucwords($category->name) }}</option>
+                                    <option value="{{ $category->url }}" {{ $reqCategory == $category->name ? 'selected' : '' }}>{{ ucwords($category->name) }}</option>
                                 @endforeach
                             </select>
                         </div>

@@ -24,7 +24,7 @@
                         <select name="category" class="form-control">
                             <option value="all" selected>All Categories</option>
                             @foreach($categories as $category)
-                                <option value="{{ $category->name }}">{{ ucwords($category->name) }}</option>
+                                <option value="{{ $category->url }}">{{ ucwords($category->name) }}</option>
                             @endforeach
                         </select>
                     </div>
