@@ -54,6 +54,10 @@ class Asset extends Model
         return $check_if_exists->url;
     }
 
+    public function originalCover(){
+        return $this->medias->where('sorting', 2)->first();
+    }
+
     public function downloadEvents(){
         return $this->hasMany('App\DownloadEvent');
     }
@@ -87,6 +91,9 @@ class Asset extends Model
         return $check_if_exists->url;
     }
     
+    public function originalFeatured(){
+        return $this->medias->where('sorting', 1)->first();
+    }
 
     public function createdAt(){
 

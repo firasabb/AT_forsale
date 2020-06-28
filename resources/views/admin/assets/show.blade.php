@@ -28,7 +28,7 @@
                         <h5>Added by: <a href="{{ url('admin/dashboard/user/' . $asset->user->id) }}">{{ $asset->user->username }}</a></h5>
                     </div>
 
-                    <form method="POST" action="{{ route('admin.edit.asset', ['id' => $asset->id]) }}" class="edit-form-confirm">
+                    <form method="POST" action="{{ route('admin.edit.asset', ['id' => $asset->id]) }}" class="edit-form-confirm" enctype="multipart/form-data">
                         {!! csrf_field() !!}
                         {!! method_field('PUT') !!}
 
@@ -79,6 +79,18 @@
                                     <input class="form-control enabled-disabled" id="tag-input" type="text" disabled/>
                                 </div>
                                 <ul id="tags" class="list-group">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label>Featured:</label>
+                                <input type="file" name="featured" class="enabled-disabled" disabled>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label>Cover:</label>
+                                <input type="file" name="cover" class="enabled-disabled" disabled>  
                             </div>
                         </div>
                         <div class="row">
