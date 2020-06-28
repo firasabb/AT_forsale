@@ -10,7 +10,7 @@ body{
 }
 
 #app{
-    background-color: #f9fffe;
+    background-color: #ffffff;
 }
 
 main{
@@ -55,6 +55,12 @@ main{
 .btn-primary{
     background-color: rgba(0, 139, 255, 0.6);
     border: 0;
+}
+
+.btn-light-green{
+    color: #fff;
+    background-color: #10decb;
+    border-color: #10decb;
 }
 
 .btn-outline-custom-light{
@@ -825,10 +831,8 @@ a.card-link, a.card-link:hover {
 
 
 .search-col{
-    width: 90%;
-    padding: 2rem;
-    background: #fff;
-    border: #ccc 1px solid;
+    width: 100%;
+    padding: 1rem;
 }
 
 

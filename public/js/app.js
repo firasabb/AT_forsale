@@ -1764,7 +1764,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     goToCategory: function goToCategory(url) {
-      var goTo = window.location.protocol + '//' + window.location.hostname + '/categories/' + url;
+      var goTo = window.location.protocol + '//' + window.location.hostname + '/category/' + url;
       window.open(goTo, '_blank');
     }
   },
@@ -1818,6 +1818,11 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
 //
 //
 //

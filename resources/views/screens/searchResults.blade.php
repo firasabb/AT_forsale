@@ -9,22 +9,18 @@
 
 @section('content')
 
-<div class="container pt-5">
+<div class="container-fluid pt-3">
     
-    <div class="row justify-content-center">
-        <div class="col-4">
+    <div class="row justify-content-center mb-4">
+        <div class="col-12 col-md-5">
             <div class="search-col">
                 <form method="post" action="{{ route('main.post.search') }}">
                     @csrf
-                    <div class="form-row text-left">
-                        <div class="col form-group">
-                            <label for="search-keyword">Search:</label>
+                    <div class="row justify-content-center text-center">
+                        <div class="col-12 col-md-5 form-group">
                             <input name="keyword" type="text" value="{{ $inputKeyword }}" placeholder="All" class="form-control" id="search-keyword">
                         </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col form-group pb-3">
-                            <label for="category">Category:</label>
+                        <div class="col-12 col-md-5 form-group">
                             <select name="category" id="category" class="form-control">
                                 <option value="all">ALL</option>
                                 @foreach($categories as $category)
@@ -32,17 +28,17 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col form-group">
-                            <button type="submit" class="btn btn-primary">Search</button>
+                        <div class="col-12 col-md-2 form-group">
+                            <button type="submit" class="btn btn-light-green">Search</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
-        <div class="col-8 search-card-columns">
-            <div class="card-columns">
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-10 search-card-columns">
+            <div class="card-column">
                 @foreach($assets as $asset)
                     <div class="pb-4">
                         <x-asset-card :asset="$asset"/>
@@ -51,7 +47,7 @@
             </div>
             <div class="py-5 text-center">
                 {{ $assets->links() }}
-            <div>
+            </div>
         </div>
     </div>
 </div>

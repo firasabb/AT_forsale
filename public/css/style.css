@@ -9,7 +9,7 @@ body {
 }
 
 #app {
-  background-color: #f9fffe;
+  background-color: #ffffff;
 }
 
 main {
@@ -51,6 +51,12 @@ main {
 .btn-primary {
   background-color: rgba(0, 139, 255, 0.6);
   border: 0;
+}
+
+.btn-light-green {
+  color: #fff;
+  background-color: #10decb;
+  border-color: #10decb;
 }
 
 .btn-outline-custom-light {
@@ -164,11 +170,11 @@ main {
 }
 
 .card-overlay-upper {
-  height: 70%;
+  height: 65%;
 }
 
 .card-overlay-lower {
-  height: 30%;
+  height: 35%;
 }
 
 .card-user-text {
@@ -269,6 +275,17 @@ main {
 
 .card-header-text {
   display: inline;
+}
+
+.card-image-container {
+  height: 13rem;
+  overflow: hidden;
+}
+
+.card-image-container img {
+  height: auto;
+  display: block;
+  max-width: 100%;
 }
 
 .card-body-img {
@@ -749,10 +766,8 @@ a.card-link:hover {
 **/
 
 .search-col {
-  width: 90%;
-  padding: 2rem;
-  background: #fff;
-  border: #ccc 1px solid;
+  width: 100%;
+  padding: 1rem;
 }
 
 .search-col label {
