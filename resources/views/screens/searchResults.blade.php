@@ -37,8 +37,8 @@
         </div>
     </div>
     <div class="row justify-content-center">
-        <div class="col-md-10 search-card-columns">
-            <div class="card-column">
+        <div class="col-md-10">
+            <div class="card-deck">
                 @foreach($assets as $asset)
                     <div class="pb-4">
                         <x-asset-card :asset="$asset"/>
