@@ -126,9 +126,13 @@
                                 <form action="{{ route('download.download') }}" method="post">
                                     <div class="row justify-content-center pb-3">
                                         <div class="col text-center">
-                                            <p class="mb-1">File {{ $n }}:</p>
+                                            <p class="mb-1"><strong>File {{ $n }}:</strong> {{ Download::sizeFormat(Storage::cloud()->size($download->url)) }}</p>
                                             <input type="hidden" name="id" value="{{ encrypt($download->id) }}">
-                                            <button class="btn btn-dark download-btn">Download</button>
+                                            @if($asset->category->url == 'stock-photos')
+                                                <button class="btn btn-dark download-btn">{{ Download::getImageSize(Storage::cloud()->temporaryUrl($download->url, now()->addSeconds(2))) }}</button>
+                                            @else
+                                                <button class="btn btn-dark download-btn">Download</button>
+                                            @endif
                                         </div>
                                     </div>
                                     <input type="hidden" name="recaptcha" class="recaptcha">

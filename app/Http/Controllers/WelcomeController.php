@@ -7,6 +7,7 @@ use App\Asset;
 use App\Category;
 use App\Tag;
 use Validator;
+use Illuminate\Database\Eloquent\Builder;
 
 class WelcomeController extends Controller
 {
@@ -61,41 +62,78 @@ class WelcomeController extends Controller
             return redirect()->back()->withErrors($validator);
         }
 
-        $search_query = $request->keyword;
+        $searchQuery = $request->keyword;
+        $searchQuery = trim($searchQuery);
         $category = $request->category;
 
-        $whereArr = array();
-
-        if(!empty($search_query) && strtolower($search_query) != 'all'){
-
-            $whereArr[] = ['title', 'LIKE', '%' . $search_query . '%'];
-            $whereArr[] = ['status', 2];
-
-        }
-
-        if(!empty($category) && strtolower($category) != 'all'){
-
-            $category = Category::where('url', $category)->firstOrFail();
-            if(!empty($whereArr)){
-                $assets = $category->approvedAssets()->where($whereArr);
-            } else {
-                $assets = $category->approvedAssets();
-            }
-
-        } else {
-
-            if(!empty($whereArr)){
-                $assets = Asset::where($whereArr);
-            } else {
-                $assets = new Asset();
-                $assets = $assets->approvedAssets();
-            }
-
-        }
-
-        return $this->searchResults($assets, $category->id ?? 0, $search_query);
+        return $this->searchCheckCategory($category, $searchQuery);
 
     }
+
+
+    /**
+     * 
+     * Start check if the search query has categories
+     * @param Category
+     * @param string 
+     * 
+     */
+    private function searchCheckCategory($category, $searchQuery){
+
+        // check if the category exists then get the assets from it
+        // if not get from any category
+        $category = Category::where('url', $category)->first();
+        if(!empty($category)){
+            $assets = Asset::where('category_id', $category->id);
+        }else{
+            $assets = new Asset();
+        }
+        
+        return $this->searchAssetsAndTags($assets, $searchQuery);
+
+    }
+
+
+    /**
+     * 
+     * Search the assets and the tags
+     * @param Asset
+     * @param string
+     * 
+     */
+    private function searchAssetsAndTags($assets, $searchQuery){
+
+        // Explode the search query to words and search for every word
+        $searchQueryArr = explode(' ', $searchQuery);
+        // Get only the approved assets
+        $assets = $assets->where('status', 2);
+        $assets = $assets->has('tags');
+        $assets = $assets->whereHas('tags', function(Builder $query) use ($searchQueryArr){
+            $i = 0;
+            foreach($searchQueryArr as $searchQueryWord){
+                if($i == 0){
+                    $query->where('name', 'LIKE', '%' . $searchQueryWord . '%');
+                }else{
+                    $query->orWhere('name', 'LIKE', '%' . $searchQueryWord . '%');
+                }
+                $i++;
+            }
+        });
+        $i = 0;
+        foreach($searchQueryArr as $searchQueryWord){
+            if($i == 0){
+                $assets = $assets->where('title', 'LIKE', '%' . $searchQueryWord . '%');
+            }else{
+                $assets = $assets->orWhere('title', 'LIKE', '%' . $searchQueryWord . '%');
+            }
+            $i++;
+        }
+        dd($assets->get());
+        return $this->searchResults($assets, $category->id ?? 0, $searchQuery);
+
+    }
+
+
 
     /**
      * 

@@ -231,7 +231,7 @@ return [
 
         'ExternalAdInjector' => App\Facades\ExternalAdInjector::class,
         'UserLink' => App\Facades\UserLinkFacade::class,
-        
+        'Download' => App\Facades\DownloadFacade::class
     ],
 
 ];
