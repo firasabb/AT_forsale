@@ -129,7 +129,7 @@
                                             <p class="mb-1"><strong>File {{ $n }}:</strong> {{ Download::sizeFormat(Storage::cloud()->size($download->url)) }}</p>
                                             <input type="hidden" name="id" value="{{ encrypt($download->id) }}">
                                             @if($asset->category->url == 'stock-photos')
-                                                <button class="btn btn-dark download-btn">{{ Download::getImageSize(Storage::cloud()->temporaryUrl($download->url, now()->addSeconds(2))) }}</button>
+                                                <button class="btn btn-dark download-btn">{{ Download::getImageSize(Storage::cloud()->temporaryUrl($download->url, now()->addSeconds(4))) }}</button>
                                             @else
                                                 <button class="btn btn-dark download-btn">Download</button>
                                             @endif
@@ -165,6 +165,19 @@
                                 </div>
                             @endif
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row py-5">
+                <div class="col">
+                    <div style="max-height: 700px;">
+                        <ins class="adsbygoogle"
+                            style="display:block"
+                            data-ad-client="ca-pub-5166868654451969"
+                            data-ad-slot="6521962234"
+                            data-ad-format="auto"
+                            data-full-width-responsive="true">
+                        </ins>
                     </div>
                 </div>
             </div>
@@ -352,3 +365,14 @@
         });
     </script>
 @endpush
+
+
+@if(strpos($_SERVER['HTTP_HOST'], 'localhost') === false)
+    @push('footer_scripts')
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <!-- AssetTorch ShowPage Vertical 1 -->
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    @endpush
+@endif
