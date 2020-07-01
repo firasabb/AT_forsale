@@ -296,6 +296,17 @@
                     </ins>
                 </div>
             </div>
+            <div class="row py-5">
+                <div class="col">
+                    <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-5166868654451969"
+                    data-ad-slot="4396446058"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true">
+                    </ins>
+                </div>
+            </div>
         </div>
     </div>
 
