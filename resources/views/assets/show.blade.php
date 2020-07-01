@@ -16,6 +16,19 @@
 
 
 <div class="container pt-5">
+    <div class="row justify-content-center py-4">
+        <div class="col-12">
+            <div style="width:100%; max-height: 100px">
+                <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-pub-5166868654451969"
+                data-ad-slot="9724686559"
+                data-ad-format="auto"
+                data-full-width-responsive="true">
+                </ins>
+            </div>
+        </div>
+    </div>
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card border-light card-shadow mb-5">
@@ -110,6 +123,112 @@
                     </div>
                 </div>
             </div>
+        @auth
+            <div>
+                <div class="card mb-5">
+                    <div class="card-header bg-light">
+                        <p class="mb-0">Add a Comment</p>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="{{ route('add.comment', ['encryptedId' => encrypt($asset->id)]) }}">
+                            @csrf
+                            <div class="form-group">
+                                <textarea class="form-control" name="body">{{ old('body') }}</textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        @endauth
+
+        @guest
+            <div class="card mb-5">
+                <div class="card-header bg-light">
+                    <p class="mb-0">Add a Comment</p>
+                </div>
+                <div class="card-body text-center">
+                    <a target="_blank" class="btn btn-light" href="{{ route('login') }}">Login</a>
+                    <a target="_blank" class="btn btn-primary" href="{{ route('register') }}">Register</a>
+                </div>
+            </div>
+
+        @endguest
+            
+        @foreach($asset->comments as $comment)
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="row no-gutters">
+                        <div class="col-md-1">
+                            <div class="text-center">
+                                <a target="_blank" href="{{ route('user.profile.show', ['username' => $comment->user->username]) }}">
+                                    <img class="comment-user-img" src="{{ $asset->user->avatarUrl() }}" alt="{{ $comment->user->username }}"/>
+                                </a>
+                            </div>
+                            <div class="text-center comment-user-name">
+                                <a target="_blank" href="{{ route('user.profile.show', ['username' => $comment->user->username]) }}" class="a-no-decoration">{{ $comment->user->username }}</a>
+                            </div>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="card-body">                               
+                                <p class="card-text">{{ $comment->body }}</p>
+                                <p class="card-text"><small class="text-muted">{{ $comment->created_at->format('jS \\of F Y h:m') }}</small></p>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-light dropdown-toggle-comment float-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @svg('th-menu', 'menu-icon-comment')
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    @if(Auth::id() == $comment->user->id)
+                                        <form action="{{ route('delete.comment', ['id' => encrypt($comment->id)]) }}" method="POST" class="delete-comment">
+                                            @csrf
+                                            {!! method_field('DELETE') !!}
+                                            <button class="btn btn-danger dropdown-item" type="submit">Delete</button>
+                                        </form>
+                                    @elseif(Auth::id() == $asset->user->id)
+                                        <form action="{{ route('delete.comment', ['id' => encrypt($comment->id)]) }}" method="POST" class="delete-comment">
+                                            @csrf
+                                            {!! method_field('DELETE') !!}
+                                            <button class="btn btn-danger dropdown-item" type="submit">Delete</button>
+                                        </form>
+                                        <button type="button" v-on:click="open_report_modal('{{ encrypt($comment->id) }}', '{{ route('add.report', ['type' => 'comment']) }}')" class="dropdown-item">Report</button>
+                                    @elseif(Auth::check())
+                                        <button type="button" v-on:click="open_report_modal('{{ encrypt($comment->id) }}', '{{ route('add.report', ['type' => 'comment']) }}')" class="dropdown-item">Report</button>
+                                    @else
+                                        <a target="_blank" class="a-no-decoration dropdown-item" href="{{ route('login') }}">Report</a>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+
+        @if(!$relatedAssets->isEmpty())
+            <div class="py-2">
+                <h2>You May Also Like:</h2>
+            </div>
+            <div>
+                <div class="card-deck">
+                @foreach($relatedAssets as $relatedAsset)
+                    <div class="py-2">
+                        <x-asset-card :asset="$relatedAsset"></x-asset-card>
+                    </div>
+                @endforeach    
+                </div>
+            </div>
+        @endif
+
+        @hasanyrole('moderator|admin')
+            <div>
+                <div class="block-button">
+                    <a target="_blank" href="{{route('admin.show.asset', ['id' => $asset->id])}}" target="_blank" class="btn btn-secondary btn-lg btn-block">Edit This asset</a>
+                </div>
+            </div>
+        @endrole
         </div>
         <div class="col-md-4">
             <div class="row justify-content-center">
@@ -183,131 +302,10 @@
             </div>
         </div>
     </div>
-    
-    @auth
-        <div class="row">
-            <div class="col-md-8">
-                <div class="card mb-5">
-                    <div class="card-header bg-light">
-                        <p class="mb-0">Add a Comment</p>
-                    </div>
-                    <div class="card-body">
-                        <form method="POST" action="{{ route('add.comment', ['encryptedId' => encrypt($asset->id)]) }}">
-                            @csrf
-                            <div class="form-group">
-                                <textarea class="form-control" name="body">{{ old('body') }}</textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endauth
 
-    @guest
 
-        <div class="row">
-            <div class="col-md-8">
-                <div class="card mb-5">
-                    <div class="card-header bg-light">
-                        <p class="mb-0">Add a Comment</p>
-                    </div>
-                    <div class="card-body text-center">
-                        <a target="_blank" class="btn btn-light" href="{{ route('login') }}">Login</a>
-                        <a target="_blank" class="btn btn-primary" href="{{ route('register') }}">Register</a>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-    @endguest
-        
-    @foreach($asset->comments as $comment)
-        <div class="row">
-            <div class="col-md-8">
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <div class="row no-gutters">
-                            <div class="col-md-1">
-                                <div class="text-center">
-                                    <a target="_blank" href="{{ route('user.profile.show', ['username' => $comment->user->username]) }}">
-                                        <img class="comment-user-img" src="{{ $asset->user->avatarUrl() }}" alt="{{ $comment->user->username }}"/>
-                                    </a>
-                                </div>
-                                <div class="text-center comment-user-name">
-                                    <a target="_blank" href="{{ route('user.profile.show', ['username' => $comment->user->username]) }}" class="a-no-decoration">{{ $comment->user->username }}</a>
-                                </div>
-                            </div>
-                            <div class="col-md-10">
-                                <div class="card-body">                               
-                                    <p class="card-text">{{ $comment->body }}</p>
-                                    <p class="card-text"><small class="text-muted">{{ $comment->created_at->format('jS \\of F Y h:m') }}</small></p>
-                                </div>
-                            </div>
-                            <div class="col-md-1">
-                                <div class="dropdown">
-                                    <button class="btn btn-sm btn-light dropdown-toggle-comment float-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        @svg('th-menu', 'menu-icon-comment')
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        @if(Auth::id() == $comment->user->id)
-                                            <form action="{{ route('delete.comment', ['id' => encrypt($comment->id)]) }}" method="POST" class="delete-comment">
-                                                @csrf
-                                                {!! method_field('DELETE') !!}
-                                                <button class="btn btn-danger dropdown-item" type="submit">Delete</button>
-                                            </form>
-                                        @elseif(Auth::id() == $asset->user->id)
-                                            <form action="{{ route('delete.comment', ['id' => encrypt($comment->id)]) }}" method="POST" class="delete-comment">
-                                                @csrf
-                                                {!! method_field('DELETE') !!}
-                                                <button class="btn btn-danger dropdown-item" type="submit">Delete</button>
-                                            </form>
-                                            <button type="button" v-on:click="open_report_modal('{{ encrypt($comment->id) }}', '{{ route('add.report', ['type' => 'comment']) }}')" class="dropdown-item">Report</button>
-                                        @elseif(Auth::check())
-                                            <button type="button" v-on:click="open_report_modal('{{ encrypt($comment->id) }}', '{{ route('add.report', ['type' => 'comment']) }}')" class="dropdown-item">Report</button>
-                                        @else
-                                            <a target="_blank" class="a-no-decoration dropdown-item" href="{{ route('login') }}">Report</a>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endforeach
 
-    @if(!$relatedAssets->isEmpty())
-        <div class="row py-2">
-            <div class="col-md-8">
-                <h2>You May Also Like:</h2>
-            </div>
-        </div>
-        <div class="row pt-3 pb-2">
-            <div class="col-md-8">
-                <div class="card-deck">
-                @foreach($relatedAssets as $relatedAsset)
-                    <div class="py-2">
-                        <x-asset-card :asset="$relatedAsset"></x-asset-card>
-                    </div>
-                @endforeach    
-                </div>
-            </div>
-        </div>
-    @endif
-
-    @hasanyrole('moderator|admin')
-        <div class="row">
-            <div class="col-md-8">
-                <div class="block-button">
-                    <a target="_blank" href="{{route('admin.show.asset', ['id' => $asset->id])}}" target="_blank" class="btn btn-secondary btn-lg btn-block">Edit This asset</a>
-                </div>
-            </div>
-        </div>
-    @endrole
-    </div>
 
 
 <x-report>
