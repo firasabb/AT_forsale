@@ -16,17 +16,8 @@
 
 
 <div class="container pt-5">
-    <div class="row justify-content-center py-4">
+    <div class="row justify-content-center pb-4">
         <div class="col-12">
-            <div style="width:100%; max-height: 100px">
-                <ins class="adsbygoogle"
-                style="display:block"
-                data-ad-client="ca-pub-5166868654451969"
-                data-ad-slot="9724686559"
-                data-ad-format="auto"
-                data-full-width-responsive="true">
-                </ins>
-            </div>
         </div>
     </div>
     <div class="row justify-content-center">
@@ -289,15 +280,7 @@
             </div>
             <div class="row py-5">
                 <div class="col">
-                    <div style="max-height: 700px;">
-                        <ins class="adsbygoogle"
-                            style="display:block"
-                            data-ad-client="ca-pub-5166868654451969"
-                            data-ad-slot="6521962234"
-                            data-ad-format="auto"
-                            data-full-width-responsive="true">
-                        </ins>
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -367,10 +350,14 @@
 
 @if(strpos($_SERVER['HTTP_HOST'], 'localhost') === false)
     @push('footer_scripts')
+        <!--
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-        <!-- AssetTorch ShowPage Vertical 1 -->
         <script>
             (adsbygoogle = window.adsbygoogle || []).push({});
         </script>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script> -->
+        <script data-ad-client="ca-pub-5166868654451969" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     @endpush
 @endif

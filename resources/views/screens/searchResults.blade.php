@@ -64,3 +64,10 @@
     <meta property="og:site_name" content="{{ config('app.name', 'Laravel') }}" />
     <meta name="description" content="Discover and Download Top Free Royalty-Free Assets!"/>
 @endpush
+
+
+@if(strpos($_SERVER['HTTP_HOST'], 'localhost') === false)
+    @push('footer_scripts')
+        <script data-ad-client="ca-pub-5166868654451969" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    @endpush
+@endif
