@@ -226,6 +226,15 @@ $(document).ready(function () {
   var addUserAdForm = $('#add-userad-form');
   addUserAdBtn.click(function () {
     addUserAdForm.submit();
+  }); // Admin add tags in bulk page
+
+  var categoriesRow = $('#categories-row');
+  var fieldIndex = 1;
+  $('#add-field-btn').on('click', function (e) {
+    e.preventDefault();
+    var field = '<div class="row"><div class="col"><div class="form-group"><input class="form-control" type="text" name="names[' + fieldIndex + ']" placeholder="Name ' + fieldIndex + '" /></div></div></div>';
+    categoriesRow.before(field);
+    fieldIndex++;
   });
 });
 

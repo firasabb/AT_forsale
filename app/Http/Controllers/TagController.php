@@ -209,6 +209,65 @@ class TagController extends Controller
     }
 
 
+
+    /**
+     * 
+     * Show add tags in bulk form
+     * 
+     */
+    public function adminBulkAddForm(){
+
+        $categories = Category::all();
+        return view('admin.tags.addBulk', ['categories' => $categories]);
+    
+    }
+
+
+    /**
+     * 
+     * Add tags in bulk
+     * @param Request $request
+     * 
+     */
+    public function adminBulkAdd(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'names' => 'required|array',
+            'names.*' => ['string', 'max:50', Rule::unique('tags', 'name'), Rule::unique('tags', 'url')],
+            'categories' => 'array|nullable',
+            'categories.*' => 'integer'
+        ]);
+
+        if($validator->fails()){
+            return back()->withErrors($validator)->withInput();
+        }
+
+
+        foreach($request->names as $name){
+            $tag = new Tag;
+            $tag->name = $name;
+            $url = Str::slug($name, '-');
+            // Check if the url exists
+            $check = Tag::where('url', $url)->first();
+            if(!empty($check)){
+                return back()->withErrors('A url exists with the same name.');
+            }
+            $tag->url = $url;
+            $tag->save();
+            $categories = $request->categories;
+            if(!empty($categories)){
+                foreach($categories as $category){
+                    $category = category::findOrFail($category);
+                    $category->tags()->attach($tag);
+                }
+            }
+        }
+
+        return redirect()->route('admin.index.tags')->with('status', 'Tags have been created successfully');
+
+    }
+
+
     /**
      * 
      * Search For Tags in AJAX Request

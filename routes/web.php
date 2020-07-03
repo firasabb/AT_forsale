@@ -92,7 +92,8 @@ Route::get('/admin/dashboard/tag/{id}', 'TagController@adminShow')->middleware('
 Route::put('/admin/dashboard/tag/{id}', 'TagController@adminEdit')->middleware('role:admin|moderator')->name('admin.edit.tag');
 Route::post('/admin/dashboard/tag/', 'TagController@adminAdd')->middleware('role:admin|moderator')->name('admin.add.tag');
 Route::post('/admin/dashboard/tags/search', 'TagController@adminSearchTags')->middleware('role:admin|moderator')->name('admin.search.tags');
-
+Route::get('/admin/dashboard/tag/bulk/add', 'TagController@adminBulkAddForm')->middleware('role:admin|moderator')->name('admin.bulk.add.form.tags');
+Route::post('/admin/dashboard/tag/bulk/add', 'TagController@adminBulkAdd')->middleware('role:admin|moderator')->name('admin.bulk.add.tags');
 
 // Admin / Categories
 

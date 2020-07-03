@@ -774,11 +774,6 @@ a.card-link:hover {
   font-weight: bold;
 }
 
-.search-card-columns .card-columns {
-  column-count: 2;
-  -moz-column-count: 2;
-}
-
 /**
 **
 **  Show Asset Page

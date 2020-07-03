@@ -94,8 +94,11 @@
                     {{ $tags->links() }}
                 </div>
             </div>
-            <div class="block-button">
+            <div class="block-button pt-4">
                 <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#addModal">Add Tag</button>
+            </div>
+            <div class="block-button py-4">
+                <a href="{{ route('admin.bulk.add.form.tags') }}" class="btn btn-secondary btn-lg btn-block">Add Tags</a>
             </div>
 
             <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
