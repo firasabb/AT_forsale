@@ -23,9 +23,8 @@
                     <div>
                         <select name="category" class="form-control">
                             <option value="all" selected>All Categories</option>
-                            @foreach($categories as $category)
-                                <option value="{{ $category->url }}">{{ ucwords($category->name) }}</option>
-                            @endforeach
+                            <option value="stock-photos">Stock Photos</option>
+                            <option value="sound-effects">Sound Effects</option>
                         </select>
                     </div>
                 </div>
