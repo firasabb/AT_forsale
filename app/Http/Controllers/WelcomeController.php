@@ -107,18 +107,7 @@ class WelcomeController extends Controller
         $searchQueryArr = explode(' ', $searchQuery);
         // Get only the approved assets
         $assets = $assets->where('status', 2);
-        $assets = $assets->has('tags');
-        $assets = $assets->whereHas('tags', function(Builder $query) use ($searchQueryArr){
-            $i = 0;
-            foreach($searchQueryArr as $searchQueryWord){
-                if($i == 0){
-                    $query->where('name', 'LIKE', '%' . $searchQueryWord . '%');
-                }else{
-                    $query->orWhere('name', 'LIKE', '%' . $searchQueryWord . '%');
-                }
-                $i++;
-            }
-        });
+
         $i = 0;
         foreach($searchQueryArr as $searchQueryWord){
             if($i == 0){
@@ -128,7 +117,6 @@ class WelcomeController extends Controller
             }
             $i++;
         }
-        dd($assets->get());
         return $this->searchResults($assets, $category->id ?? 0, $searchQuery);
 
     }
