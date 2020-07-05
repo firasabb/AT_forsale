@@ -7,7 +7,7 @@
 
 @php
     
-    $visualArr = ['stock photos', 'logos', 'icons', 'illustrations'];
+    $visualArr = ['stock photos', 'logos', 'icons', 'vectors'];
     $audioArr = ['sound effects', 'music'];
     $videoArr = ['stock videos', 'intro'];
     $categoryName = $asset->category->name;
