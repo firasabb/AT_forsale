@@ -97,7 +97,7 @@
                             <select name="first_btn" id="first_btn" class="form-control" {{ !$userLinks->isEmpty() ? '' : 'disabled' }}>
                                 <option value="">N/A</option>
                                 @foreach($userLinks as $userLink)
-                                    <option class="link-{{ $userLink->name }}" value="{{ $userLink->name }}" {{ $content['first_btn'] == $userLink->name ? 'selected' : '' }}>{{ strtoupper($userLink->name) }}</option>
+                                    <option class="link-{{ $userLink->name }}" value="{{ $userLink->name }}" @if($content) {{ $content['first_btn'] == $userLink->name ? 'selected' : '' }} @endif>{{ strtoupper($userLink->name) }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -106,7 +106,7 @@
                             <select name="second_btn" id="second_btn" class="form-control" {{ !$userLinks->isEmpty() ? '' : 'disabled' }}>
                                 <option value="">N/A</option>
                                 @foreach($userLinks as $userLink)
-                                    <option class="link-{{ $userLink->name }}" value="{{ $userLink->name }}" {{ $content['second_btn'] == $userLink->name ? 'selected' : '' }}>{{ strtoupper($userLink->name) }}</option>
+                                    <option class="link-{{ $userLink->name }}" value="{{ $userLink->name }}" @if($content) {{ $content['second_btn'] == $userLink->name ? 'selected' : '' }} @endif>{{ strtoupper($userLink->name) }}</option>
                                 @endforeach
                             </select>
                         </div>
