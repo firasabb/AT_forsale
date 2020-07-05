@@ -12,6 +12,25 @@
     $videoArr = ['stock videos', 'intro'];
     $categoryName = $asset->category->name;
 
+
+    $viewsCount = $asset->viewEventsCount();
+    $downloadsCount = $asset->downloadEventsCount();
+
+    $viewsNumber = '';
+    $downloadsNumber = '';
+
+    if($viewsCount > 200){
+        $viewsNumber = $viewsCount;
+    } else {
+        $viewsNumber = 'less than 200';
+    }
+
+    if($downloadsCount > 100){
+        $downloadsNumber = $downloadsCount;
+    } else {
+        $downloadsNumber = 'less than 100';
+    }
+
 @endphp
 
 
@@ -87,8 +106,8 @@
                             @endif
                         </div>
                     <div class="downloads-views">
-                        <p class="mr-3">@svg('arrow-down', 'arrow-down-icon') {{ $asset->downloadEventsCount() }} downloads</p>
-                        <p>@svg('eye', 'eye-icon'){{ $asset->viewEventsCount() }} views</p>
+                        <p class="mr-3">@svg('arrow-down', 'arrow-down-icon') {{ $downloadsNumber }} downloads</p>
+                        <p>@svg('eye', 'eye-icon') {{ $viewsNumber }} views</p>
                     </div>
                     @if($asset->description)
                         <div class="my-5">
