@@ -209,7 +209,7 @@
             <div class="py-2">
                 <h2>You May Also Like:</h2>
             </div>
-            <div>
+            <div class="pb-5">
                 <div class="card-deck">
                 @foreach($relatedAssets as $relatedAsset)
                     <div class="py-2">
