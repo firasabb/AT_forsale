@@ -89,7 +89,7 @@ class WelcomeController extends Controller
             $assets = new Asset();
         }
         
-        return $this->searchAssetsAndTags($assets, $searchQuery);
+        return $this->searchAssetsAndTags($assets, $searchQuery, $category);
 
     }
 
@@ -101,7 +101,7 @@ class WelcomeController extends Controller
      * @param string
      * 
      */
-    private function searchAssetsAndTags($assets, $searchQuery){
+    private function searchAssetsAndTags($assets, $searchQuery, $category){
 
         // Explode the search query to words and search for every word
         $searchQueryArr = explode(' ', $searchQuery);
