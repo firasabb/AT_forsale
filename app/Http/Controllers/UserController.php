@@ -107,8 +107,13 @@ class UserController extends Controller
         $user->paypal = $request->paypal;
         $user->save();
 
-        $request->facebook = $this->facebookInstagramLinks($request->facebook);
-        $request->instagram = $this->facebookInstagramLinks($request->instagram);
+        if($request->facebook){
+            $request->facebook = $this->facebookInstagramLinks($request->facebook);
+        }
+        
+        if($request->instagram){
+            $request->instagram = $this->facebookInstagramLinks($request->instagram);
+        }
 
         $links = ['instagram' => $request->instagram_link, 'facebook' => $request->facebook_link,
             'github' => $request->github_link, 'youtube' => $request->youtube_link, 'website' => $request->website_link, 'portfolio' => $request->portfolio_link];
@@ -144,9 +149,11 @@ class UserController extends Controller
                 
             } else if(empty($value) && !empty($check)){
                 $check->delete();
-            } else if($check['url'] != $value && !empty($check)){
-                $check->url = $value;
-                $check->save();
+            } else if($check){
+                if($check->url != $value && !empty($check)){
+                    $check->url = $value;
+                    $check->save();
+                }
             }
         }
     }
@@ -214,7 +221,6 @@ class UserController extends Controller
         if(filter_var($link, FILTER_VALIDATE_URL) !== false){
             return '';
         }
-
         if($link[0] == '@'){
             $link = str_replace('@', '', $link, 1);
         }
