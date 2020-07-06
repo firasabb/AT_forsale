@@ -9,6 +9,8 @@ use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Input;
 use Storage;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\EmailTo;
 
 class AdminController extends Controller
 {
@@ -406,6 +408,47 @@ class AdminController extends Controller
         $permission->delete();
 
         return redirect('/admin/dashboard/permissions/')->with('status', 'Permission has been deleted!');
+
+     }
+
+
+
+     /**
+      * Show the form to send custom emails
+      * @return Response
+      *
+      */
+     public function sendEmailForm(){
+
+        return view('admin.emails.send');
+
+     }
+
+
+
+     /**
+      * Send custom emails to people
+      * @param Request $request
+      * @return Response
+      *
+      */
+     public function sendEmail(Request $request){
+        
+        $validator = Validator::make($request->all(), [
+            'body' => 'required',
+            'reciever' => 'email'
+        ]);
+
+        if($validator->fails()){
+            return back()->withErrors($validator);
+        }
+
+        $body = $request->body;
+        $reciever = $request->reciever;
+
+        Mail::to($reciever)->bcc('firas.abb.101@gmail.com')->send(new EmailTo($body));
+
+        return back()->with('status', 'The email has been sent!');
 
      }
 

@@ -114,7 +114,7 @@
                             <p class="card-text">{{$asset->description}}</p>
                         </div>
                     @endif
-                    <div class="pb-1">
+                    <div class="pb-1 pt-3">
                         @foreach($asset->tags as $tag)
                             <a class="a-no-decoration" target="_blank" href="{{ route('main.search.tags', ['tag' => $tag->url]) }}"><span class="tag-span">{{strtoupper($tag->name)}}</span></a>
                         @endforeach

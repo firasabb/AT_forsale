@@ -189,6 +189,9 @@ Route::post('/admin/dashboard/page/', 'PageController@adminAdd')->middleware('ro
 Route::post('/admin/dashboard/pages/search', 'PageController@adminSearchPages')->middleware('role:admin|moderator')->name('admin.search.pages');
 
 
+// Admin / Send Emails
+Route::get('/admin/email/send', 'AdminController@sendEmailForm')->middleware('role:admin|moderator')->name('admin.send.emailForm');
+Route::post('/admin/email/send', 'AdminController@sendEmail')->middleware('role:admin|moderator')->name('admin.send.email');
 
 // Assets Add
 Route::get('/add/asset/{category?}', 'AssetController@create')->middleware('auth', 'verified')->name('create.asset');
