@@ -441,7 +441,7 @@ class AdminController extends Controller
         ]);
 
         if($validator->fails()){
-            return back()->withErrors($validator);
+            return back()->withErrors($validator)->withInput();
         }
 
         $body = $request->body;
