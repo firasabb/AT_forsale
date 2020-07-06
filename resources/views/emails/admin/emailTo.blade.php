@@ -3,6 +3,5 @@
 {!! $text !!}
 <br>
 <br>
-Best!<br>
 {{ config('app.name') }}
 @endcomponent
