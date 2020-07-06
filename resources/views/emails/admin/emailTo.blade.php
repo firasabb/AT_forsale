@@ -1,6 +1,6 @@
 @component('mail::message')
 <br>
-{!! $text !!}
+<p>{!! $text !!}</p>
 <br>
 <br>
 {{ config('app.name') }}
