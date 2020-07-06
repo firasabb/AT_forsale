@@ -435,8 +435,9 @@ class AdminController extends Controller
      public function sendEmail(Request $request){
         
         $validator = Validator::make($request->all(), [
-            'body' => 'required',
-            'reciever' => 'email'
+            'body' => 'required|string',
+            'reciever' => 'email',
+            'subject' => 'required|string'
         ]);
 
         if($validator->fails()){
@@ -445,8 +446,9 @@ class AdminController extends Controller
 
         $body = $request->body;
         $reciever = $request->reciever;
+        $subject = $request->subject;
 
-        Mail::to($reciever)->bcc('firas.abb.101@gmail.com')->send(new EmailTo($body));
+        Mail::to($reciever)->bcc('firas.abb.101@gmail.com')->send(new EmailTo($body, $subject));
 
         return back()->with('status', 'The email has been sent!');
 

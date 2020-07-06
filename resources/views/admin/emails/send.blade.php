@@ -30,6 +30,9 @@
                                 <input class="form-control" type="email" name="reciever" placeholder="email@example.com">
                             </div>
                             <div class="form-group">
+                                <input class="form-control" type="text" name="subject" placeholder="A Message From AssetTorch">
+                            </div>
+                            <div class="form-group">
                                 <textarea class="form-control" name="body" placeholder="the email content"></textarea>
                             </div>
                             <button class="btn btn-primary">Submit</button>
