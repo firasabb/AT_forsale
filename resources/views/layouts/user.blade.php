@@ -36,11 +36,6 @@
                                     Please Verify Your Email Or <a href="{{ route('user.send.verification.email') }}" target="_blank">Click Here</a> To Request a New One
                                 </div>
                             @endif
-                            @if (session('status'))
-                                <div class="alert alert-success" role="alert">
-                                    {{ session('status') }}
-                                </div>
-                            @endif
                         </div>
                         @yield('content')
                     </div>
