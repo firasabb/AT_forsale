@@ -231,9 +231,9 @@ Route::get('/dashboard/myassets', 'UserController@myAssetsPage')->middleware('ro
 Route::get('/dashboard/myad', 'UserController@userAd')->middleware('role:user')->name('user.userad.show');
 Route::post('/dashboard/myad', 'UserAdController@storeAjax')->middleware('role:user')->name('user.userad.store');
 Route::delete('/dashboard/myad/medias', 'UserAdController@deleteAdMediasAjax')->middleware('role:user')->name('user.userad.delete.medias');
-
 Route::delete('/dashboard/asset/delete/{id}', 'AssetController@destroy')->middleware('role:user')->name('user.delete.asset');
-
+// Send Verification Email
+Route::get('/user/send/verificationemail', 'UserController@sendVerificationEmail')->middleware('role:user')->name('user.send.verification.email');
 
 // Tags
 

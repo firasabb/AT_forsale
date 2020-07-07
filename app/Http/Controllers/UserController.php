@@ -305,4 +305,17 @@ class UserController extends Controller
         return view('users.userAd', ['user' => $user, 'ad' => $ad, 'content' => $content, 'userLinks' => $userLinks]);
     }
 
+
+    /**
+     * 
+     * Send Verification Email
+     * @return Response
+     * 
+     */
+    public function sendVerificationEmail(){
+        $user = Auth::user();
+        $user->sendEmailVerificationNotification();
+        return back()->with('status', 'Verification Email Has Been Sent');
+    }
+
 }
