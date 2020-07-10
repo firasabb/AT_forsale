@@ -55,6 +55,8 @@ class AssetController extends Controller
         if($user){
             if($user->hasAnyRole(['admin', 'moderator'])){
                 $asset = Asset::where('url', $url)->with('user')->firstOrFail();
+            } else {
+                $asset = Asset::where([['url', $url], ['status', 2]])->with('user')->firstOrFail();
             }
         } else {
             $asset = Asset::where([['url', $url], ['status', 2]])->with('user')->firstOrFail();
