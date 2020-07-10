@@ -51,12 +51,12 @@
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}" class="py-0">
                     <div class="mr-3">
-                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 373.66 75.08" style="width: 7rem">
-                            <text transform="translate(0 62.23)" style="font-size:72px;fill:#ff8100;font-family:Lato-Black, Lato;font-weight:800">
-                                <tspan style="letter-spacing:0.05000135633680555em">G</tspan>
-                                <tspan x="54.86" y="0" style="fill:#b3b3b3">e</tspan>
-                                <tspan x="94.03" y="0" style="fill:#b3b3b3;letter-spacing:-0.019992404513888888em">ny</tspan>
-                                <tspan x="172.73" y="0" style="fill:#b3b3b3">oon</tspan>
+                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 455.66 90.7" style="width: 10rem">
+                            <text transform="translate(73.87 73.46)" style="font-size:85px;fill:#ff8100;font-family:Lato-Black, Lato;font-weight:800">
+                                <tspan style="letter-spacing:0.05em">G</tspan>
+                                <tspan x="64.77" y="0" style="fill:#b3b3b3;font-size:72px">e</tspan>
+                                <tspan x="103.94" y="0" style="fill:#b3b3b3;font-size:72px;letter-spacing:-0.019992404513888888em">ny</tspan>
+                                <tspan x="182.63" y="0" style="fill:#b3b3b3;font-size:72px">oon</tspan>
                             </text>
                         </svg>
                     </div>
