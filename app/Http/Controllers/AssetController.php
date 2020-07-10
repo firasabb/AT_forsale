@@ -403,7 +403,7 @@ class AssetController extends Controller
         $asset = Asset::findOrFail($id);
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|min:15|max:200',
-            'description' => 'string|max:500',
+            'description' => 'string|max:500|nullable',
             'url' => ['string', Rule::unique('assets', 'url')->ignore($asset->url, 'url')],
             'category_id' => 'integer',
             'cover' => 'max:1000|image|nullable|clamav',

@@ -31,7 +31,7 @@
                     </div>
                     <div class="col-lg-10 p-0">
                         <div>
-                            @if(!$user->hasVerifiedEmail())
+                            @if(!Auth::user()->hasVerifiedEmail())
                                 <div class="alert alert-warning">
                                     Please Verify Your Email Or <a href="{{ route('user.send.verification.email') }}" target="_blank">Click Here</a> To Request a New One
                                 </div>
