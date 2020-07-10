@@ -25,7 +25,7 @@
     <meta name="robots" content="index,follow">
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="{{ $page->title }} - AssetTorch" />
+    <meta property="og:title" content="{{ $page->title }} - Genyoon" />
     <meta property="og:url" content="{{ url()->current() }}" />
     <meta property="og:site_name" content="{{ config('app.name', 'Laravel') }}" />
 @endpush

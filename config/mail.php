@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'no-reply@assettorch.com'),
-        'name' => env('MAIL_FROM_NAME', 'AssetTorch'),
+        'address' => env('MAIL_FROM_ADDRESS', 'no-reply@genyoon.com'),
+        'name' => env('MAIL_FROM_NAME', 'Genyoon'),
     ],
 
     /*

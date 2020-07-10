@@ -348,11 +348,11 @@
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="{{ $asset->title }}" />
-    <meta property="og:description" content="Made by {{ $asset->user->username }}! Download {{ strtoupper($asset->category->name) }} Assets for Free on AssetTorch!" />
+    <meta property="og:description" content="Made by {{ $asset->user->username }}! Download {{ strtoupper($asset->category->name) }} Assets for Free on Genyoon!" />
     <meta property="og:url" content="{{ url()->current() }}" />
     <meta property="og:site_name" content="{{ config('app.name', 'Laravel') }}" />
     <meta property="og:image" content="{{ Storage::cloud()->url($asset->cover()) }}">
-    <meta name="description" content="Download {{ strtoupper($asset->category->name) }} Assets for Free on AssetTorch! Made by {{ $asset->user->username }}"/>
+    <meta name="description" content="Download {{ strtoupper($asset->category->name) }} Assets for Free on Genyoon! Made by {{ $asset->user->username }}"/>
 @endpush
 
 

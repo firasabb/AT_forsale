@@ -32,6 +32,6 @@ class EmailTo extends Mailable
      */
     public function build()
     {
-        return $this->from('admin@assettorch.com')->subject($this->subject)->markdown('emails.admin.emailTo', ['text' => $this->text]);
+        return $this->from('admin@genyoon.com')->subject($this->subject)->markdown('emails.admin.emailTo', ['text' => $this->text]);
     }
 }

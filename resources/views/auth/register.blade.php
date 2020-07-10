@@ -96,7 +96,7 @@
                                 <div class="form-check">
                                     <input class="form-check-input" name="email_subscription" type="checkbox" value="1" id="email_subscription">
                                     <label class="form-check-label ml-2" for="email_subscription">
-                                        {{ __('Do You Accept to Receive News and Offers from AssetTorch?') }}
+                                        {{ __('Do You Accept to Receive News and Offers from Genyoon?') }}
                                     </label>
                                 </div>
                             </div>
