@@ -284,7 +284,7 @@ class UserController extends Controller
     public function myAssetsPage(){
 
         $user = Auth::user();
-        $assets = $user->assets()->paginate(10);
+        $assets = $user->assets()->orderBy('id', 'desc')->paginate(10);
         return view('users.myAssets', ['assets' => $assets]);
     }
 

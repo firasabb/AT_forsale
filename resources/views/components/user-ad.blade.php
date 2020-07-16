@@ -60,7 +60,7 @@
                         </div>
                     @endif
                     @if($paypal_donation)
-                        <div class="row justify-content-center pb-3">
+                        <div class="row justify-content-center py-3">
                             <div class="col text-center">
                                 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
                                     <input type="hidden" name="cmd" value="_donations" />

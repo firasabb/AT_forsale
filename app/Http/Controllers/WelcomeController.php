@@ -19,7 +19,7 @@ class WelcomeController extends Controller
     public function index(){
 
         $stockPhotos = Category::where('name', 'LIKE' ,'stock photos')->first();
-        $assets = $stockPhotos->approvedAssets()->orderBy('id', 'desc')->take(20)->get();
+        $assets = $stockPhotos->approvedAssets()->orderBy('id', 'desc')->take(18)->get();
         $categories = Category::all();
         return view('screens.main', ['assets' => $assets, 'categories' => $categories]);
 
