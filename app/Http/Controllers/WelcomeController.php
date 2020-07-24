@@ -18,10 +18,12 @@ class WelcomeController extends Controller
 
     public function index(){
 
-        $stockPhotos = Category::where('name', 'LIKE' ,'stock photos')->first();
-        $assets = $stockPhotos->approvedAssets()->orderBy('id', 'desc')->take(18)->get();
+        $stockPhotoCat = Category::where('name', 'LIKE' ,'stock photos')->first();
+        $stockPhotoAssets = $stockPhotoCat->approvedAssets()->orderBy('id', 'desc')->take(8)->get();
+        $soundEffectCat = Category::where('name', 'LIKE' ,'sound effects')->first();
+        $soundEffectAssets = $soundEffectCat->approvedAssets()->orderBy('id', 'desc')->take(8)->get();
         $categories = Category::all();
-        return view('screens.main', ['assets' => $assets, 'categories' => $categories]);
+        return view('screens.main', ['stockPhotoAssets' => $stockPhotoAssets, 'soundEffectAssets' => $soundEffectAssets, 'categories' => $categories]);
 
     }
 
