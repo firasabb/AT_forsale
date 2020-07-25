@@ -50,7 +50,8 @@ class DownloadController extends Controller
         $downloadEvent->asset()->associate($asset);
         $downloadEvent->download()->associate($download);
 
-        $checkPastDownloads = $asset->downloadEvents()->where(function($query) use ($ip) {
+        $checkPastDownloads = $asset->downloadEvents()->where(function($query) use ($ip, $id) {
+            $query->where('download_id', $id);
             if(Auth::check()){
                 $query->where('ip_address', $ip)->orWhere('user_id', Auth::id());
             } else {
@@ -60,6 +61,7 @@ class DownloadController extends Controller
         if(empty($checkPastDownloads->first())){
             $downloadEvent = new DownloadEvent();
             $downloadEvent->ip_address = $ip;
+            $downloadEvent->download_id = $id;
             $downloadEvent->asset()->associate($asset);
             if(Auth::check()){
                 $downloadEvent->user()->associate(Auth::user());
