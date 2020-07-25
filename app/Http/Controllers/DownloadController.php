@@ -66,9 +66,6 @@ class DownloadController extends Controller
             }
             $downloadEvent->save();
         }
-
-        $downloadEvent->ip_address = $ip;
-        $downloadEvent->save();
         $asset = $download->asset;
         $path = $download->getPath();
         $mime = $download->getMime();
