@@ -65,10 +65,8 @@ class AssetController extends Controller
         $license = $asset->licenses()->first();
         $category = $asset->category;
         $relatedAssets = $category->approvedAssets()->inRandomOrder()->where('id', '!=', $asset->id)->take(6)->get();
-        //dd($relatedAssets);
         $dataArr = ['asset' => $asset, 'featured' => $featured, 'license' => $license, 'relatedAssets' => $relatedAssets];
         $ip = $_SERVER['REMOTE_ADDR'];
-
         $checkPastViews = $asset->viewEvents()->where(function($query) use ($ip) {
             if(Auth::check()){
                 $query->where('ip_address', $ip)->orWhere('user_id', Auth::id());
