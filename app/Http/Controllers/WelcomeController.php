@@ -122,7 +122,7 @@ class WelcomeController extends Controller
                 }
                 // Search the tags too
                 $query->orWhereHas('tags', function($query) use ($searchQueryWord){
-                    $query->where('name', '=', $searchQueryWord);
+                    $query->where('name', 'LIKE', '%' . $searchQueryWord . '%');
                 });
                 $i++;
             }
