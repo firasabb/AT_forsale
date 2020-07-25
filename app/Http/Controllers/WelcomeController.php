@@ -86,9 +86,10 @@ class WelcomeController extends Controller
         // if not get from any category
         $category = Category::where('url', $category)->first();
         if(!empty($category)){
-            $assets = Asset::where('category_id', $category->id);
+            $assets = $category->approvedAssets();
         }else{
             $assets = new Asset();
+            $category = null;
         }
         
         return $this->searchAssetsAndTags($assets, $searchQuery, $category);
@@ -110,15 +111,24 @@ class WelcomeController extends Controller
         // Get only the approved assets
         $assets = $assets->where('status', 2);
 
-        $i = 0;
-        foreach($searchQueryArr as $searchQueryWord){
-            if($i == 0){
-                $assets = $assets->where('title', 'LIKE', '%' . $searchQueryWord . '%');
-            }else{
-                $assets = $assets->orWhere('title', 'LIKE', '%' . $searchQueryWord . '%');
+
+        $assets->where(function($query) use ($searchQueryArr){
+            $i = 0;
+            foreach($searchQueryArr as $searchQueryWord){
+                if($i == 0){
+                    $query->where('title', 'LIKE', '%' . $searchQueryWord . '%');
+                }else{
+                    $query->orWhere('title', 'LIKE', '%' . $searchQueryWord . '%');
+                }
+                // Search the tags too
+                $query->orWhereHas('tags', function($query) use ($searchQueryWord){
+                    $query->where('name', '=', $searchQueryWord);
+                });
+                $i++;
             }
-            $i++;
-        }
+
+        });
+
         return $this->searchResults($assets, $category->id ?? 0, $searchQuery);
 
     }
