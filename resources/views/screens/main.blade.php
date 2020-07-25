@@ -48,7 +48,7 @@
         @endforeach
     </div>
     <div class="pt-5 text-center">
-        <a class="btn btn-primary" href="#">View All</a>
+        <a class="btn btn-primary" href="{{ route('main.search.categories', ['category' => 'stock-photos']) }}">View All</a>
     </div>
 </div>
 
@@ -64,7 +64,7 @@
         @endforeach
     </div>
     <div class="pt-5 text-center">
-        <a class="btn btn-primary" href="#">View All</a>
+        <a class="btn btn-primary" href="{{ route('main.search.categories', ['category' => 'sound-effects']) }}">View All</a>
     </div>
 </div>
 
