@@ -22,13 +22,13 @@
     if($viewsCount > 200){
         $viewsNumber = $viewsCount;
     } else {
-        $viewsNumber = 'less than 200';
+        $viewsNumber = '< 200';
     }
 
     if($downloadsCount > 100){
         $downloadsNumber = $downloadsCount;
     } else {
-        $downloadsNumber = 'less than 100';
+        $downloadsNumber = '< 100';
     }
 
 @endphp
@@ -114,7 +114,7 @@
                             <p class="card-text">{{$asset->description}}</p>
                         </div>
                     @endif
-                    <div class="pb-1 pt-3">
+                    <div class="pb-1 pt-3" style="line-height: 2rem">
                         @foreach($asset->tags as $tag)
                             <a class="a-no-decoration" target="_blank" href="{{ route('main.search.tags', ['tag' => $tag->url]) }}"><span class="tag-span">{{strtoupper($tag->name)}}</span></a>
                         @endforeach
