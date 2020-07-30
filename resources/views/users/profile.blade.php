@@ -1,6 +1,14 @@
-@extends('layouts.main')
+@if($dashboard)
 
-@section('title', $user->username)
+    @extends('layouts.user')
+
+@else
+
+    @extends('layouts.main')
+    @section('title', $user->username)
+
+@endif
+
 
 @section('content')
 <div class="container">
@@ -27,7 +35,7 @@
                                 </div>
                                 <div class="profile-numbers">
                                     <div class="text-center">
-                                        <p>{{ $activeAssets->count() }}</p>
+                                        <p>{{ $approvedAssets->count() }}</p>
                                         <p>ASSETS</p>
                                     </div>
                                     <!--<div class="ml-4 text-center">
@@ -40,15 +48,26 @@
                     </div>
                 </div>
                 <div class="assets-container">
-                    @if(!empty($activeAssets->first()))
-                        <div class="assets-container-title text-center">
-                            <h3>PUBLISHED ASSETS</h3>
+                    @if(!empty($categories))
+                        <div class="text-center py-5">
+                            <div class="assets-container-title">
+                                <h4 class="m-0">PUBLISHED ASSETS</h4>
+                            </div>
                         </div>
-                        <div class="card-columns">
-                            @foreach($user->assets->all() as $asset)
-                                <x-asset-card :asset="$asset"></x-asset-card>
-                            @endforeach
-                        </div>
+                        @foreach($categories as $category)
+                            @php
+                                $category = App\Category::find($category->id);
+                                $assets = $category->approvedAssets()->where('user_id', $user->id)->get();
+                            @endphp
+                            <div class="pt-5 pb-5 text-center">
+                                <h5>{{ strtoupper($category->name) }}</h5>
+                            </div>
+                            <div class="card-columns">
+                                @foreach($assets as $asset)
+                                    <x-asset-card :asset="$asset"></x-asset-card>
+                                @endforeach
+                            </div>
+                        @endforeach
                     @endif
                 </div>
             </div>

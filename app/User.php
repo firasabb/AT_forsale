@@ -48,7 +48,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     }
 
-    public function activeAssets(){
+    public function approvedAssets(){
 
         return $this->assets()->where('status', 2);
 
