@@ -36,13 +36,35 @@
     </div>
 </div>
 
-<div class="container py-5">
+<div class="container pt-5">
+    <div class="pb-4">
+        <h3>Latest Stock Photos</h3>
+    </div>
     <div class="card-columns">
-        @foreach($assets as $asset)
+        @foreach($stockPhotoAssets as $asset)
             <div class="pb-4">
                 <x-asset-card :asset="$asset"/>
             </div>
         @endforeach
+    </div>
+    <div class="pt-5 text-center">
+        <a class="btn btn-primary" href="{{ route('main.search.categories', ['category' => 'stock-photos']) }}">View All</a>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="pb-4">
+        <h3>Latest Sound Effects</h3>
+    </div>
+    <div class="card-columns">
+        @foreach($soundEffectAssets as $asset)
+            <div class="pb-4">
+                <x-asset-card :asset="$asset"/>
+            </div>
+        @endforeach
+    </div>
+    <div class="pt-5 text-center">
+        <a class="btn btn-primary" href="{{ route('main.search.categories', ['category' => 'sound-effects']) }}">View All</a>
     </div>
 </div>
 

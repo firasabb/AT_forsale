@@ -30,7 +30,7 @@
                                 <input class="form-control" type="email" name="reciever" placeholder="email@example.com" value="{{ old('reciever') }}">
                             </div>
                             <div class="form-group">
-                                <input class="form-control" type="text" name="subject" placeholder="A Message From AssetTorch" value="{{ old('subject') }}">
+                                <input class="form-control" type="text" name="subject" placeholder="A Message From Genyoon" value="{{ old('subject') }}">
                             </div>
                             <div class="form-group">
                                 <textarea class="form-control" name="body" placeholder="the email content">{{ old('body') }}</textarea>

@@ -49,12 +49,25 @@ class DownloadController extends Controller
         $downloadEvent = new DownloadEvent();
         $downloadEvent->asset()->associate($asset);
         $downloadEvent->download()->associate($download);
-        if(Auth::check()){
-            $user = Auth::user();
-            $downloadEvent->user()->associate($user);
+
+        $checkPastDownloads = $asset->downloadEvents()->where(function($query) use ($ip, $id) {
+            $query->where('download_id', $id);
+            if(Auth::check()){
+                $query->where('ip_address', $ip)->orWhere('user_id', Auth::id());
+            } else {
+                $query->where('ip_address', $ip);
+            }
+        });
+        if(empty($checkPastDownloads->first())){
+            $downloadEvent = new DownloadEvent();
+            $downloadEvent->ip_address = $ip;
+            $downloadEvent->download_id = $id;
+            $downloadEvent->asset()->associate($asset);
+            if(Auth::check()){
+                $downloadEvent->user()->associate(Auth::user());
+            }
+            $downloadEvent->save();
         }
-        $downloadEvent->ip_address = $ip;
-        $downloadEvent->save();
         $asset = $download->asset;
         $path = $download->getPath();
         $mime = $download->getMime();

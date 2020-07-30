@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'AssetTorch'),
+    'name' => env('APP_NAME', 'Genyoon'),
 
     /*
     |--------------------------------------------------------------------------
@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'https://assettorch.com/'),
+    'url' => env('APP_URL', 'https://genyoon.com/'),
 
     'asset_url' => env('ASSET_URL', null),
 

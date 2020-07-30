@@ -55,6 +55,8 @@ class AssetController extends Controller
         if($user){
             if($user->hasAnyRole(['admin', 'moderator'])){
                 $asset = Asset::where('url', $url)->with('user')->firstOrFail();
+            } else {
+                $asset = Asset::where([['url', $url], ['status', 2]])->with('user')->firstOrFail();
             }
         } else {
             $asset = Asset::where([['url', $url], ['status', 2]])->with('user')->firstOrFail();
@@ -63,10 +65,8 @@ class AssetController extends Controller
         $license = $asset->licenses()->first();
         $category = $asset->category;
         $relatedAssets = $category->approvedAssets()->inRandomOrder()->where('id', '!=', $asset->id)->take(6)->get();
-        //dd($relatedAssets);
         $dataArr = ['asset' => $asset, 'featured' => $featured, 'license' => $license, 'relatedAssets' => $relatedAssets];
         $ip = $_SERVER['REMOTE_ADDR'];
-
         $checkPastViews = $asset->viewEvents()->where(function($query) use ($ip) {
             if(Auth::check()){
                 $query->where('ip_address', $ip)->orWhere('user_id', Auth::id());
@@ -403,7 +403,7 @@ class AssetController extends Controller
         $asset = Asset::findOrFail($id);
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|min:15|max:200',
-            'description' => 'string|max:500',
+            'description' => 'string|max:500|nullable',
             'url' => ['string', Rule::unique('assets', 'url')->ignore($asset->url, 'url')],
             'category_id' => 'integer',
             'cover' => 'max:1000|image|nullable|clamav',

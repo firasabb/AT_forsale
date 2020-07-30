@@ -45,7 +45,7 @@ class AssetRejected extends Notification
 
         $url = $this->asset->url;
         
-        return (new MailMessage)->from('no-reply@assettorch.com', 'AssetTorch')->subject('Asset Submission Review')->markdown('mail.assets.assetRejected', ['url' => $url]);
+        return (new MailMessage)->from('no-reply@genyoon.com', 'Genyoon')->subject('Asset Submission Review')->markdown('mail.assets.assetRejected', ['url' => $url]);
     }
 
     /**

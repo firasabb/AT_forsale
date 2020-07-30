@@ -128,6 +128,17 @@ class User extends Authenticatable implements MustVerifyEmail
         return Storage::cloud()->url($avatar);
     }
 
+    
+    /**
+     * Get the user's full name.
+     *
+     * @return string
+     */
+    public function getFullNameAttribute() {
+        return "{$this->first_name} {$this->last_name}";
+    }
+
+
     /**
      * 
      * Change status numbers to text and check if deleted or not

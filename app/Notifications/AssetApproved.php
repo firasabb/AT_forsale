@@ -45,7 +45,7 @@ class AssetApproved extends Notification
 
         $url = $this->asset->url;
 
-        return (new MailMessage)->from('no-reply@assettorch.com', 'AssetTorch')->subject('Your Asset is Approved!')->markdown('mail.assets.assetApproved', ['url' => $url]);
+        return (new MailMessage)->from('no-reply@genyoon.com', 'Genyoon')->subject('Your Asset is Approved!')->markdown('mail.assets.assetApproved', ['url' => $url]);
     }
 
     /**

@@ -22,13 +22,13 @@
     if($viewsCount > 200){
         $viewsNumber = $viewsCount;
     } else {
-        $viewsNumber = 'less than 200';
+        $viewsNumber = '< 200';
     }
 
     if($downloadsCount > 100){
         $downloadsNumber = $downloadsCount;
     } else {
-        $downloadsNumber = 'less than 100';
+        $downloadsNumber = '< 100';
     }
 
 @endphp
@@ -114,7 +114,7 @@
                             <p class="card-text">{{$asset->description}}</p>
                         </div>
                     @endif
-                    <div class="pb-1 pt-3">
+                    <div class="pb-1 pt-3" style="line-height: 2rem">
                         @foreach($asset->tags as $tag)
                             <a class="a-no-decoration" target="_blank" href="{{ route('main.search.tags', ['tag' => $tag->url]) }}"><span class="tag-span">{{strtoupper($tag->name)}}</span></a>
                         @endforeach
@@ -293,8 +293,13 @@
                         </div>
                         <div class="card-body text-center">
                             <div class="py-2">
-                                <h4>{{ $license->name }}<h4>
+                                <h4>{{ strtoupper($license->name) }}<h4>
                             </div>
+                            @if(!is_null($license->description))
+                                <div class="pb-3">
+                                    <p>{{ $license->description }}</p>
+                                </div>
+                            @endif
                             @if(!is_null($license->link))
                                 <div>
                                     <a target="_blank" class="a-no-decoration" href="{{ $license->link }}">Click here for more information.</a>
@@ -348,11 +353,11 @@
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="{{ $asset->title }}" />
-    <meta property="og:description" content="Made by {{ $asset->user->username }}! Download {{ strtoupper($asset->category->name) }} Assets for Free on AssetTorch!" />
+    <meta property="og:description" content="Made by {{ $asset->user->username }}! Download {{ strtoupper($asset->category->name) }} Assets for Free on Genyoon!" />
     <meta property="og:url" content="{{ url()->current() }}" />
     <meta property="og:site_name" content="{{ config('app.name', 'Laravel') }}" />
     <meta property="og:image" content="{{ Storage::cloud()->url($asset->cover()) }}">
-    <meta name="description" content="Download {{ strtoupper($asset->category->name) }} Assets for Free on AssetTorch! Made by {{ $asset->user->username }}"/>
+    <meta name="description" content="Download {{ strtoupper($asset->category->name) }} Assets for Free on Genyoon! Made by {{ $asset->user->username }}"/>
 @endpush
 
 
