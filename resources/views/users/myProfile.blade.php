@@ -38,15 +38,20 @@
                     </div>
                 </div>
                 <div class="assets-container">
-                    @if(!empty($activeAssets->first()))
+                    @if(!empty($categories))
                         <div class="assets-container-title text-center">
                             <h3>PUBLISHED ASSETS</h3>
                         </div>
-                        <div class="card-columns">
-                            @foreach($user->assets->all() as $asset)
-                                <x-asset-card :asset="$asset"></x-asset-card>
-                            @endforeach
-                        </div>
+                        @foreach($categories as $category)
+                            @php
+                                $assets = $category->activeAssets();
+                            @endphp
+                            <div class="card-columns">
+                                @foreach($assets as $asset)
+                                    <x-asset-card :asset="$asset"></x-asset-card>
+                                @endforeach
+                            </div>
+                        @endforeach
                     @endif
                 </div>
             </div>

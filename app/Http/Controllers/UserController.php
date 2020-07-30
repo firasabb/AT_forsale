@@ -12,6 +12,7 @@ use Storage;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -38,7 +39,8 @@ class UserController extends Controller
 
         $user = Auth::user();
         $activeAssets = $user->activeAssets;
-        return view('users.myProfile', ['user' => $user, 'activeAssets' => $activeAssets]);
+        $categories = DB::table('assets')->where([['user_id', $user->id], ['status', 1]])->join('categories', 'assets.category_id', '=', 'categories.id')->select('categories.*')->distinct()->get();
+        return view('users.myProfile', ['user' => $user, 'activeAssets' => $activeAssets, 'categories' => $categories]);
 
     }
 
