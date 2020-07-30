@@ -293,8 +293,13 @@
                         </div>
                         <div class="card-body text-center">
                             <div class="py-2">
-                                <h4>{{ $license->name }}<h4>
+                                <h4>{{ strtoupper($license->name) }}<h4>
                             </div>
+                            @if(!is_null($license->description))
+                                <div class="pb-3">
+                                    <p>{{ $license->description }}</p>
+                                </div>
+                            @endif
                             @if(!is_null($license->link))
                                 <div>
                                     <a target="_blank" class="a-no-decoration" href="{{ $license->link }}">Click here for more information.</a>
