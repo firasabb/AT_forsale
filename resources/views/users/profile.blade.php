@@ -1,13 +1,9 @@
-@if($dashboard)
 
-    @extends('layouts.user')
 
-@else
+@extends($dashboard ? 'layouts.user' : 'layouts.main')
 
-    @extends('layouts.main')
-    @section('title', $user->username)
+@section('title', $user->username)
 
-@endif
 
 
 @section('content')
