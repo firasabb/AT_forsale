@@ -5,7 +5,6 @@
 @section('title', $user->username)
 
 
-
 @section('content')
 <div class="container">
     <div class="profile-container">
