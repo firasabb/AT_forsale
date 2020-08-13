@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Asset;
+use App\Post;
 use App\Category;
 use App\Tag;
 use Validator;
@@ -19,11 +19,11 @@ class WelcomeController extends Controller
     public function index(){
 
         $stockPhotoCat = Category::where('name', 'LIKE' ,'stock photos')->first();
-        $stockPhotoAssets = $stockPhotoCat->approvedAssets()->orderBy('id', 'desc')->take(9)->get();
+        $stockPhotoPosts = $stockPhotoCat->approvedPosts()->orderBy('id', 'desc')->take(9)->get();
         $soundEffectCat = Category::where('name', 'LIKE' ,'sound effects')->first();
-        $soundEffectAssets = $soundEffectCat->approvedAssets()->orderBy('id', 'desc')->take(9)->get();
+        $soundEffectPosts = $soundEffectCat->approvedPosts()->orderBy('id', 'desc')->take(9)->get();
         $categories = Category::all();
-        return view('screens.main', ['stockPhotoAssets' => $stockPhotoAssets, 'soundEffectAssets' => $soundEffectAssets, 'categories' => $categories]);
+        return view('screens.main', ['stockPhotoPosts' => $stockPhotoPosts, 'soundEffectPosts' => $soundEffectPosts, 'categories' => $categories]);
 
     }
 
@@ -82,37 +82,37 @@ class WelcomeController extends Controller
      */
     private function searchCheckCategory($category, $searchQuery){
 
-        // check if the category exists then get the assets from it
+        // check if the category exists then get the posts from it
         // if not get from any category
         $category = Category::where('url', $category)->first();
         if(!empty($category)){
-            $assets = $category->approvedAssets();
+            $posts = $category->approvedPosts();
         }else{
-            $assets = new Asset();
+            $posts = new Post();
             $category = null;
         }
         
-        return $this->searchAssetsAndTags($assets, $searchQuery, $category);
+        return $this->searchPostsAndTags($posts, $searchQuery, $category);
 
     }
 
 
     /**
      * 
-     * Search the assets and the tags
-     * @param Asset
+     * Search the posts and the tags
+     * @param Post
      * @param string
      * 
      */
-    private function searchAssetsAndTags($assets, $searchQuery, $category){
+    private function searchPostsAndTags($posts, $searchQuery, $category){
 
         // Explode the search query to words and search for every word
         $searchQueryArr = explode(' ', $searchQuery);
-        // Get only the approved assets
-        $assets = $assets->where('status', 2);
+        // Get only the approved posts
+        $posts = $posts->where('status', 2);
 
 
-        $assets->where(function($query) use ($searchQueryArr){
+        $posts->where(function($query) use ($searchQueryArr){
             $i = 0;
             foreach($searchQueryArr as $searchQueryWord){
                 if($i == 0){
@@ -129,7 +129,7 @@ class WelcomeController extends Controller
 
         });
 
-        return $this->searchResults($assets, $category->id ?? 0, $searchQuery);
+        return $this->searchResults($posts, $category->id ?? 0, $searchQuery);
 
     }
 
@@ -148,16 +148,16 @@ class WelcomeController extends Controller
         if(!empty($category) && strtolower($category) != 'all'){
 
             $category = Category::where('url', $category)->firstOrFail();
-            $assets = $category->approvedAssets();
+            $posts = $category->approvedPosts();
 
         } else {
 
-            $assets = new Asset();
-            $assets = $assets->approvedAssets();
+            $posts = new Post();
+            $posts = $posts->approvedPosts();
 
         }
 
-        return $this->searchResults($assets, $category->id ?? 0);
+        return $this->searchResults($posts, $category->id ?? 0);
 
     }
 
@@ -175,27 +175,27 @@ class WelcomeController extends Controller
         if(!empty($tag) && strtolower($tag) != 'all'){
 
             $tag = Tag::where('url', $tag)->firstOrFail();
-            $assets = $tag->approvedAssets();
+            $posts = $tag->approvedPosts();
 
         } else {
-            $assets = new Asset();
-            $assets = $assets->approvedAssets();
+            $posts = new Post();
+            $posts = $posts->approvedPosts();
         }
 
-        return $this->searchResults($assets);
+        return $this->searchResults($posts);
 
     }
 
 
 
-    public function searchResults($assets = [], $reqCategory = 0, $keyword = ''){
+    public function searchResults($posts = [], $reqCategory = 0, $keyword = ''){
 
-        if(!empty($assets)){
-            $assets = $assets->with('category')->orderBy('id', 'desc')->paginate(12);
+        if(!empty($posts)){
+            $posts = $posts->with('category')->orderBy('id', 'desc')->paginate(12);
         }
         $categories = Category::all();
         $reqCategory = Category::find($reqCategory);
-        return view('screens.searchResults', ['assets' => $assets, 'categories' => $categories, 'reqCategory' => $reqCategory->name ?? '', 'inputKeyword' => $keyword]);
+        return view('screens.searchResults', ['posts' => $posts, 'categories' => $categories, 'reqCategory' => $reqCategory->name ?? '', 'inputKeyword' => $keyword]);
 
     }
 

@@ -20,12 +20,12 @@ class CreateDownloadsTable extends Migration
             $table->string('extension')->nullable();
             $table->text('description')->nullable();
             $table->text('url');
-            $table->unsignedBigInteger('asset_id');
+            $table->unsignedBigInteger('post_id');
             $table->softDeletes();
             $table->timestamps();
 
-            $table->foreign('asset_id')
-                    ->references('id')->on('assets')
+            $table->foreign('post_id')
+                    ->references('id')->on('posts')
                     ->onDelete('cascade');
         });
     }

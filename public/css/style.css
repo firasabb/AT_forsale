@@ -228,7 +228,7 @@ main {
   font-size: 0.6rem;
 }
 
-.submit-asset-btn {
+.submit-post-btn {
   float: right;
 }
 
@@ -242,7 +242,7 @@ main {
   background-color: #afafaf;
 }
 
-.create-asset-btns {
+.create-post-btns {
   margin-top: 30px;
 }
 
@@ -343,7 +343,7 @@ main {
 
 /**
 **
-**  Ask new asset page
+**  Ask new post page
 **
 **/
 
@@ -403,7 +403,7 @@ main {
 
 /**
 **
-**  Add Asset Page
+**  Add Post Page
 **
 **/
 
@@ -573,7 +573,7 @@ a.card-link:hover {
   color: inherit;
 }
 
-.assets-container-title {
+.posts-container-title {
   width: 25%;
   padding: 1rem 0;
   background-color: #515151;
@@ -582,19 +582,19 @@ a.card-link:hover {
 }
 
 @media (max-width: 1188px) {
-  .assets-container-title {
+  .posts-container-title {
     width: 35%;
   }
 }
 
 @media (max-width: 776px) {
-  .assets-container-title {
+  .posts-container-title {
     width: 60%;
   }
 }
 
 @media (max-width: 430px) {
-  .assets-container-title {
+  .posts-container-title {
     width: 90%;
   }
 }
@@ -703,7 +703,7 @@ a.card-link:hover {
 
 /**
 **
-**  User My Assets Page
+**  User My Posts Page
 **
 **/
 
@@ -802,11 +802,11 @@ a.card-link:hover {
 
 /**
 **
-**  Show Asset Page
+**  Show Post Page
 **
 **/
 
-.asset-card-user-text {
+.post-card-user-text {
   padding-left: 0.7rem;
   font-size: 0.8rem;
   font-weight: 700;

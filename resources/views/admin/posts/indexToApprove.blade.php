@@ -23,31 +23,31 @@
         </div>
     </div>
 
-    @if(!empty($asset))
+    @if(!empty($post))
     <div class="row justify-content-center">
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-header">Assets to approve</div>
+                <div class="card-header">Posts to approve</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('admin.approve.asset', ['id' => $asset->id]) }}" id="add-asset-form">
+                    <form method="POST" action="{{ route('admin.approve.post', ['id' => $post->id]) }}" id="add-post-form">
                         @csrf
                         <div class="form-group row">
-                            <label for="asset" class="col-sm-2 col-form-label">Asset:</label>
+                            <label for="post" class="col-sm-2 col-form-label">Post:</label>
                             <div class="col-sm-10">
-                                <input class="form-control enabled-disabled" name="title" disabled type="text" value="{{ $asset->title }}"/>
+                                <input class="form-control enabled-disabled" name="title" disabled type="text" value="{{ $post->title }}"/>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="description" class="col-sm-2 col-form-label">Description:</label>
                             <div class="col-sm-10">
-                                <textarea class="form-control enabled-disabled" name="description" disabled>{{ $asset->description }}</textarea>
+                                <textarea class="form-control enabled-disabled" name="description" disabled>{{ $post->description }}</textarea>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="url" class="col-sm-2 col-form-label">URL:</label>
                             <div class="col-sm-10">
-                                <input class="form-control enabled-disabled" name="url" disabled type="text" value="{{ $asset->url }}"/>
+                                <input class="form-control enabled-disabled" name="url" disabled type="text" value="{{ $post->url }}"/>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -55,7 +55,7 @@
                             <div class="col-sm-10">
                                 <select class="form-control enabled-disabled" name="category_id" disabled>
                                 @foreach($categories as $category)
-                                    <option value="{{ $category->id }}" <?php echo $asset->category->id == $category->id ? 'Selected' : ''; ?>>{{ $category->name }}</option>
+                                    <option value="{{ $category->id }}" <?php echo $post->category->id == $category->id ? 'Selected' : ''; ?>>{{ $category->name }}</option>
                                 @endforeach
                                 </select>
                             </div>
@@ -65,13 +65,13 @@
                             <div class="col-sm-10">
                                 <div class="selected-tags">
                                     <ul id="selected-tags-ul" class="selected-tags-ul list-group list-group-horizontal">
-                                    @foreach($asset->tags as $tag)
+                                    @foreach($post->tags as $tag)
                                         <li class="list-group-item list-group-item-primary selected-tags-li">{{ $tag->name }}</li>
                                     @endforeach
                                     </ul>
                                 </div>
                                 <div class="tag-container">
-                                    <input type="hidden" name="tags" id="hidden-tag-input" value="<?php $i=0; foreach($asset->tags as $tag){ $i++; if($i < count($asset->tags)){echo $tag->name . ', ';} else { echo $tag->name; }} ?>"/>
+                                    <input type="hidden" name="tags" id="hidden-tag-input" value="<?php $i=0; foreach($post->tags as $tag){ $i++; if($i < count($post->tags)){echo $tag->name . ', ';} else { echo $tag->name; }} ?>"/>
                                     <input class="form-control" id="tag-input" type="text" required/>
                                 </div>
                                 <ul id="tags" class="list-group">
@@ -79,7 +79,7 @@
                         </div>
                         <p>Options:</p>
                         <div class="row">
-                            @foreach($asset->downloads as $key => $download)
+                            @foreach($post->downloads as $key => $download)
                                 <div class="col-sm-2">
                                 </div>
                                 <div class="col-sm-10">
@@ -95,16 +95,16 @@
                     @if(!empty($cover))
                         <img class="img-thumbnail" src="{{ $cover->public_url }}" style="max-width: 200px"/>
                     @endif
-                    <a target="_blank" href="{{ route('show.asset', ['url' => $asset->url]) }}">View The Asset</a>
+                    <a target="_blank" href="{{ route('show.post', ['url' => $post->url]) }}">View The Post</a>
                 </div>
             </div>
             <div class="block-button">
-                <button id="add-asset" type="button" class="btn btn-primary btn-lg btn-block">Approve</button>
+                <button id="add-post" type="button" class="btn btn-primary btn-lg btn-block">Approve</button>
                 <button id="edit-button" type="button" class="btn btn-success btn-lg btn-block">Edit</button>
-                <div class="delete-asset-container">
-                    <form method="POST" action="{{ route('admin.disapprove.asset', ['id' => $asset->id]) }}" id="delete-asset">
+                <div class="delete-post-container">
+                    <form method="POST" action="{{ route('admin.disapprove.post', ['id' => $post->id]) }}" id="delete-post">
                         @csrf
-                        <button id="delete-asset" type="submit" class="btn btn-danger btn-lg btn-block">Disapprove</button>
+                        <button id="delete-post" type="submit" class="btn btn-danger btn-lg btn-block">Disapprove</button>
                     </form>
                 </div>
             </div>

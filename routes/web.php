@@ -52,25 +52,25 @@ Route::put('/admin/dashboard/permission/{id}', 'AdminController@editPermission')
 Route::post('/admin/dashboard/permissions', 'AdminController@addPermission')->name('admin.add.permission');
 
 
-// Admin / Assets
+// Admin / Posts
 
-Route::get('/admin/dashboard/assets/', 'AssetController@adminIndex')->middleware('role:admin|moderator')->name('admin.index.assets');
-Route::delete('/admin/dashboard/asset/{id}', 'AssetController@adminDestroy')->middleware('role:admin|moderator')->name('admin.delete.asset');
-Route::get('/admin/dashboard/asset/{id}', 'AssetController@adminShow')->middleware('role:admin|moderator')->name('admin.show.asset');
-Route::put('/admin/dashboard/asset/{id}', 'AssetController@adminEdit')->middleware('role:admin|moderator')->name('admin.edit.asset');
-Route::post('/admin/dashboard/asset/', 'AssetController@adminAdd')->middleware('role:admin|moderator')->name('admin.add.asset');
-Route::post('/admin/dashboard/assets/search', 'AssetController@adminSearchAssets')->middleware('role:admin|moderator')->name('admin.search.assets');
-Route::post('/admin/dashboard/asset/disapprove/{id}', 'AssetController@adminDisapprove')->middleware('role:admin|moderator')->name('admin.disapprove.asset');
+Route::get('/admin/dashboard/posts/', 'PostController@adminIndex')->middleware('role:admin|moderator')->name('admin.index.posts');
+Route::delete('/admin/dashboard/post/{id}', 'PostController@adminDestroy')->middleware('role:admin|moderator')->name('admin.delete.post');
+Route::get('/admin/dashboard/post/{id}', 'PostController@adminShow')->middleware('role:admin|moderator')->name('admin.show.post');
+Route::put('/admin/dashboard/post/{id}', 'PostController@adminEdit')->middleware('role:admin|moderator')->name('admin.edit.post');
+Route::post('/admin/dashboard/post/', 'PostController@adminAdd')->middleware('role:admin|moderator')->name('admin.add.post');
+Route::post('/admin/dashboard/posts/search', 'PostController@adminSearchPosts')->middleware('role:admin|moderator')->name('admin.search.posts');
+Route::post('/admin/dashboard/post/disapprove/{id}', 'PostController@adminDisapprove')->middleware('role:admin|moderator')->name('admin.disapprove.post');
 
-// Admin Approve Assets
+// Admin Approve Posts
 
-Route::get('/admin/dashboard/approve/assets', 'AssetController@indexToApprove')->middleware('role:admin|moderator')->name('admin.index.approve.assets');
-Route::post('/admin/dashboard/approve/assets/{id}', 'AssetController@adminApprove')->middleware('role:admin|moderator')->name('admin.approve.asset');
+Route::get('/admin/dashboard/approve/posts', 'PostController@indexToApprove')->middleware('role:admin|moderator')->name('admin.index.approve.posts');
+Route::post('/admin/dashboard/approve/posts/{id}', 'PostController@adminApprove')->middleware('role:admin|moderator')->name('admin.approve.post');
 
 
 // Admin / Downloads
 
-Route::post('/admin/download/{assetId}', 'DownloadController@adminAdd')->middleware('role:admin|moderator')->name('admin.download.add');
+Route::post('/admin/download/{postId}', 'DownloadController@adminAdd')->middleware('role:admin|moderator')->name('admin.download.add');
 Route::delete('/admin/download/{id}', 'DownloadController@adminDelete')->middleware('role:admin|moderator')->name('admin.download.delete');
 Route::get('/admin/download/{id}', 'DownloadController@adminDownloadDownload')->middleware('role:admin|moderator')->name('admin.download.download');
 
@@ -161,7 +161,7 @@ Route::delete('/admin/dashboard/emailcampaign/{id}', 'EmailCampaignController@ad
 Route::get('/admin/dashboard/emailcampaign/{id}', 'EmailCampaignController@adminShow')->middleware('role:admin|moderator')->name('admin.show.emailcampaign');
 Route::put('/admin/dashboard/emailcampaign/{id}', 'EmailCampaignController@adminEdit')->middleware('role:admin|moderator')->name('admin.edit.emailcampaign');
 Route::post('/admin/dashboard/emailcampaign/', 'EmailCampaignController@adminAdd')->middleware('role:admin|moderator')->name('admin.add.emailcampaign');
-Route::post('/admin/dashboard/emailcampaigns/search', 'EmailCampaignController@adminSearchExternalAds')->middleware('role:admin|moderator')->name('admin.search.emailcampaigns');
+Route::post('/admin/dashboard/emailcampaigns/search', 'EmailCampaignController@adminSearchEmailCampaigns')->middleware('role:admin|moderator')->name('admin.search.emailcampaigns');
 
 
 // Admin / User Ads
@@ -193,9 +193,9 @@ Route::post('/admin/dashboard/pages/search', 'PageController@adminSearchPages')-
 Route::get('/admin/email/send', 'AdminController@sendEmailForm')->middleware('role:admin|moderator')->name('admin.send.emailForm');
 Route::post('/admin/email/send', 'AdminController@sendEmail')->middleware('role:admin|moderator')->name('admin.send.email');
 
-// Assets Add
-Route::get('/add/asset/{category?}', 'AssetController@create')->middleware('auth', 'verified')->name('create.asset');
-Route::post('/add/asset/{category}', 'AssetController@store')->middleware('auth', 'verified')->name('store.asset');
+// Posts Add
+Route::get('/add/post/{category?}', 'PostController@create')->middleware('auth', 'verified')->name('create.post');
+Route::post('/add/post/{category}', 'PostController@store')->middleware('auth', 'verified')->name('store.post');
 
 
 // Contest
@@ -204,9 +204,9 @@ Route::post('/add/asset/{category}', 'AssetController@store')->middleware('auth'
 //Route::post('/add/contest', 'ContestController@store')->name('store.contest');
 
 
-// Asset
+// Post
 
-Route::get('/asset/{url}', 'AssetController@show')->name('show.asset');
+Route::get('/post/{url}', 'PostController@show')->name('show.post');
 
 
 // Search
@@ -226,12 +226,12 @@ Route::get('/dashboard/setup', 'UserController@setupProfilePage')->middleware('r
 Route::put('/dashboard/setup', 'UserController@setupProfileRequest')->middleware('role:user')->name('user.setup.request');
 Route::get('/dashboard/changepassword', 'UserController@changePasswordPage')->middleware('role:user')->name('user.password.show');
 Route::post('/dashboard/changepassword', 'UserController@changePasswordRequest')->middleware('role:user')->name('user.password.request');
-Route::get('/dashboard/myassets', 'UserController@myAssetsPage')->middleware('role:user')->name('user.assets.show');
+Route::get('/dashboard/myposts', 'UserController@myPostsPage')->middleware('role:user')->name('user.posts.show');
 // User Ads
 Route::get('/dashboard/myad', 'UserController@userAd')->middleware('role:user')->name('user.userad.show');
 Route::post('/dashboard/myad', 'UserAdController@storeAjax')->middleware('role:user')->name('user.userad.store');
 Route::delete('/dashboard/myad/medias', 'UserAdController@deleteAdMediasAjax')->middleware('role:user')->name('user.userad.delete.medias');
-Route::delete('/dashboard/asset/delete/{id}', 'AssetController@destroy')->middleware('role:user')->name('user.delete.asset');
+Route::delete('/dashboard/post/delete/{id}', 'PostController@destroy')->middleware('role:user')->name('user.delete.post');
 // Send Verification Email
 Route::get('/user/send/verificationemail', 'UserController@sendVerificationEmail')->middleware('role:user')->name('user.send.verification.email');
 

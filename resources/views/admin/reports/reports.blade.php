@@ -73,8 +73,8 @@
                                     {{ strtoupper($report->reportable_type) }}
                                 </td>
                                 <td>
-                                    @if($report->reportable_type == 'App\Asset')
-                                        <a href="{{ route('show.asset', ['url' => $report->reportable->url]) }}" target="_blank">{{ $report->reportable_id }}</a>
+                                    @if($report->reportable_type == 'App\Post')
+                                        <a href="{{ route('show.post', ['url' => $report->reportable->url]) }}" target="_blank">{{ $report->reportable_id }}</a>
                                     @else
                                         {{ $report->reportable_id }}
                                     @endif

@@ -46057,11 +46057,11 @@ var render = function() {
         staticClass: "list-group-item list-group-item-action",
         on: {
           click: function($event) {
-            return _vm.viewMyAssets()
+            return _vm.viewMyPosts()
           }
         }
       },
-      [_vm._v("My Assets")]
+      [_vm._v("My Posts")]
     )
   ])
 }
@@ -46432,7 +46432,7 @@ var staticRenderFns = [
                       staticClass: "modal-title",
                       attrs: { id: "exampleModalLabel" }
                     },
-                    [_vm._v("Report This Asset")]
+                    [_vm._v("Report This Post")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -46462,7 +46462,7 @@ var staticRenderFns = [
                           attrs: {
                             name: "body",
                             placeholder:
-                              "Please describe why the asset should not be on the website..."
+                              "Please describe why the post should not be on the website..."
                           }
                         })
                       ])

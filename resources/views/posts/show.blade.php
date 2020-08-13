@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', ucwords($asset->category->name . ' - ' . $asset->title))
+@section('title', ucwords($post->category->name . ' - ' . $post->title))
 
 @section('content')
 
@@ -10,11 +10,11 @@
     $visualArr = ['stock photos', 'logos', 'icons', 'vectors'];
     $audioArr = ['sound effects', 'music'];
     $videoArr = ['stock videos', 'intro'];
-    $categoryName = $asset->category->name;
+    $categoryName = $post->category->name;
 
 
-    $viewsCount = $asset->viewEventsCount();
-    $downloadsCount = $asset->downloadEventsCount();
+    $viewsCount = $post->viewEventsCount();
+    $downloadsCount = $post->downloadEventsCount();
 
     $viewsNumber = '';
     $downloadsNumber = '';
@@ -52,13 +52,13 @@
                 <div class="card-header bg-light">
                     <div>
                         <div class="card-header-img">
-                            <a target="_blank" href="{{ route('user.profile.show', ['username' => $asset->user->username]) }}"><img class="avatar-pic" src="{{ $asset->user->avatarUrl() }}"/></a>
+                            <a target="_blank" href="{{ route('user.profile.show', ['username' => $post->user->username]) }}"><img class="avatar-pic" src="{{ $post->user->avatarUrl() }}"/></a>
                         </div>
-                        <div class="card-header-text asset-card-user-text">
-                            <a target="_blank" href="{{ route('user.profile.show', ['username' => $asset->user->username]) }}">{{ $asset->user->username }}</a>
+                        <div class="card-header-text post-card-user-text">
+                            <a target="_blank" href="{{ route('user.profile.show', ['username' => $post->user->username]) }}">{{ $post->user->username }}</a>
                         </div>
                         <div class="float-right">
-                            <a target="_blank" href="{{ route('main.search.categories', ['category' => $asset->category->url]) }}" class="a-no-decoration">{{ strtoupper($asset->category->name) }}</a>
+                            <a target="_blank" href="{{ route('main.search.categories', ['category' => $post->category->url]) }}" class="a-no-decoration">{{ strtoupper($post->category->name) }}</a>
                         </div>
                     </div>
                 </div>
@@ -78,30 +78,30 @@
                             </ul>
                         </div>
                     @endif
-                    <h3 class="card-title my-2">{{$asset->title}}</h3>
+                    <h3 class="card-title my-2">{{$post->title}}</h3>
                         <div class="py-3">
                             @if(!empty($featured))
                                 @if(in_array($categoryName, $visualArr))
-                                    <img class="card-body-img" src="{{ Storage::cloud()->url($asset->cover()) }}" alt="{{ $asset->title }}">
+                                    <img class="card-body-img" src="{{ Storage::cloud()->url($post->cover()) }}" alt="{{ $post->title }}">
                                 @elseif(in_array($categoryName, $videoArr))
                                     <div>
-                                        <video muted width="100%" height="230" poster="{{ Storage::cloud()->url($asset->cover()) }}" preload="none">
-                                            <source src="{{ Storage::cloud()->url($asset->featured()) }}">
-                                            <p>Your browser doesn't support HTML5 audio. Download It <a class="a-no-decoration-white" href="{{ route('show.asset', ['url' => $asset->url]) }}"></a></p>
+                                        <video muted width="100%" height="230" poster="{{ Storage::cloud()->url($post->cover()) }}" preload="none">
+                                            <source src="{{ Storage::cloud()->url($post->featured()) }}">
+                                            <p>Your browser doesn't support HTML5 audio. Download It <a class="a-no-decoration-white" href="{{ route('show.post', ['url' => $post->url]) }}"></a></p>
                                         </video>
                                     </div>
                                 @elseif(in_array($categoryName, $audioArr))
                                     <div class="card card-shadow" style="width: 100%;">
-                                        <img class="card-img card-img-top" src="{{ Storage::cloud()->url($asset->cover()) }}" alt="{{ $asset->title }}">
+                                        <img class="card-img card-img-top" src="{{ Storage::cloud()->url($post->cover()) }}" alt="{{ $post->title }}">
                                         <div >
                                             <audio controls style="width:100%;">
-                                                <source src="{{ Storage::cloud()->url($asset->featured()) }}">
-                                                <p>Your browser doesn't support HTML5 audio. Download It <a class="a-no-decoration-white" href="{{ route('show.asset', ['url' => $asset->url]) }}"></a></p>
+                                                <source src="{{ Storage::cloud()->url($post->featured()) }}">
+                                                <p>Your browser doesn't support HTML5 audio. Download It <a class="a-no-decoration-white" href="{{ route('show.post', ['url' => $post->url]) }}"></a></p>
                                             </audio>
                                         </div>
                                     </div>
                                 @else
-                                    <img class="card-body-img" src="{{ Storage::cloud()->url($asset->cover()) }}" alt="{{ $asset->title }}">
+                                    <img class="card-body-img" src="{{ Storage::cloud()->url($post->cover()) }}" alt="{{ $post->title }}">
                                 @endif
                             @endif
                         </div>
@@ -109,13 +109,13 @@
                         <p class="mr-3">@svg('arrow-down', 'arrow-down-icon') {{ $downloadsNumber }} downloads</p>
                         <p>@svg('eye', 'eye-icon') {{ $viewsNumber }} views</p>
                     </div>
-                    @if($asset->description)
+                    @if($post->description)
                         <div class="my-5">
-                            <p class="card-text">{{$asset->description}}</p>
+                            <p class="card-text">{{$post->description}}</p>
                         </div>
                     @endif
                     <div class="pb-1 pt-3" style="line-height: 2rem">
-                        @foreach($asset->tags as $tag)
+                        @foreach($post->tags as $tag)
                             <a class="a-no-decoration" target="_blank" href="{{ route('main.search.tags', ['tag' => $tag->url]) }}"><span class="tag-span">{{strtoupper($tag->name)}}</span></a>
                         @endforeach
                     </div>
@@ -123,15 +123,15 @@
                 <div class="card-footer bg-light card-f">
                     <div class="card-footer-more">
                         <div class="float-left card-footer-date">
-                            <span>{{$asset->createdAt()}}</span>
+                            <span>{{$post->createdAt()}}</span>
                         </div>
                         <div class="dropdown">
                             <button class="btn btn-sm btn-light dropdown-toggle-comment float-right btn-no-padding" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 @svg('th-menu', 'menu-icon-comment')
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                @if(Auth::id() != $asset->user->id)
-                                    <button type="button" v-on:click="open_report_modal('{{ encrypt($asset->id) }}', '{{ route('add.report', ['type' => 'asset']) }}')" class="dropdown-item">Report</button>
+                                @if(Auth::id() != $post->user->id)
+                                    <button type="button" v-on:click="open_report_modal('{{ encrypt($post->id) }}', '{{ route('add.report', ['type' => 'post']) }}')" class="dropdown-item">Report</button>
                                 @elseif(!Auth::check())
                                     <a target="_blank" class="a-no-decoration dropdown-item" href="{{ route('login') }}">Report</a>
                                 @endif
@@ -147,7 +147,7 @@
                         <p class="mb-0">Add a Comment</p>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('add.comment', ['encryptedId' => encrypt($asset->id)]) }}">
+                        <form method="POST" action="{{ route('add.comment', ['encryptedId' => encrypt($post->id)]) }}">
                             @csrf
                             <div class="form-group">
                                 <textarea class="form-control" name="body">{{ old('body') }}</textarea>
@@ -172,14 +172,14 @@
 
         @endguest
             
-        @foreach($asset->comments as $comment)
+        @foreach($post->comments as $comment)
             <div class="card mb-3">
                 <div class="card-body">
                     <div class="row no-gutters">
                         <div class="col-md-1">
                             <div class="text-center">
                                 <a target="_blank" href="{{ route('user.profile.show', ['username' => $comment->user->username]) }}">
-                                    <img class="comment-user-img" src="{{ $asset->user->avatarUrl() }}" alt="{{ $comment->user->username }}"/>
+                                    <img class="comment-user-img" src="{{ $post->user->avatarUrl() }}" alt="{{ $comment->user->username }}"/>
                                 </a>
                             </div>
                             <div class="text-center comment-user-name">
@@ -204,7 +204,7 @@
                                             {!! method_field('DELETE') !!}
                                             <button class="btn btn-danger dropdown-item" type="submit">Delete</button>
                                         </form>
-                                    @elseif(Auth::id() == $asset->user->id)
+                                    @elseif(Auth::id() == $post->user->id)
                                         <form action="{{ route('delete.comment', ['id' => encrypt($comment->id)]) }}" method="POST" class="delete-comment">
                                             @csrf
                                             {!! method_field('DELETE') !!}
@@ -224,15 +224,15 @@
             </div>
         @endforeach
 
-        @if(!$relatedAssets->isEmpty())
+        @if(!$relatedPosts->isEmpty())
             <div class="py-2">
                 <h2>You May Also Like:</h2>
             </div>
             <div class="pb-5">
                 <div class="card-deck">
-                @foreach($relatedAssets as $relatedAsset)
+                @foreach($relatedPosts as $relatedPost)
                     <div class="py-2">
-                        <x-asset-card :asset="$relatedAsset"></x-asset-card>
+                        <x-post-card :post="$relatedPost"></x-post-card>
                     </div>
                 @endforeach    
                 </div>
@@ -242,7 +242,7 @@
         @hasanyrole('moderator|admin')
             <div>
                 <div class="block-button">
-                    <a target="_blank" href="{{route('admin.show.asset', ['id' => $asset->id])}}" target="_blank" class="btn btn-secondary btn-lg btn-block">Edit This asset</a>
+                    <a target="_blank" href="{{route('admin.show.post', ['id' => $post->id])}}" target="_blank" class="btn btn-secondary btn-lg btn-block">Edit This Post</a>
                 </div>
             </div>
         @endrole
@@ -258,13 +258,13 @@
                             @php
                                 $n = 1;
                             @endphp
-                            @foreach($asset->downloads as $download)
+                            @foreach($post->downloads as $download)
                                 <form action="{{ route('download.download') }}" method="post">
                                     <div class="row justify-content-center pb-3">
                                         <div class="col text-center">
                                             <p class="mb-1"><strong>File {{ $n }}:</strong> {{ Download::sizeFormat(Storage::cloud()->size($download->url)) }}</p>
                                             <input type="hidden" name="id" value="{{ encrypt($download->id) }}">
-                                            @if($asset->category->url == 'stock-photos')
+                                            @if($post->category->url == 'stock-photos')
                                                 <button class="btn btn-dark download-btn">{{ Download::getImageSize(Storage::cloud()->temporaryUrl($download->url, now()->addSeconds(4))) }}</button>
                                             @else
                                                 <button class="btn btn-dark download-btn">Download</button>
@@ -342,7 +342,7 @@
 <x-report>
 </x-report>
 
-<x-user-ad :user="$asset->user" :user-ad="$asset->user->approvedUserAd()">
+<x-user-ad :user="$post->user" :user-ad="$post->user->approvedUserAd()">
 </x-user-ad>
 
 @endsection
@@ -352,12 +352,12 @@
     <meta name="robots" content="index,follow">
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="{{ $asset->title }}" />
-    <meta property="og:description" content="Made by {{ $asset->user->username }}! Download {{ strtoupper($asset->category->name) }} Assets for Free on Genyoon!" />
+    <meta property="og:title" content="{{ $post->title }}" />
+    <meta property="og:description" content="Made by {{ $post->user->username }}! Download {{ strtoupper($post->category->name) }} Posts for Free on Genyoon!" />
     <meta property="og:url" content="{{ url()->current() }}" />
     <meta property="og:site_name" content="{{ config('app.name', 'Laravel') }}" />
-    <meta property="og:image" content="{{ Storage::cloud()->url($asset->cover()) }}">
-    <meta name="description" content="Download {{ strtoupper($asset->category->name) }} Assets for Free on Genyoon! Made by {{ $asset->user->username }}"/>
+    <meta property="og:image" content="{{ Storage::cloud()->url($post->cover()) }}">
+    <meta name="description" content="Download {{ strtoupper($post->category->name) }} Posts for Free on Genyoon! Made by {{ $post->user->username }}"/>
 @endpush
 
 

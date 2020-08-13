@@ -26,12 +26,12 @@ $(document).ready(function(){
         return confirm('Are you sure that you want to generate a new password for this user?');
     });
 
-    $('#delete-asset').on('submit', function(){
-        return confirm('Are you sure that you want to delete this asset?');
+    $('#delete-post').on('submit', function(){
+        return confirm('Are you sure that you want to delete this post?');
     });
 
-    $('#add-asset').click(function(){
-        if(confirm('Are you sure that you want to approve this asset?')){
+    $('#add-post').click(function(){
+        if(confirm('Are you sure that you want to approve this post?')){
             forms = $('.enabled-disabled');
             for(i = 0; i < forms.length; i++){
 
@@ -40,7 +40,7 @@ $(document).ready(function(){
                 }
             }
 
-            $('#add-asset-form').submit();
+            $('#add-post-form').submit();
 
         } else{
             return false;

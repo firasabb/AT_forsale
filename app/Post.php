@@ -6,17 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 
-class Asset extends Model
+class Post extends Model
 {
     
     use SoftDeletes;
 
-    public function approvedAssets(){
+    public function approvedPosts(){
         return $this->where('status', 2);
     }
 
     public function downloads(){
-        return $this->hasMany('\App\Download', 'asset_id');
+        return $this->hasMany('\App\Download', 'post_id');
     }
 
     public function user(){
@@ -34,7 +34,7 @@ class Asset extends Model
 
     public function comments()
     {
-        return $this->hasMany('\App\Comment', 'asset_id');
+        return $this->hasMany('\App\Comment', 'post_id');
     }
 
     public function reports()
@@ -97,13 +97,13 @@ class Asset extends Model
 
     public function createdAt(){
 
-        $assetDate = $this->created_at;
-        if($assetDate->isToday()){
-            return $assetDate->format('h:m A');
-        } else if($assetDate->isCurrentYear()){
-            return $assetDate->format('jS \\of F');
+        $postDate = $this->created_at;
+        if($postDate->isToday()){
+            return $postDate->format('h:m A');
+        } else if($postDate->isCurrentYear()){
+            return $postDate->format('jS \\of F');
         } else {
-            return $assetDate->format('jS \\of F Y');
+            return $postDate->format('jS \\of F Y');
         }
 
     }

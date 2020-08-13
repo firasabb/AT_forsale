@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col text-center">
             <div class="py-5">
-                <h2>My Assets</h2>
+                <h2>My Posts</h2>
             <div>
         </div>
     </div>
@@ -58,25 +58,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($assets as $asset)
+                        @foreach($posts as $post)
                             <tr>
                                 <td>
-                                    <a target="_blank" href="{{ route('show.asset', ['url' => $asset->url]) }}" class="a-no-decoration"><strong>{{ Str::limit($asset->title, 20, '...') }}</strong></a>
+                                    <a target="_blank" href="{{ route('show.post', ['url' => $post->url]) }}" class="a-no-decoration"><strong>{{ Str::limit($post->title, 20, '...') }}</strong></a>
                                 </td>
                                 <td>
-                                    {{ $asset->statusInText() }}
+                                    {{ $post->statusInText() }}
                                 </td>
                                 <td>
-                                    {{ $asset->viewEventsCount() }}
+                                    {{ $post->viewEventsCount() }}
                                 </td>
                                 <td>
-                                    {{ $asset->downloadEventsCount() }}
+                                    {{ $post->downloadEventsCount() }}
                                 </td>
                                 <td>
-                                    {{ $asset->created_at->format('m/d/y h:i') }}
+                                    {{ $post->created_at->format('m/d/y h:i') }}
                                 </td>
                                 <td>
-                                    <form class="delete-asset" method="POST" action="{{ route('user.delete.asset', ['id' => encrypt($asset->id)]) }}">
+                                    <form class="delete-post" method="POST" action="{{ route('user.delete.post', ['id' => encrypt($post->id)]) }}">
                                         @csrf
                                         {{ method_field('DELETE') }}
                                         <button class="btn btn-sm btn-danger">Delete</button>
@@ -84,8 +84,8 @@
                                 </td>
                             </tr>
                         @endforeach
-                        @if(empty($assets))
-                            <p>No assets have been published yet</p>
+                        @if(empty($posts))
+                            <p>No posts have been published yet</p>
                         @endif
                     </tbody>
                 </table>
@@ -95,7 +95,7 @@
     <div class="row py-3">
         <div class="col pagination-container">
             <div>
-                {{ $assets->links() }}
+                {{ $posts->links() }}
             </div>
         </div>
     </div>

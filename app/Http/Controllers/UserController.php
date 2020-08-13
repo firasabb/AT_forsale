@@ -29,10 +29,10 @@ class UserController extends Controller
     public function showProfile($username){
 
         $user = User::where('username', $username)->firstOrFail();
-        $approvedAssets = $user->approvedAssets;
-        $categories = DB::table('assets')->select('categories.*')->distinct()->where([['user_id', $user->id], ['status', 2]])->join('categories', 'assets.category_id', '=', 'categories.id')->get();
+        $approvedPosts = $user->approvedPosts;
+        $categories = DB::table('posts')->select('categories.*')->distinct()->where([['user_id', $user->id], ['status', 2]])->join('categories', 'posts.category_id', '=', 'categories.id')->get();
         $dashboard = false;
-        return view('users.profile', ['user' => $user, 'approvedAssets' => $approvedAssets, 'categories' => $categories, 'dashboard' => $dashboard]);
+        return view('users.profile', ['user' => $user, 'approvedPosts' => $approvedPosts, 'categories' => $categories, 'dashboard' => $dashboard]);
 
     }
 
@@ -40,10 +40,10 @@ class UserController extends Controller
     public function showMyProfile(){
 
         $user = Auth::user();
-        $approvedAssets = $user->approvedAssets;
-        $categories = DB::table('assets')->select('categories.*')->distinct()->where([['user_id', $user->id], ['status', 2]])->join('categories', 'assets.category_id', '=', 'categories.id')->get();
+        $approvedPosts = $user->approvedPosts;
+        $categories = DB::table('posts')->select('categories.*')->distinct()->where([['user_id', $user->id], ['status', 2]])->join('categories', 'posts.category_id', '=', 'categories.id')->get();
         $dashboard = true;
-        return view('users.profile', ['user' => $user, 'approvedAssets' => $approvedAssets, 'categories' => $categories, 'dashboard' => $dashboard]);
+        return view('users.profile', ['user' => $user, 'approvedPosts' => $approvedPosts, 'categories' => $categories, 'dashboard' => $dashboard]);
 
     }
 
@@ -283,14 +283,14 @@ class UserController extends Controller
 
 
     /**
-     * Show assets in the user's dashboard
+     * Show posts in the user's dashboard
      * @return Response
      */
-    public function myAssetsPage(){
+    public function myPostsPage(){
 
         $user = Auth::user();
-        $assets = $user->assets()->orderBy('id', 'desc')->paginate(10);
-        return view('users.myAssets', ['assets' => $assets]);
+        $posts = $user->posts()->orderBy('id', 'desc')->paginate(10);
+        return view('users.myPosts', ['posts' => $posts]);
     }
 
 

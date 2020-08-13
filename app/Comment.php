@@ -14,8 +14,8 @@ class Comment extends Model
         return $this->belongsTo('\App\User');
     }
 
-    public function asset(){
-        return $this->belongsTo('\App\Asset');
+    public function post(){
+        return $this->belongsTo('\App\Post');
     }
 
     public function upvotes(){

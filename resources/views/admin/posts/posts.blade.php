@@ -5,17 +5,17 @@
 <div class="container-fluid">
     <div class="row justify-content-center search-row">
         <div class="col-md-12 search-col">
-            <form method="post" action="{{ route('admin.search.assets') }}">
+            <form method="post" action="{{ route('admin.search.posts') }}">
                 {!! csrf_field() !!}
                 <div class="form-row" >
                     <div class="col">
                         <input type='number' name='id' placeholder="ID" class="form-control" value="{{ old('id') }}"/>
                     </div>
                     <div class="col">
-                        <input type='text' name='title' placeholder="Asset Title" class="form-control" value="{{ old('title') }}"/>
+                        <input type='text' name='title' placeholder="Post Title" class="form-control" value="{{ old('title') }}"/>
                     </div>
                     <div class="col">
-                        <input type='text' name='url' placeholder="Asset URL" class="form-control" value="{{ old('url') }}"/>
+                        <input type='text' name='url' placeholder="Post URL" class="form-control" value="{{ old('url') }}"/>
                     </div>
                     <div class="col-sm-1">
                         <input type='submit' value='search' class="btn btn-primary"/>
@@ -27,7 +27,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Assets</div>
+                <div class="card-header">Posts</div>
 
                 <div class="card-body">
                     @if ($errors->any())
@@ -66,27 +66,27 @@
                                 Actions
                             </th>   
                         </tr>
-                        @foreach ($assets as $asset)
+                        @foreach ($posts as $post)
                             <tr>
                                 <td>
-                                    {{$asset->id}}
+                                    {{$post->id}}
                                 </td>
                                 <td>
-                                    {{ Str::limit($asset->title, $limit = 20, $end = '...') }}
+                                    {{ Str::limit($post->title, $limit = 20, $end = '...') }}
                                 </td>
                                 <td>
-                                    <a target="_blank" href="{{ route('show.asset', ['url' => $asset->url]) }}">{{ Str::limit($asset->url, $limit = 20, $end = '...') }}</a>
+                                    <a target="_blank" href="{{ route('show.post', ['url' => $post->url]) }}">{{ Str::limit($post->url, $limit = 20, $end = '...') }}</a>
                                 </td>
                                 <td>
-                                    {{ $asset->category->name }}
+                                    {{ $post->category->name }}
                                 </td>
                                 <td>
-                                    {{ $asset->downloads->count() }}
+                                    {{ $post->downloads->count() }}
                                 </td>
                                 <td>
                                     <div class="td-actions-btns">
-                                        <a href="{{ route('admin.show.asset', ['id' => $asset->id]) }}" class="btn btn-success">Show/Edit</a>
-                                        <form action="{{ route('admin.delete.asset', ['id' => $asset->id]) }}" method="POST" class="delete-form-1 delete-form-confirm">
+                                        <a href="{{ route('admin.show.post', ['id' => $post->id]) }}" class="btn btn-success">Show/Edit</a>
+                                        <form action="{{ route('admin.delete.post', ['id' => $post->id]) }}" method="POST" class="delete-form-1 delete-form-confirm">
                                             {!! csrf_field() !!}
                                             {!! method_field('DELETE') !!}
                                             <button class="btn btn-danger" type="submit">Delete</button>
@@ -96,11 +96,11 @@
                             </tr>
                         @endforeach
                     </table>
-                    {{ $assets->links() }}
+                    {{ $posts->links() }}
                 </div>
             </div>
             <div class="block-button">
-                <a href="{{route('create.asset')}}" target="_blank" class="btn btn-primary btn-lg btn-block">Add Asset</a>
+                <a href="{{route('create.post')}}" target="_blank" class="btn btn-primary btn-lg btn-block">Add Post</a>
             </div>
 
         </div>

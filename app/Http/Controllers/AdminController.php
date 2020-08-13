@@ -32,7 +32,9 @@ class AdminController extends Controller
      */
     public function index(){
 
-        return view('admin.dashboard');
+        $activeUsers = new User();
+        $activeUsers = $activeUsers->activeUsers()->count();
+        return view('admin.dashboard', ['activeUsers' => $activeUsers]);
     }
 
 

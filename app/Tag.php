@@ -23,9 +23,9 @@ class Tag extends Model implements Searchable
      }
 
 
-    public function assets()
+    public function posts()
     {
-        return $this->morphedByMany('App\Asset', 'taggable');
+        return $this->morphedByMany('App\Post', 'taggable');
     }
 
 
@@ -34,7 +34,7 @@ class Tag extends Model implements Searchable
     }
 
 
-    public function approvedAssets(){
-        return $this->assets()->where('status', 2);
+    public function approvedPosts(){
+        return $this->posts()->where('status', 2);
     }
 }

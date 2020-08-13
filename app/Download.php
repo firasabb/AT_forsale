@@ -11,9 +11,9 @@ class Download extends Model
     
     use SoftDeletes;
 
-    public function asset(){
+    public function post(){
 
-        return $this->belongsTo('\App\Asset');
+        return $this->belongsTo('\App\Post');
 
     }
 

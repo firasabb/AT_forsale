@@ -9,7 +9,7 @@
                 <h2>My Ad</h2>
             </div>
             <div class="pb-5">
-                <p>This ad will show up everytime someone clicks the download button of one of your assets.<br>You can customize as you like!</p>
+                <p>This ad will show up everytime someone clicks the download button of one of your posts.<br>You can customize as you like!</p>
             </div>
         </div>
     </div>

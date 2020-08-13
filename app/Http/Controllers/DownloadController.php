@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Download;
 use App\DownloadEvent;
-use App\Asset;
+use App\Post;
 use Auth;
 use Storage;
 use Validator;
@@ -45,12 +45,12 @@ class DownloadController extends Controller
         $encrypt_id = $request->id;
         $id = decrypt($encrypt_id);
         $download = Download::findOrFail($id);
-        $asset = $download->asset;
+        $post = $download->post;
         $downloadEvent = new DownloadEvent();
-        $downloadEvent->asset()->associate($asset);
+        $downloadEvent->post()->associate($post);
         $downloadEvent->download()->associate($download);
 
-        $checkPastDownloads = $asset->downloadEvents()->where(function($query) use ($ip, $id) {
+        $checkPastDownloads = $post->downloadEvents()->where(function($query) use ($ip, $id) {
             $query->where('download_id', $id);
             if(Auth::check()){
                 $query->where('ip_address', $ip)->orWhere('user_id', Auth::id());
@@ -62,19 +62,19 @@ class DownloadController extends Controller
             $downloadEvent = new DownloadEvent();
             $downloadEvent->ip_address = $ip;
             $downloadEvent->download_id = $id;
-            $downloadEvent->asset()->associate($asset);
+            $downloadEvent->post()->associate($post);
             if(Auth::check()){
                 $downloadEvent->user()->associate(Auth::user());
             }
             $downloadEvent->save();
         }
-        $asset = $download->asset;
+        $post = $download->post;
         $path = $download->getPath();
         $mime = $download->getMime();
         $url = Storage::cloud()->temporaryUrl($download->url, now()->addSeconds(10));
         header("Cache-Control: public");
         header("Content-Description: File Transfer");
-        header("Content-Disposition: attachment; filename=" . Str::slug($asset->title, '-') . '.' . $mime);
+        header("Content-Disposition: attachment; filename=" . Str::slug($post->title, '-') . '.' . $mime);
         header("Content-Type: " . $mime);
         return readfile($url);
 
@@ -84,13 +84,13 @@ class DownloadController extends Controller
     public function adminDownloadDownload($id){
 
         $download = Download::findOrFail($id);
-        $asset = $download->asset;
+        $post = $download->post;
         $path = $download->getPath();
         $mime = $download->getMime();
         $url = Storage::cloud()->temporaryUrl($download->url, now()->addSeconds(10));
         header("Cache-Control: public");
         header("Content-Description: File Transfer");
-        header("Content-Disposition: attachment; filename=" . Str::slug($asset->title, '-') . '.' . $mime);
+        header("Content-Disposition: attachment; filename=" . Str::slug($post->title, '-') . '.' . $mime);
         header("Content-Type: " . $mime);
         return readfile($url);
 
@@ -120,7 +120,7 @@ class DownloadController extends Controller
     /**
      * 
      * 
-     * Add a Download File For an Asset Only for Admins and Moderators
+     * Add a Download File For an Post Only for Admins and Moderators
      * @param Integer id 
      * @return Response
      * 
@@ -134,8 +134,8 @@ class DownloadController extends Controller
             
         $upload = $request->upload;
 
-        $asset = Asset::findOrFail($id);
-        if($asset->downloads->count() < 5){
+        $post = Post::findOrFail($id);
+        if($post->downloads->count() < 5){
 
             $download = new Download();
             $name = $upload->getClientOriginalName();
@@ -144,7 +144,7 @@ class DownloadController extends Controller
             $download->name = $name;
             $path = $upload->store('downloads', 's3');
             $download->url = $path;
-            $asset->downloads()->save($download);
+            $post->downloads()->save($download);
 
             return back()->with('status', 'A Download Has Been Added Successfully.');
         }

@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @php
-    $title = !empty($reqCategory) ? ucwords($reqCategory) : 'Assets';
+    $title = !empty($reqCategory) ? ucwords($reqCategory) : 'Posts';
     $title = 'Free Royalty-Free ' . $title;
 @endphp
 
@@ -39,14 +39,14 @@
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card-deck">
-                @foreach($assets as $asset)
+                @foreach($posts as $post)
                     <div class="pb-4">
-                        <x-asset-card :asset="$asset"/>
+                        <x-post-card :post="$post"/>
                     </div>
                 @endforeach 
             </div>
             <div class="py-5 text-center">
-                {{ $assets->links() }}
+                {{ $posts->links() }}
             </div>
         </div>
     </div>
@@ -58,9 +58,9 @@
     <meta name="robots" content="index,follow">
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="{{ config('app.name', 'Laravel') }} - Discover The Latest Free Assets!" />
-    <meta property="og:description" content="Discover and Download Top Free Royalty-Free Assets!"/>
+    <meta property="og:title" content="{{ config('app.name', 'Laravel') }} - Discover The Latest Free Posts!" />
+    <meta property="og:description" content="Discover and Download Top Free Royalty-Free Posts!"/>
     <meta property="og:url" content="{{ url()->current() }}" />
     <meta property="og:site_name" content="{{ config('app.name', 'Laravel') }}" />
-    <meta name="description" content="Discover and Download Top Free Royalty-Free Assets!"/>
+    <meta name="description" content="Discover and Download Top Free Royalty-Free Posts!"/>
 @endpush

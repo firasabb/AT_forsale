@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAssetLicenseTable extends Migration
+class CreatePostLicenseTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateAssetLicenseTable extends Migration
      */
     public function up()
     {
-        Schema::create('asset_license', function (Blueprint $table) {
+        Schema::create('post_license', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('asset_id');
+            $table->unsignedBigInteger('post_id');
             $table->unsignedBigInteger('license_id');
             $table->timestamps();
 
-            $table->foreign('asset_id')->references('id')->on('assets')->onDelete('cascade');
+            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
             $table->foreign('license_id')->references('id')->on('licenses')->onDelete('cascade');
         });
     }
@@ -31,6 +31,6 @@ class CreateAssetLicenseTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('asset_license');
+        Schema::dropIfExists('post_license');
     }
 }

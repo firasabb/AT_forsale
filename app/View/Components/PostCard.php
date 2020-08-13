@@ -4,7 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class AssetCard extends Component
+class PostCard extends Component
 {
 
     /**
@@ -15,19 +15,19 @@ class AssetCard extends Component
      * 
      */
 
-    public $asset;
+    public $post;
 
 
     /**
      * Create a new component instance.
      *  
-     * @param Object $asset
+     * @param Object $post
      * 
      * @return void
      */
-    public function __construct($asset)
+    public function __construct($post)
     {
-        $this->asset = $asset;
+        $this->post = $post;
     }
 
     /**
@@ -37,6 +37,6 @@ class AssetCard extends Component
      */
     public function render()
     {
-        return view('components.asset-card');
+        return view('components.post-card');
     }
 }

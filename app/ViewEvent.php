@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class ViewEvent extends Model
 {
-    public function asset(){
-        return $this->belongsTo('\App\Asset');
+    public function post(){
+        return $this->belongsTo('\App\Post');
     }
 
     public function user(){

@@ -1,4 +1,10 @@
 
+/**
+** 
+** Global
+**
+**/
+
 td form{
     display: inline-block;
 }
@@ -58,10 +64,13 @@ td form{
 }
 
 
-.delete-asset-container{
+.delete-post-container{
     margin: 0.5rem 0;
 }
 
+.block-button{
+    padding-top: 2rem;
+}
 
 // Search Rows and Columns
 
@@ -75,11 +84,68 @@ td form{
 }
 
 
+/**
+**
+**  Side Navbar
+**
+**/
 
+.side-navbar{
+    flex-flow: column nowrap;
+}
+
+.side-navbar #navbarSupportedContent{
+    width: 100%;
+}
+
+.side-navbar ul{
+    min-height: 95vh;
+    list-style: none;
+    padding-left: 0;
+    width: 100%;
+}
+
+.side-navbar li {
+    padding: 0.8rem 1rem;
+    font-size: 1rem;
+    border-bottom: 1px solid rgb(233, 233, 233);
+}
+
+.side-navbar .btn-group{
+    width: 100%;
+}
+
+.side-navbar-a{
+    color: #212529;
+}
+
+.side-navbar-a:hover{
+    text-decoration: none;
+    color: #212529;
+}
+
+.side-navbar-dropdown-btn{
+    width: 100%;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    text-align: left;
+}
+
+.side-navbar li{
+    transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+}
+
+.side-navbar li:hover{
+    background-color: #f6f5f5;
+}
 
 /**
 **
-** Asset Approve page
+** Post Approve page
 **
 **/
 
@@ -109,7 +175,7 @@ td form{
 
 /**
 **
-**  Admin Edit Asset Page
+**  Admin Edit Post Page
 **  
 **
 **/

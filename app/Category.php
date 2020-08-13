@@ -11,12 +11,12 @@ class Category extends Model
 
     protected $appends = ['background_color'];
     
-    public function assets(){
-        return $this->hasMany('\App\Asset');
+    public function posts(){
+        return $this->hasMany('\App\Post');
     }
 
-    public function approvedAssets(){
-        return $this->hasMany('\App\Asset')->where('status', 2);
+    public function approvedPosts(){
+        return $this->hasMany('\App\Post')->where('status', 2);
     }
 
     public function contests(){

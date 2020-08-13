@@ -6,7 +6,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header"><a href="{{ route('show.asset', ['url' => $asset->url]) }}">{{$asset->title}}</a></div>
+                <div class="card-header"><a href="{{ route('show.post', ['url' => $post->url]) }}">{{$post->title}}</a></div>
 
                 <div class="card-body">
                     @if ($errors->any())
@@ -25,24 +25,24 @@
                     @endif
 
                     <div class="text-center p-3">
-                        <h5>Added by: <a href="{{ url('admin/dashboard/user/' . $asset->user->id) }}">{{ $asset->user->username }}</a></h5>
+                        <h5>Added by: <a href="{{ url('admin/dashboard/user/' . $post->user->id) }}">{{ $post->user->username }}</a></h5>
                     </div>
 
-                    <form method="POST" action="{{ route('admin.edit.asset', ['id' => $asset->id]) }}" class="edit-form-confirm" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('admin.edit.post', ['id' => $post->id]) }}" class="edit-form-confirm" enctype="multipart/form-data">
                         {!! csrf_field() !!}
                         {!! method_field('PUT') !!}
 
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="title">Asset:</label>
-                                    <input class="form-control enabled-disabled" type="text" name="title"  value="{{ $asset->title }}" placeholder="Title" disabled/>
+                                    <label for="title">Post:</label>
+                                    <input class="form-control enabled-disabled" type="text" name="title"  value="{{ $post->title }}" placeholder="Title" disabled/>
                                 </div>
                             </div>
                             <div class="col">
                                 <div>
                                     <label for="url">URL:</label>
-                                    <input class="form-control enabled-disabled" type="text" name="url"  value="{{ $asset->url }}" placeholder="Url" disabled/>
+                                    <input class="form-control enabled-disabled" type="text" name="url"  value="{{ $post->url }}" placeholder="Url" disabled/>
                                 </div>
                             </div>
                         </div>
@@ -50,7 +50,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="description">Description:</label>
-                                    <textarea class="form-control enabled-disabled" name="description" disabled>{{ $asset->description }}</textarea>
+                                    <textarea class="form-control enabled-disabled" name="description" disabled>{{ $post->description }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -59,7 +59,7 @@
                                 <label for="category">Category:</label>
                                 <select class="form-control enabled-disabled" name="category_id" disabled>
                                     @foreach($categories as $category)
-                                        <option value="{{ $category->id }}" <?php echo $category->id == $asset->category_id ? 'Selected' : ''; ?>>{{ $category->name }}</option>
+                                        <option value="{{ $category->id }}" <?php echo $category->id == $post->category_id ? 'Selected' : ''; ?>>{{ $category->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -69,13 +69,13 @@
                                 <label for="tags">Tags:</label>
                                 <div class="selected-tags">
                                     <ul id="selected-tags-ul" class="selected-tags-ul list-group list-group-horizontal">
-                                    @foreach($asset->tags as $tag)
+                                    @foreach($post->tags as $tag)
                                         <li class="list-group-item list-group-item-primary selected-tags-li">{{ $tag->name }}</li>
                                     @endforeach
                                     </ul>
                                 </div>
                                 <div class="tag-container">
-                                    <input type="hidden" name="tags" id="hidden-tag-input" value="<?php $i=0; foreach($asset->tags as $tag){ $i++; if($i < count($asset->tags)){echo $tag->name . ', ';} else { echo $tag->name; }} ?>"/>
+                                    <input type="hidden" name="tags" id="hidden-tag-input" value="<?php $i=0; foreach($post->tags as $tag){ $i++; if($i < count($post->tags)){echo $tag->name . ', ';} else { echo $tag->name; }} ?>"/>
                                     <input class="form-control enabled-disabled" id="tag-input" type="text" disabled/>
                                 </div>
                                 <ul id="tags" class="list-group">
@@ -113,13 +113,13 @@
                         <div class="row info-row">
                             <div class="col">
                                 <h5>Created at:</h1>
-                                <p>{{ $asset->created_at }}</p>
+                                <p>{{ $post->created_at }}</p>
                                 <h5>Updated at:</h1>
-                                <p>{{ $asset->updated_at }}</p>
+                                <p>{{ $post->updated_at }}</p>
                             </div>
                             <div class="col">
                                 <h5>ID:</h1>
-                                <p>{{ $asset->id }}</p>
+                                <p>{{ $post->id }}</p>
                             </div>
                         </div>
                     </form>
@@ -127,11 +127,11 @@
             </div>
 
             <div class="block-button">
-                <button type="button" class="btn btn-success btn-lg btn-block" id="edit-button">Edit Asset</button>
-                <form action="{{ route('admin.delete.asset', ['id' => $asset->id]) }}" method="POST" class="delete-form-2 delete-form-confirm">
+                <button type="button" class="btn btn-success btn-lg btn-block" id="edit-button">Edit Post</button>
+                <form action="{{ route('admin.delete.post', ['id' => $post->id]) }}" method="POST" class="delete-form-2 delete-form-confirm">
                     {!! csrf_field() !!}
                     {!! method_field('DELETE') !!}
-                    <button type="submit" class="btn btn-danger btn-lg btn-block">Delete Asset</button>
+                    <button type="submit" class="btn btn-danger btn-lg btn-block">Delete Post</button>
                 </form>
             </div>
 
@@ -186,7 +186,7 @@
         <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                <form method="POST" action="{{ route('admin.download.add', ['assetId' => $asset->id]) }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('admin.download.add', ['postId' => $post->id]) }}" enctype="multipart/form-data">
                         {!! csrf_field() !!}
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Add Download</h5>

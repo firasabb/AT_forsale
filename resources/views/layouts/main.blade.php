@@ -80,7 +80,7 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
-                        <a class="btn btn-primary mr-5 my-1" target="_blank" href="{{ route('create.asset') }}"><i class="fa fa-arrow-up"></i>  Upload</a>
+                        <a class="btn btn-primary mr-5 my-1" target="_blank" href="{{ route('create.post') }}"><i class="fa fa-arrow-up"></i>  Upload</a>
                         @guest
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}"><strong>{{ __('Login') }}</strong></a>

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Report;
-use App\Asset;
+use App\Post;
 use App\Comment;
 use Illuminate\Http\Request;
 use Validator;
@@ -60,13 +60,13 @@ class ReportController extends Controller
 
         switch($type){
 
-            case 'asset':
+            case 'post':
                 $_q = decrypt($request->_q);
                 $user = Auth::user();
-                $asset = Asset::findOrFail($_q);
+                $post = Post::findOrFail($_q);
                 $report = new Report();
                 $report->body = $request->body;
-                $report->reportable()->associate($asset);
+                $report->reportable()->associate($post);
                 $user->reports()->save($report);
                 $report->save();
                 return back()->with('status', 'Your report has been successfully submitted! Thank you for helping us making our website a better place.');

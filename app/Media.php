@@ -11,8 +11,8 @@ class Media extends Model
 
     use SoftDeletes;
 
-    public function assets(){
-        return $this->morphedByMany('App\Asset', 'mediable');
+    public function posts(){
+        return $this->morphedByMany('App\Post', 'mediable');
     }
 
     public function users(){

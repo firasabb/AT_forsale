@@ -42,15 +42,15 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
 
-    public function assets(){
+    public function posts(){
 
-        return $this->hasMany('\App\Asset');
+        return $this->hasMany('\App\Post');
 
     }
 
-    public function approvedAssets(){
+    public function approvedPosts(){
 
-        return $this->assets()->where('status', 2);
+        return $this->posts()->where('status', 2);
 
     }
 
@@ -108,6 +108,15 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function medias(){
         return $this->morphToMany('App\Media', 'mediable');
+    }
+
+    /**
+     * 
+     * Get Active Users
+     * 
+     */
+    public function activeUsers(){
+        return $this->where('status', 1);
     }
 
     public function avatar(){

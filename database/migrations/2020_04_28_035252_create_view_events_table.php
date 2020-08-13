@@ -15,12 +15,12 @@ class CreateViewEventsTable extends Migration
     {
         Schema::create('view_events', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('asset_id');
+            $table->unsignedBigInteger('post_id');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('ip_address', 45)->nullable();
             $table->timestamps();
 
-            $table->foreign('asset_id')->references('id')->on('assets')->onDelete('cascade');
+            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
         });
     }

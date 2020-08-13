@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Upload an Asset')
+@section('title', 'Upload a Post')
 
 @section('content')
 <div class="container mt-5 mb-5">
@@ -26,7 +26,7 @@
                     </div>
                 </div>
             @endif
-            <category obj="Asset" categories="{{ json_encode($categories) }}"></category>
+            <category obj="Post" categories="{{ json_encode($categories) }}"></category>
         </div>
     </div>
 </div>

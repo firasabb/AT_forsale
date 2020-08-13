@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Upload an Asset')
+@section('title', 'Upload an Post')
 
 @section('content')
 <div class="container py-5">
@@ -44,18 +44,18 @@
                 <div class="card-header">Add Your {{ucwords($category->name)}}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('create.asset', ['category' => $category->url]) }}" class="needs-validation" autocomplete="off" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('create.post', ['category' => $category->url]) }}" class="needs-validation" autocomplete="off" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
-                            <label for="assets-title">Title: <span class="info-questionmark" data-toggle="tooltip" data-placement="top" title="Type a beautiful and eye-catching text, which will be the title of your asset">?</span></label>
+                            <label for="posts-title">Title: <span class="info-questionmark" data-toggle="tooltip" data-placement="top" title="Type a beautiful and eye-catching text, which will be the title of your post">?</span></label>
                             <input class="form-control" type="text" name="title" placeholder="What is The Largest Galaxy in Our Universe?" value="{{ old('title') }}" required maxlength="200" minlength="15"/>
                             <div class="invalid-feedback">
-                                    Please provide a valid asset: maximum allowed number of characters is 300 and minimum number is 15.
+                                    Please provide a valid post: maximum allowed number of characters is 300 and minimum number is 15.
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="asset-description">Description: <span class="info-questionmark" data-toggle="tooltip" data-placement="top" title="Describe your asset story, features and uses.">?</span></label>
-                            <textarea class="form-control" type="text" name="description" placeholder="Add a description to your asset..." maxlength="500">{{ old('description') }}</textarea>
+                            <label for="post-description">Description: <span class="info-questionmark" data-toggle="tooltip" data-placement="top" title="Describe your post story, features and uses.">?</span></label>
+                            <textarea class="form-control" type="text" name="description" placeholder="Add a description to your post..." maxlength="500">{{ old('description') }}</textarea>
                             <div class="invalid-feedback">
                                     Please provide a valid description: maximum allowed number of characters is 1000.
                             </div>
@@ -70,7 +70,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="asset-tags">Tags: <span class="info-questionmark" data-toggle="tooltip" data-placement="top" title="Select top tags which matches your asset's concept, uses, features and subject. These tags can increase your asset's visitors and views.">?</span></label>
+                            <label for="post-tags">Tags: <span class="info-questionmark" data-toggle="tooltip" data-placement="top" title="Select top tags which matches your post's concept, uses, features and subject. These tags can increase your post's visitors and views.">?</span></label>
                             <div class="selected-tags">
                                 <ul id="selected-tags-ul" class="selected-tags-ul list-group list-group-horizontal">
                                 </ul>
@@ -84,7 +84,7 @@
                         @if($category->name != 'stock photos')
                             <div class="form-row pt-5">
                                 <div class="col">
-                                    <p style="font-size: 0.7rem">*Upload a Featured Media File of Your Asset Which Will Work as A Preview... For example, Upload an MP3 or WAV for a Music or a Sound Effect Asset, an MP4 File for a Stock Video Asset, Or an JPG or PNG for a Stock Photo Asset...</p>
+                                    <p style="font-size: 0.7rem">*Upload a Featured Media File of Your Post Which Will Work as A Preview... For example, Upload an MP3 or WAV for a Music or a Sound Effect Post, an MP4 File for a Stock Video Post, Or an JPG or PNG for a Stock Photo Post...</p>
                                 </div>
                             </div>
                         @endif
@@ -92,25 +92,25 @@
                             @if($category->name != 'stock photos')
                                 <div class="custom-file form-group col-6">
                                     <input type="file" name="featured" class="custom-file-input">
-                                    <label class="custom-file-label" for="asset-featured">Featured Media</label>
+                                    <label class="custom-file-label" for="post-featured">Featured Media</label>
                                 </div>
                             @endif
                             <div class="custom-file form-group col-6">
                                 <input type="file" name="cover" class="custom-file-input">
-                                <label class="custom-file-label" for="asset-featured">Cover Image</label>
+                                <label class="custom-file-label" for="post-featured">Cover Image</label>
                             </div>
                         </div>
                         <div class="uploads">
-                            <label for="asset-uploads">Upload Your Files: <span class="info-questionmark" data-toggle="tooltip" data-placement="top" title="Here you can upload your files which are downloadable by the user, you can add from 1 to 5 files for your asset">?</span></label>
+                            <label for="post-uploads">Upload Your Files: <span class="info-questionmark" data-toggle="tooltip" data-placement="top" title="Here you can upload your files which are downloadable by the user, you can add from 1 to 5 files for your post">?</span></label>
                             <div class="form-group upload-form-group">
                                 <input type="file" name="uploads[0]" maxlength="200" placeholder="Option 1..."  />
                                 <span class="delete-upload-btn">x</span>
                             </div>
                         </div>
                         <button type="button" class="btn add-download-btn" id="add-download">+ File</button>
-                        <div class="create-asset-btns">
+                        <div class="create-post-btns">
                             <input type="hidden" name="type" id="type_field">
-                            <button type="submit" class="btn btn-primary submit-asset-btn">Submit</button>
+                            <button type="submit" class="btn btn-primary submit-post-btn">Submit</button>
                         </div>
                     </form>
                 </div>

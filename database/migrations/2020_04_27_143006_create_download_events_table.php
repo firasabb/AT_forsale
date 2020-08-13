@@ -17,13 +17,13 @@ class CreateDownloadEventsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('download_id')->nullable();
-            $table->unsignedBigInteger('asset_id')->nullable();
+            $table->unsignedBigInteger('post_id')->nullable();
             $table->string('ip_address', 45)->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('download_id')->references('id')->on('downloads')->onDelete('set null');
-            $table->foreign('asset_id')->references('id')->on('assets')->onDelete('set null');
+            $table->foreign('post_id')->references('id')->on('posts')->onDelete('set null');
         });
     }
 

@@ -9,7 +9,7 @@ class License extends Model
 {
     use SoftDeletes;
 
-    public function assets(){
-        return $this->belongsToMany('\App\Asset');
+    public function posts(){
+        return $this->belongsToMany('\App\Post');
     }
 }

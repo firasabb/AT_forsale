@@ -7,20 +7,20 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class AssetRejected extends Notification
+class PostApproved extends Notification
 {
     use Queueable;
-    
-    public $asset;
+
+    public $post;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($asset)
+    public function __construct($post)
     {
-        $this->asset = $asset;
+        $this->post = $post;
     }
 
     /**
@@ -43,9 +43,9 @@ class AssetRejected extends Notification
     public function toMail($notifiable)
     {
 
-        $url = $this->asset->url;
-        
-        return (new MailMessage)->from('no-reply@genyoon.com', 'Genyoon')->subject('Asset Submission Review')->markdown('mail.assets.assetRejected', ['url' => $url]);
+        $url = $this->post->url;
+
+        return (new MailMessage)->from('no-reply@genyoon.com', 'Genyoon')->subject('Your Post is Approved!')->markdown('mail.posts.postApproved', ['url' => $url]);
     }
 
     /**

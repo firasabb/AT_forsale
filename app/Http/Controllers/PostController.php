@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Asset;
+use App\Post;
 use App\Tag;
 use App\Category;
 use App\Download;
@@ -10,8 +10,8 @@ use App\Media;
 use App\DownloadEvent;
 use App\ViewEvent;
 use App\License;
-use App\Notifications\AssetApproved;
-use App\Notifications\AssetRejected;
+use App\Notifications\PostApproved;
+use App\Notifications\PostRejected;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Validator;
@@ -21,7 +21,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 
-class AssetController extends Controller
+class PostController extends Controller
 {
 
 
@@ -40,7 +40,7 @@ class AssetController extends Controller
     /**
      * 
      * 
-     * Display the Asset
+     * Display the Post
      * @param String url
      * @return Response
      * 
@@ -51,23 +51,23 @@ class AssetController extends Controller
         // get the user to check if admin or moderator
         $user = Auth::user();
 
-        // if admin then show the asset even if it is not approved
+        // if admin then show the post even if it is not approved
         if($user){
             if($user->hasAnyRole(['admin', 'moderator'])){
-                $asset = Asset::where('url', $url)->with('user')->firstOrFail();
+                $post = Post::where('url', $url)->with('user')->firstOrFail();
             } else {
-                $asset = Asset::where([['url', $url], ['status', 2]])->with('user')->firstOrFail();
+                $post = Post::where([['url', $url], ['status', 2]])->with('user')->firstOrFail();
             }
         } else {
-            $asset = Asset::where([['url', $url], ['status', 2]])->with('user')->firstOrFail();
+            $post = Post::where([['url', $url], ['status', 2]])->with('user')->firstOrFail();
         }
-        $featured = $asset->featured();
-        $license = $asset->licenses()->first();
-        $category = $asset->category;
-        $relatedAssets = $category->approvedAssets()->inRandomOrder()->where('id', '!=', $asset->id)->take(6)->get();
-        $dataArr = ['asset' => $asset, 'featured' => $featured, 'license' => $license, 'relatedAssets' => $relatedAssets];
+        $featured = $post->featured();
+        $license = $post->licenses()->first();
+        $category = $post->category;
+        $relatedPosts = $category->approvedPosts()->inRandomOrder()->where('id', '!=', $post->id)->take(6)->get();
+        $dataArr = ['post' => $post, 'featured' => $featured, 'license' => $license, 'relatedPosts' => $relatedPosts];
         $ip = $_SERVER['REMOTE_ADDR'];
-        $checkPastViews = $asset->viewEvents()->where(function($query) use ($ip) {
+        $checkPastViews = $post->viewEvents()->where(function($query) use ($ip) {
             if(Auth::check()){
                 $query->where('ip_address', $ip)->orWhere('user_id', Auth::id());
             } else {
@@ -77,7 +77,7 @@ class AssetController extends Controller
         if(empty($checkPastViews->first())){
             $viewEvent = new ViewEvent();
             $viewEvent->ip_address = $ip;
-            $viewEvent->asset()->associate($asset);
+            $viewEvent->post()->associate($post);
             if(Auth::check()){
                 $viewEvent->user()->associate(Auth::user());
             }
@@ -86,30 +86,30 @@ class AssetController extends Controller
         $checkPastDownloads = DownloadEvent::whereDate('created_at', Carbon::today())->count();
         //if($checkPastDownloads > 2 && !Auth::check()){
             //$error = 'Maximum limit of downloads per day has been reached. Please log in or register to continue.';
-            //return view('assets.show', $dataArr)->withErrors($error);
+            //return view('posts.show', $dataArr)->withErrors($error);
         //}
-        return view('assets.show', $dataArr);
+        return view('posts.show', $dataArr);
 
     }
 
 
     /**
-     * Display assets that are not approved yet.
+     * Display posts that are not approved yet.
      *
      * @return \Illuminate\Http\Response
      */
     public function indexToApprove()
     {
-        $asset = Asset::where('status', 1)->orderBy('id', 'asc')->first();
-        if(!empty($asset)){
+        $post = Post::where('status', 1)->orderBy('id', 'asc')->first();
+        if(!empty($post)){
             $categories = Category::all()->load('medias')->flatten();
-            $featured = $asset->medias()->where('sorting', 1)->first();
-            $cover = $asset->medias()->where('sorting', 2)->first();
-            $assets = Asset::where('status', 1)->orderBy('id', 'asc');
-            $downloads = $asset->downloads;
-            return view('admin.assets.indexToApprove', ['asset' => $asset, 'categories' => $categories, 'featured' => $featured, 'cover' => $cover, 'downloads' => $downloads]);
+            $featured = $post->medias()->where('sorting', 1)->first();
+            $cover = $post->medias()->where('sorting', 2)->first();
+            $posts = Post::where('status', 1)->orderBy('id', 'asc');
+            $downloads = $post->downloads;
+            return view('admin.posts.indexToApprove', ['post' => $post, 'categories' => $categories, 'featured' => $featured, 'cover' => $cover, 'downloads' => $downloads]);
         }
-        return view('admin.assets.indexToApprove');
+        return view('admin.posts.indexToApprove');
 
     }
 
@@ -125,7 +125,7 @@ class AssetController extends Controller
 
             $category = Category::where('url', $categoryUrl)->firstOrFail();
             $licenses = License::all();
-            return view('assets.create', ['category' => $category, 'licenses' => $licenses]);
+            return view('posts.create', ['category' => $category, 'licenses' => $licenses]);
 
         }
         $categories = Category::with(['medias'])->get();
@@ -173,21 +173,21 @@ class AssetController extends Controller
 
         $unique = uniqid();
 
-        $asset = new Asset();
-        $asset->title = $request->title;
-        $asset->description = $request->description;
-        $asset->user_id = $user->id;
-        $url = Str::slug($asset->title, '-');
-        $checkIfUrlExists = Asset::withTrashed()->where('url', 'LIKE', $url)->first();
+        $post = new Post();
+        $post->title = $request->title;
+        $post->description = $request->description;
+        $post->user_id = $user->id;
+        $url = Str::slug($post->title, '-');
+        $checkIfUrlExists = Post::withTrashed()->where('url', 'LIKE', $url)->first();
         if($checkIfUrlExists){
             $url = $url . '-' . $unique;
         }
-        $asset->url = $url;
+        $post->url = $url;
         if($user->hasAnyRole('admin', 'moderator')){
-            $asset->status = 2;
+            $post->status = 2;
         }
-        $asset->category()->associate($category);
-        $asset->save();
+        $post->category()->associate($category);
+        $post->save();
 
         // Featured Media
         $featured = $request->featured;
@@ -198,7 +198,7 @@ class AssetController extends Controller
             $media->url = $path;
             $media->public_url = Storage::cloud()->url($path);
             $media->save();
-            $asset->medias()->attach($media);
+            $post->medias()->attach($media);
         }
 
         // Cover
@@ -210,7 +210,7 @@ class AssetController extends Controller
             $media->sorting = 2;
             $media->public_url = Storage::cloud()->url($path);
             $media->save();
-            $asset->medias()->attach($media);
+            $post->medias()->attach($media);
         }
 
 
@@ -226,7 +226,7 @@ class AssetController extends Controller
                 $download->extension = $extension;
                 $path = $upload->store('downloads', 's3');
                 $download->url = $path;
-                $asset->downloads()->save($download);
+                $post->downloads()->save($download);
             }
         }
 
@@ -235,25 +235,25 @@ class AssetController extends Controller
         $tags = explode(', ', $tags);
         foreach($tags as $tag){
             $tag = Tag::Where('name', 'LIKE', $tag)->firstOrFail();
-            $asset->tags()->attach($tag);
+            $post->tags()->attach($tag);
         }
 
         // Licenses
         $license = $request->license;
         $license = License::where('name', 'LIKE', $license)->firstOrFail();
-        $asset->licenses()->attach($license);
+        $post->licenses()->attach($license);
 
         if($user->hasAnyRole('admin', 'moderator')){
-            return redirect()->route('admin.index.assets')->with('status', 'A New Asset Has Been Created');
+            return redirect()->route('admin.index.posts')->with('status', 'A New Post Has Been Created');
         }
 
-        return redirect()->route('user.assets.show')->with('status', 'Your Asset Has Been Created! Once it is approved, it is going to be public...');
+        return redirect()->route('user.posts.show')->with('status', 'Your Post Has Been Created! Once it is approved, it is going to be public...');
 
     }
 
     /** 
     *
-    * Approve the asset for users not admins
+    * Approve the post for users not admins
     *
     * @param Request
     * @return Response
@@ -267,31 +267,31 @@ class AssetController extends Controller
     }
 
 
-    public function adminIndex($assets = null)
+    public function adminIndex($posts = null)
     {
-        if(!$assets){
-            $assets = Asset::where('status', 2)->orderBy('id', 'desc')->paginate(10);
+        if(!$posts){
+            $posts = Post::where('status', 2)->orderBy('id', 'desc')->paginate(10);
         } else {
-            $assets = $assets->paginate(20);
+            $posts = $posts->paginate(20);
         }
-        return view('admin.assets.assets', ['assets' => $assets]);
+        return view('admin.posts.posts', ['posts' => $posts]);
     }
 
 
     public function adminShow($id)
     {
-        $asset = Asset::findOrFail($id);
+        $post = Post::findOrFail($id);
         $categories = Category::all();
-        $featured = $asset->medias()->where('sorting', 'featured')->first();
-        $cover = $asset->medias()->where('sorting', 'cover')->first();
-        $downloads = $asset->downloads;
-        return view('admin.assets.show', ['asset' => $asset, 'featured' => $featured, 'cover' => $cover, 'downloads' => $downloads, 'categories' => $categories]);
+        $featured = $post->medias()->where('sorting', 'featured')->first();
+        $cover = $post->medias()->where('sorting', 'cover')->first();
+        $downloads = $post->downloads;
+        return view('admin.posts.show', ['post' => $post, 'featured' => $featured, 'cover' => $cover, 'downloads' => $downloads, 'categories' => $categories]);
     }
 
 
     /**
      * 
-     * Update the asset
+     * Update the post
      * @param request
      * @return response
      * 
@@ -304,49 +304,49 @@ class AssetController extends Controller
 
     public function adminDestroy($id)
     {
-        $asset = Asset::findOrFail($id);
-        $downloads = $asset->downloads;
+        $post = Post::findOrFail($id);
+        $downloads = $post->downloads;
         foreach($downloads as $download){
             Storage::cloud()->delete($download->url);
         }
-        $medias = $asset->medias;
+        $medias = $post->medias;
         if(!empty($medias)){
             foreach($medias as $media){
                 Storage::cloud()->delete($media->url);
                 $media->delete();
             }
         }
-        $asset->delete();
-        return redirect('/admin/dashboard/assets/')->with('status', 'The asset has been deleted!');
+        $post->delete();
+        return redirect('/admin/dashboard/posts/')->with('status', 'The post has been deleted!');
     }
 
 
 
     public function adminDisapprove($id)
     {
-        $asset = Asset::findOrFail($id);
-        $downloads = $asset->downloads;
+        $post = Post::findOrFail($id);
+        $downloads = $post->downloads;
         foreach($downloads as $download){
             Storage::cloud()->delete($download->url);
         }
-        $medias = $asset->medias;
+        $medias = $post->medias;
         if(!empty($medias)){
             foreach($medias as $media){
                 Storage::cloud()->delete($media->url);
                 $media->delete();
             }
         }
-        $asset->status = 0;
-        $asset->save();
+        $post->status = 0;
+        $post->save();
 
         // Notify the user
-        $asset->user->notify(new AssetRejected($asset));
+        $post->user->notify(new PostRejected($post));
 
-        return redirect('/admin/dashboard/assets/')->with('status', 'The asset has been disapproved!');
+        return redirect('/admin/dashboard/posts/')->with('status', 'The post has been disapproved!');
     }
 
 
-    public function adminSearchAssets(Request $request){
+    public function adminSearchPosts(Request $request){
         
         $validator = Validator::make($request->all(), [
             'id' => 'integer|nullable',
@@ -355,7 +355,7 @@ class AssetController extends Controller
         ]);
 
         if($validator->fails() || empty($request->all())){
-            return redirect()->route('admin.index.assets')->withErrors($validator)->withInput();
+            return redirect()->route('admin.index.posts')->withErrors($validator)->withInput();
         }
 
         $id = $request->id;
@@ -381,30 +381,30 @@ class AssetController extends Controller
 
         }
 
-        $assets = Asset::where($where_arr);
+        $posts = Post::where($where_arr);
 
-        if(empty($assets)){
+        if(empty($posts)){
             return $this->adminIndex();
         }
-        return $this->adminIndex($assets);
+        return $this->adminIndex($posts);
     }
 
 
 
     /**
      * 
-     * Helper Method To Approve Or Edit The Asset
+     * Helper Method To Approve Or Edit The Post
      * @param Integer id
      * @param Integer status
      * 
      */
     private function editOrApprove($id, $request, $status = null){
 
-        $asset = Asset::findOrFail($id);
+        $post = Post::findOrFail($id);
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|min:15|max:200',
             'description' => 'string|max:500|nullable',
-            'url' => ['string', Rule::unique('assets', 'url')->ignore($asset->url, 'url')],
+            'url' => ['string', Rule::unique('posts', 'url')->ignore($post->url, 'url')],
             'category_id' => 'integer',
             'cover' => 'max:1000|image|nullable|clamav',
             'featured' => 'file|max:20000|mimes:jpeg,bmp,png,mpeg4-generic,ogg,x-wav,x-msvideo,x-ms-wmv,wav,mpga,mp4,x-ms-wmv,x-msvideo|nullable|clamav',
@@ -413,14 +413,14 @@ class AssetController extends Controller
         ]);
 
         if($validator->fails()){
-            return redirect()->route('admin.show.asset', ['id' => $id])->withErrors($validator)->withInput();
+            return redirect()->route('admin.show.post', ['id' => $id])->withErrors($validator)->withInput();
         } 
 
-        $asset->title = $request->title;
-        $asset->url = $request->url;
-        $asset->description = $request->description;
+        $post->title = $request->title;
+        $post->url = $request->url;
+        $post->description = $request->description;
         $category = Category::findOrFail($request->category_id);
-        $asset->category()->associate($category);
+        $post->category()->associate($category);
         $tagsArr = array();
         $tags = $request->tags;
         $tags = explode(', ', $tags);
@@ -428,13 +428,13 @@ class AssetController extends Controller
             $tag = Tag::where('name', 'LIKE', $tag)->first();
             array_push($tagsArr, $tag->id);
         }
-        $asset->tags()->sync($tagsArr);
+        $post->tags()->sync($tagsArr);
 
         // If there is a cover upload delete the old one if exists
         // And make a new media cover file
         $cover = $request->cover;
         if($cover){
-            $oldCover = $asset->originalCover();
+            $oldCover = $post->originalCover();
             if(!empty($oldCover)){
                 Storage::cloud()->delete($oldCover->url);
                 $oldCover->delete();
@@ -445,7 +445,7 @@ class AssetController extends Controller
             $media->sorting = 2;
             $media->public_url = Storage::cloud()->url($path);
             $media->save();
-            $asset->medias()->attach($media);
+            $post->medias()->attach($media);
         }
 
 
@@ -453,7 +453,7 @@ class AssetController extends Controller
         // And make a new media cover file
         $featured = $request->featured;
         if($featured){
-            $oldFeatured = $asset->originalFeatured();
+            $oldFeatured = $post->originalFeatured();
             if(!empty($oldFeatured)){
                 Storage::cloud()->delete($oldFeatured->url);
                 $oldFeatured->delete();
@@ -464,27 +464,27 @@ class AssetController extends Controller
             $media->url = $path;
             $media->public_url = Storage::cloud()->url($path);
             $media->save();
-            $asset->medias()->attach($media);
+            $post->medias()->attach($media);
         }
 
         // If the argument status is set then approve if not edit
         if($status){
-            $asset->status = $status;
-            $asset->save();
+            $post->status = $status;
+            $post->save();
             
             // Notify
-            $asset->user->notify(new AssetApproved($asset));
+            $post->user->notify(new PostApproved($post));
 
-            return redirect('/admin/dashboard/approve/assets')->with('status', 'The asset has been approved!');
+            return redirect('/admin/dashboard/approve/posts')->with('status', 'The post has been approved!');
         }
-        $asset->save();
-        return redirect()->route('admin.show.asset', ['id' => $id])->with('status', 'This asset has been edited');
+        $post->save();
+        return redirect()->route('admin.show.post', ['id' => $id])->with('status', 'This post has been edited');
     }
 
 
     /**
      * 
-     * Delete Asset By User
+     * Delete Post By User
      * @param Request $request
      * @param Integer $id
      * @return Response
@@ -494,9 +494,9 @@ class AssetController extends Controller
 
         $id = decrypt($id);
         $user = Auth::user();
-        $asset = $user->assets()->findOrFail($id);
-        $asset->delete();
-        return back()->with('status', 'Your Asset Has Been Deleted!');
+        $post = $user->posts()->findOrFail($id);
+        $post->delete();
+        return back()->with('status', 'Your Post Has Been Deleted!');
     }
 
 }

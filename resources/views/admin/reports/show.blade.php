@@ -43,8 +43,8 @@
                         </div>
                         <div class="col">
                             <div class="text-center p-3">
-                            @if($report->reportable_type == 'App\Asset')
-                                <h5>Reported ID: <a href="{{ route('show.asset', ['url' => $report->reportable->url]) }}">{{ $report->reportable->id }}</a></h5>
+                            @if($report->reportable_type == 'App\Post')
+                                <h5>Reported ID: <a href="{{ route('show.post', ['url' => $report->reportable->url]) }}">{{ $report->reportable->id }}</a></h5>
                             @endif
                             </div>
                         </div>
