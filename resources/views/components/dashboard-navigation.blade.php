@@ -15,13 +15,12 @@
         </a>
     </div>
     <div class="list-group list-group-flush navigation-dashboard-list">
-        <a href="{{route('user.profile.dashboard.show')}}" class="list-group-item list-group-item-action no-border"><span class="dashboard-icon-span">@svg('user', 'dashboard-icon')</span> My Profile</a>
-        <a href="{{route('user.setup.show')}}" class="list-group-item list-group-item-action no-border"><span class="dashboard-icon-span">@svg('edit', 'dashboard-icon')</span> Edit Profile</a>
-        <a href="{{route('user.password.show')}}" class="list-group-item list-group-item-action no-border"><span class="dashboard-icon-span">@svg('lock-closed', 'dashboard-icon')</span> Change Password</a>
-        <a href="{{route('user.posts.show')}}" class="list-group-item list-group-item-action no-border"><span class="dashboard-icon-span">@svg('th-list', 'dashboard-icon')</span> My Posts</a>
-        <a href="{{ route('user.userad.show') }}" class="list-group-item list-group-item-action no-border"><span class="dashboard-icon-span">@svg('code', 'dashboard-icon')</span> My Ad</a>
+        <a href="{{route('user.profile.dashboard.show')}}" class="list-group-item list-group-item-action no-border"><span class="dashboard-icon-span">@svg('user', 'dashboard-icon')</span> {{ __('main.My Profile') }}</a>
+        <a href="{{route('user.setup.show')}}" class="list-group-item list-group-item-action no-border"><span class="dashboard-icon-span">@svg('edit', 'dashboard-icon')</span> {{ __('main.Edit Profile') }}</a>
+        <a href="{{route('user.password.show')}}" class="list-group-item list-group-item-action no-border"><span class="dashboard-icon-span">@svg('lock-closed', 'dashboard-icon')</span> {{ __('main.Change Password') }}</a>
+        <a href="{{route('user.posts.show')}}" class="list-group-item list-group-item-action no-border"><span class="dashboard-icon-span">@svg('th-list', 'dashboard-icon')</span> {{ __('main.My Posts') }}</a>
     </div>
     <div class="py-3 text-center">
-        <a target="_blank" href="{{ route('create.post') }}" class="btn btn-primary">Upload&nbsp;&nbsp;@svg('upload', 'dashboard-upload-icon')</a>
+        <a target="_blank" href="{{ route('create.post') }}" class="btn btn-primary">{{ __('main.upload') }}&nbsp;&nbsp;@svg('upload', 'dashboard-upload-icon')</a>
     </div>
 </div>

@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Upload an Post')
+@section('title', __('main.upload') )
 
 @section('content')
 <div class="container py-5">
@@ -28,20 +28,20 @@
             @endif
 
             <div class="card mb-5">
-                <div class="card-header">Rules and Requirements:</div>
+                <div class="card-header">{{ __('main.Rules and Requirements') }}:</div>
                 <div class="card-body">
                     <ul class="list-group">
-                        <li class="list-group-item no-border">- Your work should be completed. Unfinished work will not get approved.</li>
-                        <li class="list-group-item no-border">- Your work has never been licensed under a different license than Creative Commons.</li>
-                        <li class="list-group-item no-border">- Your work should not contain any pornography or NSFW media.</li>
-                        <li class="list-group-item no-border">- Your work has never been published under a different person's name.</li>
-                        <li class="list-group-item no-border">- The maximum size of each file should not exceed 100 Migabytes.</li>
+                        <li class="list-group-item no-border">- {{ __('main.Rule 1') }}</li>
+                        <li class="list-group-item no-border">- {{ __('main.Rule 2') }}</li>
+                        <li class="list-group-item no-border">- {{ __('main.Rule 3') }}</li>
+                        <li class="list-group-item no-border">- {{ __('main.Rule 4') }}</li>
+                        <li class="list-group-item no-border">- {{ __('main.Rule 5') }}</li>
                     </ul>
                 </div>
             </div>
 
             <div class="card card-shadow">
-                <div class="card-header">Add Your {{ucwords($category->name)}}</div>
+                <div class="card-header">{{ __('main.upload') }}</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('create.post', ['category' => $category->url]) }}" class="needs-validation" autocomplete="off" enctype="multipart/form-data">
@@ -50,19 +50,18 @@
                             <label for="posts-title">Title: <span class="info-questionmark" data-toggle="tooltip" data-placement="top" title="Type a beautiful and eye-catching text, which will be the title of your post">?</span></label>
                             <input class="form-control" type="text" name="title" placeholder="What is The Largest Galaxy in Our Universe?" value="{{ old('title') }}" required maxlength="200" minlength="15"/>
                             <div class="invalid-feedback">
-                                    Please provide a valid post: maximum allowed number of characters is 300 and minimum number is 15.
+                                {{ __('main.invalid post title') }}
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="post-description">Description: <span class="info-questionmark" data-toggle="tooltip" data-placement="top" title="Describe your post story, features and uses.">?</span></label>
                             <textarea class="form-control" type="text" name="description" placeholder="Add a description to your post..." maxlength="500">{{ old('description') }}</textarea>
                             <div class="invalid-feedback">
-                                    Please provide a valid description: maximum allowed number of characters is 1000.
+                                {{ __('main.invalid post description') }}
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="license">License:</label>
-                            <p style="font-size:0.7rem;">You can read more about the licenses here: <a href="https://creativecommons.org/licenses/" target="_blank">Creative Commons</a></p>
                             <select name="license" class="form-control" id="license">
                                 @foreach($licenses as $license)
                                     <option value="{{ $license->name }}">{{ $license->name }}</option>
@@ -70,7 +69,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="post-tags">Tags: <span class="info-questionmark" data-toggle="tooltip" data-placement="top" title="Select top tags which matches your post's concept, uses, features and subject. These tags can increase your post's visitors and views.">?</span></label>
+                            <label for="post-tags">Tags:</label>
                             <div class="selected-tags">
                                 <ul id="selected-tags-ul" class="selected-tags-ul list-group list-group-horizontal">
                                 </ul>
@@ -81,13 +80,6 @@
                             </div>
                             <ul id="tags" class="list-group">
                         </div>
-                        @if($category->name != 'stock photos')
-                            <div class="form-row pt-5">
-                                <div class="col">
-                                    <p style="font-size: 0.7rem">*Upload a Featured Media File of Your Post Which Will Work as A Preview... For example, Upload an MP3 or WAV for a Music or a Sound Effect Post, an MP4 File for a Stock Video Post, Or an JPG or PNG for a Stock Photo Post...</p>
-                                </div>
-                            </div>
-                        @endif
                         <div class="form-row featured-media">
                             @if($category->name != 'stock photos')
                                 <div class="custom-file form-group col-6">
@@ -101,16 +93,16 @@
                             </div>
                         </div>
                         <div class="uploads">
-                            <label for="post-uploads">Upload Your Files: <span class="info-questionmark" data-toggle="tooltip" data-placement="top" title="Here you can upload your files which are downloadable by the user, you can add from 1 to 5 files for your post">?</span></label>
+                            <label for="post-uploads">{{ __('main.upload files here') }}:</label>
                             <div class="form-group upload-form-group">
-                                <input type="file" name="uploads[0]" maxlength="200" placeholder="Option 1..."  />
+                                <input type="file" name="uploads[0]" maxlength="200" />
                                 <span class="delete-upload-btn">x</span>
                             </div>
                         </div>
-                        <button type="button" class="btn add-download-btn" id="add-download">+ File</button>
+                        <button type="button" class="btn add-download-btn" id="add-download">{{ __('main.+ file') }}</button>
                         <div class="create-post-btns">
                             <input type="hidden" name="type" id="type_field">
-                            <button type="submit" class="btn btn-primary submit-post-btn">Submit</button>
+                            <button type="submit" class="btn btn-primary submit-post-btn">{{ __('main.submit') }}</button>
                         </div>
                     </form>
                 </div>

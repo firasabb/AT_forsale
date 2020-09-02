@@ -9,16 +9,16 @@
                 {!! csrf_field() !!}
                 <div class="form-row" >
                     <div class="col">
-                        <input type='number' name='id' placeholder="ID" class="form-control" value="{{ old('id') }}"/>
+                        <input type='number' name='id' placeholder="{{ __('main.ID') }}" class="form-control" value="{{ old('id') }}"/>
                     </div>
                     <div class="col">
-                        <input type='text' name='title' placeholder="Post Title" class="form-control" value="{{ old('title') }}"/>
+                        <input type='text' name='title' placeholder="{{ __('main.title') }}" class="form-control" value="{{ old('title') }}"/>
                     </div>
                     <div class="col">
-                        <input type='text' name='url' placeholder="Post URL" class="form-control" value="{{ old('url') }}"/>
+                        <input type='text' name='url' placeholder="{{ __('main.URL') }}" class="form-control" value="{{ old('url') }}"/>
                     </div>
                     <div class="col-sm-1">
-                        <input type='submit' value='search' class="btn btn-primary"/>
+                        <input type='submit' value="{{ __('main.search') }}" class="btn btn-primary"/>
                     </div>
                 </div>
             </form>
@@ -48,22 +48,22 @@
                     <table class="table">
                         <tr>
                             <th>
-                                ID
+                                {{ __('main.ID') }}
                             </th>
                             <th>
-                                Title
+                                {{ __('main.title') }}
                             </th>
                             <th>
-                                URL
+                                {{ __('main.URL') }}
                             </th>
                             <th>
-                                Category
+                                {{ __('main.category') }}
                             </th>
                             <th>
-                                Download Files
+                                {{ __('main.Download Files') }}
                             </th>
                             <th class="td-actions">
-                                Actions
+                                {{ __('main.actions') }}
                             </th>   
                         </tr>
                         @foreach ($posts as $post)
@@ -85,11 +85,11 @@
                                 </td>
                                 <td>
                                     <div class="td-actions-btns">
-                                        <a href="{{ route('admin.show.post', ['id' => $post->id]) }}" class="btn btn-success">Show/Edit</a>
+                                        <a href="{{ route('admin.show.post', ['id' => $post->id]) }}" class="btn btn-success">{{ __('main.show/edit') }}</a>
                                         <form action="{{ route('admin.delete.post', ['id' => $post->id]) }}" method="POST" class="delete-form-1 delete-form-confirm">
                                             {!! csrf_field() !!}
                                             {!! method_field('DELETE') !!}
-                                            <button class="btn btn-danger" type="submit">Delete</button>
+                                            <button class="btn btn-danger" type="submit">{{ __('main.delete') }}</button>
                                         </form>
                                     </div>
                                 </td>
@@ -100,7 +100,7 @@
                 </div>
             </div>
             <div class="block-button">
-                <a href="{{route('create.post')}}" target="_blank" class="btn btn-primary btn-lg btn-block">Add Post</a>
+                <a href="{{route('create.post')}}" target="_blank" class="btn btn-primary btn-lg btn-block">{{ __('main.add') }}</a>
             </div>
 
         </div>

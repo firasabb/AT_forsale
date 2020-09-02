@@ -9,13 +9,13 @@
                 {!! csrf_field() !!}
                 <div class="form-row" >
                     <div class="col">
-                        <input type='number' name='id' placeholder="ID" class="form-control" value="{{ old('id') }}"/>
+                        <input type='number' name='id' placeholder="{{ __('main.id') }}" class="form-control" value="{{ old('id') }}"/>
                     </div>
                     <div class="col">
-                        <input type='text' name='name' placeholder="Tag Name" class="form-control" value="{{ old('name') }}"/>
+                        <input type='text' name='name' placeholder="{{ __('main.name') }}" class="form-control" value="{{ old('name') }}"/>
                     </div>
                     <div class="col-sm-1">
-                        <input type='submit' value='search' class="btn btn-primary"/>
+                        <input type='submit' value="{{ __('main.search') }}" class="btn btn-primary"/>
                     </div>
                 </div>
             </form>
@@ -24,7 +24,7 @@
     <div class="row justify-content-center">
         <div class="col">
             <div class="card">
-                <div class="card-header">Tags</div>
+                <div class="card-header">{{ __('main.tags') }}</div>
 
                 <div class="card-body">
                     @if ($errors->any())
@@ -45,19 +45,19 @@
                     <table class="table">
                         <tr>
                             <th>
-                                ID
+                                {{ __('main.ID') }}
                             </th>
                             <th>
-                                Name
+                                {{ __('main.name') }}
                             </th>
                             <th>
-                                URL
+                                {{ __('main.url') }}
                             </th>
                             <th>
-                                Categories
+                                {{ __('main.categories') }}
                             </th>
                             <th class="td-actions">
-                                Actions
+                                {{ __('main.actions') }}
                             </th>   
                         </tr>
                         @foreach ($tags as $tag)
@@ -80,11 +80,11 @@
                                 </td>
                                 <td>
                                     <div class="td-actions-btns">
-                                        <a href="{{ route('admin.show.tag', ['id' => $tag->id]) }}" class="btn btn-success">Show/Edit</a>
+                                        <a href="{{ route('admin.show.tag', ['id' => $tag->id]) }}" class="btn btn-success">{{ __('main.show/edit') }}</a>
                                         <form action="{{ route('admin.delete.tag', ['id' => $tag->id]) }}" method="POST" class="delete-form-1 delete-form-confirm">
                                             {!! csrf_field() !!}
                                             {!! method_field('DELETE') !!}
-                                            <button class="btn btn-danger" type="submit">Delete</button>
+                                            <button class="btn btn-danger" type="submit">{{ __('main.delete') }}</button>
                                         </form>
                                     </div>
                                 </td>
@@ -95,10 +95,10 @@
                 </div>
             </div>
             <div class="block-button pt-4">
-                <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#addModal">Add Tag</button>
+                <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#addModal">{{ __('main.Add Tag') }}</button>
             </div>
             <div class="block-button py-4">
-                <a href="{{ route('admin.bulk.add.form.tags') }}" class="btn btn-secondary btn-lg btn-block">Add Tags</a>
+                <a href="{{ route('admin.bulk.add.form.tags') }}" class="btn btn-secondary btn-lg btn-block">{{ __('main.Add Tags') }}</a>
             </div>
 
             <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -107,7 +107,7 @@
                     <form method="POST" action="{{ route('admin.add.tag') }}">
                             {!! csrf_field() !!}
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Add Tag</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">{{ __('main.Add Tag') }}</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -140,8 +140,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button name="action" type="submit" class="btn btn-primary">Add</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('main.close') }}</button>
+                            <button name="action" type="submit" class="btn btn-primary">{{ __('main.add') }}</button>
                         </div>
                     </form>
                     </div>

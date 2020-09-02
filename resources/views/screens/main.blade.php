@@ -10,7 +10,7 @@
             @csrf
             <div class="row justify-content-center">
                 <div class="col search-form-title mb-3">
-                    <h2>Search and Explore All The Free Posts</h2>
+                    <h2>{{ __('main.search and explore') }}</h2>
                 </div>
             </div>
             <div class="row justify-content-center">
@@ -29,7 +29,7 @@
                     </div>
                 </div>
                 <div class="col-sm-2 mt-3">
-                    <button class="btn btn-dark search-btn" type="submit">Search</button>
+                    <button class="btn btn-dark search-btn" type="submit">{{ __('main.search') }}</button>
                 </div>
             </div>
         </form>
@@ -48,7 +48,7 @@
         @endforeach
     </div>
     <div class="pt-5 text-center">
-        <a class="btn btn-primary" href="{{ route('main.search.categories', ['category' => 'stock-photos']) }}">View All</a>
+        <a class="btn btn-primary" href="{{ route('main.search.categories', ['category' => 'stock-photos']) }}">{{ __('main.view all') }}</a>
     </div>
 </div>
 
@@ -64,7 +64,7 @@
         @endforeach
     </div>
     <div class="pt-5 text-center">
-        <a class="btn btn-primary" href="{{ route('main.search.categories', ['category' => 'sound-effects']) }}">View All</a>
+        <a class="btn btn-primary" href="{{ route('main.search.categories', ['category' => 'sound-effects']) }}">{{ __('main.view all') }}</a>
     </div>
 </div>
 

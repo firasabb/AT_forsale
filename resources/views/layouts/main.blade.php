@@ -80,7 +80,7 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
-                        <a class="btn btn-primary mr-5 my-1" target="_blank" href="{{ route('create.post') }}"><i class="fa fa-arrow-up"></i>  Upload</a>
+                        <a class="btn btn-primary mr-5 my-1" target="_blank" href="{{ route('create.post') }}"><i class="fa fa-arrow-up"></i>  {{ __('main.upload') }}</a>
                         @guest
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}"><strong>{{ __('Login') }}</strong></a>
@@ -98,11 +98,11 @@
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     @if(Auth::user()->hasRole('admin'))
                                     <a class="dropdown-item" href="{{ url('/admin/dashboard/') }}">
-                                        Admin Panel
+                                        {{ __('main.admin panel') }}
                                     </a>
                                     @endif
                                     <a class="dropdown-item" href="{{ route('user.profile.dashboard.show') }}">
-                                        Dashboard
+                                        {{ __('main.dashboard') }}
                                     </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
@@ -129,10 +129,10 @@
         <div class="py-5">
             <div class="py-1 text-center">
                 <ul>
-                    <li><a class="a-no-decoration-white" target="_blank" href="{{ url('/page/privacy-policy') }}">Privacy Policy</a></li>
-                    <li><a class="a-no-decoration-white pl-4" target="_blank" href="{{ url('/page/terms-of-service') }}">Terms of Service</a></li>
-                    <li><a class="a-no-decoration-white pl-4" target="_blank" href="{{ url('/page/cookies-policy') }}">Cookies Policy</a></li>
-                    <li><a class="a-no-decoration-white pl-4" target="_blank" href="{{ route('create.contactus') }}">Contact Us</a></li>
+                    <li><a class="a-no-decoration-white" target="_blank" href="{{ url('/page/privacy-policy') }}">{{ __('main.privacy policy') }}</a></li>
+                    <li><a class="a-no-decoration-white pl-4" target="_blank" href="{{ url('/page/terms-of-service') }}">{{ __('main.terms of service') }}</a></li>
+                    <li><a class="a-no-decoration-white pl-4" target="_blank" href="{{ url('/page/cookies-policy') }}">{{ __('main.cookies policy') }}</a></li>
+                    <li><a class="a-no-decoration-white pl-4" target="_blank" href="{{ route('create.contactus') }}">{{ __('main.contact us') }}</a></li>
                 </ul>
             </div>
             <div class="text-center">

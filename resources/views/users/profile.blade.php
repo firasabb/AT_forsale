@@ -31,7 +31,7 @@
                                 <div class="profile-numbers">
                                     <div class="text-center">
                                         <p>{{ $approvedPosts->count() }}</p>
-                                        <p>PostS</p>
+                                        <p>{{ __('main.posts') }}</p>
                                     </div>
                                     <!--<div class="ml-4 text-center">
                                         <p>0</p>
@@ -46,7 +46,7 @@
                     @if(!empty($categories))
                         <div class="text-center py-5">
                             <div class="posts-container-title">
-                                <h4 class="m-0">PUBLISHED PostS</h4>
+                                <h4 class="m-0">{{ __('main.published posts') }}</h4>
                             </div>
                         </div>
                         @foreach($categories as $category)

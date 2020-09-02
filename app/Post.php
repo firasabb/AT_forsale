@@ -46,6 +46,10 @@ class Post extends Model
         return $this->morphToMany('App\Media', 'mediable');
     }
 
+    public function publishedPosts(){
+        return $this->where('status', 2);
+    }
+
     public function cover(){
         $check_if_exists = $this->medias->where('sorting', 2)->first();
         if(empty($check_if_exists)){

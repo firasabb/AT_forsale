@@ -72,7 +72,7 @@ class EmailCampaignController extends Controller
     public function adminShow($id)
     {
         $emailCampaign = EmailCampaign::findOrFail($id);
-        return view('admin.emailcampaign.show', ['emailCampaign' => $emailCampaign]);
+        return view('admin.emailcampaigns.show', ['emailCampaign' => $emailCampaign]);
     }
 
     /**

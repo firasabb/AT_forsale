@@ -27,19 +27,19 @@
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
-                                <input class="form-control enabled-disabled" type="text" name="name"  value="{{ $message->title }}" placeholder="Name" disabled/>
+                                <input class="form-control enabled-disabled" type="text" name="name"  value="{{ $message->title }}" placeholder="{{ __('main.name') }}" disabled/>
                             </div>
                         </div>
                         <div class="col">
                             <div>
-                                <input class="form-control enabled-disabled" type="text" name="url"  value="{{ $message->sender_email }}" placeholder="Url" disabled/>
+                                <input class="form-control enabled-disabled" type="text" name="url"  value="{{ $message->sender_email }}" placeholder="{{ __('main.Sender Email') }}" disabled/>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
                             <div>
-                                <input class="form-control enabled-disabled" type="text" name="link"  value="{{ $message->sender_name }}" placeholder="Url" disabled/>
+                                <input class="form-control enabled-disabled" type="text" name="link"  value="{{ $message->sender_name }}" placeholder="{{ __('main.URL') }}" disabled/>
                             </div>
                         </div>
                         <div class="col">
@@ -50,9 +50,9 @@
                     </div>
                     <div class="row info-row">
                         <div class="col">
-                            <h5>Created at:</h1>
+                            <h5>{{ __('main.Created at') }}:</h1>
                             <p>{{ $message->created_at }}</p>
-                            <h5>Updated at:</h1>
+                            <h5>{{ __('main.Updated at') }}:</h1>
                             <p>{{ $message->updated_at }}</p>
                         </div>
                     </div>
@@ -63,7 +63,7 @@
                 <form action="{{ route('admin.delete.contactmessage', ['id' => $message->id]) }}" method="POST" class="delete-form-2 delete-form-confirm">
                     {!! csrf_field() !!}
                     {!! method_field('DELETE') !!}
-                    <button type="submit" class="btn btn-danger btn-lg btn-block">Delete Message</button>
+                    <button type="submit" class="btn btn-danger btn-lg btn-block">{{ __('main.delete') }}</button>
                 </form>
             </div>
 

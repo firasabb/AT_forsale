@@ -9,13 +9,13 @@
                 {!! csrf_field() !!}
                 <div class="form-row" >
                     <div class="col">
-                        <input type="number" name="id" placeholder="ID..." class="form-control" value="{{ old('id') }}"/>
+                        <input type="number" name="id" placeholder="{{ __('main.ID') }}" class="form-control" value="{{ old('id') }}"/>
                     </div>
                     <div class="col">
-                        <input type="text" name="name" placeholder="Page Name..." class="form-control" value="{{ old('name') }}"/>
+                        <input type="text" name="name" placeholder="{{ __('main.name') }}" class="form-control" value="{{ old('name') }}"/>
                     </div>
                     <div class="col-sm-1">
-                        <input type="submit" value="Search" class="btn btn-primary"/>
+                        <input type="submit" value="{{ __('main.search') }}" class="btn btn-primary"/>
                     </div>
                 </div>
             </form>
@@ -24,7 +24,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Pages</div>
+                <div class="card-header">{{ __('main.pages') }}</div>
 
                 <div class="card-body">
                     @if ($errors->any())
@@ -45,19 +45,19 @@
                     <table class="table">
                         <tr>
                             <th>
-                                ID
+                                {{ __('main.ID') }}
                             </th>
                             <th>
-                                Name
+                                {{ __('main.name') }}
                             </th>
                             <th>
-                                URL
+                                {{ __('main.URL') }}
                             </th>
                             <th>
-                                Status
+                                {{ __('main.status') }}
                             </th>
                             <th class="td-actions">
-                                Actions
+                                {{ __('main.actions') }}
                             </th>   
                         </tr>
                         @foreach ($pages as $page)
@@ -76,11 +76,11 @@
                                 </td>
                                 <td>
                                     <div class="td-actions-btns">
-                                        <a href="{{ route('admin.show.page', ['id' => $page->id]) }}" class="btn btn-success">Show/Edit</a>
+                                        <a href="{{ route('admin.show.page', ['id' => $page->id]) }}" class="btn btn-success">{{ __('main.show/edit') }}</a>
                                         <form action="{{ route('admin.delete.page', ['id' => $page->id]) }}" method="POST" class="delete-form-1 delete-form-confirm">
                                             {!! csrf_field() !!}
                                             {!! method_field('DELETE') !!}
-                                            <button class="btn btn-danger" type="submit">Delete</button>
+                                            <button class="btn btn-danger" type="submit">{{ __('main.delete') }}</button>
                                         </form>
                                     </div>
                                 </td>
@@ -91,7 +91,7 @@
                 </div>
             </div>
             <div class="block-button">
-                <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#addModal">Add Page</button>
+                <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#addModal">{{ __('main.add') }}</button>
             </div>
 
             <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -100,7 +100,7 @@
                     <form method="POST" action="{{ route('admin.add.page') }}" enctype="multipart/form-data">
                             {!! csrf_field() !!}
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Add Page</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">{{ __('main.add') }}</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -109,28 +109,21 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <input class="form-control" type="text" name="title"  value="{{ old('title') }}" placeholder="Title" />
+                                        <input class="form-control" type="text" name="title"  value="{{ old('title') }}" placeholder="{{ __('main.title') }}" />
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <input class="form-control" type="text" name="url"  value="{{ old('url') }}" placeholder="Url" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <input type="file" name="featured"/>
+                                        <input class="form-control" type="text" name="url"  value="{{ old('url') }}" placeholder="{{ __('main.URL') }}" />
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button name="action" type="submit" class="btn btn-primary">Add</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('main.close') }}</button>
+                            <button name="action" type="submit" class="btn btn-primary">{{ __('main.add') }}</button>
                         </div>
                     </form>
                     </div>

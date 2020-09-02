@@ -26,7 +26,7 @@
                 <div class="profile-container-header">
                     <div class="row justify-content-center">
                         <div class="col-lg-6 text-center mt-5 mb-5">
-                            <h3>Change Your Password</h3>
+                            <h3>{{ __('passwords.change password') }}</h3>
                         </div>
                     </div>
                     <div class="row justify-content-center">
@@ -34,19 +34,19 @@
                             <form action="{{route('user.password.request', ['username' => $user->username])}}" method="post">
                                 {!! csrf_field() !!}
                                 <div class="form-group">
-                                    <p>Please Note That You Will Be Logged Out After Changing Your Password</p>
-                                    <label for="old_password">Old Password:</label>
+                                    <p>{{ __('passwords.change password message') }}</p>
+                                    <label for="old_password">{{ __('passwords.old password') }}:</label>
                                     <input name="old_password" class="form-control" type="password">
                                 </div>
                                 <div class="form-group">
-                                    <label for="new_password">New Password:</label>
+                                    <label for="new_password">{{ __('passwords.new password') }}:</label>
                                     <input name="new_password" class="form-control" type="password">
                                 </div>
                                 <div class="form-group">
-                                    <label for="new_password_confirmation">Confirm New Password:</label>
+                                    <label for="new_password_confirmation">{{ __('passwords.confirm new password') }}:</label>
                                     <input name="new_password_confirmation" class="form-control" type="password">
                                 </div>
-                                <input type="submit" class="btn btn-primary" value="Submit">
+                                <input type="submit" class="btn btn-primary" value="{{ __('main.submit') }}">
                             </form>
                         </div>
                 </div>

@@ -59,24 +59,22 @@
                                     <li>
                                         <div class="btn-group dropright">
                                             <button type="button" class="dropdown-toggle side-navbar-dropdown-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Users
+                                                {{ __('main.users') }}
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="{{  route('admin.index.users')  }}">Users</a>
-                                                <a class="dropdown-item" href="{{  route('admin.index.userads')  }}">User Ads</a>
-                                                <a class="dropdown-item" href="{{  route('admin.index.roles')  }}">Roles</a>
-                                                <a class="dropdown-item" href="{{ route('admin.index.permissions') }}">Permissions</a>
+                                                <a class="dropdown-item" href="{{  route('admin.index.users')  }}">{{ __('main.users') }}</a>
+                                                <a class="dropdown-item" href="{{  route('admin.index.roles')  }}">{{ __('main.roles') }}</a>
+                                                <a class="dropdown-item" href="{{ route('admin.index.permissions') }}">{{ __('main.permissions') }}</a>
                                             </div>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="btn-group dropright">
                                             <button type="button" class="dropdown-toggle side-navbar-dropdown-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Approve
+                                                {{ __('main.approve') }}
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="{{  route('admin.index.approve.posts')  }}">Posts</a>
-                                                <a class="dropdown-item" href="{{  route('admin.index.approve.userads')  }}">User Ads</a>
+                                                <a class="dropdown-item" href="{{  route('admin.index.approve.posts')  }}">{{ __('main.posts') }}</a>
                                             </div>
                                         </div>
                                     </li>
@@ -86,26 +84,26 @@
                                                 Content
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="{{ route('admin.index.posts') }}">Posts</a>
-                                                <a class="dropdown-item" href="{{ route('admin.index.comments') }}">Comments</a>
-                                                <a class="dropdown-item" href="{{ route('admin.index.tags') }}">Tags</a>
-                                                <a class="dropdown-item" href="{{ route('admin.index.categories') }}">Categories</a>
+                                                <a class="dropdown-item" href="{{ route('admin.index.posts') }}">{{ __('main.posts') }}</a>
+                                                <a class="dropdown-item" href="{{ route('admin.index.comments') }}">{{ __('main.comments') }}</a>
+                                                <a class="dropdown-item" href="{{ route('admin.index.tags') }}">{{ __('main.tags') }}</a>
+                                                <a class="dropdown-item" href="{{ route('admin.index.categories') }}">{{ __('main.categories') }}</a>
                                             </div>
                                         </div>
                                     </li>
                                     <a class="side-navbar-a" href="{{ route('admin.index.pages') }}">
                                         <li>
-                                            <p class="m-0">Pages</p>
+                                            <p class="m-0">{{ __('main.pages') }}</p>
                                         </li>
                                     </a>
                                     <a class="side-navbar-a" href="{{ route('admin.index.externalads') }}">
                                         <li>
-                                            <p class="m-0">Ads</p>
+                                            <p class="m-0">{{ __('main.ads') }}</p>
                                         </li>
                                     </a>
                                     <a class="side-navbar-a" href="{{ route('admin.index.contactmessages') }}">
                                         <li>
-                                            <p class="m-0">Contact Messages</p>
+                                            <p class="m-0">{{ __('main.contact messages') }}</p>
                                         </li>
                                     </a>
                                     <li>
@@ -114,8 +112,8 @@
                                                 Email
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="{{ route('admin.index.emailcampaigns') }}">Campaigns</a>
-                                                <a class="dropdown-item" href="{{ route('admin.send.emailForm') }}">Send Email</a>
+                                                <a class="dropdown-item" href="{{ route('admin.index.emailcampaigns') }}">{{ __('main.campaigns') }}</a>
+                                                <a class="dropdown-item" href="{{ route('admin.send.emailForm') }}">{{ __('main.send email') }}</a>
                                             </div>
                                         </div>
                                     </li>
@@ -125,8 +123,8 @@
                                                 Other
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="{{ route('admin.index.reports') }}">Reports</a>
-                                                <a class="dropdown-item" href="{{ route('admin.index.licenses') }}">Licenses</a>
+                                                <a class="dropdown-item" href="{{ route('admin.index.reports') }}">{{ __('main.reports') }}</a>
+                                                <a class="dropdown-item" href="{{ route('admin.index.licenses') }}">{{ __('main.licenses') }}</a>
                                             </div>
                                         </div>
                                     </li>

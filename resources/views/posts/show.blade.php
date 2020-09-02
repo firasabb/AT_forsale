@@ -131,9 +131,9 @@
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 @if(Auth::id() != $post->user->id)
-                                    <button type="button" v-on:click="open_report_modal('{{ encrypt($post->id) }}', '{{ route('add.report', ['type' => 'post']) }}')" class="dropdown-item">Report</button>
+                                    <button type="button" v-on:click="open_report_modal('{{ encrypt($post->id) }}', '{{ route('add.report', ['type' => 'post']) }}')" class="dropdown-item">{{ __('main.report') }}</button>
                                 @elseif(!Auth::check())
-                                    <a target="_blank" class="a-no-decoration dropdown-item" href="{{ route('login') }}">Report</a>
+                                    <a target="_blank" class="a-no-decoration dropdown-item" href="{{ route('login') }}">{{ __('main.report') }}</a>
                                 @endif
                             </div>
                         </div>
@@ -144,7 +144,7 @@
             <div>
                 <div class="card mb-5">
                     <div class="card-header bg-light">
-                        <p class="mb-0">Add a Comment</p>
+                        <p class="mb-0">{{ __('main.add comment') }}</p>
                     </div>
                     <div class="card-body">
                         <form method="POST" action="{{ route('add.comment', ['encryptedId' => encrypt($post->id)]) }}">
@@ -152,7 +152,7 @@
                             <div class="form-group">
                                 <textarea class="form-control" name="body">{{ old('body') }}</textarea>
                             </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">{{ __('main.submit') }}</button>
                         </form>
                     </div>
                 </div>
@@ -162,11 +162,11 @@
         @guest
             <div class="card mb-5">
                 <div class="card-header bg-light">
-                    <p class="mb-0">Add a Comment</p>
+                    <p class="mb-0">{{ __('main.add comment') }}</p>
                 </div>
                 <div class="card-body text-center">
-                    <a target="_blank" class="btn btn-light" href="{{ route('login') }}">Login</a>
-                    <a target="_blank" class="btn btn-primary" href="{{ route('register') }}">Register</a>
+                    <a target="_blank" class="btn btn-light" href="{{ route('login') }}">{{ __('Login') }}</a>
+                    <a target="_blank" class="btn btn-primary" href="{{ route('register') }}">{{ __('Register') }}</a>
                 </div>
             </div>
 
@@ -210,11 +210,11 @@
                                             {!! method_field('DELETE') !!}
                                             <button class="btn btn-danger dropdown-item" type="submit">Delete</button>
                                         </form>
-                                        <button type="button" v-on:click="open_report_modal('{{ encrypt($comment->id) }}', '{{ route('add.report', ['type' => 'comment']) }}')" class="dropdown-item">Report</button>
+                                        <button type="button" v-on:click="open_report_modal('{{ encrypt($comment->id) }}', '{{ route('add.report', ['type' => 'comment']) }}')" class="dropdown-item">{{ __('main.report) }}</button>
                                     @elseif(Auth::check())
-                                        <button type="button" v-on:click="open_report_modal('{{ encrypt($comment->id) }}', '{{ route('add.report', ['type' => 'comment']) }}')" class="dropdown-item">Report</button>
+                                        <button type="button" v-on:click="open_report_modal('{{ encrypt($comment->id) }}', '{{ route('add.report', ['type' => 'comment']) }}')" class="dropdown-item">{{ __('main.report') }}</button>
                                     @else
-                                        <a target="_blank" class="a-no-decoration dropdown-item" href="{{ route('login') }}">Report</a>
+                                        <a target="_blank" class="a-no-decoration dropdown-item" href="{{ route('login') }}">{{ __('main.report') }}</a>
                                     @endif
                                 </div>
                             </div>
@@ -226,7 +226,7 @@
 
         @if(!$relatedPosts->isEmpty())
             <div class="py-2">
-                <h2>You May Also Like:</h2>
+                <h2>{{ __('main.you may also like') }}:</h2>
             </div>
             <div class="pb-5">
                 <div class="card-deck">
@@ -242,7 +242,7 @@
         @hasanyrole('moderator|admin')
             <div>
                 <div class="block-button">
-                    <a target="_blank" href="{{route('admin.show.post', ['id' => $post->id])}}" target="_blank" class="btn btn-secondary btn-lg btn-block">Edit This Post</a>
+                    <a target="_blank" href="{{route('admin.show.post', ['id' => $post->id])}}" target="_blank" class="btn btn-secondary btn-lg btn-block">{{ __('main.edit') }}</a>
                 </div>
             </div>
         @endrole
@@ -252,7 +252,7 @@
                 <div class="col">
                     <div class="card border-light card-shadow">
                         <div class="card-header bg-light">
-                            Free Download
+                            {{ __('main.free download') }}
                         </div>
                         <div class="card-body">
                             @php
@@ -278,9 +278,6 @@
                                     @endphp
                                 </form>
                             @endforeach
-                            <div class="pt-5 text-center">
-                                <i class="fa fa-check-circle"></i> Scanned By an Antivirus
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -289,7 +286,7 @@
                 <div class="col">
                     <div class="card border-light card-shadow">
                         <div class="card-header bg-light">
-                            License
+                            {{ __('main.license) }}
                         </div>
                         <div class="card-body text-center">
                             <div class="py-2">
@@ -302,7 +299,7 @@
                             @endif
                             @if(!is_null($license->link))
                                 <div>
-                                    <a target="_blank" class="a-no-decoration" href="{{ $license->link }}">Click here for more information.</a>
+                                    <a target="_blank" class="a-no-decoration" href="{{ $license->link }}">{{ __('main.click here information) }}</a>
                                 </div>
                             @endif
                         </div>

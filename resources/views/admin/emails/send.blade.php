@@ -6,7 +6,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Send a Custom Email</div>
+                <div class="card-header">{{ __('Send a Custom Email') }}</div>
 
                 <div class="card-body">
                     @if ($errors->any())
@@ -30,12 +30,12 @@
                                 <input class="form-control" type="email" name="reciever" placeholder="email@example.com" value="{{ old('reciever') }}">
                             </div>
                             <div class="form-group">
-                                <input class="form-control" type="text" name="subject" placeholder="A Message From Genyoon" value="{{ old('subject') }}">
+                                <input class="form-control" type="text" name="subject" placeholder="{{ __('main.subject') }}" value="{{ old('subject') }}">
                             </div>
                             <div class="form-group">
-                                <textarea class="form-control" name="body" placeholder="the email content">{{ old('body') }}</textarea>
+                                <textarea class="form-control" name="body" placeholder="{{ __('main.Email Body') }}">{{ old('body') }}</textarea>
                             </div>
-                            <button class="btn btn-primary">Submit</button>
+                            <button class="btn btn-primary">{{ __('main.submit') }}</button>
                         </form>
                     </div>
                 </div>

@@ -6,7 +6,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Permissions</div>
+                <div class="card-header">{{ __('main.permissions') }}</div>
 
                 <div class="card-body">
                     @if ($errors->any())
@@ -27,16 +27,16 @@
                     <table class="table">
                         <tr>
                             <th>
-                                ID
+                                {{ __('main.ID') }}
                             </th>
                             <th>
-                                Name
+                                {{ __('main.name') }}
                             </th>
                             <th>
-                                Roles
+                                {{ __('main.roles') }}
                             </th>
                             <th class="td-actions">
-                                Actions
+                                {{ __('main.actions') }}
                             </th>   
                         </tr>
                         @foreach ($permissions as $permission)
@@ -53,11 +53,11 @@
                                     @endforeach
                                 </td>
                                 <td>
-                                    <a href="{{ route('admin.show.permission', ['id' => $permission->id]) }}" class="btn btn-success">Show/Edit</a>
+                                    <a href="{{ route('admin.show.permission', ['id' => $permission->id]) }}" class="btn btn-success">{{ __('main.show/edit') }}</a>
                                     <form action="{{ route('admin.delete.permission', ['id' => $permission->id]) }}" method="POST" class="delete-form-1 delete-form-confirm">
                                         {!! csrf_field() !!}
                                         {!! method_field('DELETE') !!}
-                                        <button class="btn btn-danger" type="submit">Delete</button>
+                                        <button class="btn btn-danger" type="submit">{{ __('main.delete') }}</button>
                                     </form>
                                 </td>
                             </tr>
@@ -67,7 +67,7 @@
                 </div>
             </div>
             <div class="block-button">
-                <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#addModal">Add Permission</button>
+                <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#addModal">{{ __('main.add') }}</button>
             </div>
 
             <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -76,7 +76,7 @@
                     <form method="POST" action="{{ route('admin.add.permission') }}">
                             {!! csrf_field() !!}
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Add Permission</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">{{ __('main.permission') }}</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -85,7 +85,7 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <input class="form-control" type="text" name="name"  value="{{ old('name') }}" placeholder="Name" />
+                                        <input class="form-control" type="text" name="name"  value="{{ old('name') }}" placeholder="{{ __('main.name') }}" />
                                     </div>
                                 </div>
                                 <div class="col">
@@ -100,8 +100,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button name="action" type="submit" class="btn btn-primary">Add</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('main.close') }}</button>
+                            <button name="action" type="submit" class="btn btn-primary">{{ __('main.add') }}</button>
                         </div>
                     </form>
                     </div>

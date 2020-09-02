@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col text-center">
             <div class="py-5">
-                <h2>My Posts</h2>
+                <h2>{{ __('main.my posts') }}</h2>
             <div>
         </div>
     </div>
@@ -38,22 +38,22 @@
                     <thead>
                         <tr>
                             <th scope="col">
-                                Title
+                                {{ __('main.title') }}
                             </th>
                             <th scope="col">
-                                Status
+                                {{ __('main.status') }}
                             </th>
                             <th scope="col">
-                                Views
+                                {{ __('main.views') }}
                             </th>
                             <th scope="col">
-                                Downloads
+                                {{ __('main.downloads') }}
                             </th>
                             <th scope="col">
-                                Published at
+                                {{ __('main.published at') }}
                             </th>
                             <th scope="col">
-                                Actions
+                                {{ __('main.actions') }}
                             </th>
                         </tr>
                     </thead>
@@ -79,13 +79,13 @@
                                     <form class="delete-post" method="POST" action="{{ route('user.delete.post', ['id' => encrypt($post->id)]) }}">
                                         @csrf
                                         {{ method_field('DELETE') }}
-                                        <button class="btn btn-sm btn-danger">Delete</button>
+                                        <button class="btn btn-sm btn-danger">{{ __('main.delete') }}</button>
                                     </form>
                                 </td>
                             </tr>
                         @endforeach
                         @if(empty($posts))
-                            <p>No posts have been published yet</p>
+                            <p>{{ __('main.no posts user') }}</p>
                         @endif
                     </tbody>
                 </table>

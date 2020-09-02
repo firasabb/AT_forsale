@@ -22,6 +22,46 @@
                 </div>
             </div>
         </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="text-center">
+                    <h4>{{ $publishedPosts }}</h4>
+                </div>
+                <div class="text-center">
+                    <h4>Published Posts</h4>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="text-center">
+                    <h4>{{ $reports }}</h4>
+                </div>
+                <div class="text-center">
+                    <h4>Reports</h4>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="text-center">
+                    <h4>{{ $comments }}</h4>
+                </div>
+                <div class="text-center">
+                    <h4>Comments</h4>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="text-center">
+                    <h4>{{ $contactMessages }}</h4>
+                </div>
+                <div class="text-center">
+                    <h4>Contact Messages</h4>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 @endsection

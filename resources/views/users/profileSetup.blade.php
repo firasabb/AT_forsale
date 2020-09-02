@@ -47,37 +47,37 @@
                                     <div class="col">
                                         <div class="form-row justify-content-center">
                                             <div class="col-md-6">
-                                                <label for="profile picture">Profile Picture:</label>
+                                                <label for="profile picture">{{ __('main.profile picture) }}:</label>
                                                 <input id="profile-picture-select" name="profile_picture" type="file">
                                             </div>
                                         </div>
                                         <div class="form-row justify-content-center mt-3">
                                             <div class="col-md-6">
-                                                <label for="name">First Name:</label>
+                                                <label for="name">{{ __('main.first name) }}:</label>
                                                 <input name="first_name" type="text" value="{{ $user->first_name }}" class="form-control">
                                             </div>
                                         </div>
                                         <div class="form-row justify-content-center mt-3">
                                             <div class="col-md-6">
-                                                <label for="name">Last Name:</label>
+                                                <label for="name">{{ __('main.last name) }}:</label>
                                                 <input name="last_name" type="text" value="{{ $user->last_name }}" class="form-control">
                                             </div>
                                         </div>
                                         <div class="form-row justify-content-center mt-3">
                                             <div class="col-md-6">
-                                                <label for="bio">Bio:</label>
+                                                <label for="bio">{{ __('main.bio) }}:</label>
                                                 <textarea name="bio" class="form-control">{{ $user->bio }}</textarea>
                                             </div>
                                         </div>
                                         <div class="form-row justify-content-center mt-3">
                                             <div class="col-md-6">
-                                                <label for="email">Email:</label>
+                                                <label for="email">{{ __('main.email) }}:</label>
                                                 <input name="email" class="form-control" value="{{ $user->email }}">
                                             </div>
                                         </div>
                                         <div class="form-row justify-content-center mt-3">
                                             <div class="col-md-6">
-                                                <label for="paypal">Paypal:</label>
+                                                <label for="paypal">{{ __('main.paypal) }}:</label>
                                                 <input name="paypal" class="form-control" value="{{ $user->paypal }}" placeholder="If you would like to receive donations, add your Paypal email.">
                                             </div>
                                         </div>
@@ -99,7 +99,7 @@
                                         <div class="col">
                                             <div class="input-group mb-2">
                                                 <div class="input-group-prepend">
-                                                    <div class="input-group-text white-input-group-text" style="background-color: {{ UserLink::userLinkColor('instagram') }}; ">Instagram</div>
+                                                    <div class="input-group-text white-input-group-text" style="background-color: {{ UserLink::userLinkColor('instagram') }}; ">{{ __('main.instagram) }}</div>
                                                 </div>
                                                 <input class="form-control" name="instagram_link" value="{{ $instagram['url'] ?? '' }}" placeholder="@username">
                                             </div>
@@ -113,7 +113,7 @@
                                         <div class="col">
                                             <div class="input-group mb-2">
                                                 <div class="input-group-prepend">
-                                                    <div class="input-group-text white-input-group-text" style="background-color: {{ UserLink::userLinkColor('facebook') }};">Facebook</div>
+                                                    <div class="input-group-text white-input-group-text" style="background-color: {{ UserLink::userLinkColor('facebook') }};">{{ __('main.facebook) }}</div>
                                                 </div>
                                                 <input class="form-control" name="facebook_link" value="{{ $facebook['url'] ?? '' }}" placeholder="@username">
                                             </div>
@@ -127,7 +127,7 @@
                                         <div class="col">
                                             <div class="input-group mb-2">
                                                 <div class="input-group-prepend">
-                                                    <div class="input-group-text white-input-group-text" style="background-color: {{ UserLink::userLinkColor('github') }};">Github</div>
+                                                    <div class="input-group-text white-input-group-text" style="background-color: {{ UserLink::userLinkColor('github') }};">{{ __('main.github) }}</div>
                                                 </div>
                                                 <input class="form-control" name="github_link" value="{{ $github['url'] ?? '' }}" placeholder="https://www.github.com/username">
                                             </div>
@@ -141,7 +141,7 @@
                                         <div class="col">
                                             <div class="input-group mb-2">
                                                 <div class="input-group-prepend">
-                                                    <div class="input-group-text white-input-group-text" style="background-color: {{ UserLink::userLinkColor('youtube') }};">YouTube</div>
+                                                    <div class="input-group-text white-input-group-text" style="background-color: {{ UserLink::userLinkColor('youtube') }};">{{ __('main.youtube) }}</div>
                                                 </div>
                                                 <input class="form-control" name="youtube_link" value="{{ $youtube['url'] ?? '' }}" placeholder="https://www.youtube.com/channel">
                                             </div>
@@ -155,7 +155,7 @@
                                         <div class="col">
                                             <div class="input-group mb-2">
                                                 <div class="input-group-prepend">
-                                                    <div class="input-group-text white-input-group-text" style="background-color: {{ UserLink::userLinkColor('') }};">Website</div>
+                                                    <div class="input-group-text white-input-group-text" style="background-color: {{ UserLink::userLinkColor('') }};">{{ __('main.website) }}</div>
                                                 </div>
                                                 <input class="form-control" name="website_link" value="{{ $website['url'] ?? '' }}" placeholder="https://www.example.com">
                                             </div>
@@ -169,7 +169,7 @@
                                         <div class="col">
                                             <div class="input-group mb-2">
                                                 <div class="input-group-prepend">
-                                                    <div class="input-group-text white-input-group-text" style="background-color: {{ UserLink::userLinkColor('portfolio') }};">Behance</div>
+                                                    <div class="input-group-text white-input-group-text" style="background-color: {{ UserLink::userLinkColor('portfolio') }};">{{ __('main.behance) }}</div>
                                                 </div>
                                                 <input class="form-control" name="portfolio_link" value="{{ $portfolio['url'] ?? '' }}" placeholder="https://www.behance.net/example">
                                             </div>
@@ -181,7 +181,7 @@
                     </div>
                 </div>
                 <div class="setup-btn-container pb-5">
-                    <button type="submit" class="btn btn-blue btn-lg btn-block">Submit</button>
+                    <button type="submit" class="btn btn-blue btn-lg btn-block">{{ __('main.submit') }}</button>
                 </div>
             </form>
         </div>

@@ -9,13 +9,13 @@
                 {!! csrf_field() !!}
                 <div class="form-row" >
                     <div class="col">
-                        <input type='number' name='id' placeholder="ID" class="form-control" value="{{ old('id') }}"/>
+                        <input type='number' name='id' placeholder="{{ __('main.ID') }}" class="form-control" value="{{ old('id') }}"/>
                     </div>
                     <div class="col">
-                        <input type='text' name='title' placeholder="Message Title" class="form-control" value="{{ old('title') }}"/>
+                        <input type='text' name='title' placeholder="{{ __('main.title') }}" class="form-control" value="{{ old('title') }}"/>
                     </div>
                     <div class="col-sm-1">
-                        <input type='submit' value='search' class="btn btn-primary"/>
+                        <input type='submit' value="{{ __('main.search') }}" class="btn btn-primary"/>
                     </div>
                 </div>
             </form>
@@ -24,7 +24,7 @@
     <div class="row justify-content-center">
         <div class="col">
             <div class="card">
-                <div class="card-header">Contact Messages</div>
+                <div class="card-header">{{ __('main.Contact Messages') }}</div>
 
                 <div class="card-body">
                     @if ($errors->any())
@@ -45,22 +45,22 @@
                     <table class="table">
                         <tr>
                             <th>
-                                ID
+                                {{ __('main.ID') }}
                             </th>
                             <th>
-                                Title
+                                {{ __('main.title') }}
                             </th>
                             <th>
-                                Sender Email
+                                {{ __('main.Sender Name') }}
                             </th>
                             <th>
-                                Sender Name
+                                {{ __('main.Sender Email') }}
                             </th>
                             <th>
-                                User
+                                {{ __('main.user') }}
                             </th>
                             <th class="td-actions">
-                                Actions
+                                {{ __('main.actions') }}
                             </th>   
                         </tr>
                         @foreach ($messages as $message)

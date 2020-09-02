@@ -32,7 +32,7 @@
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
-                            <input class="form-control" type="text" name="names[0]"  value="{{ old('name') }}" placeholder="Name" />
+                            <input class="form-control" type="text" name="names[0]"  value="{{ old('name') }}" placeholder="{{ __('main.name') }}" />
                         </div>
                     </div>
                 </div>
@@ -49,10 +49,10 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <button class="btn btn-primary float-left">Submit</button>
+                        <button class="btn btn-primary float-left">{{ __('main.submit') }}</button>
                     </div>
                     <div class="col">
-                        <button class="btn btn-light float-right" id="add-field-btn">+ Add Field</button>
+                        <button class="btn btn-light float-right" id="add-field-btn">+ {{__('Add Field')}}</button>
                     </div>
                 </div>
             </form>

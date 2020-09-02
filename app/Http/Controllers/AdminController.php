@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use \App\User;
+use \App\Post;
+use \App\Report;
+use \App\Comment;
+use \App\ContactMessage;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Validator;
@@ -34,7 +38,13 @@ class AdminController extends Controller
 
         $activeUsers = new User();
         $activeUsers = $activeUsers->activeUsers()->count();
-        return view('admin.dashboard', ['activeUsers' => $activeUsers]);
+        $publishedPosts = new Post();
+        $publishedPosts = $publishedPosts->publishedPosts()->count();
+        $reports = Report::all()->count();
+        $comments = Comment::all()->count();
+        $contactMessages = ContactMessage::all()->count();
+        return view('admin.dashboard', ['activeUsers' => $activeUsers, 'publishedPosts' => $publishedPosts,
+                                        'reports' => $reports, 'comments' => $comments, 'contactMessages' => $contactMessages]);
     }
 
 

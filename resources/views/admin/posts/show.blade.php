@@ -35,28 +35,28 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="title">Post:</label>
-                                    <input class="form-control enabled-disabled" type="text" name="title"  value="{{ $post->title }}" placeholder="Title" disabled/>
+                                    <label for="title">{{ __('main.post') }}:</label>
+                                    <input class="form-control enabled-disabled" type="text" name="title"  value="{{ $post->title }}" placeholder="{{ __('main.title') }}" disabled/>
                                 </div>
                             </div>
                             <div class="col">
                                 <div>
-                                    <label for="url">URL:</label>
-                                    <input class="form-control enabled-disabled" type="text" name="url"  value="{{ $post->url }}" placeholder="Url" disabled/>
+                                    <label for="url">{{ __('main.url') }}:</label>
+                                    <input class="form-control enabled-disabled" type="text" name="url"  value="{{ $post->url }}" placeholder="{{ __('main.URL') }}" disabled/>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="description">Description:</label>
-                                    <textarea class="form-control enabled-disabled" name="description" disabled>{{ $post->description }}</textarea>
+                                    <label for="description">{{ __('main.description') }}:</label>
+                                    <textarea class="form-control enabled-disabled" name="description" disabled placeholder="{{ __('main.description') }}">{{ $post->description }}</textarea>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
-                                <label for="category">Category:</label>
+                                <label for="category">{{ __('main.category') }}:</label>
                                 <select class="form-control enabled-disabled" name="category_id" disabled>
                                     @foreach($categories as $category)
                                         <option value="{{ $category->id }}" <?php echo $category->id == $post->category_id ? 'Selected' : ''; ?>>{{ $category->name }}</option>
@@ -66,7 +66,7 @@
                         </div>
                         <div class="row edit-tags">
                             <div class="col">
-                                <label for="tags">Tags:</label>
+                                <label for="tags">{{ __('main.tags') }}:</label>
                                 <div class="selected-tags">
                                     <ul id="selected-tags-ul" class="selected-tags-ul list-group list-group-horizontal">
                                     @foreach($post->tags as $tag)
@@ -83,13 +83,13 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <label>Featured:</label>
+                                <label>{{ __('main.featured') }}:</label>
                                 <input type="file" name="featured" class="enabled-disabled" disabled>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
-                                <label>Cover:</label>
+                                <label>{{ __('main.cover') }}:</label>
                                 <input type="file" name="cover" class="enabled-disabled" disabled>  
                             </div>
                         </div>
@@ -112,13 +112,13 @@
                         </div>
                         <div class="row info-row">
                             <div class="col">
-                                <h5>Created at:</h1>
+                                <h5>{{ __('main.Created at') }}:</h1>
                                 <p>{{ $post->created_at }}</p>
-                                <h5>Updated at:</h1>
+                                <h5>{{ __('main.Updated at') }}:</h1>
                                 <p>{{ $post->updated_at }}</p>
                             </div>
                             <div class="col">
-                                <h5>ID:</h1>
+                                <h5>{{ __('main.ID') }}:</h1>
                                 <p>{{ $post->id }}</p>
                             </div>
                         </div>
@@ -127,11 +127,11 @@
             </div>
 
             <div class="block-button">
-                <button type="button" class="btn btn-success btn-lg btn-block" id="edit-button">Edit Post</button>
+                <button type="button" class="btn btn-success btn-lg btn-block" id="edit-button">{{ __('main.edit') }}</button>
                 <form action="{{ route('admin.delete.post', ['id' => $post->id]) }}" method="POST" class="delete-form-2 delete-form-confirm">
                     {!! csrf_field() !!}
                     {!! method_field('DELETE') !!}
-                    <button type="submit" class="btn btn-danger btn-lg btn-block">Delete Post</button>
+                    <button type="submit" class="btn btn-danger btn-lg btn-block">{{ __('main.delete') }}</button>
                 </form>
             </div>
 
@@ -140,21 +140,21 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
         <div class="card">
-            <div class="card-header">Downloads:</a></div>
+            <div class="card-header">{{ __('main.downloads') }}:</a></div>
             <div class="card-body">
                 <table class="table">
                     <tr>
                         <th>
-                            URL
+                            {{ __('main.URL') }}
                         </th>
                         <th>
-                            Size
+                            {{ __('main.size') }}
                         </th>
                         <th>
-                            Mime
+                            {{ __('main.mime') }}
                         </th>
                         <th>
-                            Actions
+                            {{ __('main.actions') }}
                         </th>
                     </tr>
                     @foreach($downloads as $download)
@@ -172,7 +172,7 @@
                                 <form action="{{ route('admin.download.delete', ['id' => $download->id]) }}" method="POST" class="delete-form-confirm">
                                     {!! csrf_field() !!}
                                     {!! method_field('DELETE') !!}
-                                    <button class="btn btn-danger" type="submit">Delete</button>
+                                    <button class="btn btn-danger" type="submit">{{ __('main.delete') }}</button>
                                 </form>
                             </td>
                         </tr>
@@ -181,7 +181,7 @@
             </div>
         </div>
         <div class="block-button">
-            <button type="button" class="btn btn-warning btn-lg btn-block" data-toggle="modal" data-target="#addModal">Add Download</button>
+            <button type="button" class="btn btn-warning btn-lg btn-block" data-toggle="modal" data-target="#addModal">{{ __('main.Add Download') }}</button>
         </div>
         <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -189,7 +189,7 @@
                 <form method="POST" action="{{ route('admin.download.add', ['postId' => $post->id]) }}" enctype="multipart/form-data">
                         {!! csrf_field() !!}
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Add Download</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">{{ __('main.Add Download') }}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -204,8 +204,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button name="action" type="submit" class="btn btn-primary">Add</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('main.close') }}</button>
+                        <button name="action" type="submit" class="btn btn-primary">{{ __('main.add') }}</button>
                     </div>
                 </form>
                 </div>

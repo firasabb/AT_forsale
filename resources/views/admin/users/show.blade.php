@@ -31,10 +31,10 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
-                                    <input class="form-control enabled-disabled" type="text" name="name"  value="{{ $user->username }}" placeholder="Name" disabled/>
+                                    <input class="form-control enabled-disabled" type="text" name="name"  value="{{ $user->username }}" placeholder="{{ __('main.name') }}" disabled/>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control enabled-disabled" type="email" name="email"  value="{{ $user->email }}" placeholder="Email" disabled/>
+                                    <input class="form-control enabled-disabled" type="email" name="email"  value="{{ $user->email }}" placeholder="{{ __('main.email') }}" disabled/>
                                 </div>
                             </div>
                             <div class="col">
@@ -49,8 +49,8 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <button type="submit" class="btn btn-primary submit-edit-btn enabled-disabled" disabled>Submit</button>
-                                <a href=" {{ route('admin.generate.password.user', ['id' => $user->id]) }} " class="btn btn-danger submit-edit-btn disabled" id="generate-password">Generate Password</a>
+                                <button type="submit" class="btn btn-primary submit-edit-btn enabled-disabled" disabled>{{ __('main.submit') }}</button>
+                                <a href=" {{ route('admin.generate.password.user', ['id' => $user->id]) }} " class="btn btn-danger submit-edit-btn disabled" id="generate-password">{{ __('main.Generate Password') }}</a>
                             </div>
                         </div>
                         <div class="row info-row">
@@ -61,9 +61,9 @@
                                 @endforeach
                             </div>
                             <div class="col">
-                                <h5>Created at:</h1>
+                                <h5>{{ __('main.Created at') }}:</h1>
                                 <p>{{ $user->created_at }}</p>
-                                <h5>Updated at:</h1>
+                                <h5>{{ __('main.Updated at') }}:</h1>
                                 <p>{{ $user->updated_at }}</p>
                             </div>
                         </div>
@@ -72,11 +72,11 @@
             </div>
 
             <div class="block-button">
-                <button type="button" class="btn btn-success btn-lg btn-block" id="edit-button">Edit User</button>
+                <button type="button" class="btn btn-success btn-lg btn-block" id="edit-button">{{ __('main.edit') }}:</button>
                 <form action="{{ route('admin.delete.user', ['id' => $user->id]) }}" method="POST" class="delete-form-2 delete-form-confirm">
                     {!! csrf_field() !!}
                     {!! method_field('DELETE') !!}
-                    <button type="submit" class="btn btn-danger btn-lg btn-block">Delete User</button>
+                    <button type="submit" class="btn btn-danger btn-lg btn-block">{{ __('main.delete') }}:</button>
                 </form>
             </div>
 

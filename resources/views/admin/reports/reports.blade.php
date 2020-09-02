@@ -9,10 +9,10 @@
                 {!! csrf_field() !!}
                 <div class="form-row" >
                     <div class="col">
-                        <input type='number' name="id" placeholder="ID" class="form-control"/>
+                        <input type='number' name="id" placeholder="{{ __('main.ID') }}" class="form-control"/>
                     </div>
                     <div class="col">
-                        <input type='text' name="reportable_id" placeholder="Reportable id" class="form-control"/>
+                        <input type='text' name="reportable_id" placeholder="{{__('main.Reportable ID')}}" class="form-control"/>
                     </div>
                     <div class="col">
                         <select name="reportable_type" class="form-control">
@@ -22,7 +22,7 @@
                         </select>
                     </div>
                     <div class="col-sm-1">
-                        <input type='submit' value="Search" class="btn btn-primary"/>
+                        <input type='submit' value="{{ __('search') }}" class="btn btn-primary"/>
                     </div>
                 </div>
             </form>
@@ -31,7 +31,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Reports</div>
+                <div class="card-header">{{ __('reports') }}</div>
 
                 <div class="card-body">
                     @if ($errors->any())
@@ -52,16 +52,16 @@
                     <table class="table">
                         <tr>
                             <th>
-                                ID
+                                {{ __('main.ID') }}
                             </th>
                             <th>
-                                Type
+                                {{ __('main.type') }}
                             </th>
                             <th>
-                                Reported ID
+                                {{ __('main.Reportable ID') }}
                             </th>
                             <th class="td-actions">
-                                Actions
+                                {{ __('main.actions') }}
                             </th>   
                         </tr>
                         @foreach ($reports as $report)
@@ -81,11 +81,11 @@
                                 </td>
                                 <td>
                                     <div class="td-actions-btns">
-                                        <a href="{{ route('admin.show.report', ['id' => $report->id]) }}" class="btn btn-success">Show/Edit</a>
+                                        <a href="{{ route('admin.show.report', ['id' => $report->id]) }}" class="btn btn-success">{{ __('main.show/edit') }}</a>
                                         <form action="{{ route('admin.delete.report', ['id' => $report->id]) }}" method="POST" class="delete-form-1 delete-form-confirm">
                                             {!! csrf_field() !!}
                                             {!! method_field('DELETE') !!}
-                                            <button class="btn btn-danger" type="submit">Delete</button>
+                                            <button class="btn btn-danger" type="submit">{{ __('main.delete') }}</button>
                                         </form>
                                     </div>
                                 </td>

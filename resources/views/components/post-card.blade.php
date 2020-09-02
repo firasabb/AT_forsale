@@ -145,9 +145,9 @@
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             @if(Auth::id() != $post->user->id)
-                                <button type="button" v-on:click="open_report_modal('{{ encrypt($post->id) }}', '{{ route('add.report', ['type' => 'post']) }}')" class="dropdown-item">Report</button>
+                                <button type="button" v-on:click="open_report_modal('{{ encrypt($post->id) }}', '{{ route('add.report', ['type' => 'post']) }}')" class="dropdown-item">{{ __('main.report') }}</button>
                             @elseif(!Auth::check())
-                                <a target="_blank" class="a-no-decoration dropdown-item" href="{{ route('login') }}">Report</a>
+                                <a target="_blank" class="a-no-decoration dropdown-item" href="{{ route('login') }}">{{ __('main.report') }}</a>
                             @endif
                         </div>
                     </div>

@@ -9,19 +9,19 @@
                 {!! csrf_field() !!}
                 <div class="form-row" >
                     <div class="col">
-                        <input type="eamil" name="email" placeholder="Email..." class="form-control" value="{{ old('email') }}"/>
+                        <input type="eamil" name="email" placeholder="{{ __('main.email') }}" class="form-control" value="{{ old('email') }}"/>
                     </div>
                     <div class="col">
-                        <input type="number" name="id" placeholder="ID..." class="form-control" value="{{ old('id') }}"/>
+                        <input type="number" name="id" placeholder="{{ __('main.ID') }}" class="form-control" value="{{ old('id') }}"/>
                     </div>
                     <div class="col">
-                        <input type="text" name="first_name" placeholder="First Name..." class="form-control" value="{{ old('first_name') }}"/>
+                        <input type="text" name="first_name" placeholder="{{ __('main.first name') }}" class="form-control" value="{{ old('first_name') }}"/>
                     </div>
                     <div class="col">
-                        <input type="text" name="last_name" placeholder="Last Name..." class="form-control" value="{{ old('last_name') }}"/>
+                        <input type="text" name="last_name" placeholder="{{ __('main.last name') }}" class="form-control" value="{{ old('last_name') }}"/>
                     </div>
                     <div class="col">
-                        <input type="text" name="username" placeholder="Username..." class="form-control" value="{{ old('username') }}"/>
+                        <input type="text" name="username" placeholder="{{ __('main.username') }}" class="form-control" value="{{ old('username') }}"/>
                     </div>
                     <div class="col-sm-1">
                         <input type="submit" value="Search" class="btn btn-primary"/>
@@ -33,7 +33,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Users</div>
+                <div class="card-header">{{ __('main.users') }}</div>
 
                 <div class="card-body">
                     @if ($errors->any())
@@ -54,22 +54,22 @@
                     <table class="table">
                         <tr>
                             <th>
-                                ID
+                                {{ __('main.ID') }}
                             </th>
                             <th>
-                                Name
+                                {{ __('main.Name') }}
                             </th>
                             <th>
-                                Email
+                                {{ __('main.email') }}
                             </th>
                             <th>
-                                Username
+                                {{ __('main.username') }}
                             </th>
                             <th>
-                                Roles
+                                {{ __('main.roles') }}
                             </th>
                             <th class="td-actions">
-                                Actions
+                                {{ __('main.actions') }}
                             </th>   
                         </tr>
                         @foreach ($users as $user)
@@ -96,11 +96,11 @@
                                 </td>
                                 <td>
                                     <div class="td-actions-btns">
-                                        <a href="{{ url('admin/dashboard/user/' . $user->id) }}" class="btn btn-success">Edit</a>
+                                        <a href="{{ url('admin/dashboard/user/' . $user->id) }}" class="btn btn-success">{{ __('main.edit') }}</a>
                                         <form action="{{ route('admin.delete.user', ['id' => $user->id]) }}" method="POST" class="delete-form-1 delete-form-confirm">
                                             {!! csrf_field() !!}
                                             {!! method_field('DELETE') !!}
-                                            <button class="btn btn-danger" type="submit">Delete</button>
+                                            <button class="btn btn-danger" type="submit">{{ __('main.delete') }}</button>
                                         </form>
                                     </div>
                                 </td>
@@ -111,7 +111,7 @@
                 </div>
             </div>
             <div class="block-button">
-                <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#addModal">Add User</button>
+                <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#addModal">{{ __('main.add') }}</button>
             </div>
 
             <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -120,7 +120,7 @@
                     <form method="POST" action="{{ route('admin.add.user') }}">
                             {!! csrf_field() !!}
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Add User</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">{{ __('main.add') }}</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -129,21 +129,21 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <input class="form-control" type="text" name="first_name"  value="{{ old('first_name') }}" placeholder="First Name" />
+                                        <input class="form-control" type="text" name="first_name"  value="{{ old('first_name') }}" placeholder="{{ __('main.first name') }}" />
                                     </div>
                                     <div class="form-group">
-                                        <input class="form-control" type="text" name="last_name"  value="{{ old('last_name') }}" placeholder="Last Name" />
+                                        <input class="form-control" type="text" name="last_name"  value="{{ old('last_name') }}" placeholder="{{ __('main.first name') }}" />
                                     </div>
                                     <div class="form-group">
-                                        <input class="form-control" type="email" name="email"  value="{{ old('email') }}" placeholder="Email" />
+                                        <input class="form-control" type="email" name="email"  value="{{ old('email') }}" placeholder="{{ __('main.email') }}" />
                                     </div>
                                     <div class="form-group">
-                                        <input class="form-control" id="username" type="text" name="username"  value="{{ old('username') }}" placeholder="Username" />
+                                        <input class="form-control" id="username" type="text" name="username"  value="{{ old('username') }}" placeholder="{{ __('main.username') }}" />
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
-                                        <input class="form-control" type="password" name="password"  value="{{ old('password') }}" placeholder="Password" />
+                                        <input class="form-control" type="password" name="password"  value="{{ old('password') }}" placeholder="{{ __('main.password') }}" />
                                     </div>
                                     <div>
                                         <select multiple class="form-control" id="usersSelect" name="roles[]">
@@ -156,8 +156,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button name="action" type="submit" class="btn btn-primary">Add</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('main.close') }}</button>
+                            <button name="action" type="submit" class="btn btn-primary">{{ __('main.add') }}</button>
                         </div>
                     </form>
                     </div>

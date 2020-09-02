@@ -30,7 +30,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Comments</div>
+                <div class="card-header">{{ __('main.comments') }}</div>
 
                 <div class="card-body">
                     @if ($errors->any())
@@ -51,16 +51,16 @@
                     <table class="table">
                         <tr>
                             <th>
-                                ID
+                                {{ __('main.ID') }}
                             </th>
                             <th>
-                                Title
+                                {{ __('main.title') }}
                             </th>
                             <th>
-                                Post
+                                {{ __('main.post') }}
                             </th>
                             <th class="td-actions">
-                                Actions
+                                {{ __('main.actions') }}
                             </th>   
                         </tr>
                         @foreach ($comments as $comment)

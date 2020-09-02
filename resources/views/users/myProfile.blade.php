@@ -41,7 +41,7 @@
                     @if(!empty($categories))
                         <div class="text-center py-5">
                             <div class="posts-container-title">
-                                <h4 class="m-0">PUBLISHED POSTS</h4>
+                                <h4 class="m-0">{{ __('main.published posts') }}</h4>
                             </div>
                         </div>
                         @foreach($categories as $category)

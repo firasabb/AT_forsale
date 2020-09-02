@@ -29,7 +29,7 @@
                             </select>
                         </div>
                         <div class="col-12 col-md-2 form-group">
-                            <button type="submit" class="btn btn-light-green">Search</button>
+                            <button type="submit" class="btn btn-light-green">{{ __('main.search') }}</button>
                         </div>
                     </div>
                 </form>

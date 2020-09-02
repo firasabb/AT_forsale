@@ -36,7 +36,8 @@
                         <div>
                             @if(!Auth::user()->hasVerifiedEmail())
                                 <div class="alert alert-warning">
-                                    Please Verify Your Email Or <a href="{{ route('user.send.verification.email') }}" target="_blank">Click Here</a> To Request a New One
+                                    {{ __('main.Verify or Request') }}
+                                    <a class="btn btn-success" href="{{ route('user.send.verification.email') }}" target="_blank">{{ __('main.Request Validation Email') }}</a>
                                 </div>
                             @endif
                         </div>
