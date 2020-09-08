@@ -11,12 +11,8 @@ use Storage;
 
 class UserAdController extends Controller
 {
-    /**
-     * 
-     * Constructor
-     * 
-     */
 
+    
     public function __construct(){
         return $this->middleware('role:user');
     }
@@ -29,7 +25,6 @@ class UserAdController extends Controller
      * @return Response
      * 
      */
-
     public function storeAjax(Request $request){
 
         $validator = Validator::make($request->all(), [

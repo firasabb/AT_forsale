@@ -24,26 +24,10 @@ use Illuminate\Validation\Rule;
 class PostController extends Controller
 {
 
-
-
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-
-    /**
-     * 
-     * 
      * Display the Post
      * @param String url
-     * @return Response
-     * 
+     * @return View
      */
 
     public function show($url){
@@ -92,31 +76,9 @@ class PostController extends Controller
 
     }
 
-
     /**
-     * Display posts that are not approved yet.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function indexToApprove()
-    {
-        $post = Post::where('status', 1)->orderBy('id', 'asc')->first();
-        if(!empty($post)){
-            $categories = Category::all()->load('medias')->flatten();
-            $featured = $post->medias()->where('sorting', 1)->first();
-            $cover = $post->medias()->where('sorting', 2)->first();
-            $posts = Post::where('status', 1)->orderBy('id', 'asc');
-            $downloads = $post->downloads;
-            return view('admin.posts.indexToApprove', ['post' => $post, 'categories' => $categories, 'featured' => $featured, 'cover' => $cover, 'downloads' => $downloads]);
-        }
-        return view('admin.posts.indexToApprove');
-
-    }
-
-        /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Show the form for creating a new post.
+     * @return View
      */
     public function create($categoryUrl = null)
     {
@@ -132,11 +94,13 @@ class PostController extends Controller
         return view('categories.select', ['categories' => $categories]);
     }
 
+
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created post in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  string $categoryUrl
+     * @return RedirectResponse
      */
     public function store(Request $request, $categoryUrl){
 
@@ -183,9 +147,14 @@ class PostController extends Controller
             $url = $url . '-' . $unique;
         }
         $post->url = $url;
-        if($user->hasAnyRole('admin', 'moderator')){
+        
+        // If the post was added by an admin set the status to approved
+        if($user->hasAnyRole('admin')){
             $post->status = 2;
+        } else {
+            $post->status = 1;
         }
+        
         $post->category()->associate($category);
         $post->save();
 
@@ -243,7 +212,7 @@ class PostController extends Controller
         $license = License::where('name', 'LIKE', $license)->firstOrFail();
         $post->licenses()->attach($license);
 
-        if($user->hasAnyRole('admin', 'moderator')){
+        if($user->hasAnyRole('admin')){
             return redirect()->route('admin.index.posts')->with('status', 'A New Post Has Been Created');
         }
 
@@ -251,13 +220,33 @@ class PostController extends Controller
 
     }
 
+
+    
+    /**
+     * Display posts that are not approved yet for ADMINS.
+     * @return View
+     */
+    public function indexToApprove()
+    {
+        $post = Post::where('status', 1)->orderBy('id', 'asc')->first();
+        if(!empty($post)){
+            $categories = Category::all()->load('medias')->flatten();
+            $featured = $post->medias()->where('sorting', 1)->first();
+            $cover = $post->medias()->where('sorting', 2)->first();
+            $posts = Post::where('status', 1)->orderBy('id', 'asc');
+            $downloads = $post->downloads;
+            return view('admin.posts.indexToApprove', ['post' => $post, 'categories' => $categories, 'featured' => $featured, 'cover' => $cover, 'downloads' => $downloads]);
+        }
+        return view('admin.posts.indexToApprove');
+
+    }
+
+
     /** 
-    *
-    * Approve the post for users not admins
-    *
+    * Approve the post for users
     * @param Request
-    * @return Response
-    *
+    * @param int $id
+    * @return editOrApprove($id, $request, 2)
     */
 
     public function adminApprove(Request $request, $id){
@@ -266,7 +255,11 @@ class PostController extends Controller
 
     }
 
-
+    /** 
+    * Index the posts for admins
+    * @param array $posts
+    * @return View
+    */
     public function adminIndex($posts = null)
     {
         if(!$posts){
@@ -278,6 +271,11 @@ class PostController extends Controller
     }
 
 
+    /** 
+    * Show the post for admins
+    * @param int $id
+    * @return View
+    */
     public function adminShow($id)
     {
         $post = Post::findOrFail($id);
@@ -291,9 +289,10 @@ class PostController extends Controller
 
     /**
      * 
-     * Update the post
-     * @param request
-     * @return response
+     * Update the post for admins
+     * @param Request
+     * @param int $id
+     * @return editOrApprove($id, $request)
      * 
      */
     public function adminEdit(Request $request, $id)
@@ -302,6 +301,11 @@ class PostController extends Controller
     }
 
 
+    /** 
+    * Delete the post for admins.
+    * @param int $id
+    * @return RedirectResponse
+    */
     public function adminDestroy($id)
     {
         $post = Post::findOrFail($id);
@@ -321,7 +325,11 @@ class PostController extends Controller
     }
 
 
-
+    /** 
+    * Disapprove a post for admins.
+    * @param int $id
+    * @return RedirectResponse
+    */
     public function adminDisapprove($id)
     {
         $post = Post::findOrFail($id);
@@ -346,6 +354,11 @@ class PostController extends Controller
     }
 
 
+    /** 
+    * Search posts for admins.
+    * @param Request
+    * @return RedirectResponse
+    */
     public function adminSearchPosts(Request $request){
         
         $validator = Validator::make($request->all(), [
@@ -395,7 +408,9 @@ class PostController extends Controller
      * 
      * Helper Method To Approve Or Edit The Post
      * @param Integer id
+     * @param Request
      * @param Integer status
+     * @return RedirectResponse
      * 
      */
     private function editOrApprove($id, $request, $status = null){
@@ -487,7 +502,7 @@ class PostController extends Controller
      * Delete Post By User
      * @param Request $request
      * @param Integer $id
-     * @return Response
+     * @return RedirectResponse
      * 
      */
     public function destroy(Request $request, $id){

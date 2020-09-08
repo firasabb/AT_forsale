@@ -31,7 +31,7 @@ return [
     'post'                      => 'Post',
     'posts'                     => 'Posts',
     'title'                     => 'Title',
-    'Contact Messages'          => 'Contact Messages',
+    'contact messages'          => 'Contact Messages',
     'Sender Name'               => 'Sender Name',
     'Sender Email'              => 'Sender Email',
     'Email Campaigns'           => 'Email Campaigns',
@@ -97,6 +97,9 @@ return [
     'behance'                   => 'Behance',
     'youtube'                   => 'Youtube',
     'github'                    => 'Github',
+    'licenses'                  => 'Licenses',
+    'license'                   => 'License',
+
 
 
     'Send a Custom Email'       => 'Send a Custom Email',

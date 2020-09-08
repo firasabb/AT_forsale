@@ -16,13 +16,16 @@ use Illuminate\Support\Str;
 class DownloadController extends Controller
 {
     
-
-    public function __construct(){
-
-    }
-
-
+    /**
+     * 
+     * Download The File... The Request Includes The Enrypted Download File ID and The Recaptcha
+     * @param Request
+     * @return readfile()
+     * 
+     */
     public function downloadDownload(Request $request){
+
+        // Validate the encrypted id and the recaptcha
 
         $validator = Validator::make($request->all(), [
             'id' => 'required|string',
@@ -37,11 +40,6 @@ class DownloadController extends Controller
             return back()->withErrors('Something went wrong! Please try again.');
         }
 
-        //$checkPastDownloads = DownloadEvent::whereDate('created_at', Carbon::today())->count();
-        //if($checkPastDownloads > 2 && !Auth::check()){
-            //return redirect()->route('login');
-        //}
-
         $encrypt_id = $request->id;
         $id = decrypt($encrypt_id);
         $download = Download::findOrFail($id);
@@ -50,6 +48,7 @@ class DownloadController extends Controller
         $downloadEvent->post()->associate($post);
         $downloadEvent->download()->associate($download);
 
+        // If the user with this ip or user_id has downloaded the file before don't store the download event
         $checkPastDownloads = $post->downloadEvents()->where(function($query) use ($ip, $id) {
             $query->where('download_id', $id);
             if(Auth::check()){
@@ -68,6 +67,7 @@ class DownloadController extends Controller
             }
             $downloadEvent->save();
         }
+
         $post = $download->post;
         $path = $download->getPath();
         $mime = $download->getMime();
@@ -81,6 +81,13 @@ class DownloadController extends Controller
     }
 
 
+    /**
+     * 
+     * Download The Admin For Files.
+     * @param int
+     * @return readfile()
+     * 
+     */
     public function adminDownloadDownload($id){
 
         $download = Download::findOrFail($id);
@@ -100,9 +107,9 @@ class DownloadController extends Controller
     /**
      * 
      * 
-     * Delete Download For Admins And Moderators Only
+     * Delete Download For Admins
      * @param Integer id
-     * @return Response
+     * @return RedirecResponse
      * 
      * 
      */
@@ -120,7 +127,7 @@ class DownloadController extends Controller
     /**
      * 
      * 
-     * Add a Download File For an Post Only for Admins and Moderators
+     * Add a Download File For an Post Only for Admins
      * @param Integer id 
      * @return Response
      * 

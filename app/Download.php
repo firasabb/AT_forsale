@@ -39,9 +39,9 @@ class Download extends Model
     }
 
 
-    // Override the delete method to delete the actual file from S3
+    // Override the delete method to delete the actual file from the storage
     public function delete(){
-        Storage::cloud()->delete($this->url);
+        Storage::delete($this->url);
         parent::delete();
     }
 }

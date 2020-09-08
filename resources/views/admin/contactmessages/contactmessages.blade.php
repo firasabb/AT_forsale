@@ -24,7 +24,7 @@
     <div class="row justify-content-center">
         <div class="col">
             <div class="card">
-                <div class="card-header">{{ __('main.Contact Messages') }}</div>
+                <div class="card-header">{{ __('main.contact messages') }}</div>
 
                 <div class="card-body">
                     @if ($errors->any())

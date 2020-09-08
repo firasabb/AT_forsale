@@ -9,6 +9,7 @@ class Category extends Model
 {
     use SoftDeletes;
 
+    // Add The background_color Attribute
     protected $appends = ['background_color'];
     
     public function posts(){
@@ -35,6 +36,11 @@ class Category extends Model
         return $this->morphOne('\App\Option', 'optionable');
     }
 
+    /**
+     * 
+     * Get the background color option of this category
+     * 
+     */
     public function backgroundColor(){
         $option = $this->option()->where('name', 'background_color')->first();
         if(!empty($option)){
@@ -43,6 +49,11 @@ class Category extends Model
         return '#F34444';
     }
 
+    /**
+     * 
+     * Check If The Category is a Child of Another Category
+     * 
+     */
     public function isChild(){
         if($this->parent_id){
             return true;
@@ -50,6 +61,11 @@ class Category extends Model
         return;
     }
 
+    /**
+     * 
+     * Check If The Category is a Parent of Another Category
+     * 
+     */
     public function isParent(){
         if(!$this->parent_id){
             return true;
@@ -57,12 +73,21 @@ class Category extends Model
         return;
     }
 
+    /**
+     * 
+     * Get All Parent Categories
+     * 
+     */
     public function parentCategories(){
         $categories = Category::whereNull('parent_id')->get();
         return $categories;
     }
 
-
+    /**
+     * 
+     * Get The Category Background Color (Attribute)
+     * 
+     */
     public function getBackgroundColorAttribute(){
         return $this->backgroundColor();
     }

@@ -50,15 +50,17 @@ class AdminController extends Controller
 
     /********* 
      * 
-     * 
-     * 
      *      Users
      * 
-     * 
-     * 
-     * 
-    */
+    *********/
 
+    /**
+     * 
+     * Index The Users For Admins 
+     * @param array or null Users
+     * @return View
+     * 
+     */
     public function indexUsers($users = null){
 
         if(!$users){
@@ -72,6 +74,13 @@ class AdminController extends Controller
     }
 
     
+    /**
+     * 
+     * Show The User's Info For Admins 
+     * @param int user id
+     * @return View
+     * 
+     */
     public function showUser($id){
 
         $user = User::findOrFail($id);
@@ -81,6 +90,13 @@ class AdminController extends Controller
     }
 
 
+    /**
+     * 
+     * Add a User Admins 
+     * @param Request $request
+     * @return RedirectResponse
+     * 
+     */
     public function addUser(Request $request){
 
         $validator = Validator::make($request->all(), [
@@ -113,6 +129,14 @@ class AdminController extends Controller
     }
 
 
+    /**
+     * 
+     * Edit The User's Info For Admins 
+     * @param int user id
+     * @param Request $request
+     * @return RedirectResponse
+     * 
+     */
     public function editUser($id, Request $request){
 
         $user = User::findOrFail($id);
@@ -142,7 +166,15 @@ class AdminController extends Controller
 
     }
 
-
+    
+    /**
+     * 
+     * Delete The User For Admins 
+     * Please note that soft delete is activated
+     * @param int user id
+     * @return RedirectResponse
+     * 
+     */
     public function destroyUser($id){
 
         $user = User::findOrFail($id);
@@ -152,6 +184,13 @@ class AdminController extends Controller
     }
 
 
+    /**
+     * 
+     * Generate a Password For The User For Admins 
+     * @param int user id
+     * @return RedirectResponse
+     * 
+     */
     public function generatePassword($id){
         
         $user = User::findOrFail($id);
@@ -165,6 +204,13 @@ class AdminController extends Controller
 
 
 
+    /**
+     * 
+     * Search Users For Admins  
+     * @param Request $request
+     * @return indexusers($users)
+     * 
+     */
     public function searchUsers(Request $request){
         
         $users = array();
@@ -232,6 +278,7 @@ class AdminController extends Controller
         return $generatedString;
     }
 
+
     /********
      * 
      * 
@@ -242,9 +289,15 @@ class AdminController extends Controller
      * 
      * 
      * 
+     ********/
+
+
+     /**
+     * 
+     * Index The Roles For Admins  
+     * @return View
+     * 
      */
-
-
      public function indexRoles(){
 
         $roles = Role::orderBy('id', 'desc')->paginate(20);
@@ -254,7 +307,13 @@ class AdminController extends Controller
      }
 
 
-     
+    /**
+     * 
+     * Add a Role For Admins  
+     * @param Request $request
+     * @return View
+     * 
+     */
      public function addRole(Request $request){
 
         $validator = Validator::make($request->all(), [
@@ -279,6 +338,13 @@ class AdminController extends Controller
     }
 
 
+    /**
+     * 
+     * Show The Role Info For Admins  
+     * @param int role id
+     * @return View
+     * 
+     */
      public function showRole($id){
 
         $role = Role::findOrFail($id);
@@ -288,6 +354,14 @@ class AdminController extends Controller
      }
 
 
+     /**
+     * 
+     * Edit The Role Info For Admins  
+     * @param Request $request
+     * @param Request role id
+     * @return RedirectResponse
+     * 
+     */
      public function editRole(Request $request, $id){
 
         $role = Role::findOrFail($id);
@@ -313,6 +387,13 @@ class AdminController extends Controller
      }
 
 
+     /**
+     * 
+     * Destroy a Role For Admins  
+     * @param int $id
+     * @return RedirectResponse
+     * 
+     */
      public function destroyRole($id){
 
         $role = Role::findOrFail($id);
@@ -336,11 +417,16 @@ class AdminController extends Controller
      * 
      * 
      * 
-     *  */ 
+     *********/ 
     
 
 
-
+     /**
+     * 
+     * Index Permissions For Admins  
+     * @return View
+     * 
+     */
      public function indexPermissions(){
 
         $permissions = Permission::orderBy('id', 'desc')->paginate(20);
@@ -350,6 +436,13 @@ class AdminController extends Controller
      }
 
 
+     /**
+     * 
+     * Add a Permissions For Admins  
+     * @param Request $request
+     * @return View
+     * 
+     */
      public function addPermission(Request $request){
 
 
@@ -377,6 +470,13 @@ class AdminController extends Controller
      }
 
 
+     /**
+     * 
+     * Show Permission Info For Admins  
+     * @param int permission id
+     * @return View
+     * 
+     */
      public function showPermission($id){
 
         $permission = Permission::findOrFail($id);
@@ -388,6 +488,14 @@ class AdminController extends Controller
      }
 
 
+     /**
+     * 
+     * Show Permission Info For Admins  
+     * @param Request $request
+     * @param int permission id
+     * @return RedirectResponse
+     * 
+     */
      public function editPermission(Request $request, $id){
 
         $permission = Permission::findOrFail($id);
@@ -414,6 +522,14 @@ class AdminController extends Controller
      }
 
 
+
+     /**
+     * 
+     * Show Permission Info For Admins  
+     * @param int permission id
+     * @return RedirectResponse
+     * 
+     */
      public function destroyPermission($id){
 
         $permission = Permission::findOrFail($id);
@@ -426,8 +542,8 @@ class AdminController extends Controller
 
 
      /**
-      * Show the form to send custom emails
-      * @return Response
+      * Show The Form to Send Custom Emails For Admins 
+      * @return View
       *
       */
      public function sendEmailForm(){
@@ -439,9 +555,9 @@ class AdminController extends Controller
 
 
      /**
-      * Send custom emails to people
+      * Send Custom Emails For Admins 
       * @param Request $request
-      * @return Response
+      * @return RedirectResponse
       *
       */
      public function sendEmail(Request $request){

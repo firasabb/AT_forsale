@@ -11,7 +11,11 @@ use Illuminate\Support\Str;
 class PageController extends Controller
 {
 
-
+    /**
+     * Index the pages for admins
+     * @param array $pages
+     * @return View
+     */
     public function adminIndex($pages = ''){
         if(!$pages){
             $pages = Page::orderBy('id', 'desc');
@@ -21,6 +25,12 @@ class PageController extends Controller
     }
 
 
+    /**
+     * Add a new page for admins.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return RedirectResponse
+     */
     public function adminAdd(Request $request){
 
         $validator = Validator::make($request->all(), [
@@ -42,12 +52,24 @@ class PageController extends Controller
     }
 
 
+    /**
+     * Show a page for admins.
+     *
+     * @param int $id
+     * @return View
+     */
     public function adminShow($id){
         $page = Page::findOrFail($id);
         return view('admin.pages.show', ['page' => $page]);
     }
 
 
+    /**
+     * Edit a page for admins.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return RedirectResponse
+     */
     public function adminEdit(Request $request, $id){
 
         $page = Page::findOrFail($id);
@@ -73,6 +95,12 @@ class PageController extends Controller
     }
 
 
+    /**
+     * Delete a page for admins.
+     *
+     * @param int $id
+     * @return RedirectResponse
+     */
     public function adminDestroy($id){
         
         $page = Page::findOrFail($id);
@@ -82,6 +110,12 @@ class PageController extends Controller
     }
 
 
+    /**
+     * Search pages for admins.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return RedirectResponse
+     */
     public function adminSearchPages(Request $request){
 
         $validator = Validator::make($request->all(), [
@@ -118,6 +152,13 @@ class PageController extends Controller
         return $this->adminIndex($pages);
     }
 
+
+    /**
+     * View a page.
+     *
+     * @param string $url
+     * @return View
+     */
 
     public function showPage($url){
 

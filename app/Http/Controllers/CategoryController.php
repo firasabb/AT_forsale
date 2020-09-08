@@ -16,7 +16,12 @@ use Illuminate\Validation\Rule;
 class CategoryController extends Controller
 {
 
-    
+    /**
+      * Index The Categories For Admins
+      * @param Category $categories
+      * @return View
+      *
+      */
     public function adminIndex($categories = null)
     {
         if(!$categories){
@@ -30,6 +35,12 @@ class CategoryController extends Controller
     }
 
 
+    /**
+      * Add a Category For Admins
+      * @param Request $request
+      * @return RedirectResponse
+      *
+      */
     public function adminAdd(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -78,6 +89,13 @@ class CategoryController extends Controller
     }
 
 
+    /**
+      * Edit a Category For Admins
+      * @param Request $request
+      * @param int $id
+      * @return RedirectResponse
+      *
+      */
     public function adminEdit(Request $request, $id)
     {
         $category = Category::findOrFail($id);
@@ -138,6 +156,12 @@ class CategoryController extends Controller
     }
 
 
+    /**
+      * Show a Category Info For Admins
+      * @param int $id
+      * @return View
+      *
+      */
     public function adminShow($id)
     {
         $category = Category::findOrFail($id);
@@ -147,6 +171,12 @@ class CategoryController extends Controller
     }
 
 
+    /**
+      * Delete a Category For Admins
+      * @param int $id
+      * @return RedirectResponse
+      *
+      */
     public function adminDestroy($id)
     {
         $category = Category::findOrFail($id);
@@ -155,6 +185,12 @@ class CategoryController extends Controller
     }
 
 
+    /**
+      * Search Categories For Admins
+      * @param Request $request
+      * @return adminindex()
+      *
+      */
     public function adminSearchCategories(Request $request){
 
         $validator = Validator::make($request->all(), [

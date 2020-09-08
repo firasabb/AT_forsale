@@ -12,10 +12,10 @@ use Illuminate\Validation\Rule;
 
 class TagController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Index tags.
+     * @return View
      */
     public function index()
     {
@@ -24,6 +24,11 @@ class TagController extends Controller
     }
 
 
+    /**
+     * Index tags for admins.
+     * @param array $tags.
+     * @return View
+     */
     public function adminIndex($tags = null)
     {
         if(!$tags){
@@ -35,21 +40,11 @@ class TagController extends Controller
         return view('admin.tags.tags', ['tags' => $tags, 'categories' => $categories]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * Add a tag for admins.
+     * @param Request $request
+     * @return RedirectResponse
      */
     public function adminAdd(Request $request)
     {
@@ -87,11 +82,11 @@ class TagController extends Controller
 
     }
 
+
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Tag  $tag
-     * @return \Illuminate\Http\Response
+     * Display a tag for admins.
+     * @param int $id
+     * @return View
      */
     public function adminShow($id)
     {
@@ -101,23 +96,12 @@ class TagController extends Controller
         return view('admin.tags.show', ['tag' => $tag, 'categories' => $categories, 'tagCategories' => $tagCategories]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Tag  $tag
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Tag $tag)
-    {
-        //
-    }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Tag  $tag
-     * @return \Illuminate\Http\Response
+     * Edit the tag for admins.
+     * @param Request $request
+     * @param int $id
+     * @return RedirectResponse
      */
     public function adminEdit(Request $request, $id)
     {
@@ -152,10 +136,9 @@ class TagController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Tag  $tag
-     * @return \Illuminate\Http\Response
+     * Delete a tag for admins
+     * @param int $id
+     * @return RedirectResponse
      */
     public function adminDestroy($id)
     {
@@ -167,9 +150,8 @@ class TagController extends Controller
 
     /**
      * Search the tags for admins.
-     *
      * @param  Request
-     * @return \Illuminate\Http\Response
+     * @return adminIndex()
      */
 
     public function adminSearchTags(Request $request){
@@ -212,7 +194,8 @@ class TagController extends Controller
 
     /**
      * 
-     * Show add tags in bulk form
+     * Display bull tags add for admins
+     * @return View
      * 
      */
     public function adminBulkAddForm(){
@@ -225,8 +208,9 @@ class TagController extends Controller
 
     /**
      * 
-     * Add tags in bulk
+     * Store tags in bulk.
      * @param Request $request
+     * @return RedirectResponse
      * 
      */
     public function adminBulkAdd(Request $request){
@@ -270,7 +254,7 @@ class TagController extends Controller
 
     /**
      * 
-     * Search For Tags in AJAX Request
+     * Search For Tags in an AJAX Request
      * @param Request
      * @return Response
      * 

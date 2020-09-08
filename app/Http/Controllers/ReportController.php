@@ -14,13 +14,11 @@ use DB;
 class ReportController extends Controller
 {
 
-
-    
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    /** 
+    * Index reports for admins.
+    * @param array $reports
+    * @return View
+    */
     public function adminIndex($reports = null)
     {
         if(!$reports){
@@ -36,15 +34,83 @@ class ReportController extends Controller
     }
 
 
+    /** 
+    * Show a report for admins.
+    * @param int $id
+    * @return View
+    */
+    public function adminShow($id)
+    {
+        $report = Report::findOrFail($id);
+        return view('admin.reports.show', ['report' => $report]);
+    }
+
+    /**
+     * Delete the report for admins.
+     * @param  int $id
+     * @return RedirectResponse
+     */
+    public function adminDestroy($id)
+    {
+        $report = Report::findOrFail($id);
+        $report->delete();
+        return redirect()->route('admin.index.reports')->with('message', 'The report has been deleted');
+    }
 
 
     /**
-     * 
-     * Save the report in the database
+     * Search reports for admins.
      * @param Request
-     * @return Response
-     * 
+     * @return adminIndex()
      */
+    public function adminSearchReports(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'id' => 'integer|nullable',
+            'reportable_id' => 'integer|nullable',
+            'reportable_type' => 'string'
+        ]);
+
+        if($validator->fails() || empty($request->all())){
+            return redirect()->route('admin.index.reports')->withErrors($validator)->withInput();
+        }
+
+        $id = $request->id;
+        $reportable_id = $request->reportable_id;
+        $reportable_type = $request->reportable_type;
+        $where_arr = array();
+
+        if($id){
+
+            $id_where = ['id', '=', $id];
+            array_push($where_arr, $id_where);
+
+        } if($reportable_type){
+
+            $reportable_type_where = ['reportable_type', 'LIKE', '%' . $reportable_type];
+            array_push($where_arr, $reportable_type_where);
+
+        } if($reportable_id){
+
+            $reportable_id_where = ['reportable_id', '=', $reportable_id];
+            array_push($where_arr, $reportable_id_where);
+
+        }
+
+        $reports = Report::where($where_arr);
+
+        if(empty($reports)){
+            return $this->adminIndex();
+        }
+        return $this->adminIndex($reports);
+    }
+
+
+    /** 
+    * Store a report.
+    * @param int $id
+    * @return RedirectResponse
+    */
     public function store(Request $request, $type){
 
         $validator = Validator::make($request->all(), [
@@ -88,74 +154,5 @@ class ReportController extends Controller
         }
 
     }
-
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Report  $report
-     * @return \Illuminate\Http\Response
-     */
-    public function adminShow($id)
-    {
-        $report = Report::findOrFail($id);
-        return view('admin.reports.show', ['report' => $report]);
-    }
-
-    /**
-     * Delete the report for admins.
-     *
-     * @param  \App\Report  $report
-     * @return \Illuminate\Http\Response
-     */
-    public function adminDestroy($id)
-    {
-        $report = Report::findOrFail($id);
-        $report->delete();
-        return redirect()->route('admin.index.reports')->with('message', 'The report has been deleted');
-    }
-
-    public function adminSearchReports(Request $request){
-
-        $validator = Validator::make($request->all(), [
-            'id' => 'integer|nullable',
-            'reportable_id' => 'integer|nullable',
-            'reportable_type' => 'string'
-        ]);
-
-        if($validator->fails() || empty($request->all())){
-            return redirect()->route('admin.index.reports')->withErrors($validator)->withInput();
-        }
-
-        $id = $request->id;
-        $reportable_id = $request->reportable_id;
-        $reportable_type = $request->reportable_type;
-        $where_arr = array();
-
-        if($id){
-
-            $id_where = ['id', '=', $id];
-            array_push($where_arr, $id_where);
-
-        } if($reportable_type){
-
-            $reportable_type_where = ['reportable_type', 'LIKE', '%' . $reportable_type];
-            array_push($where_arr, $reportable_type_where);
-
-        } if($reportable_id){
-
-            $reportable_id_where = ['reportable_id', '=', $reportable_id];
-            array_push($where_arr, $reportable_id_where);
-
-        }
-
-        $reports = Report::where($where_arr);
-
-        if(empty($reports)){
-            return $this->adminIndex();
-        }
-        return $this->adminIndex($reports);
-    }
-
 
 }

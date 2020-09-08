@@ -45,11 +45,34 @@ class Post extends Model
     public function medias(){
         return $this->morphToMany('App\Media', 'mediable');
     }
+    
+    public function downloadEvents(){
+        return $this->hasMany('App\DownloadEvent');
+    }
 
+    public function viewEvents(){
+        return $this->hasMany('App\ViewEvent');
+    }
+
+    public function licenses(){
+        return $this->belongsToMany('\App\License');
+    }
+
+    /**
+     * 
+     * Only published posts
+     * 
+     */
     public function publishedPosts(){
         return $this->where('status', 2);
     }
 
+    /**
+     * 
+     * Get the post's cover url
+     * @return string
+     * 
+     */
     public function cover(){
         $check_if_exists = $this->medias->where('sorting', 2)->first();
         if(empty($check_if_exists)){
@@ -58,34 +81,47 @@ class Post extends Model
         return $check_if_exists->url;
     }
 
+    /**
+     * 
+     * Get the post's cover object
+     * @return Media
+     * 
+     */
     public function originalCover(){
         return $this->medias->where('sorting', 2)->first();
     }
 
-    public function downloadEvents(){
-        return $this->hasMany('App\DownloadEvent');
-    }
-
+    /**
+     * 
+     * Count the post's download events (DISTINCT user_id and ip_address)
+     * @return int
+     * 
+     */
     public function downloadEventsCount(){
         $count = $this->downloadEvents()->whereNull('user_id')->distinct('ip_address')->count();
         $count += $this->downloadEvents()->whereNotNull('user_id')->distinct('user_id')->count();
         return $count;
     }
 
-    public function viewEvents(){
-        return $this->hasMany('App\ViewEvent');
-    }
-
+    /**
+     * 
+     * Count the post's view events (DISTINCT user_id and ip_address)
+     * @return int
+     * 
+     */
     public function viewEventsCount(){
         $count = $this->viewEvents()->whereNull('user_id')->distinct('ip_address')->count();
         $count += $this->viewEvents()->whereNotNull('user_id')->distinct('user_id')->count();
         return $count;
     }
 
-    public function licenses(){
-        return $this->belongsToMany('\App\License');
-    }
 
+    /**
+     * 
+     * Get the featured media file's url of the post
+     * @return string
+     * 
+     */
     public function featured(){
 
         $check_if_exists = $this->medias->where('sorting', 1)->first();
@@ -95,10 +131,22 @@ class Post extends Model
         return $check_if_exists->url;
     }
     
+    /**
+     * 
+     * Get the featured media file's object of the post
+     * @return Media
+     * 
+     */
     public function originalFeatured(){
         return $this->medias->where('sorting', 1)->first();
     }
 
+
+    /**
+     * 
+     * Parse the created_at date
+     * 
+     */
     public function createdAt(){
 
         $postDate = $this->created_at;
@@ -113,6 +161,12 @@ class Post extends Model
     }
 
 
+    /**
+     * 
+     * Override the delete method
+     * To delete the post's files
+     * 
+     */
     public function delete(){
         $medias = $this->medias;
         foreach($medias as $media){
@@ -127,7 +181,7 @@ class Post extends Model
 
     /**
      * 
-     * Change status numbers to text and check if deleted or not
+     * Status numbers to text and check if it's deleted or not
      * 
      */
     public function statusInText(){

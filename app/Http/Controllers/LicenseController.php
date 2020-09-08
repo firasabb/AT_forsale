@@ -20,6 +20,11 @@ class LicenseController extends Controller
     }
     
 
+    /**
+     * Index the licenses for admins.
+     * @param array $license
+     * @return View
+     */
     public function adminIndex($licenses = null)
     {
         if(!$licenses){
@@ -32,10 +37,10 @@ class LicenseController extends Controller
 
 
     /**
-     * Store a newly created resource in storage.
+     * Store a new license.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
     public function adminAdd(Request $request)
     {
@@ -63,15 +68,13 @@ class LicenseController extends Controller
         $license->save();
 
         return back()->with('status', 'A new licenses has been created!');
-
-
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified license.
      *
-     * @param  \App\License  $license
-     * @return \Illuminate\Http\Response
+     * @param  int $id
+     * @return View
      */
     public function adminShow($id)
     {
@@ -83,8 +86,8 @@ class LicenseController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\License  $license
-     * @return \Illuminate\Http\Response
+     * @param  int $id
+     * @return RedirectResponse
      */
     public function adminEdit(Request $request, $id)
     {
@@ -118,10 +121,10 @@ class LicenseController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified license.
      *
      * @param  \App\License  $license
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
     public function adminDestroy($id)
     {
@@ -135,7 +138,7 @@ class LicenseController extends Controller
      * Search the licenses for admins.
      *
      * @param  Request
-     * @return \Illuminate\Http\Response
+     * @return adminIndex()
      */
 
     public function adminSearchLicenses(Request $request){

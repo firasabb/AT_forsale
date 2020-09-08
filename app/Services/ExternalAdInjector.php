@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * 
+ * This Service is to Get The External Ad Body
+ * 
+ */
+
+
 namespace App\Services;
 
 use App\ExternalAd;

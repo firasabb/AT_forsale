@@ -25,10 +25,15 @@ class Media extends Model
 
     // Override the delete method to delete the actual file from S3
     public function delete(){
-        Storage::cloud()->delete($this->url);
+        Storage::delete($this->url);
         parent::delete();
     }
 
+    /**
+     * 
+     * Parse The Media's Sorting Integers To Strings
+     * 
+     */
     public function sortingToText(){
         switch($this->sorting){
             case 0:

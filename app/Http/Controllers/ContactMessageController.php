@@ -9,6 +9,13 @@ use App\Services\Recaptcha;
 
 class ContactMessageController extends Controller
 {
+
+    /**
+      * Index The Messages For Admins
+      * @param Category $contactMessages
+      * @return View
+      *
+      */
     public function adminIndex($contactMessages = null)
     {
         if(!$contactMessages){
@@ -19,8 +26,9 @@ class ContactMessageController extends Controller
         return view('admin.contactmessages.contactmessages', ['messages' => $contactMessages]);
     }
 
+
     /**
-     * Show the form for creating a new resource.
+     * Show The Form for Creating a New Contact Message.
      *
      * @return \Illuminate\Http\Response
      */
@@ -31,10 +39,10 @@ class ContactMessageController extends Controller
 
 
     /**
-     * Store the contact message.
+     * Store The Contact Message.
      *
      * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
     public function store(Request $request)
     {
@@ -71,53 +79,14 @@ class ContactMessageController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function adminAdd(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|string|max:40',
-            'body' => 'required|string'
-        ]);
-
-        if($validator->fails()){
-            return back()->withErrors($validator)->withInput();
-        } 
-
-        $contactMessage = new ContactMessage();
-        $contactMessage->name = $request->title;
-        $contactMessage->body = $request->body;
-        $contactMessage->save();
-
-        return redirect()->route('admin.index.contactmessages')->with('status', 'A new message has been created!');
-
-
-    }
-
-    /**
-     * Display the specified resource.
-     *
+     * Display a Contact Message
      * @param  \App\ContactMessage  $contactMessage
-     * @return \Illuminate\Http\Response
+     * @return View
      */
     public function adminShow($id)
     {
         $contactMessage = ContactMessage::findOrFail($id);
         return view('admin.contactmessages.show', ['message' => $contactMessage]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\ContactMessage  $contactMessage
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(ContactMessage $contactMessage)
-    {
-        //
     }
 
     /**
@@ -135,10 +104,9 @@ class ContactMessageController extends Controller
 
 
     /**
-     * Search the ContactMessages for admins.
-     *
+     * Search the ContactMessages For Admins
      * @param  Request
-     * @return \Illuminate\Http\Response
+     * @return adminIndex()
      */
 
     public function adminSearchContactMessages(Request $request){

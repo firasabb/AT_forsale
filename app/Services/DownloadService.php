@@ -1,8 +1,17 @@
 <?php
 
+/**
+ * 
+ * This Service is To Process The Download Data
+ * For Example Showing The Size of The Image
+ * 
+ */
+
+
 namespace App\Services;
 
 class DownloadService{
+
 
     public function sizeFormat(int $size){
         $units = array('B', 'KB', 'MB', 'GB', 'TB'); 

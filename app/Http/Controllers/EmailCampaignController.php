@@ -20,10 +20,10 @@ class EmailCampaignController extends Controller
     
     /**
      * 
-     * Index Email Campaigns for admins and moderators
+     * Index Email Campaigns for admins
      * 
-     * @param Array ? Null $emailCampaigns
-     * @return Response
+     * @param array ? Null $emailCampaigns
+     * @return View
      * 
      */
 
@@ -39,10 +39,10 @@ class EmailCampaignController extends Controller
 
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created campaign in storage for admins.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
     public function adminAdd(Request $request)
     {
@@ -64,10 +64,10 @@ class EmailCampaignController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified campaign for admins.
      *
      * @param  \App\EmailCampaign  $emailCampaign
-     * @return \Illuminate\Http\Response
+     * @return View
      */
     public function adminShow($id)
     {
@@ -76,11 +76,11 @@ class EmailCampaignController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified campaign in storage for admins.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\EmailCampaign  $emailCampaign
-     * @return \Illuminate\Http\Response
+     * @param  int $id
+     * @return Redirect Response
      */
     public function adminEdit(Request $request, $id)
     {
@@ -101,10 +101,10 @@ class EmailCampaignController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified campaign from storage for admins.
      *
      * @param  \App\EmailCampaign  $emailCampaign
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
     public function adminDestroy($id)
     {
@@ -118,7 +118,7 @@ class EmailCampaignController extends Controller
      * Search the email campaigns for admins.
      *
      * @param  Request
-     * @return \Illuminate\Http\Response
+     * @return adminIndex()
      */
 
     public function adminSearchEmailCampaigns(Request $request){

@@ -13,7 +13,7 @@ class Page extends Model
 
     /**
      * 
-     * Check if the page is published
+     * Check If The Page is Published
      * @return bool 
      * 
      */
@@ -26,7 +26,7 @@ class Page extends Model
      * 
      * Get Active Page And Search By URL
      * @param string $url
-     * @return Object
+     * @return Page
      * 
      */
     public function getPublishedPageByUrl(string $url){

@@ -12,10 +12,11 @@ use Illuminate\Database\Eloquent\Builder;
 class WelcomeController extends Controller
 {
 
-    public function __construct(){
-
-    }
-
+    /**
+     * 
+     * Index posts for the homepage
+     * 
+     */
     public function index(){
 
         $stockPhotoCat = Category::where('name', 'LIKE' ,'stock photos')->first();
@@ -27,6 +28,14 @@ class WelcomeController extends Controller
 
     }
 
+
+    /**
+     * 
+     * Search posts (Post Request)
+     * @param Request $request
+     * @return RedirectResponse
+     * 
+     */
 
     public function searchPost(Request $request){
 
@@ -51,6 +60,13 @@ class WelcomeController extends Controller
     }
 
 
+    /**
+     * 
+     * Search posts (Get Request)
+     * @param Request $request
+     * @return RedirectResponse
+     * 
+     */
 
     public function searchGet(Request $request){
 
@@ -137,7 +153,7 @@ class WelcomeController extends Controller
 
     /**
      * 
-     * Show results from a chosen category
+     * Show results only from a chosen category
      * @param Request $request
      * 
      */
@@ -164,7 +180,7 @@ class WelcomeController extends Controller
 
     /**
      * 
-     * Show results from a chosen tag
+     * Show results only from a chosen tag
      * @param Request $request
      * 
      */
@@ -187,7 +203,15 @@ class WelcomeController extends Controller
     }
 
 
-
+    /**
+     * 
+     * Show the search results
+     * @param array $posts
+     * @param int $reqCategory Requested Category
+     * @param string $keyword
+     * @return View
+     * 
+     */
     public function searchResults($posts = [], $reqCategory = 0, $keyword = ''){
 
         if(!empty($posts)){

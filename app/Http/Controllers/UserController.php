@@ -16,16 +16,14 @@ use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
-    
 
-    public function __construct(){
-
-        
-
-    }
-
-
-
+    /**
+     * 
+     * Show a profile of a user
+     * @param string username
+     * @return View
+     * 
+     */
     public function showProfile($username){
 
         $user = User::where('username', $username)->firstOrFail();
@@ -37,6 +35,12 @@ class UserController extends Controller
     }
 
 
+    /**
+     * 
+     * Show the authenticated user's profile
+     * @return View
+     * 
+     */
     public function showMyProfile(){
 
         $user = Auth::user();
@@ -48,6 +52,12 @@ class UserController extends Controller
     }
 
 
+    /**
+     * 
+     * Show the authenticated user's setup profile page
+     * @return View
+     * 
+     */
     public function setupProfilePage(){
 
         $user = Auth::user();
@@ -65,6 +75,13 @@ class UserController extends Controller
     }
 
 
+    /**
+     * 
+     * Show the authenticated user's setup profile page
+     * @param Request $request
+     * @return RedirectResponse
+     * 
+     */
     public function setupProfileRequest(Request $request){
 
         $user = Auth::user();
@@ -128,6 +145,7 @@ class UserController extends Controller
         return back()->with('status', 'Your information has been updated');
 
     }
+
 
     /**
      * 
@@ -205,7 +223,13 @@ class UserController extends Controller
     }
 
 
-
+    /**
+     * 
+     * Validate that the website is valid
+     * @param string platform
+     * @return bool
+     * 
+     */
     private function validatePlatformLink($platform, $link){
 
         $platform = '/^(https?:\/\/)?(www\.)?' . $platform . '.(com|net)?\/[a-zA-Z0-9(\.\?)?]/';
@@ -219,6 +243,13 @@ class UserController extends Controller
     
     }
 
+    /**
+     * 
+     * Correct Facebook and Instagram links
+     * @param string $link
+     * @return string
+     * 
+     */
     private function facebookInstagramLinks($link){
 
         // We don't want a url
@@ -234,6 +265,12 @@ class UserController extends Controller
     }
     
 
+    /**
+     * 
+     * Show the authenticated user's change password page
+     * @return View
+     * 
+     */
     public function changePasswordPage(){
 
         $user = Auth::user();
@@ -242,6 +279,13 @@ class UserController extends Controller
     }
 
 
+    /**
+     * 
+     * Change user's password
+     * @param Request $request
+     * @return RedirectResponse
+     * 
+     */
     public function changePasswordRequest(Request $request){
 
         $user = $request->user();
@@ -261,7 +305,7 @@ class UserController extends Controller
             if (!Hash::check($new_password, $user->password)) {
                 $user->fill(['password' => Hash::make($new_password)])->save();
                 Auth::logout();
-                return redirect('/login');
+                return redirect()->route('login');
             } else {
                 return back()->withErrors('New password cannot be the same old one.');
             }
@@ -273,7 +317,7 @@ class UserController extends Controller
     /**
      * 
      * Go to the user's dashboard
-     * @return Response
+     * @return View
      * 
      */
     public function dashboard(){
@@ -284,7 +328,7 @@ class UserController extends Controller
 
     /**
      * Show posts in the user's dashboard
-     * @return Response
+     * @return View
      */
     public function myPostsPage(){
 
@@ -296,7 +340,7 @@ class UserController extends Controller
 
     /**
      * Show the user's ad in the user's dashboard
-     * @return Response
+     * @return View
      */
     public function userAd(){
 
@@ -314,7 +358,7 @@ class UserController extends Controller
     /**
      * 
      * Send Verification Email
-     * @return Response
+     * @return RedirectResponse
      * 
      */
     public function sendVerificationEmail(){

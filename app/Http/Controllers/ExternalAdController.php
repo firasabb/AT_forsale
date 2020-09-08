@@ -18,6 +18,12 @@ class ExternalAdController extends Controller
     }
     
 
+    /**
+     * Index the external ads for admins.
+     *
+     * @param array $externalAds
+     * @return View
+     */
     public function adminIndex($externalAds = null)
     {
         if(!$externalAds){
@@ -30,10 +36,10 @@ class ExternalAdController extends Controller
 
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource in storage for admins.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
     public function adminAdd(Request $request)
     {
@@ -59,8 +65,8 @@ class ExternalAdController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\ExternalAd  $externalAd
-     * @return \Illuminate\Http\Response
+     * @param  int $id
+     * @return RedirectResponse
      */
     public function adminShow($id)
     {
@@ -69,11 +75,11 @@ class ExternalAdController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified resource in storage for admins.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\ExternalAd  $externalAd
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request  $request
+     * @param int $id
+     * @return RedirectResponse
      */
     public function adminEdit(Request $request, $id)
     {
@@ -96,10 +102,10 @@ class ExternalAdController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified resource from storage for admins.
      *
      * @param  \App\ExternalAd  $externalAd
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
     public function adminDestroy($id)
     {
@@ -113,7 +119,7 @@ class ExternalAdController extends Controller
      * Search the externalAds for admins.
      *
      * @param  Request
-     * @return \Illuminate\Http\Response
+     * @return adminIndex()
      */
 
     public function adminSearchExternalAds(Request $request){

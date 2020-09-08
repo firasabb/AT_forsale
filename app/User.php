@@ -41,13 +41,22 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-
+    /**
+     * 
+     * Get All Posts of This User
+     * 
+     */
     public function posts(){
 
         return $this->hasMany('\App\Post');
 
     }
 
+    /**
+     * 
+     * Get Only Approved Posts (Status is 2) Of This User
+     * 
+     */
     public function approvedPosts(){
 
         return $this->posts()->where('status', 2);
@@ -58,12 +67,6 @@ class User extends Authenticatable implements MustVerifyEmail
     public function comments(){
 
         return $this->hasMany('\App\Comment', 'user_id');
-
-    }
-
-    public function upvotes(){
-
-        return $this->hasMany('\App\Upvote', 'user_id');
 
     }
 
@@ -119,6 +122,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->where('status', 1);
     }
 
+    /**
+     * 
+     * Get the user's avatar
+     * 
+     */
     public function avatar(){
         $check_if_exists = $this->medias->where('sorting', 4)->first();
         if(empty($check_if_exists)){
@@ -127,6 +135,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $check_if_exists;
     }
 
+    /**
+     * 
+     * Get the user's avatar url
+     * 
+     */
     public function avatarUrl(){
         $avatar = $this->avatar();
         if(empty($avatar)){
@@ -134,13 +147,12 @@ class User extends Authenticatable implements MustVerifyEmail
         } else {
             $avatar = $avatar->url;
         }
-        return Storage::cloud()->url($avatar);
+        return Storage::url($avatar);
     }
 
     
     /**
      * Get the user's full name.
-     *
      * @return string
      */
     public function getFullNameAttribute() {
@@ -150,7 +162,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * 
-     * Change status numbers to text and check if deleted or not
+     * Parse status numbers to strings and check if deleted or not
      * 
      */
     public function statusInText(){

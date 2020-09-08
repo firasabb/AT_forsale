@@ -12,9 +12,8 @@ use Auth;
 class CommentController extends Controller
 {
     /**
-     * Display a listing of the comments.
-     *
-     * @return \Illuminate\Http\Response
+     * Index Comments For Admins
+     * @return RedirectResponse
      */
     public function adminIndex($comments = null)
     {
@@ -26,38 +25,11 @@ class CommentController extends Controller
         return view('admin.comments.comments', ['comments' => $comments]);
     }
 
-    /**
-     * Save the comment into the database.
-     * @param encryptedid
-     * @return \Illuminate\Http\Response
-     */
-    public function store($encryptedId, Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'body' => 'required|max:100',
-        ]);
-
-        if($validator->fails() || !$encryptedId){
-            return redirect()->back()->withErrors()->withInput();
-        }
-        $post = Post::findOrFail(decrypt($encryptedId));
-        $user = Auth::user();
-        $comment = new Comment();
-        $comment->body = $request->body;
-        $comment->post_id = $post->id;
-        $user->comments()->save($comment);
-        $comment->save();
-
-        return redirect()->back()->with('status', 'Your comment has been added successfully!');
-    }
-
-
 
     /**
-     * Show comment page for admins and moderators
-     * 
-     * @param comment id
-     * @return response
+     * Show Comment Info For Admins
+     * @param int comment id
+     * @return View
      */
     public function adminShow($id)
     {
@@ -67,10 +39,9 @@ class CommentController extends Controller
 
 
     /**
-     * Delete comment for admins and moderators
-     * 
-     * @param comment id
-     * @return response
+     * Delete a Comment For Admins
+     * @param int comment id
+     * @return RedirectResponse
      */
     public function adminDestroy($id)
     {
@@ -82,9 +53,9 @@ class CommentController extends Controller
 
     /**
      * 
-     * Update the comment
-     * @param request
-     * @return response
+     * Edit a Comment's Info For Admins
+     * @param Request $request
+     * @return RedirectResponse
      * 
      */
     public function adminEdit(Request $request, $id)
@@ -106,67 +77,11 @@ class CommentController extends Controller
     }
 
 
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+        /**
+     * Search Comments For Admins
+     * @param Request $request
+     * @return adminIndex()
      */
-    public function create(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Comment $comment)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Comment $comment)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Comment $comment)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        $id = decrypt($id);
-        $comment = Comment::findOrFail($id);
-        $comment->delete();
-        return back()->with('stats', 'The comment has been deleted!');
-    }
-
-
     public function adminSearchComments(Request $request){
 
         $validator = Validator::make($request->all(), [
@@ -208,4 +123,45 @@ class CommentController extends Controller
         }
         return $this->adminIndex($comments);
     }
+
+
+    /**
+     * Save a Comment
+     * @param string encryptedid
+     * @return RedirectResponse
+     */
+    public function store($encryptedId, Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'body' => 'required|max:100',
+        ]);
+
+        if($validator->fails() || !$encryptedId){
+            return back()->withErrors()->withInput();
+        }
+        $post = Post::findOrFail(decrypt($encryptedId));
+        $user = Auth::user();
+        $comment = new Comment();
+        $comment->body = $request->body;
+        $comment->post_id = $post->id;
+        $user->comments()->save($comment);
+        $comment->save();
+
+        return back()->with('status', 'Your comment has been added successfully!');
+    }
+
+
+    /**
+     * Delete a Comment
+     * @param  string encrypted id
+     * @return RedirectResponse
+     */
+    public function destroy($id)
+    {
+        $id = decrypt($id);
+        $comment = Comment::findOrFail($id);
+        $comment->delete();
+        return back()->with('status', 'The comment has been deleted!');
+    }
+    
 }
