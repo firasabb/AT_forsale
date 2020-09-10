@@ -136,6 +136,7 @@ return [
     'upload files here'         => 'Upload Your Files Here',
     'search and explore'        => 'Search and Explore All The Free Posts',
     'no posts user'             => 'No posts have been published yet',
-
+    'title placeholder'         => 'Galaxy and stars in a clear sky',
+    'description placeholder'   => 'Describe your photo or video in a few words...',
 
 ];

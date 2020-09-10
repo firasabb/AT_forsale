@@ -82,26 +82,26 @@
                         <div class="py-3">
                             @if(!empty($featured))
                                 @if(in_array($categoryName, $visualArr))
-                                    <img class="card-body-img" src="{{ Storage::cloud()->url($post->cover()) }}" alt="{{ $post->title }}">
+                                    <img class="card-body-img" src="{{ Storage::url($post->cover()) }}" alt="{{ $post->title }}">
                                 @elseif(in_array($categoryName, $videoArr))
                                     <div>
-                                        <video muted width="100%" height="230" poster="{{ Storage::cloud()->url($post->cover()) }}" preload="none">
-                                            <source src="{{ Storage::cloud()->url($post->featured()) }}">
+                                        <video muted width="100%" height="230" poster="{{ Storage::url($post->cover()) }}" preload="none">
+                                            <source src="{{ Storage::url($post->featured()) }}">
                                             <p>Your browser doesn't support HTML5 audio. Download It <a class="a-no-decoration-white" href="{{ route('show.post', ['url' => $post->url]) }}"></a></p>
                                         </video>
                                     </div>
                                 @elseif(in_array($categoryName, $audioArr))
                                     <div class="card card-shadow" style="width: 100%;">
-                                        <img class="card-img card-img-top" src="{{ Storage::cloud()->url($post->cover()) }}" alt="{{ $post->title }}">
+                                        <img class="card-img card-img-top" src="{{ Storage::url($post->cover()) }}" alt="{{ $post->title }}">
                                         <div >
                                             <audio controls style="width:100%;">
-                                                <source src="{{ Storage::cloud()->url($post->featured()) }}">
+                                                <source src="{{ Storage::url($post->featured()) }}">
                                                 <p>Your browser doesn't support HTML5 audio. Download It <a class="a-no-decoration-white" href="{{ route('show.post', ['url' => $post->url]) }}"></a></p>
                                             </audio>
                                         </div>
                                     </div>
                                 @else
-                                    <img class="card-body-img" src="{{ Storage::cloud()->url($post->cover()) }}" alt="{{ $post->title }}">
+                                    <img class="card-body-img" src="{{ Storage::url($post->cover()) }}" alt="{{ $post->title }}">
                                 @endif
                             @endif
                         </div>
@@ -210,9 +210,9 @@
                                             {!! method_field('DELETE') !!}
                                             <button class="btn btn-danger dropdown-item" type="submit">Delete</button>
                                         </form>
-                                        <button type="button" v-on:click="open_report_modal('{{ encrypt($comment->id) }}', '{{ route('add.report', ['type' => 'comment']) }}')" class="dropdown-item">{{ __('main.report) }}</button>
-                                    @elseif(Auth::check())
                                         <button type="button" v-on:click="open_report_modal('{{ encrypt($comment->id) }}', '{{ route('add.report', ['type' => 'comment']) }}')" class="dropdown-item">{{ __('main.report') }}</button>
+                                    @elseif(Auth::check())
+                                        <button type="button" v-on:click="open_report_modal('', '')" class="dropdown-item">{{ __('main.report') }}</button>
                                     @else
                                         <a target="_blank" class="a-no-decoration dropdown-item" href="{{ route('login') }}">{{ __('main.report') }}</a>
                                     @endif
@@ -262,10 +262,10 @@
                                 <form action="{{ route('download.download') }}" method="post">
                                     <div class="row justify-content-center pb-3">
                                         <div class="col text-center">
-                                            <p class="mb-1"><strong>File {{ $n }}:</strong> {{ Download::sizeFormat(Storage::cloud()->size($download->url)) }}</p>
+                                            <p class="mb-1"><strong>File {{ $n }}:</strong> {{ Download::sizeFormat(Storage::size($download->url)) }}</p>
                                             <input type="hidden" name="id" value="{{ encrypt($download->id) }}">
                                             @if($post->category->url == 'stock-photos')
-                                                <button class="btn btn-dark download-btn">{{ Download::getImageSize(Storage::cloud()->temporaryUrl($download->url, now()->addSeconds(4))) }}</button>
+                                                <button class="btn btn-dark download-btn">{{ Download::getImageSize(Storage::temporaryUrl($download->url, now()->addSeconds(4))) }}</button>
                                             @else
                                                 <button class="btn btn-dark download-btn">Download</button>
                                             @endif
@@ -286,7 +286,7 @@
                 <div class="col">
                     <div class="card border-light card-shadow">
                         <div class="card-header bg-light">
-                            {{ __('main.license) }}
+                            {{ __('main.license') }}
                         </div>
                         <div class="card-body text-center">
                             <div class="py-2">
@@ -299,7 +299,7 @@
                             @endif
                             @if(!is_null($license->link))
                                 <div>
-                                    <a target="_blank" class="a-no-decoration" href="{{ $license->link }}">{{ __('main.click here information) }}</a>
+                                    <a target="_blank" class="a-no-decoration" href="{{ $license->link }}">{{ __('main.click here information') }}</a>
                                 </div>
                             @endif
                         </div>
@@ -331,16 +331,8 @@
         </div>
     </div>
 
-
-
-
-
-
 <x-report>
 </x-report>
-
-<x-user-ad :user="$post->user" :user-ad="$post->user->approvedUserAd()">
-</x-user-ad>
 
 @endsection
 
@@ -353,7 +345,7 @@
     <meta property="og:description" content="Made by {{ $post->user->username }}! Download {{ strtoupper($post->category->name) }} Posts for Free on Genyoon!" />
     <meta property="og:url" content="{{ url()->current() }}" />
     <meta property="og:site_name" content="{{ config('app.name', 'Laravel') }}" />
-    <meta property="og:image" content="{{ Storage::cloud()->url($post->cover()) }}">
+    <meta property="og:image" content="{{ Storage::url($post->cover()) }}">
     <meta name="description" content="Download {{ strtoupper($post->category->name) }} Posts for Free on Genyoon! Made by {{ $post->user->username }}"/>
 @endpush
 

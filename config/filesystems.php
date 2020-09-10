@@ -66,4 +66,17 @@ return [
 
     ],
 
+
+    /*
+    |
+    |  These folders will be created in the filesystem
+    |
+    */
+
+    'folders' => [
+        'downloads' => 'downloads',
+        'featured'  => 'featured',
+        'covers'    => 'covers'
+    ]
+
 ];

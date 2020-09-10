@@ -107,17 +107,17 @@ class UserController extends Controller
 
         $profilePicture = $request->profile_picture;
         if($profilePicture){
-            if(!Arr::has(Storage::cloud()->directories(), 'profiles')){
-                Storage::cloud()->makeDirectory('profiles');
+            if(!Arr::has(Storage::directories(), 'profiles')){
+                Storage::makeDirectory('profiles');
             }
             if(!empty($user->avatar())){
                 $user->avatar()->delete();
             }
             $media = new Media();
             $media->sorting = 4;
-            $path = Storage::cloud()->putFile('profiles', $profilePicture, 'public');
+            $path = Storage::putFile('profiles', $profilePicture, 'public');
             $media->url = $path;
-            $media->public_url = Storage::cloud()->url($path);
+            $media->public_url = Storage::url($path);
             $media->save();
             $user->medias()->attach($media);
         }
@@ -337,22 +337,6 @@ class UserController extends Controller
         return view('users.myPosts', ['posts' => $posts]);
     }
 
-
-    /**
-     * Show the user's ad in the user's dashboard
-     * @return View
-     */
-    public function userAd(){
-
-        $user = Auth::user();
-        $userLinks = $user->userLinks;
-        $ad = $user->userAds()->first();
-        $content = '';
-        if(!empty($ad)){
-            $content = unserialize($ad->content);
-        }
-        return view('users.userAd', ['user' => $user, 'ad' => $ad, 'content' => $content, 'userLinks' => $userLinks]);
-    }
 
 
     /**

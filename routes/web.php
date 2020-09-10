@@ -74,15 +74,6 @@ Route::post('/admin/download/{postId}', 'DownloadController@adminAdd')->middlewa
 Route::delete('/admin/download/{id}', 'DownloadController@adminDelete')->middleware('role:admin|moderator')->name('admin.download.delete');
 Route::get('/admin/download/{id}', 'DownloadController@adminDownloadDownload')->middleware('role:admin|moderator')->name('admin.download.download');
 
-// Admin / Contests
-
-Route::get('/admin/dashboard/contests/', 'ContestController@adminIndex')->middleware('role:admin|moderator')->name('admin.index.contests');
-Route::delete('/admin/dashboard/contest/{id}', 'ContestController@adminDestroy')->middleware('role:admin|moderator')->name('admin.delete.contest');
-Route::get('/admin/dashboard/contest/{id}', 'ContestController@adminShow')->middleware('role:admin|moderator')->name('admin.show.contest');
-Route::put('/admin/dashboard/contest/{id}', 'ContestController@adminEdit')->middleware('role:admin|moderator')->name('admin.edit.contest');
-Route::post('/admin/dashboard/contest/', 'ContestController@adminAdd')->middleware('role:admin|moderator')->name('admin.add.contest');
-Route::post('/admin/dashboard/contests/search', 'ContestController@adminSearchContests')->middleware('role:admin|moderator')->name('admin.search.contests');
-
 
 // Admin / Tags
 
@@ -164,21 +155,6 @@ Route::post('/admin/dashboard/emailcampaign/', 'EmailCampaignController@adminAdd
 Route::post('/admin/dashboard/emailcampaigns/search', 'EmailCampaignController@adminSearchEmailCampaigns')->middleware('role:admin|moderator')->name('admin.search.emailcampaigns');
 
 
-// Admin / User Ads
-
-Route::get('/admin/dashboard/userads/', 'UserAdController@adminIndex')->middleware('role:admin|moderator')->name('admin.index.userads');
-Route::delete('/admin/dashboard/userad/{id}', 'UserAdController@adminDestroy')->middleware('role:admin|moderator')->name('admin.delete.userad');
-Route::get('/admin/dashboard/userad/{id}', 'UserAdController@adminShow')->middleware('role:admin|moderator')->name('admin.show.userad');
-Route::put('/admin/dashboard/userad/{id}', 'UserAdController@adminEdit')->middleware('role:admin|moderator')->name('admin.edit.userad');
-Route::post('/admin/dashboard/userads/search', 'UserAdController@adminSearchUserAds')->middleware('role:admin|moderator')->name('admin.search.userads');
-
-// Admin Approve User Ads
-
-Route::get('/admin/dashboard/approve/userads', 'UserAdController@indexToApprove')->middleware('role:admin|moderator')->name('admin.index.approve.userads');
-Route::post('/admin/dashboard/approve/userads/{id}', 'UserAdController@adminApprove')->middleware('role:admin|moderator')->name('admin.approve.userad');
-Route::post('/admin/dashboard/disapprove/userads/{id}', 'UserAdController@adminDisapprove')->middleware('role:admin|moderator')->name('admin.disapprove.userad');
-
-
 // Admin / Pages
 
 Route::get('/admin/dashboard/pages/', 'PageController@adminIndex')->middleware('role:admin|moderator')->name('admin.index.pages');
@@ -194,14 +170,9 @@ Route::get('/admin/email/send', 'AdminController@sendEmailForm')->middleware('ro
 Route::post('/admin/email/send', 'AdminController@sendEmail')->middleware('role:admin|moderator')->name('admin.send.email');
 
 // Posts Add
-Route::get('/add/post/{category?}', 'PostController@create')->middleware('auth', 'verified')->name('create.post');
-Route::post('/add/post/{category}', 'PostController@store')->middleware('auth', 'verified')->name('store.post');
+Route::get('/add/post', 'PostController@create')->middleware('auth', 'verified')->name('create.post');
+Route::post('/add/post', 'PostController@store')->middleware('auth', 'verified')->name('store.post');
 
-
-// Contest
-
-//Route::get('/add/contest', 'ContestController@create')->name('create.contest');
-//Route::post('/add/contest', 'ContestController@store')->name('store.contest');
 
 
 // Post
@@ -227,13 +198,10 @@ Route::put('/dashboard/setup', 'UserController@setupProfileRequest')->middleware
 Route::get('/dashboard/changepassword', 'UserController@changePasswordPage')->middleware('role:user')->name('user.password.show');
 Route::post('/dashboard/changepassword', 'UserController@changePasswordRequest')->middleware('role:user')->name('user.password.request');
 Route::get('/dashboard/myposts', 'UserController@myPostsPage')->middleware('role:user')->name('user.posts.show');
-// User Ads
-Route::get('/dashboard/myad', 'UserController@userAd')->middleware('role:user')->name('user.userad.show');
-Route::post('/dashboard/myad', 'UserAdController@storeAjax')->middleware('role:user')->name('user.userad.store');
-Route::delete('/dashboard/myad/medias', 'UserAdController@deleteAdMediasAjax')->middleware('role:user')->name('user.userad.delete.medias');
 Route::delete('/dashboard/post/delete/{id}', 'PostController@destroy')->middleware('role:user')->name('user.delete.post');
 // Send Verification Email
 Route::get('/user/send/verificationemail', 'UserController@sendVerificationEmail')->middleware('role:user')->name('user.send.verification.email');
+
 
 // Tags
 

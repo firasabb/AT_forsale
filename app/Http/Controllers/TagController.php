@@ -265,8 +265,7 @@ class TagController extends Controller
 
             $validator = Validator::make($request->all(), [
                 'tag' => 'string|nullable',
-                'exist' => 'array|nullable',
-                'category' => 'integer|nullable'
+                'exist' => 'array|nullable'
             ]);
 
             if($validator->fails()){
@@ -279,7 +278,6 @@ class TagController extends Controller
 
             $tag = $request->tag;
             $exist = $request->exist;
-            $category = $request->category;
 
             $whereArr = array();
             if($exist){
@@ -292,12 +290,8 @@ class TagController extends Controller
                 $where = ['name', 'LIKE', '%' . $tag . '%'];
                 array_push($whereArr, $where);
             }
-            if($category){
-                $category = Category::find($category);
-                $searchResults = $category->tags()->where($whereArr)->get();
-            } else {
-                $searchResults = Tag::where($whereArr)->get();
-            }
+            
+            $searchResults = Tag::where($whereArr)->get();
 
             $response = array(
                 'status' => 'success',

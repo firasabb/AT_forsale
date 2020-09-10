@@ -24,6 +24,17 @@ use Illuminate\Validation\Rule;
 class PostController extends Controller
 {
 
+    private $downloadFolder = '';
+
+
+    public function __construct(){
+
+        $downloadFolder = config('filesystems.folders.downloads', 'downloads');
+        $featuredFolder = config('filesystems.folders.featured', 'featured');
+
+    }
+
+
     /**
      * Display the Post
      * @param String url
@@ -80,41 +91,41 @@ class PostController extends Controller
      * Show the form for creating a new post.
      * @return View
      */
-    public function create($categoryUrl = null)
+    public function create()
     {
 
-        if($categoryUrl){
-
-            $category = Category::where('url', $categoryUrl)->firstOrFail();
-            $licenses = License::all();
-            return view('posts.create', ['category' => $category, 'licenses' => $licenses]);
-
-        }
-        $categories = Category::with(['medias'])->get();
-        return view('categories.select', ['categories' => $categories]);
+        $licenses = License::all();
+        $categories = Category::all();
+        return view('posts.create', ['licenses' => $licenses, 'categories'  => $categories]);
+        
     }
 
 
     /**
      * Store a newly created post in storage.
-     *
+     * 
+     * PLEASE NOTE: ClamAV Laravel package is installed, to scan the uploaded files, you can add clamav as a rule
+     * For example: 'featured' => 'file|clamav'
+     * 
+     * We advise you to use it or to use a similar AV to scan the uploaded files
+     * 
      * @param  \Illuminate\Http\Request  $request
      * @param  string $categoryUrl
      * @return RedirectResponse
      */
-    public function store(Request $request, $categoryUrl){
+    public function store(Request $request){
 
-        $category = Category::where('url', $categoryUrl)->firstOrFail();
 
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|min:15|max:200',
             'description' => 'string|max:500|nullable',
+            'category' => 'required|string|exists:categories,url',
             'tags' => 'string|max:150',
             'license' => 'string|exists:licenses,name',
             'uploads' => 'required|array',
-            'uploads.*' => 'file|max:100000|clamav',
-            'cover' => 'max:1000|image|nullable|clamav',
-            'featured' => 'file|max:20000|mimes:jpeg,bmp,png,mpeg4-generic,ogg,x-wav,x-msvideo,x-ms-wmv,wav,mpga,mp4,x-ms-wmv,x-msvideo|clamav|nullable'
+            'uploads.*' => 'file|max:100000',
+            'cover' => 'max:1000|image|nullable',
+            'featured' => 'file|max:20000|mimes:jpeg,bmp,png,mpeg4-generic,ogg,x-wav,x-msvideo,x-ms-wmv,wav,mpga,mp4,x-ms-wmv,x-msvideo|nullable'
         ]);
         if($validator->fails()){
             return back()->withErrors($validator)->withInput();
@@ -122,19 +133,23 @@ class PostController extends Controller
 
         $user = Auth::user();
 
-        if(!Arr::has(Storage::cloud()->directories(), 'downloads')){
-            Storage::cloud()->makeDirectory('downloads');
+        if(!Arr::has(Storage::directories(), 'downloads')){
+            Storage::makeDirectory('downloads');
         }
-        if(!Arr::has(Storage::cloud()->directories(), 'media')){
-            Storage::cloud()->makeDirectory('media');
+        if(!Arr::has(Storage::directories(), 'media')){
+            Storage::makeDirectory('media');
         }
-        if(!Arr::has(Storage::cloud()->directories(), 'featured')){
-            Storage::cloud()->makeDirectory('featured');
+        if(!Arr::has(Storage::directories(), 'featured')){
+            Storage::makeDirectory('featured');
         }
-        if(!Arr::has(Storage::cloud()->directories(), 'covers')){
-            Storage::cloud()->makeDirectory('covers');
+        if(!Arr::has(Storage::directories(), 'covers')){
+            Storage::makeDirectory('covers');
         }
 
+
+        $category = Category::where('url', 'LIKE', $request->category)->firstOrFail();
+
+        // Create a unique id
         $unique = uniqid();
 
         $post = new Post();
@@ -142,6 +157,7 @@ class PostController extends Controller
         $post->description = $request->description;
         $post->user_id = $user->id;
         $url = Str::slug($post->title, '-');
+        // In case the url exists in a previous post add the unique id to the column
         $checkIfUrlExists = Post::withTrashed()->where('url', 'LIKE', $url)->first();
         if($checkIfUrlExists){
             $url = $url . '-' . $unique;
@@ -163,25 +179,12 @@ class PostController extends Controller
         if($featured){
             $media = new Media();
             $media->sorting = 1;
-            $path = Storage::cloud()->putFile('featured', $featured, 'public');
+            $path = Storage::putFile($featuredFolder, $featured, 'public');
             $media->url = $path;
-            $media->public_url = Storage::cloud()->url($path);
+            $media->public_url = Storage::url($path);
             $media->save();
             $post->medias()->attach($media);
         }
-
-        // Cover
-        $cover = $request->cover;
-        if($cover){
-            $media = new Media();
-            $path = Storage::cloud()->putFile('covers', $cover, 'public');
-            $media->url = $path;
-            $media->sorting = 2;
-            $media->public_url = Storage::cloud()->url($path);
-            $media->save();
-            $post->medias()->attach($media);
-        }
-
 
         // Uploads
         $uploads = $request->uploads;
@@ -193,7 +196,7 @@ class PostController extends Controller
                 $name = str_replace($extension, '', $name);
                 $download->name = $name;
                 $download->extension = $extension;
-                $path = $upload->store('downloads', 's3');
+                $path = Storage::putFile($downloadFolder, $upload);
                 $download->url = $path;
                 $post->downloads()->save($download);
             }
@@ -218,6 +221,95 @@ class PostController extends Controller
 
         return redirect()->route('user.posts.show')->with('status', 'Your Post Has Been Created! Once it is approved, it is going to be public...');
 
+    }
+
+
+
+
+    /**
+     * 
+     * Helper Method To Approve Or Edit The Post
+     * 
+     * 
+     * PLEASE NOTE: ClamAV Laravel package is installed, to scan the uploaded files, you can add clamav as a rule
+     * For example: 'featured' => 'file|clamav'
+     * 
+     * We advise you to use it or to use a similar AV to scan the uploaded files
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string $categoryUrl
+     * @return RedirectResponse
+     * 
+     * 
+     * @param Integer id
+     * @param Request
+     * @param Integer status
+     * @return RedirectResponse
+     * 
+     */
+    private function editOrApprove($id, $request, $status = null){
+
+        $post = Post::findOrFail($id);
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|string|min:15|max:200',
+            'description' => 'string|max:500|nullable',
+            'url' => ['string', Rule::unique('posts', 'url')->ignore($post->url, 'url')],
+            'category_id' => 'integer',
+            'cover' => 'max:1000|image|nullable',
+            'featured' => 'file|max:20000|mimes:jpeg,bmp,png,mpeg4-generic,ogg,x-wav,x-msvideo,x-ms-wmv,wav,mpga,mp4,x-ms-wmv,x-msvideo|nullable',
+            'upload' => 'array',
+            'uploads.*' => 'string|max:100000'
+        ]);
+
+        if($validator->fails()){
+            return redirect()->route('admin.show.post', ['id' => $id])->withErrors($validator)->withInput();
+        } 
+
+        $post->title = $request->title;
+        $post->url = $request->url;
+        $post->description = $request->description;
+        $license = License::findOrFail($request->license_id);
+        $category = Category::findOrFail($request->category_id);
+        $post->category()->associate($category);
+        $tagsArr = array();
+        $tags = $request->tags;
+        $tags = explode(', ', $tags);
+        foreach($tags as $tag){
+            $tag = Tag::where('name', 'LIKE', $tag)->first();
+            array_push($tagsArr, $tag->id);
+        }
+        $post->tags()->sync($tagsArr);
+
+        // If there is a featured upload delete the old one if exists
+        // And make a new media cover file
+        $featured = $request->featured;
+        if($featured){
+            $oldFeatured = $post->originalFeatured();
+            if(!empty($oldFeatured)){
+                Storage::delete($oldFeatured->url);
+                $oldFeatured->delete();
+            }
+            $media = new Media();
+            $media->sorting = 1;
+            $path = Storage::putFile($featuredFolder, $featured, 'public');
+            $media->url = $path;
+            $media->public_url = Storage::url($path);
+            $media->save();
+            $post->medias()->attach($media);
+        }
+
+        // If the argument status is set then approve if not edit
+        if($status){
+            $post->status = $status;
+            $post->save();
+            
+            // Notify
+            $post->user->notify(new PostApproved($post));
+
+            return redirect('/admin/dashboard/approve/posts')->with('status', 'The post has been approved!');
+        }
+        $post->save();
+        return redirect()->route('admin.show.post', ['id' => $id])->with('status', 'This post has been edited');
     }
 
 
@@ -280,10 +372,11 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
         $categories = Category::all();
+        $licenses = License::all();
         $featured = $post->medias()->where('sorting', 'featured')->first();
         $cover = $post->medias()->where('sorting', 'cover')->first();
         $downloads = $post->downloads;
-        return view('admin.posts.show', ['post' => $post, 'featured' => $featured, 'cover' => $cover, 'downloads' => $downloads, 'categories' => $categories]);
+        return view('admin.posts.show', ['post' => $post, 'featured' => $featured, 'cover' => $cover, 'downloads' => $downloads, 'categories' => $categories, 'licenses' => $licenses]);
     }
 
 
@@ -311,12 +404,12 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
         $downloads = $post->downloads;
         foreach($downloads as $download){
-            Storage::cloud()->delete($download->url);
+            Storage::delete($download->url);
         }
         $medias = $post->medias;
         if(!empty($medias)){
             foreach($medias as $media){
-                Storage::cloud()->delete($media->url);
+                Storage::delete($media->url);
                 $media->delete();
             }
         }
@@ -335,12 +428,12 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
         $downloads = $post->downloads;
         foreach($downloads as $download){
-            Storage::cloud()->delete($download->url);
+            Storage::delete($download->url);
         }
         $medias = $post->medias;
         if(!empty($medias)){
             foreach($medias as $media){
-                Storage::cloud()->delete($media->url);
+                Storage::delete($media->url);
                 $media->delete();
             }
         }
@@ -402,99 +495,6 @@ class PostController extends Controller
         return $this->adminIndex($posts);
     }
 
-
-
-    /**
-     * 
-     * Helper Method To Approve Or Edit The Post
-     * @param Integer id
-     * @param Request
-     * @param Integer status
-     * @return RedirectResponse
-     * 
-     */
-    private function editOrApprove($id, $request, $status = null){
-
-        $post = Post::findOrFail($id);
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|string|min:15|max:200',
-            'description' => 'string|max:500|nullable',
-            'url' => ['string', Rule::unique('posts', 'url')->ignore($post->url, 'url')],
-            'category_id' => 'integer',
-            'cover' => 'max:1000|image|nullable|clamav',
-            'featured' => 'file|max:20000|mimes:jpeg,bmp,png,mpeg4-generic,ogg,x-wav,x-msvideo,x-ms-wmv,wav,mpga,mp4,x-ms-wmv,x-msvideo|nullable|clamav',
-            'upload' => 'array',
-            'uploads.*' => 'string|max:100000|clamav'
-        ]);
-
-        if($validator->fails()){
-            return redirect()->route('admin.show.post', ['id' => $id])->withErrors($validator)->withInput();
-        } 
-
-        $post->title = $request->title;
-        $post->url = $request->url;
-        $post->description = $request->description;
-        $category = Category::findOrFail($request->category_id);
-        $post->category()->associate($category);
-        $tagsArr = array();
-        $tags = $request->tags;
-        $tags = explode(', ', $tags);
-        foreach($tags as $tag){
-            $tag = Tag::where('name', 'LIKE', $tag)->first();
-            array_push($tagsArr, $tag->id);
-        }
-        $post->tags()->sync($tagsArr);
-
-        // If there is a cover upload delete the old one if exists
-        // And make a new media cover file
-        $cover = $request->cover;
-        if($cover){
-            $oldCover = $post->originalCover();
-            if(!empty($oldCover)){
-                Storage::cloud()->delete($oldCover->url);
-                $oldCover->delete();
-            }
-            $media = new Media();
-            $path = Storage::cloud()->putFile('covers', $cover, 'public');
-            $media->url = $path;
-            $media->sorting = 2;
-            $media->public_url = Storage::cloud()->url($path);
-            $media->save();
-            $post->medias()->attach($media);
-        }
-
-
-        // If there is a featured upload delete the old one if exists
-        // And make a new media cover file
-        $featured = $request->featured;
-        if($featured){
-            $oldFeatured = $post->originalFeatured();
-            if(!empty($oldFeatured)){
-                Storage::cloud()->delete($oldFeatured->url);
-                $oldFeatured->delete();
-            }
-            $media = new Media();
-            $media->sorting = 1;
-            $path = Storage::cloud()->putFile('featured', $featured, 'public');
-            $media->url = $path;
-            $media->public_url = Storage::cloud()->url($path);
-            $media->save();
-            $post->medias()->attach($media);
-        }
-
-        // If the argument status is set then approve if not edit
-        if($status){
-            $post->status = $status;
-            $post->save();
-            
-            // Notify
-            $post->user->notify(new PostApproved($post));
-
-            return redirect('/admin/dashboard/approve/posts')->with('status', 'The post has been approved!');
-        }
-        $post->save();
-        return redirect()->route('admin.show.post', ['id' => $id])->with('status', 'This post has been edited');
-    }
 
 
     /**

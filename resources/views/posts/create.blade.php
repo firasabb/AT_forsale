@@ -27,7 +27,7 @@
                 </div>
             @endif
 
-            <div class="card mb-5">
+            <div class="card card-shadow mb-5">
                 <div class="card-header">{{ __('main.Rules and Requirements') }}:</div>
                 <div class="card-body">
                     <ul class="list-group">
@@ -44,18 +44,32 @@
                 <div class="card-header">{{ __('main.upload') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('create.post', ['category' => $category->url]) }}" class="needs-validation" autocomplete="off" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('create.post') }}" class="needs-validation" autocomplete="off" enctype="multipart/form-data">
                         @csrf
+                        <div class="row justify-content-center py-5">
+                            @foreach($categories as $category)
+                                <div class="col-4">
+                                    <div>
+                                        <div class="card card-category card-inverse text-bottom" data-category="{{ $category->url }}">
+                                            <div class="no-img" style=""></div>
+                                            <div class="card-text-overlay" style="">
+                                                <h5 class="card-title">{{ ucwords($category->name) }}</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
                         <div class="form-group">
-                            <label for="posts-title">Title: <span class="info-questionmark" data-toggle="tooltip" data-placement="top" title="Type a beautiful and eye-catching text, which will be the title of your post">?</span></label>
-                            <input class="form-control" type="text" name="title" placeholder="What is The Largest Galaxy in Our Universe?" value="{{ old('title') }}" required maxlength="200" minlength="15"/>
+                            <label for="posts-title">Title:</label>
+                            <input class="form-control" type="text" name="title" placeholder="{{ __('main.title placeholder') }}" value="{{ old('title') }}" required maxlength="200" minlength="15"/>
                             <div class="invalid-feedback">
                                 {{ __('main.invalid post title') }}
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="post-description">Description: <span class="info-questionmark" data-toggle="tooltip" data-placement="top" title="Describe your post story, features and uses.">?</span></label>
-                            <textarea class="form-control" type="text" name="description" placeholder="Add a description to your post..." maxlength="500">{{ old('description') }}</textarea>
+                            <label for="post-description">Description:</label>
+                            <textarea class="form-control" type="text" name="description" placeholder="{{ __('main.description placeholder') }}" maxlength="500">{{ old('description') }}</textarea>
                             <div class="invalid-feedback">
                                 {{ __('main.invalid post description') }}
                             </div>
@@ -76,20 +90,15 @@
                             </div>
                             <div class="tag-container">
                                 <input type="hidden" name="tags" id="hidden-tag-input" value="{{ old('tags') }}"/>
-                                <input class="form-control" id="tag-input" type="text" data-category="{{ $category->id }}"/>
+                                <input class="form-control" id="tag-input" type="text"/>
                             </div>
                             <ul id="tags" class="list-group">
                         </div>
                         <div class="form-row featured-media">
-                            @if($category->name != 'stock photos')
-                                <div class="custom-file form-group col-6">
-                                    <input type="file" name="featured" class="custom-file-input">
-                                    <label class="custom-file-label" for="post-featured">Featured Media</label>
-                                </div>
-                            @endif
+                            
                             <div class="custom-file form-group col-6">
-                                <input type="file" name="cover" class="custom-file-input">
-                                <label class="custom-file-label" for="post-featured">Cover Image</label>
+                                <input type="file" name="featured" class="custom-file-input">
+                                <label class="custom-file-label" for="post-featured">Featured Media</label>
                             </div>
                         </div>
                         <div class="uploads">
@@ -99,9 +108,9 @@
                                 <span class="delete-upload-btn">x</span>
                             </div>
                         </div>
-                        <button type="button" class="btn add-download-btn" id="add-download">{{ __('main.+ file') }}</button>
+                        <button type="button" class="btn add-upload-btn" id="add-upload">{{ __('main.+ file') }}</button>
                         <div class="create-post-btns">
-                            <input type="hidden" name="type" id="type_field">
+                            <input type="hidden" name="category" id="category_input" value="{{ $categories[0]->url }}">
                             <button type="submit" class="btn btn-primary submit-post-btn">{{ __('main.submit') }}</button>
                         </div>
                     </form>

@@ -56,6 +56,16 @@
                         </div>
                         <div class="row">
                             <div class="col">
+                                <label for="license">{{ __('main.license') }}:</label>
+                                <select class="form-control enabled-disabled" name="license_id" disabled>
+                                    @foreach($licenses as $license)
+                                        <option value="{{ $license->id }}" <?php echo $license->id == $post->license_id ? 'Selected' : ''; ?>>{{ $license->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
                                 <label for="category">{{ __('main.category') }}:</label>
                                 <select class="form-control enabled-disabled" name="category_id" disabled>
                                     @foreach($categories as $category)

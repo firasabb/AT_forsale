@@ -4,7 +4,6 @@ $(document).ready(function(){
 
     btn.on('click', function(e){
         e.preventDefault();
-        console.log('its working');
         $('#reportModal').modal('show');
     });
 

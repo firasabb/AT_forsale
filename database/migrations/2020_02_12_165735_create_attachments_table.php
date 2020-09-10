@@ -16,12 +16,8 @@ class CreateAttachmentsTable extends Migration
         Schema::create('attachments', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('url');
-            $table->unsignedBigInteger('contest_id');
             $table->timestamps();
-
-            $table->foreign('contest_id')
-                    ->references('id')->on('contests')
-                    ->onDelete('cascade');
+            
         });
     }
 

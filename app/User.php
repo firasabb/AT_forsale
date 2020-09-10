@@ -85,10 +85,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany('\App\UserLink');
     }
 
-    public function contests(){
-        return $this->hasMany('\App\Contest');
-    }
-
     public function downloadEvents(){
         return $this->hasMany('App\DownloadEvent');
     }
@@ -99,14 +95,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function emailCampaigns(){
         return $this->belongsToMany('App\EmailCampaign');
-    }
-
-    public function userAds(){
-        return $this->hasMany('App\UserAd');
-    }
-
-    public function approvedUserAd(){
-        return $this->userAds()->where('status', 2)->first();
     }
 
     public function medias(){

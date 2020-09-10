@@ -94,18 +94,21 @@
 /***/ (function(module, exports) {
 
 $(document).ready(function () {
+  // Show confirmation message when deleting a comment
   $('.delete-comment').on('submit', function () {
     return confirm('Are you sure that you want to delete this comment?');
-  });
+  }); // Show confirmation message when deleting a post
+
   $('.delete-post').on('submit', function () {
     return confirm('Are you sure that you want to delete this post? This action is irreversible!');
-  });
+  }); // Add an upload file in the post create page
+
   max = 5;
   count = 1;
   formGroupStart = '<div class="form-group upload-form-group"> ';
   formGroupEnd = ' <span class="delete-upload-btn">x</span></div>';
   invalidForm = '<div class="invalid-feedback">Please provide a valid option: maximum allowed number of characters is 300.</div>';
-  $('#add-download').click(function () {
+  $('#add-upload').click(function () {
     if (count < max) {
       num = count + 1;
       var option = formGroupStart + '<input type="file" name="uploads[' + count + ']" />' + formGroupEnd;
@@ -162,7 +165,6 @@ $(document).ready(function () {
   });
 
   function getTags(e) {
-    var category = e.target.dataset.category;
     var exist = Array();
     var hiddenInputValue = $('#hidden-tag-input').val();
     exist = hiddenInputValue.split(', ');
@@ -173,8 +175,7 @@ $(document).ready(function () {
       type: "POST",
       data: {
         tag: $('#tag-input').val(),
-        exist: exist,
-        category: category
+        exist: exist
       },
       success: function success(data) {
         if (data.status == 'success') {
@@ -235,7 +236,7 @@ $(document).ready(function () {
     if (!e.target.classList.contains('tags-li')) {
       clearAllTags();
     }
-  });
+  }); // Upload button handler
 
   function uploadDeleteBtn() {
     var uploads = $('.uploads');
@@ -246,10 +247,18 @@ $(document).ready(function () {
     });
   }
 
-  uploadDeleteBtn();
-  $(function () {
-    $('[data-toggle="tooltip"]').tooltip();
-  });
+  uploadDeleteBtn(); // When a category card is clicked in the post create page
+
+  function categoryCardClicked() {
+    var categoryCard = $('.card-category');
+    var categoryInput = $('#category_input');
+    categoryCard.on('click', function (e) {
+      var category = $(this).data('category');
+      categoryInput.val(category);
+    });
+  }
+
+  categoryCardClicked();
 });
 
 /***/ }),

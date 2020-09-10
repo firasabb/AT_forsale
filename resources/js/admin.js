@@ -1,6 +1,9 @@
+tinymce.init({
+  selector:'textarea.tinymce-textarea',
+  plugins: 'advlist link image lists code'
+});
 
 $(document).ready(function(){
-
 
     $('#edit-button').click(function(){
         forms = $('.enabled-disabled');
@@ -142,13 +145,6 @@ $(document).ready(function(){
     }
 
     deleteOnClick();
-    
-
-    var addUserAdBtn = $('#add-userad');
-    var addUserAdForm = $('#add-userad-form');
-    addUserAdBtn.click(function(){
-      addUserAdForm.submit();
-    });
     
 
     // Admin add tags in bulk page

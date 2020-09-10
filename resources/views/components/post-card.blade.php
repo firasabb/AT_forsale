@@ -11,7 +11,7 @@
     <div class="card card-shadow" style="max-width: 20rem">
         <div class="card-image-container">
             <a href="{{ route('show.post', ['url' => $post->url]) }}">
-                <img class="card-img card-img-top" src="{{ Storage::cloud()->url($post->cover()) }}" alt="{{ $post->title }}">
+                <img class="card-img card-img-top" src="{{ Storage::url($post->cover()) }}" alt="{{ $post->title }}">
             </a>
         </div>
         <div class="card-img-overlay card-user-img-transition">
@@ -40,7 +40,7 @@
     <div class="card card-shadow" style="max-width: 20rem">
         <div class="card-image-container">
             <a href="{{ route('show.post', ['url' => $post->url]) }}">
-                <img class="card-img card-img-top" src="{{ Storage::cloud()->url($post->cover()) }}" alt="{{ $post->title }}">
+                <img class="card-img card-img-top" src="{{ Storage::url($post->cover()) }}" alt="{{ $post->title }}">
             </a>
         </div>
         <div class="card-img-overlay card-user-img-transition">
@@ -65,7 +65,7 @@
         </div>
         <div class="card-audio-overlay">
             <audio controls class="card-audio-overlay-audio">
-                <source src="{{ Storage::cloud()->url($post->featured()) }}">
+                <source src="{{ Storage::url($post->featured()) }}">
                 <p>Your browser doesn't support HTML5 audio. Download It <a class="a-no-decoration-white" href="{{ route('show.post', ['url' => $post->url]) }}"></a></p>
             </audio>
         </div>
@@ -76,12 +76,12 @@
     <div class="card card-shadow card-video" style="max-width: 20rem">
         <div class="card-image-container">
             <a href="{{ route('show.post', ['url' => $post->url]) }}">
-                <img class="card-img card-img-top" src="{{ Storage::cloud()->url($post->cover()) }}" alt="{{ $post->title }}">
+                <img class="card-img card-img-top" src="{{ Storage::url($post->cover()) }}" alt="{{ $post->title }}">
             </a>
         </div>
         <div class="card-video-overlay">
-            <video muted width="100%" height="230" poster="{{ Storage::cloud()->url($post->cover()) }}" preload="none">
-                <source src="{{ Storage::cloud()->url($post->featured()) }}">
+            <video muted width="100%" height="230" poster="{{ Storage::url($post->cover()) }}" preload="none">
+                <source src="{{ Storage::url($post->featured()) }}">
                 <p>Your browser doesn't support HTML5 audio. Download It <a class="a-no-decoration-white" href="{{ route('show.post', ['url' => $post->url]) }}"></a></p>
             </video>
         </div>
@@ -112,7 +112,7 @@
         <div class="card card-shadow" style="max-width: 20rem">
             <div class="card-image-container">
                 <a href="{{ route('show.post', ['url' => $post->url]) }}">
-                    <img class="card-img-top" src="{{ Storage::cloud()->url($post->cover()) }}" alt="{{ $post->title }}">
+                    <img class="card-img-top" src="{{ Storage::url($post->cover()) }}" alt="{{ $post->title }}">
                 </a>
             </div>
             <div class="card-body card-body-post">

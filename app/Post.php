@@ -54,6 +54,11 @@ class Post extends Model
         return $this->hasMany('App\ViewEvent');
     }
 
+    /**
+     * 
+     * For future updates, the post belong to multiple licenses
+     * 
+     */
     public function licenses(){
         return $this->belongsToMany('\App\License');
     }

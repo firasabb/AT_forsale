@@ -71,7 +71,7 @@ class DownloadController extends Controller
         $post = $download->post;
         $path = $download->getPath();
         $mime = $download->getMime();
-        $url = Storage::cloud()->temporaryUrl($download->url, now()->addSeconds(10));
+        $url = Storage::temporaryUrl($download->url, now()->addSeconds(10));
         header("Cache-Control: public");
         header("Content-Description: File Transfer");
         header("Content-Disposition: attachment; filename=" . Str::slug($post->title, '-') . '.' . $mime);
@@ -94,7 +94,7 @@ class DownloadController extends Controller
         $post = $download->post;
         $path = $download->getPath();
         $mime = $download->getMime();
-        $url = Storage::cloud()->temporaryUrl($download->url, now()->addSeconds(10));
+        $url = Storage::temporaryUrl($download->url, now()->addSeconds(10));
         header("Cache-Control: public");
         header("Content-Description: File Transfer");
         header("Content-Disposition: attachment; filename=" . Str::slug($post->title, '-') . '.' . $mime);

@@ -17,7 +17,7 @@ main {
 }
 
 .form-control {
-  border-radius: 0;
+  border-radius: 0.5rem;
 }
 
 .white-text {
@@ -29,10 +29,6 @@ main {
   border: 0;
 }
 
-.input-group-text {
-  border-radius: 0;
-}
-
 .card {
   border: 0;
   border-radius: 0;
@@ -40,7 +36,7 @@ main {
 }
 
 .btn {
-  border-radius: 0;
+  border-radius: 0.5rem;
   transition: color 1S ease-in-out, background-color 1s ease-in-out;
   transition: color 1s ease-in-out, background-color 1s ease-in-out;
   -webkit-transition: color 1s ease-in-out, background-color 1s ease-in-out, border-color 1s ease-in-out;
@@ -232,13 +228,13 @@ main {
   float: right;
 }
 
-.add-download-btn {
+.add-upload-btn {
   width: 100%;
   background-color: #f1f1f1;
   transition: all 1s ease-in-out;
 }
 
-.add-download-btn:hover {
+.add-upload-btn:hover {
   background-color: #afafaf;
 }
 
@@ -420,18 +416,18 @@ main {
   margin: 20px 0;
 }
 
-.card-bottom {
+.card-category {
   width: 200px;
   height: 200px;
   transition: all 0.5s ease-in-out;
   cursor: pointer;
 }
 
-.card-bottom:hover {
+.card-category:hover {
   border: 6px solid #549ff5;
 }
 
-.card-bottom .card-text-overlay {
+.card-category .card-text-overlay {
   position: absolute;
   color: #fff;
   padding: 0;
@@ -710,16 +706,6 @@ a.card-link:hover {
 .pagination-container {
   display: flex;
   justify-content: center;
-}
-
-/**
-**
-**  Add Contest Page
-**
-**/
-
-.submit-contest-btn {
-  float: right;
 }
 
 /**

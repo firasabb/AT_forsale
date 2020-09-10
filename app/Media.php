@@ -19,9 +19,6 @@ class Media extends Model
         return $this->morphedByMany('App\User', 'mediable');
     }
 
-    public function userAds(){
-        return $this->morphedByMany('App\UserAd', 'mediable');
-    }
 
     // Override the delete method to delete the actual file from S3
     public function delete(){

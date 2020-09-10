@@ -19,7 +19,7 @@ class Download extends Model
 
     public function getPath(){
 
-        return $path = Storage::cloud()->url($this->url);
+        return $path = Storage::url($this->url);
 
     }
 
@@ -31,7 +31,7 @@ class Download extends Model
 
 
     public function getSize(){
-        return $size = Storage::cloud()->size($this->url);
+        return $size = Storage::size($this->url);
     }
 
     public function downloadEvents(){

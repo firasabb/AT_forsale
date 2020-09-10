@@ -43,7 +43,7 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
-                                    <textarea name="body" class="form-control enabled-disabled" disabled placeholder="{{ __('main.body') }}">{{ $page->body }}</textarea>
+                                    <textarea name="body" class="form-control enabled-disabled tinymce-textarea" disabled placeholder="{{ __('main.body') }}">{{ $page->body }}</textarea>
                                 </div>
                             </div>
                         </div>
