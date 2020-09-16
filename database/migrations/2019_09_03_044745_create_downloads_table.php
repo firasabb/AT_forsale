@@ -24,6 +24,8 @@ class CreateDownloadsTable extends Migration
             $table->softDeletes();
             $table->timestamps();
 
+            $table->index('name');
+
             $table->foreign('post_id')
                     ->references('id')->on('posts')
                     ->onDelete('cascade');

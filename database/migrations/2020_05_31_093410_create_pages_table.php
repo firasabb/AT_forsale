@@ -23,6 +23,8 @@ class CreatePagesTable extends Migration
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
+
+            $table->index('title');
         });
     }
 

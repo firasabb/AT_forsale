@@ -18,12 +18,14 @@ class CreateContactMessagesTable extends Migration
             $table->string('title')->nullable();
             $table->text('body');
             $table->string('sender_email');
-            $table->string('sender_name');
+            $table->string('sender_name')->nullable();
             $table->string('sender_ip', 45)->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('user_id')->references('id')->on('users');
+
+            $table->index('title');
         });
     }
 

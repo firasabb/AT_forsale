@@ -35,7 +35,7 @@ return [
     'Sender Name'               => 'Sender Name',
     'Sender Email'              => 'Sender Email',
     'Email Campaigns'           => 'Email Campaigns',
-    'Campaigns'                 => 'Campaigns',
+    'campaigns'                 => 'Campaigns',
     'Add Campaign'              => 'Add Campaign',
     'user'                      => 'User',
     'users'                     => 'Users',

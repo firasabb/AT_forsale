@@ -84,11 +84,13 @@
                                 </td>
                             </tr>
                         @endforeach
-                        @if(empty($posts))
-                            <p>{{ __('main.no posts user') }}</p>
-                        @endif
                     </tbody>
                 </table>
+                @if($posts->isEmpty())
+                    <div class="pt-5">
+                        <h4>{{ __('main.no posts user') }}</h4>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

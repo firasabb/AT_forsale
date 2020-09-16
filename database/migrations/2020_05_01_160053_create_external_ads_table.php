@@ -18,6 +18,8 @@ class CreateExternalAdsTable extends Migration
             $table->string('name');
             $table->text('body')->nullable();
             $table->timestamps();
+
+            $table->index('name');
         });
     }
 

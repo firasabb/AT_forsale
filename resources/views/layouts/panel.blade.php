@@ -54,13 +54,13 @@
                                 <ul class="pt-4">
                                     <a class="side-navbar-a" href="{{ route('admin.dashboard') }}">
                                         <li>
-                                            <p class="m-0">Panel</p>
+                                            <p class="m-0"><span class="dashboard-icon-span">@svg('th-large', 'dashboard-icon')</span> Panel</p>
                                         </li>
                                     </a>
                                     <li>
                                         <div class="btn-group dropright">
                                             <button type="button" class="dropdown-toggle side-navbar-dropdown-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                {{ __('main.users') }}
+                                                <span class="dashboard-icon-span">@svg('user', 'dashboard-icon')</span> {{ __('main.users') }}
                                             </button>
                                             <div class="dropdown-menu">
                                                 <a class="dropdown-item" href="{{  route('admin.index.users')  }}">{{ __('main.users') }}</a>
@@ -72,7 +72,7 @@
                                     <li>
                                         <div class="btn-group dropright">
                                             <button type="button" class="dropdown-toggle side-navbar-dropdown-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                {{ __('main.approve') }}
+                                                <span class="dashboard-icon-span">@svg('flag', 'dashboard-icon')</span> {{ __('main.approve') }}
                                             </button>
                                             <div class="dropdown-menu">
                                                 <a class="dropdown-item" href="{{  route('admin.index.approve.posts')  }}">{{ __('main.posts') }}</a>
@@ -82,7 +82,7 @@
                                     <li>
                                         <div class="btn-group dropright">
                                             <button type="button" class="dropdown-toggle side-navbar-dropdown-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Content
+                                                <span class="dashboard-icon-span">@svg('plus', 'dashboard-icon')</span> Content
                                             </button>
                                             <div class="dropdown-menu">
                                                 <a class="dropdown-item" href="{{ route('admin.index.posts') }}">{{ __('main.posts') }}</a>
@@ -94,23 +94,23 @@
                                     </li>
                                     <a class="side-navbar-a" href="{{ route('admin.index.pages') }}">
                                         <li>
-                                            <p class="m-0">{{ __('main.pages') }}</p>
+                                            <p class="m-0"><span class="dashboard-icon-span">@svg('edit', 'dashboard-icon')</span> {{ __('main.pages') }}</p>
                                         </li>
                                     </a>
                                     <a class="side-navbar-a" href="{{ route('admin.index.externalads') }}">
                                         <li>
-                                            <p class="m-0">{{ __('main.ads') }}</p>
+                                            <p class="m-0"><span class="dashboard-icon-span">@svg('eye', 'dashboard-icon')</span> {{ __('main.ads') }}</p>
                                         </li>
                                     </a>
                                     <a class="side-navbar-a" href="{{ route('admin.index.contactmessages') }}">
                                         <li>
-                                            <p class="m-0">{{ __('main.contact messages') }}</p>
+                                            <p class="m-0"><span class="dashboard-icon-span">@svg('message', 'dashboard-icon')</span> {{ __('main.contact messages') }}</p>
                                         </li>
                                     </a>
                                     <li>
                                         <div class="btn-group dropright">
                                             <button type="button" class="dropdown-toggle side-navbar-dropdown-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Email
+                                                <span class="dashboard-icon-span">@svg('mail', 'dashboard-icon')</span> Email
                                             </button>
                                             <div class="dropdown-menu">
                                                 <a class="dropdown-item" href="{{ route('admin.index.emailcampaigns') }}">{{ __('main.campaigns') }}</a>
@@ -121,7 +121,7 @@
                                     <li>
                                         <div class="btn-group dropright">
                                             <button type="button" class="dropdown-toggle side-navbar-dropdown-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Other
+                                                <span class="dashboard-icon-span">@svg('th-list', 'dashboard-icon')</span> Other
                                             </button>
                                             <div class="dropdown-menu">
                                                 <a class="dropdown-item" href="{{ route('admin.index.reports') }}">{{ __('main.reports') }}</a>

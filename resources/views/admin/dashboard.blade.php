@@ -35,6 +35,16 @@
         <div class="card">
             <div class="card-body">
                 <div class="text-center">
+                    <h4>{{ $pendingPosts }}</h4>
+                </div>
+                <div class="text-center">
+                    <h4>Pending Posts</h4>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="text-center">
                     <h4>{{ $reports }}</h4>
                 </div>
                 <div class="text-center">
@@ -59,6 +69,26 @@
                 </div>
                 <div class="text-center">
                     <h4>Contact Messages</h4>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="text-center">
+                    <h4>{{ $downloads }}</h4>
+                </div>
+                <div class="text-center">
+                    <h4>Downloads</h4>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="text-center">
+                    <h4>{{ $views }}</h4>
+                </div>
+                <div class="text-center">
+                    <h4>Views</h4>
                 </div>
             </div>
         </div>

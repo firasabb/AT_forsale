@@ -8,6 +8,8 @@ use \App\Post;
 use \App\Report;
 use \App\Comment;
 use \App\ContactMessage;
+use \App\DownloadEvent;
+use \App\ViewEvent;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Validator;
@@ -38,13 +40,23 @@ class AdminController extends Controller
 
         $activeUsers = new User();
         $activeUsers = $activeUsers->activeUsers()->count();
-        $publishedPosts = new Post();
-        $publishedPosts = $publishedPosts->publishedPosts()->count();
+        $posts = new Post();
+        $publishedPosts = $posts->publishedPosts()->count();
+        $pendingPosts = $posts->where('status', 1)->count();
         $reports = Report::all()->count();
         $comments = Comment::all()->count();
         $contactMessages = ContactMessage::all()->count();
-        return view('admin.dashboard', ['activeUsers' => $activeUsers, 'publishedPosts' => $publishedPosts,
-                                        'reports' => $reports, 'comments' => $comments, 'contactMessages' => $contactMessages]);
+        $downloads = DownloadEvent::all()->count();
+        $views = ViewEvent::all()->count();
+        return view('admin.dashboard', ['activeUsers' => $activeUsers,
+                                        'publishedPosts' => $publishedPosts,
+                                        'pendingPosts'  => $pendingPosts,
+                                        'reports' => $reports,
+                                        'comments' => $comments,
+                                        'contactMessages' => $contactMessages,
+                                        'downloads' => $downloads,
+                                        'views' => $views
+                                        ]);
     }
 
 

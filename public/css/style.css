@@ -683,20 +683,6 @@ a.card-link:hover {
   padding-left: 1rem;
 }
 
-.dashboard-icon-span {
-  margin-right: 1rem;
-}
-
-.dashboard-icon {
-  fill: #3b3b3b;
-  width: 1.2rem;
-}
-
-.dashboard-upload-icon {
-  fill: #fff;
-  width: 1.2rem;
-}
-
 /**
 **
 **  User My Posts Page

@@ -16,12 +16,13 @@ class CreateOptionsTable extends Migration
         Schema::create('options', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('value');
-            $table->integer("optionable_id");
-            $table->string("optionable_type");
+            $table->text('value')->nullable();
+            $table->integer("optionable_id")->nullable();
+            $table->string("optionable_type")->nullable();
+            $table->timestamps();
+
             $table->index('optionable_id');
             $table->index('optionable_type');
-            $table->timestamps();
         });
     }
 

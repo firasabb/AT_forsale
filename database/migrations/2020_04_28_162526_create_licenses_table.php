@@ -21,6 +21,8 @@ class CreateLicensesTable extends Migration
             $table->text('description')->nullable();
             $table->softDeletes();
             $table->timestamps();
+
+            $table->index('name');
         });
     }
 

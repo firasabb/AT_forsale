@@ -19,12 +19,9 @@ class WelcomeController extends Controller
      */
     public function index(){
 
-        $stockPhotoCat = Category::where('name', 'LIKE' ,'stock photos')->first();
-        $stockPhotoPosts = $stockPhotoCat->approvedPosts()->orderBy('id', 'desc')->take(9)->get();
-        $soundEffectCat = Category::where('name', 'LIKE' ,'sound effects')->first();
-        $soundEffectPosts = $soundEffectCat->approvedPosts()->orderBy('id', 'desc')->take(9)->get();
         $categories = Category::all();
-        return view('screens.main', ['stockPhotoPosts' => $stockPhotoPosts, 'soundEffectPosts' => $soundEffectPosts, 'categories' => $categories]);
+        $posts = Post::all();
+        return view('screens.main', ['categories' => $categories, 'posts' => $posts]);
 
     }
 

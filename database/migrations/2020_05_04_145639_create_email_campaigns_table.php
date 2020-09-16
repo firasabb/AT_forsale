@@ -18,6 +18,8 @@ class CreateEmailCampaignsTable extends Migration
             $table->string('name');
             $table->softDeletes();
             $table->timestamps();
+
+            $table->index('name');
         });
     }
 

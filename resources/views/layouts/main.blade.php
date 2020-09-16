@@ -70,10 +70,10 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('main.search.categories', ['category' => 'stock-photos']) }}">Stock Photos</a>
+                            <a class="nav-link" href="{{ route('main.search.categories', ['category' => 'photos']) }}">Photos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('main.search.categories', ['category' => 'sound-effects']) }}">Sound Effects</a>
+                            <a class="nav-link" href="{{ route('main.search.categories', ['category' => 'videos']) }}">Videos</a>
                         </li>
                     </ul>
 

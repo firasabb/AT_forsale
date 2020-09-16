@@ -20,6 +20,8 @@ class CreateUserLinksTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
 
+            $table->index('name');
+
             $table->foreign('user_id')
                     ->references('id')->on('users')
                     ->onDelete('cascade');

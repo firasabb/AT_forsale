@@ -23,8 +23,9 @@
                     <div>
                         <select name="category" class="form-control">
                             <option value="all" selected>All Categories</option>
-                            <option value="stock-photos">Stock Photos</option>
-                            <option value="sound-effects">Sound Effects</option>
+                            @foreach($categories as $category)
+                                <option value="{{ $category->url }}">{{ ucwords($category->name) }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -37,35 +38,9 @@
 </div>
 
 <div class="container pt-5">
-    <div class="pb-4">
-        <h3>Latest Stock Photos</h3>
-    </div>
-    <div class="card-columns">
-        @foreach($stockPhotoPosts as $post)
-            <div class="pb-4">
-                <x-post-card :post="$post"/>
-            </div>
-        @endforeach
-    </div>
-    <div class="pt-5 text-center">
-        <a class="btn btn-primary" href="{{ route('main.search.categories', ['category' => 'stock-photos']) }}">{{ __('main.view all') }}</a>
-    </div>
-</div>
-
-<div class="container py-5">
-    <div class="pb-4">
-        <h3>Latest Sound Effects</h3>
-    </div>
-    <div class="card-columns">
-        @foreach($soundEffectPosts as $post)
-            <div class="pb-4">
-                <x-post-card :post="$post"/>
-            </div>
-        @endforeach
-    </div>
-    <div class="pt-5 text-center">
-        <a class="btn btn-primary" href="{{ route('main.search.categories', ['category' => 'sound-effects']) }}">{{ __('main.view all') }}</a>
-    </div>
+    @foreach($posts as $post)
+        <x-post-card :post="$post"/>
+    @endforeach
 </div>
 
 <x-report>

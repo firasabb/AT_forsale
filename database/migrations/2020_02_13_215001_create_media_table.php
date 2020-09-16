@@ -20,6 +20,10 @@ class CreateMediaTable extends Migration
             $table->integer('sorting')->default(0);
             $table->softDeletes();
             $table->timestamps();
+
+            $table->index('public_url');
+
+            $table->index('sorting');
         });
     }
 

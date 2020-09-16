@@ -70,7 +70,7 @@
                                             <p class="m-0"><span class="dashboard-icon-span">@svg('lock-closed', 'dashboard-icon')</span> {{ __('main.Change Password') }}</p>
                                         </li>
                                     </a>
-                                    <div class="py-3 text-center">
+                                    <div class="py-5 text-center">
                                         <a target="_blank" href="{{ route('create.post') }}" class="btn btn-primary">{{ __('main.upload') }}&nbsp;&nbsp;@svg('upload', 'dashboard-upload-icon')</a>
                                     </div>
                                 </ul>
@@ -80,8 +80,8 @@
                     <div class="col-lg-10 p-0">
                         <div>
                             @if(!Auth::user()->hasVerifiedEmail())
-                                <div class="alert alert-warning">
-                                    {{ __('main.Verify or Request') }}
+                                <div class="alert alert-warning text-center">
+                                    {{ __('main.Verify or Request') }} &nbsp;&nbsp;
                                     <a class="btn btn-success" href="{{ route('user.send.verification.email') }}" target="_blank">{{ __('main.Request Validation Email') }}</a>
                                 </div>
                             @endif
