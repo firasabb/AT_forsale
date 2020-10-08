@@ -51,10 +51,10 @@ class PostController extends Controller
             if($user->hasAnyRole(['admin', 'moderator'])){
                 $post = Post::where('url', $url)->with('user')->firstOrFail();
             } else {
-                $post = Post::where([['url', $url], ['status', 2]])->with('user')->firstOrFail();
+                $post = Post::where([['url', $url], ['status', 'published']])->with('user')->firstOrFail();
             }
         } else {
-            $post = Post::where([['url', $url], ['status', 2]])->with('user')->firstOrFail();
+            $post = Post::where([['url', $url], ['status', 'published']])->with('user')->firstOrFail();
         }
         $featured = $post->featured();
         $license = $post->licenses()->first();
@@ -166,9 +166,9 @@ class PostController extends Controller
         
         // If the post was added by an admin set the status to approved
         if($user->hasAnyRole('admin')){
-            $post->status = 2;
+            $post->status = 'published';
         } else {
-            $post->status = 1;
+            $post->status = 'pending';
         }
         
         $post->category()->associate($category);
@@ -320,12 +320,12 @@ class PostController extends Controller
      */
     public function indexToApprove()
     {
-        $post = Post::where('status', 1)->orderBy('id', 'asc')->first();
+        $post = Post::where('status', 'pending')->orderBy('id', 'asc')->first();
         if(!empty($post)){
             $categories = Category::all()->load('medias')->flatten();
             $featured = $post->medias()->where('sorting', 1)->first();
             $cover = $post->medias()->where('sorting', 2)->first();
-            $posts = Post::where('status', 1)->orderBy('id', 'asc');
+            $posts = Post::where('status', 'pending')->orderBy('id', 'asc');
             $downloads = $post->downloads;
             return view('admin.posts.indexToApprove', ['post' => $post, 'categories' => $categories, 'featured' => $featured, 'cover' => $cover, 'downloads' => $downloads]);
         }
@@ -355,7 +355,7 @@ class PostController extends Controller
     public function adminIndex($posts = null)
     {
         if(!$posts){
-            $posts = Post::where('status', 2)->orderBy('id', 'desc')->paginate(10);
+            $posts = Post::where('status', 'published')->orderBy('id', 'desc')->paginate(10);
         } else {
             $posts = $posts->paginate(20);
         }
@@ -437,7 +437,7 @@ class PostController extends Controller
                 $media->delete();
             }
         }
-        $post->status = 0;
+        $post->status = 'disapproved';
         $post->save();
 
         // Notify the user

@@ -51,8 +51,8 @@
                             <div class="col">
                                 <div class="form-group">
                                     <select class="form-control enabled-disabled" name="status" disabled>
-                                        <option value="0" {{ $page->status == 0 ? 'selected' : '' }}>{{ __('main.draft') }}</option>
-                                        <option value="1" {{ $page->status == 1 ? 'selected' : '' }}>{{ __('main.published') }}</option>
+                                        <option value="draft" {{ $page->status == 'draft' ? 'selected' : '' }}>{{ __('main.draft') }}</option>
+                                        <option value="published" {{ $page->status == 'published' ? 'selected' : '' }}>{{ __('main.published') }}</option>
                                     </select>
                                 </div>
                             </div>

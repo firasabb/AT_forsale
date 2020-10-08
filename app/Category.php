@@ -17,7 +17,7 @@ class Category extends Model
     }
 
     public function approvedPosts(){
-        return $this->hasMany('\App\Post')->where('status', 2);
+        return $this->hasMany('\App\Post')->where('status', 'published');
     }
 
     public function medias(){

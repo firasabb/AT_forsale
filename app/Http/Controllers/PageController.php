@@ -13,15 +13,37 @@ class PageController extends Controller
 
     /**
      * Index the pages for admins
+     * @param string $order
+     * @param bool $desc
      * @param array $pages
      * @return View
      */
-    public function adminIndex($pages = ''){
+    public function adminIndex($order = '', $desc = false, $pages = ''){
+
+        // Order By Options For Filtering
+        // To show all table columns use the line below and comment the second line
+        //$orderByOptions = DB::getSchemaBuilder()->getColumnListing($usersTable);
+        $orderByOptions = ['id', 'title', 'status', 'created_at'];
+
+        $defaultOrder = 'id';
+
         if(!$pages){
-            $pages = Page::orderBy('id', 'desc');
+            if($order){
+                if(in_array($order, $orderByOptions) === TRUE){
+                    $defaultOrder = $order;
+                }
+            }
+            if($desc){
+                $pages = Page::orderBy($defaultOrder, 'desc');
+            }
+            if(!$desc){
+                $pages = Page::orderBy($defaultOrder, 'asc');
+            }
         }
+
+
         $pages = $pages->paginate(20);
-        return view('admin.pages.pages', ['pages' => $pages]);
+        return view('admin.pages.pages', ['pages' => $pages, 'order' => $order, 'desc' => $desc]);
     }
 
 
@@ -77,7 +99,7 @@ class PageController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => ['required', 'string'],
             'url' => ['required', 'string', 'max:50', Rule::unique('pages', 'url')->ignore($page->url, 'url')],
-            'status' => ['required', 'integer'],
+            'status' => ['required', 'string'],
             'body' => ['nullable', 'string']
         ]);
 

@@ -24,7 +24,7 @@ class CreateUsersTable extends Migration
             $table->text('bio')->nullable();
             $table->string('username')->unique();
             $table->string('phone')->nullable();
-            $table->unsignedInteger('status')->default(1);
+            $table->string('status')->default('active');
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();

@@ -17,7 +17,7 @@ class CreatePostsTable extends Migration
             $table->bigIncrements('id');
             $table->text('title');
             $table->string('url')->unique();
-            $table->unsignedInteger('status')->default(1);
+            $table->string('status')->default('pending');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('category_id')->nullable();
             $table->text('description')->nullable();

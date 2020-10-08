@@ -23,6 +23,6 @@ class Tag extends Model
 
 
     public function approvedPosts(){
-        return $this->posts()->where('status', 2);
+        return $this->posts()->where('status', 'published');
     }
 }

@@ -1,3 +1,5 @@
+// Initialize TinyMCE in the textareas with the class tinymce-textarea
+
 tinymce.init({
   selector:'textarea.tinymce-textarea',
   plugins: 'advlist link image lists code'
@@ -156,5 +158,34 @@ $(document).ready(function(){
       categoriesRow.before(field);
       fieldIndex++;
     });
+
+
+    // Admin filter users
+    
+    var filterForm = $('#filter-form');
+    filterForm.on('submit', function(e){
+      e.preventDefault();
+      getUsers(this);
+    });
+
+    function getUsers(form){
+      var formData = new FormData(form);
+      let filterInputs = ('.filter-input');
+      $.ajax({
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(data){
+          console.log(data);
+          if(data.status == 'success'){
+            
+          }
+        }, 
+        error: function(e){
+          console.log(e);
+        }
+      });
+    }
 
 });

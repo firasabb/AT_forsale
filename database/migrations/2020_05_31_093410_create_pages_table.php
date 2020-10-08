@@ -17,7 +17,7 @@ class CreatePagesTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('url');
-            $table->integer('status')->default(0);
+            $table->string('status')->default('draft');
             $table->longText('body')->nullable();
             $table->unsignedBigInteger('category_id')->nullable();
             $table->timestamps();

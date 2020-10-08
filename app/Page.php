@@ -18,7 +18,7 @@ class Page extends Model
      * 
      */
     public function isPublished(){
-        return $this->status == 2;
+        return $this->status == 'published';
     }
 
 
@@ -31,34 +31,8 @@ class Page extends Model
      */
     public function getPublishedPageByUrl(string $url){
 
-        return $this->where([['status', 1], ['url', $url]])->firstOrFail();
+        return $this->where([['status', 'published'], ['url', $url]])->firstOrFail();
 
     }
 
-
-
-    /**
-     * 
-     * Status numbers to text and check if deleted or not
-     * 
-     */
-    public function statusInText(){
-
-        if($this->trashed()){
-            return 'deleted';
-        }
-        switch($this->status){
-
-            case 0:
-                return 'draft';
-            
-            case 1:
-                return 'published';
-
-            default:
-                return 'unknown';
-
-        }
-        return 'unknown';
-    }
 }

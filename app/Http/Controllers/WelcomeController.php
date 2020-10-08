@@ -122,7 +122,7 @@ class WelcomeController extends Controller
         // Explode the search query to words and search for every word
         $searchQueryArr = explode(' ', $searchQuery);
         // Get only the approved posts
-        $posts = $posts->where('status', 2);
+        $posts = $posts->where('status', 'published');
 
 
         $posts->where(function($query) use ($searchQueryArr){

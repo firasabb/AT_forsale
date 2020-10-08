@@ -25,36 +25,37 @@ Route::get('/home', 'WelcomeController@index')->name('home');
 Route::get('/admin/dashboard', 'AdminController@index')->name('admin.dashboard');
 
 // Admin / Users
-Route::get('/admin/dashboard/users', 'AdminController@indexUsers')->name('admin.index.users');
-Route::delete('/admin/dashboard/user/{id}', 'AdminController@destroyUser')->name('admin.delete.user');
-Route::get('/admin/dashboard/user/{id}', 'AdminController@showUser')->name('admin.show.user');
-Route::put('/admin/dashboard/user/{id}', 'AdminController@editUser')->name('admin.edit.user');
-Route::post('/admin/dashboard/users/add', 'AdminController@addUser')->name('admin.add.user');
-Route::post('/admin/dashboard/users/search', 'AdminController@searchUsers')->name('admin.search.users');
-Route::get('/admin/dashboard/user/{id}/generate/password', 'AdminController@generatePassword')->name('admin.generate.password.user');
+Route::get('/admin/dashboard/users/{order?}/{desc?}', 'UserController@indexUsers')->middleware('role:admin')->name('admin.index.users');
+Route::post('/admin/dashboard/users', 'UserController@filterUsers')->middleware('role:admin')->name('admin.filter.users');
+Route::delete('/admin/dashboard/user/{id}', 'UserController@destroyUser')->middleware('role:admin')->name('admin.delete.user');
+Route::get('/admin/dashboard/user/{id}', 'UserController@showUser')->middleware('role:admin')->name('admin.show.user');
+Route::put('/admin/dashboard/user/{id}', 'UserController@editUser')->middleware('role:admin')->name('admin.edit.user');
+Route::post('/admin/dashboard/users/add', 'UserController@addUser')->middleware('role:admin')->name('admin.add.user');
+Route::post('/admin/dashboard/users/search', 'UserController@searchUsers')->middleware('role:admin')->name('admin.search.users');
+Route::get('/admin/dashboard/user/{id}/generate/password', 'UserController@generatePassword')->middleware('role:admin')->name('admin.generate.password.user');
 
 
 // Admin / Roles
 
-Route::get('/admin/dashboard/roles', 'AdminController@indexRoles')->name('admin.index.roles');
-Route::delete('/admin/dashboard/role/{id}', 'AdminController@destroyRole')->name('admin.delete.role');
-Route::get('/admin/dashboard/role/{id}', 'AdminController@showRole')->name('admin.show.role');
-Route::put('/admin/dashboard/role/{id}', 'AdminController@editRole')->name('admin.edit.role');
-Route::post('/admin/dashboard/roles', 'AdminController@addRole')->name('admin.add.role');
+Route::get('/admin/dashboard/roles', 'AdminController@indexRoles')->middleware('role:admin')->name('admin.index.roles');
+Route::delete('/admin/dashboard/role/{id}', 'AdminController@destroyRole')->middleware('role:admin')->name('admin.delete.role');
+Route::get('/admin/dashboard/role/{id}', 'AdminController@showRole')->middleware('role:admin')->name('admin.show.role');
+Route::put('/admin/dashboard/role/{id}', 'AdminController@editRole')->middleware('role:admin')->name('admin.edit.role');
+Route::post('/admin/dashboard/roles', 'AdminController@addRole')->middleware('role:admin')->name('admin.add.role');
 
 
 // Admin / Permissions
 
-Route::get('/admin/dashboard/permissions', 'AdminController@indexPermissions')->name('admin.index.permissions');
-Route::delete('/admin/dashboard/permission/{id}', 'AdminController@destroyPermission')->name('admin.delete.permission');
-Route::get('/admin/dashboard/permission/{id}', 'AdminController@showPermission')->name('admin.show.permission');
-Route::put('/admin/dashboard/permission/{id}', 'AdminController@editPermission')->name('admin.edit.permission');
-Route::post('/admin/dashboard/permissions', 'AdminController@addPermission')->name('admin.add.permission');
+Route::get('/admin/dashboard/permissions', 'AdminController@indexPermissions')->middleware('role:admin')->name('admin.index.permissions');
+Route::delete('/admin/dashboard/permission/{id}', 'AdminController@destroyPermission')->middleware('role:admin')->name('admin.delete.permission');
+Route::get('/admin/dashboard/permission/{id}', 'AdminController@showPermission')->middleware('role:admin')->name('admin.show.permission');
+Route::put('/admin/dashboard/permission/{id}', 'AdminController@editPermission')->middleware('role:admin')->name('admin.edit.permission');
+Route::post('/admin/dashboard/permissions', 'AdminController@addPermission')->middleware('role:admin')->name('admin.add.permission');
 
 
 // Admin / Posts
 
-Route::get('/admin/dashboard/posts/', 'PostController@adminIndex')->middleware('role:admin|moderator')->name('admin.index.posts');
+Route::get('/admin/dashboard/posts/{order?}/{desc?}', 'PostController@adminIndex')->middleware('role:admin|moderator')->name('admin.index.posts');
 Route::delete('/admin/dashboard/post/{id}', 'PostController@adminDestroy')->middleware('role:admin|moderator')->name('admin.delete.post');
 Route::get('/admin/dashboard/post/{id}', 'PostController@adminShow')->middleware('role:admin|moderator')->name('admin.show.post');
 Route::put('/admin/dashboard/post/{id}', 'PostController@adminEdit')->middleware('role:admin|moderator')->name('admin.edit.post');
@@ -157,7 +158,7 @@ Route::post('/admin/dashboard/emailcampaigns/search', 'EmailCampaignController@a
 
 // Admin / Pages
 
-Route::get('/admin/dashboard/pages/', 'PageController@adminIndex')->middleware('role:admin|moderator')->name('admin.index.pages');
+Route::get('/admin/dashboard/pages/{order?}/{desc?}', 'PageController@adminIndex')->middleware('role:admin|moderator')->name('admin.index.pages');
 Route::delete('/admin/dashboard/page/{id}', 'PageController@adminDestroy')->middleware('role:admin|moderator')->name('admin.delete.page');
 Route::get('/admin/dashboard/page/{id}', 'PageController@adminShow')->middleware('role:admin|moderator')->name('admin.show.page');
 Route::put('/admin/dashboard/page/{id}', 'PageController@adminEdit')->middleware('role:admin|moderator')->name('admin.edit.page');

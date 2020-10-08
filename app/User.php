@@ -54,12 +54,12 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * 
-     * Get Only Approved Posts (Status is 2) Of This User
+     * Get Only Approved Posts Of This User
      * 
      */
     public function approvedPosts(){
 
-        return $this->posts()->where('status', 2);
+        return $this->posts()->where('status', 'published');
 
     }
 
@@ -107,7 +107,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * 
      */
     public function activeUsers(){
-        return $this->where('status', 1);
+        return $this->where('status', 'active');
     }
 
     /**
@@ -147,33 +147,4 @@ class User extends Authenticatable implements MustVerifyEmail
         return "{$this->first_name} {$this->last_name}";
     }
 
-
-    /**
-     * 
-     * Parse status numbers to strings and check if deleted or not
-     * 
-     */
-    public function statusInText(){
-
-        if($this->trashed()){
-            return 'deleted';
-        }
-        switch($this->status){
-
-            case 0:
-                return 'inactive';
-
-            case 1:
-                return 'active';
-            
-            case 2:
-                return 'blocked';
-
-            default:
-                return 'unknown';
-
-        }
-        return 'unknown';
-    }
-    
 }

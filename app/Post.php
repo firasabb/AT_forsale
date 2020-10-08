@@ -12,7 +12,7 @@ class Post extends Model
     use SoftDeletes;
 
     public function approvedPosts(){
-        return $this->where('status', 2);
+        return $this->where('status', 'published');
     }
 
     public function downloads(){
@@ -69,7 +69,7 @@ class Post extends Model
      * 
      */
     public function publishedPosts(){
-        return $this->where('status', 2);
+        return $this->where('status', 'published');
     }
 
     /**
@@ -183,34 +183,5 @@ class Post extends Model
         }
         parent::delete();
     }
-
-    /**
-     * 
-     * Status numbers to text and check if it's deleted or not
-     * 
-     */
-    public function statusInText(){
-
-        if($this->trashed()){
-            return 'deleted';
-        }
-        switch($this->status){
-
-            case 0:
-                return 'unapproved';
-
-            case 1:
-                return 'pending';
-            
-            case 2:
-                return 'approved';
-
-            default:
-                return 'unknown';
-
-        }
-        return 'unknown';
-    }
-
 
 }

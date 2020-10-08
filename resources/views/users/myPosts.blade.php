@@ -64,7 +64,7 @@
                                     <a target="_blank" href="{{ route('show.post', ['url' => $post->url]) }}" class="a-no-decoration"><strong>{{ Str::limit($post->title, 20, '...') }}</strong></a>
                                 </td>
                                 <td>
-                                    {{ $post->statusInText() }}
+                                    {{ strtoupper($post->status) }}
                                 </td>
                                 <td>
                                     {{ $post->viewEventsCount() }}

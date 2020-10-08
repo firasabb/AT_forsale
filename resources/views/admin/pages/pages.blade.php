@@ -2,7 +2,7 @@
 
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="row justify-content-center search-row">
         <div class="col-md-12 search-col">
             <form method="post" action="{{ route('admin.search.pages') }}">
@@ -45,16 +45,19 @@
                     <table class="table">
                         <tr>
                             <th>
-                                {{ __('main.ID') }}
+                                <a href="{{ route('admin.index.pages', ['order' => 'id', 'desc' => !$desc]) }}">{!! $order == 'id' && $desc ? '&#8639;' : '&#8642;' !!} {{ __('main.ID') }}</a>
                             </th>
                             <th>
-                                {{ __('main.name') }}
+                                <a href="{{ route('admin.index.pages', ['order' => 'title', 'desc' => !$desc]) }}">{!! $order == 'title' && $desc ? '&#8639;' : '&#8642;' !!} {{ __('main.title') }}</a>
                             </th>
                             <th>
                                 {{ __('main.URL') }}
                             </th>
                             <th>
-                                {{ __('main.status') }}
+                                <a href="{{ route('admin.index.pages', ['order' => 'status', 'desc' => !$desc]) }}">{!! $order == 'status' && $desc ? '&#8639;' : '&#8642;' !!} {{ __('main.status') }}</a>
+                            </th>
+                            <th>
+                                <a href="{{ route('admin.index.pages', ['order' => 'created_at', 'desc' => !$desc]) }}">{!! $order == 'created_at' && $desc ? '&#8639;' : '&#8642;' !!} {{ __('main.created') }}</a>
                             </th>
                             <th class="td-actions">
                                 {{ __('main.actions') }}
@@ -72,7 +75,10 @@
                                     {{ $page->url }}
                                 </td>
                                 <td>
-                                    {{ strtoupper($page->statusInText()) }}
+                                    {{ strtoupper($page->status) }}
+                                </td>
+                                <td>
+                                    {{ $page->created_at->format('Y-m-d') }}
                                 </td>
                                 <td>
                                     <div class="td-actions-btns">

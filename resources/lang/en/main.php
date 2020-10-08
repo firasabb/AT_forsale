@@ -12,7 +12,9 @@ return [
     'categories'                => 'Categories',
     'ID'                        => 'ID',
     'search'                    => 'Search',
+    'filter'                    => 'Filter',
     'name'                      => 'Name',
+    'email'                     => 'Email',
     'media'                     => 'Media',
     'actions'                   => 'Actions',
     'URL'                       => 'URL',
@@ -66,8 +68,7 @@ return [
     'reports'                   => 'Reports',
     'report'                    => 'Report',
     'type'                      => 'Type',
-    'username'                  => 'username',
-    'Username'                  => 'Username',
+    'username'                  => 'Username',
     'first name'                => 'First Name',
     'last name'                 => 'Last Name',
     'password'                  => 'Password',
@@ -99,7 +100,8 @@ return [
     'github'                    => 'Github',
     'licenses'                  => 'Licenses',
     'license'                   => 'License',
-
+    'joined on'                 => 'Joined On',
+    'created'                   => 'Created',
 
 
     'Send a Custom Email'       => 'Send a Custom Email',

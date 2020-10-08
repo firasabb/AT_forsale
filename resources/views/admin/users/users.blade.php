@@ -2,29 +2,36 @@
 
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="row justify-content-center search-row">
         <div class="col-md-12 search-col">
-            <form method="post" action="{{ route('admin.search.users') }}">
+            <form method="post" action="{{ route('admin.search.users') }}" id="filter-form">
                 {!! csrf_field() !!}
                 <div class="form-row" >
                     <div class="col">
-                        <input type="eamil" name="email" placeholder="{{ __('main.email') }}" class="form-control" value="{{ old('email') }}"/>
+                        <input type="number" name="id" placeholder="{{ __('main.ID') }}" class="form-control filter-input" value="{{ old('id') }}"/>
                     </div>
                     <div class="col">
-                        <input type="number" name="id" placeholder="{{ __('main.ID') }}" class="form-control" value="{{ old('id') }}"/>
+                        <input type="eamil" name="email" placeholder="{{ __('main.email') }}" class="form-control filter-input" value="{{ old('email') }}"/>
                     </div>
                     <div class="col">
-                        <input type="text" name="first_name" placeholder="{{ __('main.first name') }}" class="form-control" value="{{ old('first_name') }}"/>
+                        <input type="text" name="first_name" placeholder="{{ __('main.first name') }}" class="form-control filter-input" value="{{ old('first_name') }}"/>
                     </div>
                     <div class="col">
-                        <input type="text" name="last_name" placeholder="{{ __('main.last name') }}" class="form-control" value="{{ old('last_name') }}"/>
+                        <input type="text" name="last_name" placeholder="{{ __('main.last name') }}" class="form-control filter-input" value="{{ old('last_name') }}"/>
                     </div>
                     <div class="col">
-                        <input type="text" name="username" placeholder="{{ __('main.username') }}" class="form-control" value="{{ old('username') }}"/>
+                        <input type="text" name="username" placeholder="{{ __('main.username') }}" class="form-control filter-input" value="{{ old('username') }}"/>
                     </div>
-                    <div class="col-sm-1">
-                        <input type="submit" value="Search" class="btn btn-primary"/>
+                    <div class="col">
+                        <select name="status" class="form-control">
+                            @foreach($statuses as $status)
+                                <option value="{{ $status }}">{{ strtoupper($status) }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col">
+                        <input type="submit" id='filter-btn' value="{{ __('main.filter') }}" class="btn btn-primary"/>
                     </div>
                 </div>
             </form>
@@ -54,17 +61,23 @@
                     <table class="table">
                         <tr>
                             <th>
-                                {{ __('main.ID') }}
+                                <a href="{{ route('admin.index.users', ['order' => 'id', 'desc' => !$desc]) }}">{!! $order == 'id' && $desc ? '&#8639;' : '&#8642;' !!} {{ __('main.ID') }}</a>
                             </th>
                             <th>
-                                {{ __('main.Name') }}
+                                <a>{{ __('main.name') }}</a>
                             </th>
                             <th>
-                                {{ __('main.email') }}
+                                <a>{{ __('main.email') }}</a>
                             </th>
                             <th>
-                                {{ __('main.username') }}
+                                <a href="{{ route('admin.index.users', ['order' => 'status', 'desc' => !$desc]) }}">{!! $order == 'status' && $desc ? '&#8639;' : '&#8642;' !!} {{ __('main.status') }}</a>
                             </th>
+                            <th>
+                                <a href="{{ route('admin.index.users', ['order' => 'username', 'desc' => !$desc]) }}">{!! $order == 'username' && $desc ? '&#8639;' : '&#8642;' !!} {{ __('main.username') }}</a>
+                            </th>
+                            <th>
+                                <a href="{{ route('admin.index.users', ['order' => 'created_at', 'desc' => !$desc]) }}">{!! $order == 'created_at' && $desc ? '&#8639;' : '&#8642;' !!} {{ __('main.created') }}</a>
+                            </th> 
                             <th>
                                 {{ __('main.roles') }}
                             </th>
@@ -84,7 +97,13 @@
                                     {{$user->email}}
                                 </td>
                                 <td>
+                                    {{ strtoupper($user->status) }}
+                                </td>
+                                <td>
                                     {{$user->username}}
+                                </td>
+                                <td>
+                                    {{ $user->created_at->format('Y-m-d') }}
                                 </td>
                                 <td>
                                     <?php
@@ -132,7 +151,7 @@
                                         <input class="form-control" type="text" name="first_name"  value="{{ old('first_name') }}" placeholder="{{ __('main.first name') }}" />
                                     </div>
                                     <div class="form-group">
-                                        <input class="form-control" type="text" name="last_name"  value="{{ old('last_name') }}" placeholder="{{ __('main.first name') }}" />
+                                        <input class="form-control" type="text" name="last_name"  value="{{ old('last_name') }}" placeholder="{{ __('main.last name') }}" />
                                     </div>
                                     <div class="form-group">
                                         <input class="form-control" type="email" name="email"  value="{{ old('email') }}" placeholder="{{ __('main.email') }}" />
