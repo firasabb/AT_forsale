@@ -9,13 +9,13 @@
                 {!! csrf_field() !!}
                 <div class="form-row" >
                     <div class="col">
-                        <input type='number' name='id' placeholder="{{ __('main.ID') }}" class="form-control" value="{{ old('id') }}"/>
+                        <input type='number' name='id' placeholder="{{ __('main.ID') }}" class="form-control" value="{{ Request::get('id') ?? '' }}"/>
                     </div>
                     <div class="col">
-                        <input type='text' name='title' placeholder="{{ __('main.title') }}" class="form-control" value="{{ old('title') }}"/>
+                        <input type='text' name='title' placeholder="{{ __('main.title') }}" class="form-control" value="{{ Request::get('title') ?? '' }}"/>
                     </div>
                     <div class="col">
-                        <input type='text' name='url' placeholder="{{ __('main.URL') }}" class="form-control" value="{{ old('url') }}"/>
+                        <input type='text' name='url' placeholder="{{ __('main.URL') }}" class="form-control" value="{{ Request::get('url') ?? '' }}"/>
                     </div>
                     <div class="col-sm-1">
                         <input type='submit' value="{{ __('main.search') }}" class="btn btn-primary"/>
@@ -48,16 +48,19 @@
                     <table class="table">
                         <tr>
                             <th>
-                                {{ __('main.ID') }}
+                                <a class="a-no-decoration" href="{{ route('admin.index.posts', ['order' => 'id', 'desc' => !$desc]) }}">{!! $order == 'id' && $desc ? '&#8639;' : '&#8642;' !!} {{ __('main.ID') }}</a>
                             </th>
                             <th>
-                                {{ __('main.title') }}
+                                <a class="a-no-decoration" href="{{ route('admin.index.posts', ['order' => 'title', 'desc' => !$desc]) }}">{!! $order == 'title' && $desc ? '&#8639;' : '&#8642;' !!} {{ __('main.title') }}</a>
                             </th>
                             <th>
                                 {{ __('main.URL') }}
                             </th>
                             <th>
                                 {{ __('main.category') }}
+                            </th>
+                            <th>
+                                {{ __('main.created') }}
                             </th>
                             <th>
                                 {{ __('main.Download Files') }}
@@ -79,6 +82,9 @@
                                 </td>
                                 <td>
                                     {{ $post->category->name }}
+                                </td>
+                                <td>
+                                    {{ $post->created_at->format('Y-m-d') }}
                                 </td>
                                 <td>
                                     {{ $post->downloads->count() }}

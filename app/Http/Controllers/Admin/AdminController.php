@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use \App\User;
 use \App\Post;
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\Input;
 use Storage;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EmailTo;
+use AdminInterface;
 
 class AdminController extends Controller
 {

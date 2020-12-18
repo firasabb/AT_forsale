@@ -2,23 +2,23 @@
 
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="row justify-content-center search-row">
         <div class="col-md-12 search-col">
             <form method="post" action="{{ route('admin.search.comments') }}">
                 {!! csrf_field() !!}
                 <div class="form-row" >
                     <div class="col">
-                        <input type='number' name="id" placeholder="ID" class="form-control" value="{{ old('id') }}"/>
+                        <input type='number' name="id" placeholder="ID" class="form-control" value="{{ Request::get('id') ?? '' }}"/>
                     </div>
                     <div class="col">
-                        <input type='number' name="post_id" placeholder="Post ID" class="form-control" value="{{ old('post_id') }}"/>
+                        <input type='number' name="post_id" placeholder="Post ID" class="form-control" value="{{ Request::get('post_id') ?? '' }}"/>
                     </div>
                     <div class="col">
-                        <input type='text' name="title" placeholder="Title" class="form-control" value="{{ old('title') }}"/>
+                        <input type='text' name="title" placeholder="Title" class="form-control" value="{{ Request::get('title') ?? '' }}"/>
                     </div>
                     <div class="col">
-                        <input type='text' name="description" placeholder="Description" class="form-control" value="{{ old('description') }}"/>
+                        <input type='text' name="description" placeholder="Description" class="form-control" value="{{ Request::get('description') ?? '' }}"/>
                     </div>
                     <div class="col-sm-1">
                         <input type='submit' value="Search" class="btn btn-primary"/>
@@ -51,13 +51,19 @@
                     <table class="table">
                         <tr>
                             <th>
-                                {{ __('main.ID') }}
+                                <a class="a-no-decoration" href="{{ route('admin.index.comments', ['order' => 'id', 'desc' => !$desc]) }}">{!! $order == 'id' && $desc ? '&#8639;' : '&#8642;' !!} {{ __('main.ID') }}</a>
                             </th>
                             <th>
-                                {{ __('main.title') }}
+                                <a class="a-no-decoration" href="{{ route('admin.index.comments', ['order' => 'body', 'desc' => !$desc]) }}">{!! $order == 'body' && $desc ? '&#8639;' : '&#8642;' !!} {{ __('main.body') }}</a>
                             </th>
                             <th>
-                                {{ __('main.post') }}
+                                <a class="a-no-decoration" href="{{ route('admin.index.comments', ['order' => 'post', 'desc' => !$desc]) }}">{!! $order == 'post' && $desc ? '&#8639;' : '&#8642;' !!} {{ __('main.post') }}</a>
+                            </th>
+                            <th>
+                                {{ __('main.user') }}
+                            </th>
+                            <th>
+                                {{ __('main.created') }}
                             </th>
                             <th class="td-actions">
                                 {{ __('main.actions') }}
@@ -66,13 +72,19 @@
                         @foreach ($comments as $comment)
                             <tr>
                                 <td>
-                                    {{$comment->id}}
+                                    {{ $comment->id }}
                                 </td>
                                 <td>
-                                    {{ $comment->title }}
+                                    {{ Str::limit($comment->body, 20, '...') }}
                                 </td>
                                 <td>
-                                    <a href="{{ route('show.post', ['url' => $comment->post->url]) }}">{{ $comment->post->url }}</a>
+                                    <a href="{{ route('show.post', ['url' => $comment->post->url]) }}">{{ $comment->post->id }}</a>
+                                </td>
+                                <td>
+                                    <a href="{{ route('user.profile.show', ['username' => $comment->user->username]) }}">{{ $comment->user->username }}</a>
+                                </td>
+                                <td>
+                                    {{ $comment->created_at->format('Y-m-d') }}
                                 </td>
                                 <td>
                                     <div class="td-actions-btns">

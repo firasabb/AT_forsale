@@ -9,19 +9,19 @@
                 {!! csrf_field() !!}
                 <div class="form-row" >
                     <div class="col">
-                        <input type="number" name="id" placeholder="{{ __('main.ID') }}" class="form-control filter-input" value="{{ old('id') }}"/>
+                        <input type="number" name="id" placeholder="{{ __('main.ID') }}" class="form-control filter-input" value="{{ Request::get('id') ?? '' }}"/>
                     </div>
                     <div class="col">
-                        <input type="eamil" name="email" placeholder="{{ __('main.email') }}" class="form-control filter-input" value="{{ old('email') }}"/>
+                        <input type="eamil" name="email" placeholder="{{ __('main.email') }}" class="form-control filter-input" value="{{ Request::get('email') ?? '' }}"/>
                     </div>
                     <div class="col">
-                        <input type="text" name="first_name" placeholder="{{ __('main.first name') }}" class="form-control filter-input" value="{{ old('first_name') }}"/>
+                        <input type="text" name="first_name" placeholder="{{ __('main.first name') }}" class="form-control filter-input" value="{{ Request::get('first_name') ?? '' }}"/>
                     </div>
                     <div class="col">
-                        <input type="text" name="last_name" placeholder="{{ __('main.last name') }}" class="form-control filter-input" value="{{ old('last_name') }}"/>
+                        <input type="text" name="last_name" placeholder="{{ __('main.last name') }}" class="form-control filter-input" value="{{ Request::get('last_name') ?? '' }}"/>
                     </div>
                     <div class="col">
-                        <input type="text" name="username" placeholder="{{ __('main.username') }}" class="form-control filter-input" value="{{ old('username') }}"/>
+                        <input type="text" name="username" placeholder="{{ __('main.username') }}" class="form-control filter-input" value="{{ Request::get('username') ?? '' }}"/>
                     </div>
                     <div class="col">
                         <select name="status" class="form-control">
@@ -31,7 +31,7 @@
                         </select>
                     </div>
                     <div class="col">
-                        <input type="submit" id='filter-btn' value="{{ __('main.filter') }}" class="btn btn-primary"/>
+                        <input type="submit" id='filter-btn' value="{{ __('main.search') }}" class="btn btn-primary"/>
                     </div>
                 </div>
             </form>
@@ -61,22 +61,22 @@
                     <table class="table">
                         <tr>
                             <th>
-                                <a href="{{ route('admin.index.users', ['order' => 'id', 'desc' => !$desc]) }}">{!! $order == 'id' && $desc ? '&#8639;' : '&#8642;' !!} {{ __('main.ID') }}</a>
+                                <a class="a-no-decoration" href="{{ route('admin.index.users', ['order' => 'id', 'desc' => !$desc]) }}">{!! $order == 'id' && $desc ? '&#8639;' : '&#8642;' !!} {{ __('main.ID') }}</a>
                             </th>
                             <th>
-                                <a>{{ __('main.name') }}</a>
+                                {{ __('main.name') }}
                             </th>
                             <th>
-                                <a>{{ __('main.email') }}</a>
+                                {{ __('main.email') }}
                             </th>
                             <th>
-                                <a href="{{ route('admin.index.users', ['order' => 'status', 'desc' => !$desc]) }}">{!! $order == 'status' && $desc ? '&#8639;' : '&#8642;' !!} {{ __('main.status') }}</a>
+                                <a class="a-no-decoration"  href="{{ route('admin.index.users', ['order' => 'status', 'desc' => !$desc]) }}">{!! $order == 'status' && $desc ? '&#8639;' : '&#8642;' !!} {{ __('main.status') }}</a>
                             </th>
                             <th>
-                                <a href="{{ route('admin.index.users', ['order' => 'username', 'desc' => !$desc]) }}">{!! $order == 'username' && $desc ? '&#8639;' : '&#8642;' !!} {{ __('main.username') }}</a>
+                                <a class="a-no-decoration"  href="{{ route('admin.index.users', ['order' => 'username', 'desc' => !$desc]) }}">{!! $order == 'username' && $desc ? '&#8639;' : '&#8642;' !!} {{ __('main.username') }}</a>
                             </th>
                             <th>
-                                <a href="{{ route('admin.index.users', ['order' => 'created_at', 'desc' => !$desc]) }}">{!! $order == 'created_at' && $desc ? '&#8639;' : '&#8642;' !!} {{ __('main.created') }}</a>
+                                {{ __('main.created') }}
                             </th> 
                             <th>
                                 {{ __('main.roles') }}

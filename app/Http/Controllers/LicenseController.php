@@ -141,7 +141,7 @@ class LicenseController extends Controller
      * @return adminIndex()
      */
 
-    public function adminSearchLicenses(Request $request){
+    public function adminSearch(Request $request){
 
         $validator = Validator::make($request->all(), [
             'id' => 'integer|nullable',

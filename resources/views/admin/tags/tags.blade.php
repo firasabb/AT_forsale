@@ -2,17 +2,17 @@
 
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="row justify-content-center search-row">
         <div class="col search-col">
             <form method="post" action="{{ route('admin.search.tags') }}">
                 {!! csrf_field() !!}
                 <div class="form-row" >
                     <div class="col">
-                        <input type='number' name='id' placeholder="{{ __('main.id') }}" class="form-control" value="{{ old('id') }}"/>
+                        <input type='number' name='id' placeholder="{{ __('main.ID') }}" class="form-control" value="{{ Request::get('id') ?? '' }}"/>
                     </div>
                     <div class="col">
-                        <input type='text' name='name' placeholder="{{ __('main.name') }}" class="form-control" value="{{ old('name') }}"/>
+                        <input type='text' name='name' placeholder="{{ __('main.name') }}" class="form-control" value="{{ Request::get('name') ?? '' }}"/>
                     </div>
                     <div class="col-sm-1">
                         <input type='submit' value="{{ __('main.search') }}" class="btn btn-primary"/>
@@ -45,16 +45,19 @@
                     <table class="table">
                         <tr>
                             <th>
-                                {{ __('main.ID') }}
+                                <a class="a-no-decoration"  href="{{ route('admin.index.tags', ['order' => 'id', 'desc' => !$desc]) }}">{!! $order == 'id' && $desc ? '&#8639;' : '&#8642;' !!} {{ __('main.ID') }}</a>
                             </th>
                             <th>
-                                {{ __('main.name') }}
+                                <a class="a-no-decoration"  href="{{ route('admin.index.tags', ['order' => 'name', 'desc' => !$desc]) }}">{!! $order == 'name' && $desc ? '&#8639;' : '&#8642;' !!} {{ __('main.name') }}</a>
                             </th>
                             <th>
-                                {{ __('main.url') }}
+                                {{ __('main.URL') }}
                             </th>
                             <th>
                                 {{ __('main.categories') }}
+                            </th>
+                            <th>
+                                {{ __('main.created') }}
                             </th>
                             <th class="td-actions">
                                 {{ __('main.actions') }}
@@ -77,6 +80,9 @@
                                             {{ $category->name }},
                                         @endforeach
                                     @endif
+                                </td>
+                                <td>
+                                    {{ $tag->created_at->format('Y-m-d') }}
                                 </td>
                                 <td>
                                     <div class="td-actions-btns">

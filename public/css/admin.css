@@ -78,6 +78,26 @@ td form {
   min-height: 400px;
 }
 
+.a-no-decoration {
+  color: #212529;
+  text-decoration: none;
+}
+
+.a-no-decoration:hover {
+  color: #212529;
+  text-decoration: none;
+}
+
+.a-no-decoration-white {
+  color: #fff;
+  text-decoration: none;
+}
+
+.a-no-decoration-white:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
 /**
 **
 ** Post Approve page

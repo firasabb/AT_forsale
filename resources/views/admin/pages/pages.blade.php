@@ -9,10 +9,10 @@
                 {!! csrf_field() !!}
                 <div class="form-row" >
                     <div class="col">
-                        <input type="number" name="id" placeholder="{{ __('main.ID') }}" class="form-control" value="{{ old('id') }}"/>
+                        <input type="number" name="id" placeholder="{{ __('main.ID') }}" class="form-control" value="{{ Request::get('id') ?? '' }}"/>
                     </div>
                     <div class="col">
-                        <input type="text" name="name" placeholder="{{ __('main.name') }}" class="form-control" value="{{ old('name') }}"/>
+                        <input type="text" name="title" placeholder="{{ __('main.title') }}" class="form-control" value="{{ Request::get('title') ?? '' }}"/>
                     </div>
                     <div class="col-sm-1">
                         <input type="submit" value="{{ __('main.search') }}" class="btn btn-primary"/>
@@ -45,19 +45,19 @@
                     <table class="table">
                         <tr>
                             <th>
-                                <a href="{{ route('admin.index.pages', ['order' => 'id', 'desc' => !$desc]) }}">{!! $order == 'id' && $desc ? '&#8639;' : '&#8642;' !!} {{ __('main.ID') }}</a>
+                                <a class="a-no-decoration"  href="{{ route('admin.index.pages', ['order' => 'id', 'desc' => !$desc]) }}">{!! $order == 'id' && $desc ? '&#8639;' : '&#8642;' !!} {{ __('main.ID') }}</a>
                             </th>
                             <th>
-                                <a href="{{ route('admin.index.pages', ['order' => 'title', 'desc' => !$desc]) }}">{!! $order == 'title' && $desc ? '&#8639;' : '&#8642;' !!} {{ __('main.title') }}</a>
+                                <a class="a-no-decoration"  href="{{ route('admin.index.pages', ['order' => 'title', 'desc' => !$desc]) }}">{!! $order == 'title' && $desc ? '&#8639;' : '&#8642;' !!} {{ __('main.title') }}</a>
                             </th>
                             <th>
                                 {{ __('main.URL') }}
                             </th>
                             <th>
-                                <a href="{{ route('admin.index.pages', ['order' => 'status', 'desc' => !$desc]) }}">{!! $order == 'status' && $desc ? '&#8639;' : '&#8642;' !!} {{ __('main.status') }}</a>
+                                <a class="a-no-decoration"  href="{{ route('admin.index.pages', ['order' => 'status', 'desc' => !$desc]) }}">{!! $order == 'status' && $desc ? '&#8639;' : '&#8642;' !!} {{ __('main.status') }}</a>
                             </th>
                             <th>
-                                <a href="{{ route('admin.index.pages', ['order' => 'created_at', 'desc' => !$desc]) }}">{!! $order == 'created_at' && $desc ? '&#8639;' : '&#8642;' !!} {{ __('main.created') }}</a>
+                                {{ __('main.created') }}                            
                             </th>
                             <th class="td-actions">
                                 {{ __('main.actions') }}

@@ -159,33 +159,4 @@ $(document).ready(function(){
       fieldIndex++;
     });
 
-
-    // Admin filter users
-    
-    var filterForm = $('#filter-form');
-    filterForm.on('submit', function(e){
-      e.preventDefault();
-      getUsers(this);
-    });
-
-    function getUsers(form){
-      var formData = new FormData(form);
-      let filterInputs = ('.filter-input');
-      $.ajax({
-        type: "POST",
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function(data){
-          console.log(data);
-          if(data.status == 'success'){
-            
-          }
-        }, 
-        error: function(e){
-          console.log(e);
-        }
-      });
-    }
-
 });
